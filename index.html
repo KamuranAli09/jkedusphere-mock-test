@@ -4126,7 +4126,7 @@
       "tbar   tbar"
       "prog   prog"
       "qarea  palette"
-      "actbar palette";
+      "qarea  actbar";
     height: calc(100vh - var(--nav));
     overflow: hidden;
   }
@@ -4138,21 +4138,19 @@
     grid-area: qarea;
     height: 100%;
     overflow-y: auto;
-    padding: 18px 28px;
+    padding: 24px 36px;
     display: flex;
     align-items: flex-start;
   }
   .q-card {
-    max-width: 720px;
+    max-width: 780px;
     width: 100%;
     margin: 0 auto;
-    padding: 18px 26px;
+    padding: 24px 30px;
   }
-  .q-meta { margin-bottom: 10px; padding-bottom: 10px; }
-  .q-txt  { font-size: 15px; line-height: 1.6; }
-  .q-opts { gap: 8px; margin-top: 14px; }
-  .q-opt  { padding: 10px 13px; }
-  .q-opt-t { font-size: 13px; }
+  .q-txt  { font-size: 16px; line-height: 1.7; }
+  .q-opts { gap: 10px; margin-top: 18px; }
+  .q-opt  { padding: 13px 16px; }
 
   #palette {
     grid-area: palette;
@@ -4189,8 +4187,10 @@
     position: static;
     left: auto; right: auto; bottom: auto;
     box-shadow: none;
+    background: var(--s2bg);
+    border-left: 1px solid var(--bd);
     border-top: 1px solid var(--bd);
-    padding: 10px 20px;
+    padding: 14px 16px;
   }
 }
 </style>
