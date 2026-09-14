@@ -4114,7 +4114,74 @@
   font-weight: 600;
   margin-right: 6px;
 }
+/* ══════════════ DESKTOP TEST ENGINE — SIDE-BY-SIDE LAYOUT ══════════════ */
+@media (min-width: 900px) {
+  :root { --pal-w: 340px; }
 
+  #test-pg.on {
+    display: grid !important;
+    grid-template-columns: 1fr var(--pal-w);
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas:
+      "tbar   tbar"
+      "prog   prog"
+      "qarea  palette";
+    height: calc(100vh - var(--nav));
+    overflow: hidden;
+  }
+
+  .tbar  { grid-area: tbar; }
+  .tprog { grid-area: prog; }
+
+  #q-area {
+    grid-area: qarea;
+    height: 100%;
+    overflow-y: auto;
+    padding: 28px 32px 130px;
+  }
+  .q-card {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 26px 30px;
+  }
+  .q-txt { font-size: 16px; }
+
+  #palette {
+    grid-area: palette;
+    position: static;
+    max-height: none;
+    height: 100%;
+    overflow-y: auto;
+    padding: 18px 16px;
+    background: var(--s2bg);
+    border-left: 1px solid var(--bd);
+    border-bottom: none;
+  }
+  .pal-top-row { display: block; }
+  .pal-expand-btn { display: none; }
+  .pal-nums {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 7px;
+    overflow: visible;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+  .pn { width: auto; height: 36px; font-size: 11px; }
+  .pal-leg {
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--bd);
+  }
+
+  .act-bar {
+    left: 0;
+    right: var(--pal-w);
+    box-shadow: 0 -4px 16px rgba(0,0,0,.06);
+  }
+}
 </style>
 
 
