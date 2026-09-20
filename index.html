@@ -82,6 +82,13 @@
     padding: 0 !important;
     background: #fdfcff !important;
   }
+  /* Hide dashboard chrome while a submission is being calculated */
+#home-pg.calculating .dash-banner,
+#home-pg.calculating .jke-search-wrap,
+#home-pg.calculating .mtabs,
+#home-pg.calculating .faq-section {
+  display: none !important;
+}
   .post-outer,
   .post-body,
   .post,
@@ -5579,6 +5586,8 @@
   //  PAGE ROUTING
   // ═══════════════════════════════════════
   function showPage(id) {
+    var _hp = document.getElementById("home-pg");
+    if (_hp) _hp.classList.remove("calculating");
     if (id !== "test-pg" && !ST.submitted) clearInterval(ST.timerInt);
     var pages = [
       "splash-pg",
@@ -7194,6 +7203,7 @@ function togglePalette() {
     document.getElementById("tp-free").classList.add("on");
     document.getElementById("tp-prem").classList.remove("on");
     document.getElementById("tp-prem").innerHTML = "";
+    document.getElementById("home-pg").classList.add("calculating");
 
     apiPost(
       {
