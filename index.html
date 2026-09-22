@@ -5477,7 +5477,24 @@
   // ═══════════════════════════════════════
   //  HELPERS
   // ═══════════════════════════════════════
+  // Small client-side cache/deduper for the catalogue. Several pages ask
+  // for the same 200+ tests during one visit; only the first request should
+  // reach Apps Script.
+  var API_GET_CACHE = {};
+  var API_GET_INFLIGHT = {};
+
   function api(params, cb) {
+    var cacheKey = params.action === "getTests" ? "getTests" : "";
+    if (cacheKey && API_GET_CACHE[cacheKey]) {
+      setTimeout(function () { cb(null, API_GET_CACHE[cacheKey]); }, 0);
+      return;
+    }
+    if (cacheKey && API_GET_INFLIGHT[cacheKey]) {
+      API_GET_INFLIGHT[cacheKey].push(cb);
+      return;
+    }
+    if (cacheKey) API_GET_INFLIGHT[cacheKey] = [cb];
+
     var url =
       JKE_URL +
       "?" +
@@ -5486,21 +5503,36 @@
           return encodeURIComponent(k) + "=" + encodeURIComponent(params[k]);
         })
         .join("&");
+
+    function finish(err, data) {
+      if (cacheKey) {
+        if (!err && data && !data.error) API_GET_CACHE[cacheKey] = data;
+        var waiters = API_GET_INFLIGHT[cacheKey] || [];
+        delete API_GET_INFLIGHT[cacheKey];
+        waiters.forEach(function (fn) { fn(err, data); });
+      } else {
+        cb(err, data);
+      }
+    }
+
     fetch(url)
       .then(function (r) {
         return r.json();
       })
       .then(function (d) {
-        cb(null, d);
+        finish(null, d);
       })
       .catch(function (e) {
-        cb(e, null);
+        finish(e, null);
       });
   }
   function apiPost(body, cb) {
     fetch(JKE_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      // text/plain is a CORS-safelisted content type. Apps Script still
+      // receives the exact JSON string, but the browser does not send an
+      // OPTIONS preflight first.
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: JSON.stringify(body),
     })
       .then(function (r) {
@@ -5510,19 +5542,10 @@
         cb(null, d);
       })
       .catch(function (err) {
-        // Fallback to GET (CORS workaround for Apps Script)
-        var url =
-          JKE_URL + "?payload=" + encodeURIComponent(JSON.stringify(body));
-        fetch(url)
-          .then(function (r) {
-            return r.json();
-          })
-          .then(function (d) {
-            cb(null, d);
-          })
-          .catch(function (e) {
-            cb(e, null);
-          });
+        // Do not replay a write as GET. A failed response may still mean
+        // that Apps Script completed the write, and replaying submitTest
+        // would create duplicate submissions.
+        cb(err, null);
       });
   }
   function fmt(s) {
@@ -8215,6 +8238,8 @@ function togglePalette() {
   //  logged-in dashboard. Fetched once per session and cached/shared across
   //  both containers.
   // ═══════════════════════════════════════
+  // One backend request serves all packs. The backend performs one
+  // submissions scan and caches the promotional snapshot for 15 minutes.
   var TOPPERS = { data: null, loading: false, pending: [] };
 
   TOPPERS.load = function (containerId) {
@@ -8224,6 +8249,16 @@ function togglePalette() {
       TOPPERS.render(containerId);
       return;
     }
+    // Reuse the same 15-minute promotional snapshot after a page reload.
+    // This avoids even one network request for repeat visitors.
+    try {
+      var stored = JSON.parse(localStorage.getItem("jke_top_performers_v1") || "null");
+      if (stored && Array.isArray(stored.data) && Date.now() - stored.time < 900000) {
+        TOPPERS.data = stored.data;
+        TOPPERS.render(containerId);
+        return;
+      }
+    } catch (storageErr) {}
     if (TOPPERS.loading) {
       TOPPERS.pending.push(containerId);
       return;
@@ -8236,36 +8271,32 @@ function togglePalette() {
       [1, 2, 3].map(function () { return '<div class="topper-skel skel"></div>'; }).join("") +
       "</div></div>";
 
-    var packIds = Object.keys(PACKS);
-    if (!packIds.length) {
-      TOPPERS.data = [];
-      TOPPERS.loading = false;
-      TOPPERS.render(containerId);
-      return;
-    }
-    var results = [];
-    var remaining = packIds.length;
-    packIds.forEach(function (pid) {
-      api({ action: "getPackLeaderboard", packId: pid, limit: 1 }, function (err, data) {
-        remaining--;
-        if (!err && data && data.success && data.leaderboard && data.leaderboard.length) {
-          var top = data.leaderboard[0];
+    api({ action: "getTopPerformers" }, function (err, data) {
+      var results = [];
+      if (!err && data && data.success && data.toppers) {
+        results = data.toppers.map(function (top) {
+          var pid = top.packId;
           var ex = EX[pid] || { icon: "📚" };
-          results.push({
+          return {
             name: top.name,
             rating: top.rating,
             packName: (PACKS[pid] && PACKS[pid].name) || pid,
             icon: ex.icon || "📚",
-          });
-        }
-        if (remaining === 0) {
-          TOPPERS.data = results;
-          TOPPERS.loading = false;
-          var targets = TOPPERS.pending.concat([containerId]);
-          TOPPERS.pending = [];
-          targets.forEach(function (id) { TOPPERS.render(id); });
-        }
-      });
+          };
+        });
+      }
+
+      TOPPERS.data = results;
+      try {
+        localStorage.setItem("jke_top_performers_v1", JSON.stringify({
+          time: Date.now(),
+          data: results
+        }));
+      } catch (storageErr) {}
+      TOPPERS.loading = false;
+      var targets = TOPPERS.pending.concat([containerId]);
+      TOPPERS.pending = [];
+      targets.forEach(function (id) { TOPPERS.render(id); });
     });
   };
 
