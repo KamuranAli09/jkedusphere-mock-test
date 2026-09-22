@@ -8253,11 +8253,13 @@ function togglePalette() {
     // This avoids even one network request for repeat visitors.
     try {
       var stored = JSON.parse(localStorage.getItem("jke_top_performers_v1") || "null");
-      if (stored && Array.isArray(stored.data) && Date.now() - stored.time < 900000) {
-        TOPPERS.data = stored.data;
-        TOPPERS.render(containerId);
-        return;
-      }
+      // Replace the localStorage TTL check near the top of TOPPERS.load:
+if (stored && Array.isArray(stored.data) && Date.now() - stored.time < 21600000) { // 6h
+  TOPPERS.data = stored.data;
+  TOPPERS.computedAt = stored.computedAt || null;
+  TOPPERS.render(containerId);
+  return;
+}
     } catch (storageErr) {}
     if (TOPPERS.loading) {
       TOPPERS.pending.push(containerId);
@@ -8284,6 +8286,12 @@ function togglePalette() {
             icon: ex.icon || "📚",
           };
         });
+        // Inside the api({action:"getTopPerformers"}, ...) callback, add computedAt:
+TOPPERS.computedAt = (!err && data && data.computedAt) || null;
+// and include it when writing to localStorage:
+localStorage.setItem("jke_top_performers_v1", JSON.stringify({
+  time: Date.now(), data: results, computedAt: TOPPERS.computedAt
+}));
       }
 
       TOPPERS.data = results;
