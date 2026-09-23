@@ -83,7 +83,7 @@
     background: #fdfcff !important;
   }
   /* Hide dashboard chrome while a submission is being calculated */
-#home-pg.calculating .dash-banner,
+#home-pg.calculating .dash-greet,
 #home-pg.calculating .jke-search-wrap,
 #home-pg.calculating .mtabs,
 #home-pg.calculating .faq-section {
@@ -4208,6 +4208,22 @@
     padding: 14px 16px;
   }
 }
+  .dash-greet {
+  margin-bottom: 16px;
+  padding: 2px 2px 0;
+}
+.dg-name {
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--t1);
+  letter-spacing: -0.3px;
+}
+.dg-sub {
+  font-size: 12.5px;
+  color: var(--t3);
+  margin-top: 4px;
+  font-weight: 500;
+}
 </style>
 
 
@@ -4635,23 +4651,9 @@
   <!-- ══ HOME PAGE (logged in) ══ -->
   <div class="page" id="home-pg">
     <div class="wrap">
-      <div class="dash-banner">
-        <div
-          style="
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex: 1;
-            min-width: 0;
-          "
-        >
-          <div class="db-av" id="db-av">U</div>
-          <div style="min-width: 0">
-            <div class="db-name" id="db-name">Student</div>
-            <div class="db-sub" id="db-sub">Ready to practice?</div>
-          </div>
-        </div>
-        <button class="db-out" onclick="AUTH.logout()">Sign Out</button>
+       <div class="dash-greet">
+        <div class="dg-name">Hello, <span id="db-name">Student</span> 👋</div>
+        <div class="dg-sub" id="db-sub">Ready to practice?</div>
       </div>
       <div class="jke-search-wrap">
 
