@@ -4678,8 +4678,11 @@ window.jkesPay=function(){
   rzp.open();
 };
 
-function jkesVerifyAndDeliver(paymentId){
-  showProcessing(true);
+var JKES_MAX_ATTEMPTS = 3;
+
+function jkesVerifyAndDeliver(paymentId, attempt){
+  attempt = attempt || 1;
+  showProcessing(true, attempt);
 
   fetch(JKE_URL, {
     method:'POST',
@@ -4689,6 +4692,8 @@ function jkesVerifyAndDeliver(paymentId){
   .then(function(r){return r.json();})
   .then(function(data){
     if(!data || data.error){
+      // A definitive answer from the server (amount mismatch, already used, etc.)
+      // — retrying won't change this, so stop immediately.
       showProcessing(false);
       alert('Verification failed: '+(data&&data.error?data.error:'Unknown error')+'\n\nPayment ID: '+paymentId+'\nContact us on WhatsApp.');
       return;
@@ -4706,14 +4711,31 @@ function jkesVerifyAndDeliver(paymentId){
       });
   })
   .catch(function(err){
-    showProcessing(false);
-    alert('Network error: '+err.message+'\n\nPayment ID: '+paymentId+'\nContact us on WhatsApp.');
+    // A network-level failure (server asleep, connection dropped mid-request, etc.)
+    // — safe and worth auto-retrying, since verifyPurchase is idempotent per payment.
+    if(attempt < JKES_MAX_ATTEMPTS){
+      setTimeout(function(){ jkesVerifyAndDeliver(paymentId, attempt+1); }, attempt*3000);
+    } else {
+      showProcessing(false);
+      alert('We could not confirm delivery after '+JKES_MAX_ATTEMPTS+' attempts ('+err.message+').\n\nYour payment was recorded (ID: '+paymentId+') and is safe. Please contact us on WhatsApp with this Payment ID and we will send your PDF(s) right away.');
+    }
   });
 }
 
-function showProcessing(show){
-  document.getElementById('jkes-processing-overlay').classList.toggle('open', show);
+function showProcessing(show, attempt){
+  var ov = document.getElementById('jkes-processing-overlay');
+  ov.classList.toggle('open', show);
   document.body.style.overflow = show ? 'hidden' : '';
+  if(show){
+    var h3 = ov.querySelector('h3'), p = ov.querySelector('p');
+    if(attempt && attempt > 1){
+      h3.textContent = 'Reconnecting\u2026 (attempt '+attempt+' of '+JKES_MAX_ATTEMPTS+')';
+      p.textContent = 'Your payment is safe \u2014 just confirming delivery. Please wait.';
+    } else {
+      h3.textContent = 'Verifying Payment\u2026';
+      p.textContent = 'Please wait. Do not close this page.';
+    }
+  }
 }
 
 window.jkesShowSuccess=function(downloads){
