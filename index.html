@@ -4380,6 +4380,32 @@
   .jke-new-list{flex-direction:column;overflow-y:auto;overflow-x:hidden;scroll-snap-type:none;padding:0 2px 2px 0}
   .jke-new-card{flex:0 0 auto;width:100%}
 }
+  /* ═══ COMPACT FREE / PREMIUM TABS ═══ */
+.mtabs{
+  display:inline-flex;
+  grid-template-columns:none;
+  width:auto;
+  max-width:100%;
+  background:transparent;
+  border:none;
+  box-shadow:none;
+  padding:0;
+  gap:8px;
+  margin-bottom:16px;
+}
+.mt{
+  padding:8px 16px;
+  font-size:12.5px;
+  gap:6px;
+  border-radius:var(--rf);
+  background:var(--s1bg);
+  border:1.5px solid var(--bd);
+  white-space:nowrap;
+  flex:0 0 auto;
+}
+.mt:hover{border-color:var(--bd2)}
+.mt.on{border-color:transparent}
+.mt-cnt{font-size:9.5px;padding:1px 6px}
 </style>
 
 
