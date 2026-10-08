@@ -4247,6 +4247,98 @@
   margin-top: 4px;
   font-weight: 500;
 }
+  /* ═══ PERFORMANCE TAB (jke-pf) ═══ */
+.jke-pf-range{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.jke-pf-chip{padding:7px 14px;border-radius:var(--rf);font-size:12px;font-weight:600;color:var(--t3);background:var(--s1bg);border:1.5px solid var(--bd);cursor:pointer;transition:all .15s;font-family:var(--f)}
+.jke-pf-chip:hover{color:var(--t1);border-color:var(--bd2)}
+.jke-pf-chip.on{background:var(--p);color:#fff;border-color:var(--p);box-shadow:0 2px 8px rgba(26,74,122,.25)}
+
+.jke-pf-hero{display:flex;align-items:center;gap:18px;padding:18px;border-radius:var(--r16);background:linear-gradient(135deg,var(--p3),var(--p) 60%,#4db3e6);color:#fff;margin-bottom:14px;box-shadow:var(--sh2)}
+.jke-pf-ring{position:relative;width:104px;height:104px;flex-shrink:0}
+.jke-pf-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.jke-pf-ring-bg{fill:none;stroke:rgba(255,255,255,.2);stroke-width:3.4}
+.jke-pf-ring-fg{fill:none;stroke:#fff;stroke-width:3.4;stroke-linecap:round;transition:stroke-dasharray .8s}
+.jke-pf-ring-v{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--m);font-size:28px;font-weight:800;line-height:1}
+.jke-pf-ring-v small{font-size:9px;font-weight:600;opacity:.75;margin-top:3px;font-family:var(--f);letter-spacing:.6px;text-transform:uppercase}
+.jke-pf-hero-t{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;opacity:.75;margin-bottom:4px}
+.jke-pf-hero-l{font-size:20px;font-weight:800;letter-spacing:-.3px;margin-bottom:5px}
+.jke-pf-hero-s{font-size:11.5px;line-height:1.6;opacity:.8;font-weight:500}
+
+.jke-pf-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+@media(min-width:720px){.jke-pf-kpis{grid-template-columns:repeat(6,1fr)}}
+.jke-pf-kpi{background:var(--s1bg);border:1px solid var(--bd);border-radius:var(--r12);padding:12px 8px;text-align:center;box-shadow:var(--sh1)}
+.jke-pf-kpi strong{display:block;font-family:var(--m);font-size:19px;font-weight:800;color:var(--t1);line-height:1;margin-bottom:5px}
+.jke-pf-kpi span{display:block;font-size:9.5px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px}
+.jke-pf-kpi em{display:block;font-style:normal;font-size:10px;font-weight:700;margin-top:4px;color:var(--t4)}
+.jke-pf-kpi em.up{color:var(--g)}.jke-pf-kpi em.dn{color:var(--r)}
+
+.jke-pf-card{background:var(--s1bg);border:1px solid var(--bd);border-radius:var(--r16);padding:16px;margin-bottom:14px;box-shadow:var(--sh1)}
+.jke-pf-ttl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--t3);margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.jke-pf-ttl small{font-size:10.5px;text-transform:none;letter-spacing:0;font-weight:600;color:var(--t4)}
+.jke-pf-2{display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:14px}
+.jke-pf-2 .jke-pf-card{margin-bottom:0}
+@media(min-width:720px){.jke-pf-2{grid-template-columns:1.7fr 1fr}.jke-pf-2.even{grid-template-columns:1fr 1fr}}
+
+/* insights */
+.jke-pf-ins{display:flex;gap:11px;padding:12px 13px;border-radius:var(--r12);border:1px solid var(--bd);border-left:3px solid var(--bd2);background:var(--s1bg);margin-bottom:8px}
+.jke-pf-ins.good{border-left-color:var(--g);background:var(--gl)}
+.jke-pf-ins.warn{border-left-color:var(--o);background:var(--ol)}
+.jke-pf-ins.bad{border-left-color:var(--r);background:var(--rl)}
+.jke-pf-ins.info{border-left-color:var(--p);background:var(--pl)}
+.jke-pf-ins-i{font-size:19px;line-height:1.2;flex-shrink:0}
+.jke-pf-ins-t{font-size:13px;font-weight:700;color:var(--t1);margin-bottom:3px}
+.jke-pf-ins-x{font-size:12px;color:var(--t2);line-height:1.65;font-weight:500}
+.jke-pf-act{margin-top:8px;padding:7px 13px;border-radius:var(--r6);background:var(--p);color:#fff;font-size:11.5px;font-weight:700;border:none;cursor:pointer;font-family:var(--f)}
+.jke-pf-act:hover{background:var(--p2)}
+
+/* svg charts */
+.jke-pf-svg{width:100%;height:auto;display:block;overflow:visible}
+.jke-pf-gl{stroke:var(--bd);stroke-width:1}
+.jke-pf-axt{font-size:9px;fill:var(--t4);font-family:var(--m)}
+.jke-pf-line{fill:none;stroke:var(--p);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+.jke-pf-ma{fill:none;stroke:var(--o);stroke-width:2;stroke-dasharray:5 4;stroke-linecap:round}
+.jke-pf-pass{stroke:var(--r);stroke-width:1;stroke-dasharray:3 4;opacity:.5}
+.jke-pf-dot{fill:var(--s1bg);stroke:var(--p);stroke-width:2}
+.jke-pf-dot.f{stroke:var(--r)}
+.jke-pf-leg{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;font-size:10.5px;color:var(--t3);font-weight:600}
+.jke-pf-leg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+
+.jke-pf-donut-wrap{display:flex;flex-direction:column;align-items:center;gap:12px}
+.jke-pf-donut{width:150px;height:150px;transform:rotate(0deg)}
+.jke-pf-donut-bg{fill:none;stroke:var(--s3bg);stroke-width:5}
+.jke-pf-seg{fill:none;stroke-width:5}
+.jke-pf-seg-c{stroke:var(--g)}.jke-pf-seg-w{stroke:var(--r)}.jke-pf-seg-s{stroke:var(--o)}
+.jke-pf-donut-n{font-family:var(--m);font-size:7px;font-weight:800;fill:var(--t1);text-anchor:middle}
+.jke-pf-donut-l{font-size:2.6px;font-weight:700;fill:var(--t3);text-anchor:middle;text-transform:uppercase;letter-spacing:.3px}
+
+/* bars */
+.jke-pf-bar{margin-bottom:12px}
+.jke-pf-bar:last-child{margin-bottom:0}
+.jke-pf-bar-hd{display:flex;justify-content:space-between;gap:8px;margin-bottom:5px;align-items:baseline}
+.jke-pf-bar-n{font-size:12px;font-weight:700;color:var(--t1);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.jke-pf-bar-v{font-size:12px;font-weight:800;font-family:var(--m);color:var(--t1);white-space:nowrap}
+.jke-pf-bar-v em{font-style:normal;font-family:var(--f);font-size:10px;font-weight:600;color:var(--t4);margin-left:4px}
+.jke-pf-track{height:9px;background:var(--s3bg);border-radius:99px;overflow:hidden}
+.jke-pf-fill{height:100%;border-radius:99px;transition:width .6s}
+.jke-pf-fill.hi{background:linear-gradient(90deg,var(--g),var(--g2))}
+.jke-pf-fill.mid{background:linear-gradient(90deg,#f0b429,var(--o))}
+.jke-pf-fill.lo{background:linear-gradient(90deg,var(--r),var(--r2))}
+
+/* heatmap */
+.jke-pf-heat{display:grid;grid-template-rows:repeat(7,1fr);grid-template-columns:repeat(12,1fr);grid-auto-flow:column;gap:4px}
+.jke-pf-hc{aspect-ratio:1;border-radius:4px;background:var(--s3bg)}
+.jke-pf-hc.fut{background:transparent}
+.jke-pf-hc.l1{background:rgba(26,74,122,.3)}.jke-pf-hc.l2{background:rgba(26,74,122,.6)}.jke-pf-hc.l3{background:var(--p)}
+.jke-pf-heat-f{display:flex;justify-content:space-between;font-size:10.5px;color:var(--t3);font-weight:600;margin-top:10px;flex-wrap:wrap;gap:6px}
+
+/* radar + topic list */
+.jke-pf-radar-r{fill:none;stroke:var(--bd);stroke-width:1}
+.jke-pf-radar-a{stroke:var(--bd);stroke-width:1}
+.jke-pf-radar-p{fill:rgba(26,74,122,.18);stroke:var(--p);stroke-width:2}
+.jke-pf-radar-d{fill:var(--p)}
+.jke-pf-radar-t{font-size:9px;fill:var(--t2);font-weight:600}
+.jke-pf-topic-h{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin:14px 0 8px}
+.jke-pf-topic-h.w{color:var(--r)}.jke-pf-topic-h.s{color:var(--g)}
 </style>
 
 
@@ -7649,9 +7741,10 @@ function togglePalette() {
       .replace(/>/g, "&gt;");
   }
 
-  var HIST = { data: null };
+  var HIST = { data: null, weak: null, range: "all" };
 
   HIST.init = function () {
+    HIST.weak = null;
     document.getElementById("hist-spin").classList.add("on");
     document.getElementById("hist-summary").innerHTML = "";
     document.getElementById("hist-list").innerHTML = "";
@@ -7660,7 +7753,7 @@ function togglePalette() {
       document.getElementById("hist-spin").classList.remove("on");
       if (err || !data || !data.success) {
         document.getElementById("hist-list").innerHTML =
-          '<div class="empty-state"><div class="es-icon">📡</div><div class="es-title">Could not load history</div><div class="es-sub">Please try again</div></div>';
+          '<div class="empty-state"><div class="es-icon">\uD83D\uDCE1</div><div class="es-title">Could not load history</div><div class="es-sub">Please try again</div></div>';
         return;
       }
       HIST.data = data.history || [];
@@ -7671,202 +7764,441 @@ function togglePalette() {
 
   HIST.loadWeakAreas = function () {
     api({ action: "getWeakAreas", email: ST.user.email }, function (err, data) {
-      var wrap = document.getElementById("weak-areas-wrap");
-      if (!wrap) return;
-      if (err || !data || !data.success || !data.areas || !data.areas.length) {
-        wrap.innerHTML = "";
-        return;
+      HIST.weak = (!err && data && data.success && data.areas) ? data.areas : [];
+      if (HIST.data && HIST.data.length) {
+        HIST.renderWeak();
+        HIST.fillInsights();
       }
-      var weak = data.areas.filter(function (a) { return a.attempted >= 3; }).slice(0, 5);
-      var strong = data.areas
-        .filter(function (a) { return a.attempted >= 3; })
-        .slice()
-        .reverse()
-        .slice(0, 3);
-      if (!weak.length) {
-        wrap.innerHTML = "";
-        return;
-      }
-      var html =
-        '<div class="hst-bar-wrap"><div class="cat-section-title" style="margin-bottom:10px">🎯 Your Weak Areas</div>' +
-        weak
-          .map(function (a) {
-            return (
-              '<div class="wk-bar-row">' +
-              '<div class="wk-bar-lbl">' + a.unit + "</div>" +
-              '<div class="wk-bar-track"><div class="wk-bar-fill weak" style="width:' + a.accuracy.toFixed(1) + '%"></div></div>' +
-              '<div class="wk-bar-val">' + a.accuracy.toFixed(0) + "% (" + a.correct + "/" + a.attempted + ")</div>" +
-              "</div>"
-            );
-          })
-          .join("") +
-        "</div>";
-      if (strong.length) {
-        html +=
-          '<div class="hst-bar-wrap"><div class="cat-section-title" style="margin-bottom:10px">💪 Your Strong Areas</div>' +
-          strong
-            .map(function (a) {
-              return (
-                '<div class="wk-bar-row">' +
-                '<div class="wk-bar-lbl">' + a.unit + "</div>" +
-                '<div class="wk-bar-track"><div class="wk-bar-fill strong" style="width:' + a.accuracy.toFixed(1) + '%"></div></div>' +
-                '<div class="wk-bar-val">' + a.accuracy.toFixed(0) + "% (" + a.correct + "/" + a.attempted + ")</div>" +
-                "</div>"
-              );
-            })
-            .join("") +
-          "</div>";
-      }
-      wrap.innerHTML = html;
     });
   };
 
+  /* ---------- helpers ---------- */
+  HIST.meta = function () {
+    var m = {};
+    (ST.tests || ST.publicTests || []).forEach(function (t) { m[t.testId] = t; });
+    return m;
+  };
+  HIST.groupOf = function (r, m) {
+    var t = m[r.testId], g = "";
+    if (t) g = t.access === "paid" ? (t.packId || "").trim() : (t.examGroup || "");
+    return g || examFromId(r.testId) || "general";
+  };
+  HIST.pct = function (r) { return parseFloat(r.percentage) || 0; };
+  HIST.ts = function (r) { var d = new Date(r.timestamp).getTime(); return isNaN(d) ? 0 : d; };
+  HIST.dkey = function (d) { return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate(); };
+  HIST.shortDate = function (r) {
+    return new Date(r.timestamp).toLocaleDateString("en-IN", { day: "numeric", month: "short" });
+  };
+  HIST.avg = function (a) {
+    if (!a.length) return 0;
+    var s = 0;
+    a.forEach(function (r) { s += HIST.pct(r); });
+    return s / a.length;
+  };
+  HIST.filtered = function () {
+    var all = (HIST.data || []).slice().sort(function (a, b) { return HIST.ts(b) - HIST.ts(a); });
+    if (HIST.range === "10") return all.slice(0, 10);
+    if (HIST.range === "30d") {
+      var cut = Date.now() - 30 * 864e5;
+      return all.filter(function (r) { return HIST.ts(r) >= cut; });
+    }
+    return all;
+  };
+  HIST.agg = function (a) {
+    var o = { n: a.length, c: 0, w: 0, s: 0, time: 0 };
+    a.forEach(function (r) {
+      o.c += +r.correct || 0; o.w += +r.wrong || 0; o.s += +r.skipped || 0; o.time += +r.timeTaken || 0;
+    });
+    o.q = o.c + o.w + o.s;
+    o.avg = HIST.avg(a);
+    o.acc = (o.c + o.w) ? o.c / (o.c + o.w) * 100 : 0;
+    o.skipRate = o.q ? o.s / o.q * 100 : 0;
+    o.wrongRate = o.q ? o.w / o.q * 100 : 0;
+    o.avgTime = o.n ? o.time / o.n : 0;
+    return o;
+  };
+  HIST.activity = function () {
+    var cnt = {}, last = 0;
+    (HIST.data || []).forEach(function (r) {
+      var k = HIST.dkey(new Date(r.timestamp));
+      cnt[k] = (cnt[k] || 0) + 1;
+      if (HIST.ts(r) > last) last = HIST.ts(r);
+    });
+    var today = new Date(); today.setHours(0, 0, 0, 0);
+    var streak = 0, d = new Date(today), i, x;
+    if (!cnt[HIST.dkey(d)]) d.setDate(d.getDate() - 1);
+    while (cnt[HIST.dkey(d)]) { streak++; d.setDate(d.getDate() - 1); }
+    var active14 = 0;
+    for (i = 0; i < 14; i++) {
+      x = new Date(today); x.setDate(x.getDate() - i);
+      if (cnt[HIST.dkey(x)]) active14++;
+    }
+    var activeDays = Object.keys(cnt).length;
+    return {
+      cnt: cnt, streak: streak, active14: active14, activeDays: activeDays,
+      daysSince: last ? Math.max(0, Math.floor((Date.now() - last) / 864e5)) : null
+    };
+  };
+  HIST.readiness = function (arr) {
+    var asc = arr.slice().reverse(), rec = asc.slice(-5), o = HIST.agg(arr), act = HIST.activity();
+    var sc = 0.5 * HIST.avg(rec) + 0.3 * o.acc + 0.2 * Math.min(100, act.active14 / 7 * 100);
+    sc = Math.max(0, Math.min(100, Math.round(sc)));
+    var lvl = sc >= 75 ? "Exam-ready" : sc >= 60 ? "Competitive" : sc >= 40 ? "Building up" : "Getting started";
+    return { score: sc, level: lvl };
+  };
+
+  /* ---------- charts ---------- */
+  HIST.chartTrend = function (arr) {
+    var asc = arr.slice().reverse().slice(-30), n = asc.length;
+    var W = 600, H = 220, L = 34, R = 14, T = 14, B = 28, iw = W - L - R, ih = H - T - B;
+    function X(i) { return n === 1 ? L + iw / 2 : L + iw * i / (n - 1); }
+    function Y(p) { return T + ih * (1 - Math.max(0, Math.min(100, p)) / 100); }
+    var grid = "";
+    [0, 25, 50, 75, 100].forEach(function (v) {
+      grid += '<line class="jke-pf-gl" x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(v) + '" y2="' + Y(v) + '"/>' +
+        '<text class="jke-pf-axt" x="' + (L - 6) + '" y="' + (Y(v) + 3) + '" text-anchor="end">' + v + '</text>';
+    });
+    var line = "", ma = "", dots = "", i, j, s, c;
+    for (i = 0; i < n; i++) {
+      var p = HIST.pct(asc[i]);
+      line += (i ? "L" : "M") + X(i).toFixed(1) + " " + Y(p).toFixed(1) + " ";
+      s = 0; c = 0;
+      for (j = Math.max(0, i - 2); j <= i; j++) { s += HIST.pct(asc[j]); c++; }
+      ma += (i ? "L" : "M") + X(i).toFixed(1) + " " + Y(s / c).toFixed(1) + " ";
+      dots += '<circle class="jke-pf-dot' + (p < 33 ? " f" : "") + '" cx="' + X(i).toFixed(1) + '" cy="' + Y(p).toFixed(1) + '" r="' + (n > 18 ? 3 : 4) + '"><title>' +
+        escHtml(asc[i].testName) + " \u2013 " + p.toFixed(1) + "% (" + HIST.shortDate(asc[i]) + ")</title></circle>";
+    }
+    var area = line + "L" + X(n - 1).toFixed(1) + " " + (T + ih) + " L" + X(0).toFixed(1) + " " + (T + ih) + " Z";
+    return '<svg class="jke-pf-svg" viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Score trend">' +
+      '<defs><linearGradient id="jkePfGrad" x1="0" y1="0" x2="0" y2="1">' +
+      '<stop offset="0%" style="stop-color:var(--p);stop-opacity:.28"/><stop offset="100%" style="stop-color:var(--p);stop-opacity:0"/></linearGradient></defs>' +
+      grid +
+      '<line class="jke-pf-pass" x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(33) + '" y2="' + Y(33) + '"/>' +
+      '<path d="' + area + '" fill="url(#jkePfGrad)"/>' +
+      (n > 2 ? '<path class="jke-pf-ma" d="' + ma + '"/>' : "") +
+      '<path class="jke-pf-line" d="' + line + '"/>' + dots +
+      '<text class="jke-pf-axt" x="' + L + '" y="' + (H - 8) + '">' + HIST.shortDate(asc[0]) + '</text>' +
+      '<text class="jke-pf-axt" x="' + (W - R) + '" y="' + (H - 8) + '" text-anchor="end">' + HIST.shortDate(asc[n - 1]) + '</text>' +
+      "</svg>" +
+      '<div class="jke-pf-leg"><span><i style="background:var(--p)"></i>Score %</span>' +
+      (n > 2 ? '<span><i style="background:var(--o)"></i>3-test average</span>' : "") +
+      '<span><i style="background:var(--r);opacity:.5"></i>Pass line (33%)</span></div>';
+  };
+
+  HIST.chartDonut = function (o) {
+    var q = o.q || 1, off = 25;
+    var svg = '<svg class="jke-pf-donut" viewBox="0 0 42 42" role="img" aria-label="Answer breakdown">' +
+      '<circle class="jke-pf-donut-bg" cx="21" cy="21" r="15.9155"/>';
+    [{ v: o.c, k: "c", l: "Correct" }, { v: o.w, k: "w", l: "Wrong" }, { v: o.s, k: "s", l: "Skipped" }].forEach(function (sg) {
+      var p = sg.v / q * 100;
+      if (p <= 0) return;
+      svg += '<circle class="jke-pf-seg jke-pf-seg-' + sg.k + '" cx="21" cy="21" r="15.9155" stroke-dasharray="' +
+        p.toFixed(2) + " " + (100 - p).toFixed(2) + '" stroke-dashoffset="' + off.toFixed(2) + '"><title>' +
+        sg.l + ": " + sg.v + " (" + p.toFixed(0) + "%)</title></circle>";
+      off -= p;
+    });
+    svg += '<text class="jke-pf-donut-n" x="21" y="22.5">' + o.acc.toFixed(0) + '%</text>' +
+      '<text class="jke-pf-donut-l" x="21" y="27">Accuracy</text></svg>';
+    return '<div class="jke-pf-donut-wrap">' + svg +
+      '<div class="jke-pf-leg" style="justify-content:center;margin-top:0">' +
+      '<span><i style="background:var(--g)"></i>Correct ' + o.c + '</span>' +
+      '<span><i style="background:var(--r)"></i>Wrong ' + o.w + '</span>' +
+      '<span><i style="background:var(--o)"></i>Skipped ' + o.s + '</span></div></div>';
+  };
+
+  HIST.chartExams = function (arr) {
+    var m = HIST.meta(), g = {};
+    arr.forEach(function (r) { var k = HIST.groupOf(r, m); (g[k] = g[k] || []).push(r); });
+    var keys = Object.keys(g).sort(function (a, b) { return HIST.avg(g[b]) - HIST.avg(g[a]); });
+    return keys.map(function (k) {
+      var a = g[k], av = HIST.avg(a), best = Math.max.apply(null, a.map(HIST.pct));
+      var ex = EX[k] || { name: k, icon: "" };
+      var cl = av >= 65 ? "hi" : av >= 40 ? "mid" : "lo";
+      return '<div class="jke-pf-bar"><div class="jke-pf-bar-hd"><span class="jke-pf-bar-n">' +
+        (ex.icon ? ex.icon + " " : "") + escHtml(ex.name) + '</span><span class="jke-pf-bar-v">' + av.toFixed(0) +
+        '%<em>' + a.length + " att \u00B7 best " + best.toFixed(0) + '%</em></span></div>' +
+        '<div class="jke-pf-track"><div class="jke-pf-fill ' + cl + '" style="width:' + av.toFixed(1) + '%"></div></div></div>';
+    }).join("");
+  };
+
+  HIST.chartHeat = function (act) {
+    var today = new Date(); today.setHours(0, 0, 0, 0);
+    var start = new Date(today); start.setDate(start.getDate() - today.getDay() - 77);
+    var cells = "", i, d, c, lv;
+    for (i = 0; i < 84; i++) {
+      d = new Date(start); d.setDate(start.getDate() + i);
+      if (d > today) { cells += '<div class="jke-pf-hc fut"></div>'; continue; }
+      c = act.cnt[HIST.dkey(d)] || 0;
+      lv = c === 0 ? 0 : c === 1 ? 1 : c === 2 ? 2 : 3;
+      cells += '<div class="jke-pf-hc l' + lv + '" title="' +
+        d.toLocaleDateString("en-IN", { day: "numeric", month: "short" }) + ": " + c + " attempt" + (c === 1 ? "" : "s") + '"></div>';
+    }
+    return '<div class="jke-pf-heat">' + cells + "</div>" +
+      '<div class="jke-pf-heat-f"><span>\uD83D\uDD25 Streak: <strong>' + act.streak + ' day' + (act.streak === 1 ? "" : "s") +
+      '</strong></span><span>Active days: <strong>' + act.activeDays + '</strong></span><span>Last 14 days: <strong>' +
+      act.active14 + '/14</strong></span></div>';
+  };
+
+  HIST.chartRadar = function (areas) {
+    var n = areas.length, cx = 170, cy = 135, R = 85;
+    function pt(i, v) {
+      var a = -Math.PI / 2 + i * 2 * Math.PI / n;
+      return [cx + R * v / 100 * Math.cos(a), cy + R * v / 100 * Math.sin(a)];
+    }
+    var svg = '<svg class="jke-pf-svg" viewBox="0 0 340 270" style="max-width:380px;margin:0 auto" role="img" aria-label="Topic mastery radar">';
+    [25, 50, 75, 100].forEach(function (v) {
+      var p = [], i;
+      for (i = 0; i < n; i++) p.push(pt(i, v).map(function (x) { return x.toFixed(1); }).join(","));
+      svg += '<polygon class="jke-pf-radar-r" points="' + p.join(" ") + '"/>';
+    });
+    var dp = [], dd = "";
+    areas.forEach(function (a, i) {
+      var e = pt(i, 100), p = pt(i, Math.max(3, a.accuracy));
+      svg += '<line class="jke-pf-radar-a" x1="' + cx + '" y1="' + cy + '" x2="' + e[0].toFixed(1) + '" y2="' + e[1].toFixed(1) + '"/>';
+      dp.push(p[0].toFixed(1) + "," + p[1].toFixed(1));
+      dd += '<circle class="jke-pf-radar-d" cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="3"><title>' +
+        escHtml(a.unit) + ": " + a.accuracy.toFixed(0) + "%</title></circle>";
+      var l = pt(i, 100), ang = -Math.PI / 2 + i * 2 * Math.PI / n, cs = Math.cos(ang), sn = Math.sin(ang);
+      var lx = cx + (R + 12) * cs, ly = cy + (R + 12) * sn + 3;
+      var anc = cs > 0.3 ? "start" : cs < -0.3 ? "end" : "middle";
+      var nm = a.unit.length > 15 ? a.unit.slice(0, 14) + "\u2026" : a.unit;
+      svg += '<text class="jke-pf-radar-t" x="' + lx.toFixed(1) + '" y="' + ly.toFixed(1) + '" text-anchor="' + anc + '">' + escHtml(nm) + "</text>";
+    });
+    return svg + '<polygon class="jke-pf-radar-p" points="' + dp.join(" ") + '"/>' + dd + "</svg>";
+  };
+
+  /* ---------- insights engine ---------- */
+  HIST.insights = function (arr) {
+    var out = [], n = arr.length, o = HIST.agg(arr), asc = arr.slice().reverse();
+    var act = HIST.activity(), m = HIST.meta(), i;
+    function add(t, ico, title, text, action) { out.push({ t: t, ico: ico, title: title, text: text, action: action || null }); }
+
+    if (n < 3) {
+      add("info", "\uD83D\uDCCA", "Keep going \u2013 insights sharpen with data",
+        "You have " + n + " attempt" + (n === 1 ? "" : "s") + " so far. Complete at least 3 tests to unlock trend and consistency analysis.");
+    }
+
+    if (n >= 4) {
+      var rec = asc.slice(-3), prev = asc.slice(Math.max(0, n - 6), n - 3);
+      var d = HIST.avg(rec) - HIST.avg(prev);
+      if (d >= 5) add("good", "\uD83D\uDCC8", "You are on an upward curve",
+        "Your last 3 tests average " + HIST.avg(rec).toFixed(0) + "%, up " + d.toFixed(1) + " points from the 3 before. Keep the same revision rhythm.");
+      else if (d <= -5) add("bad", "\uD83D\uDCC9", "Scores are slipping",
+        "Your last 3 tests average " + HIST.avg(rec).toFixed(0) + "%, down " + Math.abs(d).toFixed(1) + " points. Pause new tests for a day and review the explanations of your wrong answers.");
+      else add("info", "\u2796", "Scores are steady",
+        "You are holding around " + HIST.avg(rec).toFixed(0) + "%. To break through the plateau, target your weakest topics instead of repeating comfortable ones.");
+    }
+
+    if (o.c + o.w > 0) {
+      if (o.acc < 55) add("bad", "\uD83E\uDDE0", "Accuracy needs work (" + o.acc.toFixed(0) + "%)",
+        "Fewer than 6 in 10 attempted answers are right. Concept clarity is the bottleneck, so revise notes first and test afterwards.");
+      else if (o.acc >= 80) add("good", "\uD83C\uDFAF", "Strong accuracy (" + o.acc.toFixed(0) + "%)",
+        "When you attempt a question you usually get it right. Your next gain is attempting a few more questions confidently.");
+    }
+
+    if (o.q > 0) {
+      if (o.wrongRate >= 30 && o.acc < 65) add("bad", "\u26A0\uFE0F", "Risky guessing is costing you marks",
+        o.wrongRate.toFixed(0) + "% of all questions are wrong. With negative marking, attempt only when you can eliminate at least 2 options.");
+      else if (o.skipRate >= 35) add("warn", "\u23ED\uFE0F", "You are leaving too many questions blank",
+        o.skipRate.toFixed(0) + "% of questions are skipped. Do a first pass for sure answers, then return and eliminate options on the rest.");
+      else if (o.skipRate < 4 && o.acc < 70 && n >= 3) add("warn", "\uD83C\uDFB2", "Almost no skips with moderate accuracy",
+        "You attempt nearly everything. Skipping genuine 50-50 guesses can protect your score under negative marking.");
+    }
+
+    var tu = [];
+    arr.forEach(function (r) {
+      var t = m[r.testId];
+      if (t && +t.durationMinutes > 0 && +r.timeTaken > 0) tu.push(r.timeTaken / (t.durationMinutes * 60) * 100);
+    });
+    if (tu.length >= 2) {
+      var u = tu.reduce(function (a, b) { return a + b; }, 0) / tu.length;
+      if (u < 55 && o.acc < 75) add("warn", "\u23F1\uFE0F", "You finish early (" + u.toFixed(0) + "% of time used)",
+        "You are leaving time on the table. Use the spare minutes to re-check marked and doubtful questions.");
+      else if (u > 97 && o.skipRate > 15) add("warn", "\u23F1\uFE0F", "Time pressure is hurting you",
+        "You use almost the whole timer and still skip questions. Practise with a per-question limit of about 45 seconds.");
+    }
+
+    if (HIST.weak && HIST.weak.length) {
+      var wk = HIST.weak.filter(function (a) { return a.attempted >= 3; }).sort(function (a, b) { return a.accuracy - b.accuracy; });
+      if (wk.length) {
+        var low = wk.filter(function (a) { return a.accuracy < 60; }).slice(0, 2);
+        if (low.length) add("warn", "\uD83C\uDFAF", "Prioritise: " + low.map(function (a) { return escHtml(a.unit); }).join(" and "),
+          low.map(function (a) { return escHtml(a.unit) + " (" + a.accuracy.toFixed(0) + "% over " + a.attempted + " Qs)"; }).join(", ") +
+          ". Revise these first, as they have the biggest score upside.");
+        var top = wk[wk.length - 1];
+        if (top.accuracy >= 75) add("good", "\uD83D\uDCAA", "Strongest topic: " + escHtml(top.unit),
+          top.accuracy.toFixed(0) + "% accuracy. Maintain it with a quick revision every week and spend the saved time on weaker units.");
+      }
+    }
+
+    var by = {};
+    asc.forEach(function (r) { (by[r.testId] = by[r.testId] || []).push(r); });
+    var deltas = [], worst = null;
+    Object.keys(by).forEach(function (k) {
+      var a = by[k], lastR = a[a.length - 1];
+      if (a.length >= 2) deltas.push(HIST.pct(lastR) - HIST.pct(a[0]));
+      if (!worst || HIST.pct(lastR) < HIST.pct(worst)) worst = lastR;
+    });
+    if (deltas.length) {
+      var ad = deltas.reduce(function (a, b) { return a + b; }, 0) / deltas.length;
+      if (ad >= 3) add("good", "\uD83D\uDD01", "Retakes are working",
+        "On repeated tests you improve by " + ad.toFixed(1) + " points on average. Your review habit is paying off.");
+      else if (ad < 1) add("warn", "\uD83D\uDD01", "Retakes are not improving your score",
+        "Before retaking a test, read every explanation and note what trapped you. Retaking without review repeats the same mistakes.");
+    }
+
+    if (act.daysSince !== null && act.daysSince >= 7) add("warn", "\uD83D\uDCC5", "It has been " + act.daysSince + " days since your last test",
+      "Consistency beats intensity. Even one short test every 2 days keeps your recall and speed sharp.");
+    else if (act.streak >= 3) add("good", "\uD83D\uDD25", act.streak + "-day streak",
+      "Great consistency. Daily practice is the strongest predictor of rank improvement.");
+
+    if (worst && HIST.pct(worst) < 70 && n >= 2) {
+      add("info", "\uD83D\uDCDD", "Redo your weakest test",
+        escHtml(worst.testName) + " is your lowest recent result (" + HIST.pct(worst).toFixed(0) + "%). Review it, then retake to see real progress.",
+        { label: "Retake: " + (worst.testName.length > 28 ? worst.testName.slice(0, 27) + "\u2026" : worst.testName), testId: worst.testId });
+    }
+
+    if (n >= 2) {
+      var tgt = Math.min(100, Math.round((HIST.avg(asc.slice(-5)) + 5) / 5) * 5);
+      add("info", "\uD83C\uDFC6", "Next target: " + tgt + "%",
+        "Based on your last " + Math.min(5, n) + " attempts, aim for " + tgt + "% in your next test. Small, specific targets build momentum.");
+    }
+
+    var order = { bad: 0, warn: 1, good: 2, info: 3 };
+    out.sort(function (a, b) { return order[a.t] - order[b.t]; });
+    return out.slice(0, 7);
+  };
+
+  HIST.fillInsights = function () {
+    var box = document.getElementById("jke-pf-ins-box");
+    if (!box) return;
+    var arr = HIST.filtered();
+    if (!arr.length) { box.innerHTML = ""; return; }
+    box.innerHTML = HIST.insights(arr).map(function (x) {
+      return '<div class="jke-pf-ins ' + x.t + '"><div class="jke-pf-ins-i">' + x.ico + '</div><div><div class="jke-pf-ins-t">' +
+        x.title + '</div><div class="jke-pf-ins-x">' + x.text + '</div>' +
+        (x.action ? '<button class="jke-pf-act" data-testid="' + escHtml(x.action.testId) + '">' + escHtml(x.action.label) + " \u2192</button>" : "") +
+        "</div></div>";
+    }).join("");
+  };
+
+  HIST.renderWeak = function () {
+    var wrap = document.getElementById("weak-areas-wrap");
+    if (!wrap) return;
+    var areas = (HIST.weak || []).filter(function (a) { return a.attempted >= 3; })
+      .sort(function (a, b) { return a.accuracy - b.accuracy; });
+    if (!areas.length) { wrap.innerHTML = ""; return; }
+    var radarSet = areas.slice().sort(function (a, b) { return b.attempted - a.attempted; }).slice(0, 7);
+    var weak = areas.slice(0, 5), strong = areas.slice().reverse().slice(0, 3);
+    function row(a, cls) {
+      return '<div class="jke-pf-bar"><div class="jke-pf-bar-hd"><span class="jke-pf-bar-n">' + escHtml(a.unit) +
+        '</span><span class="jke-pf-bar-v">' + a.accuracy.toFixed(0) + '%<em>' + a.correct + "/" + a.attempted + '</em></span></div>' +
+        '<div class="jke-pf-track"><div class="jke-pf-fill ' + cls + '" style="width:' + a.accuracy.toFixed(1) + '%"></div></div></div>';
+    }
+    var radar = radarSet.length >= 3 ? '<div class="jke-pf-card"><div class="jke-pf-ttl">Topic Mastery Radar<small>accuracy by unit</small></div>' + HIST.chartRadar(radarSet) + "</div>" : "";
+    var lists = '<div class="jke-pf-card"><div class="jke-pf-ttl">Topic Breakdown<small>min. 3 questions</small></div>' +
+      '<div class="jke-pf-topic-h w">Needs work</div>' +
+      weak.map(function (a) { return row(a, a.accuracy < 40 ? "lo" : a.accuracy < 65 ? "mid" : "hi"); }).join("") +
+      (strong.length ? '<div class="jke-pf-topic-h s">Strong areas</div>' + strong.map(function (a) { return row(a, "hi"); }).join("") : "") + "</div>";
+    wrap.innerHTML = '<div class="jke-pf-2 even">' + (radar || "") + lists + "</div>";
+  };
+
+  /* ---------- main render ---------- */
   HIST.render = function () {
-    var h = HIST.data;
-    if (!h.length) {
-      document.getElementById("hist-summary").innerHTML = "";
-      document.getElementById("hist-list").innerHTML =
-        '<div class="empty-state"><div class="es-icon">📊</div><div class="es-title">No attempts yet</div><div class="es-sub">Take a test to see your history and analysis here!</div></div>';
+    var all = HIST.data || [];
+    var summary = document.getElementById("hist-summary");
+    var list = document.getElementById("hist-list");
+    if (!all.length) {
+      summary.innerHTML = "";
+      list.innerHTML = '<div class="empty-state"><div class="es-icon">\uD83D\uDCCA</div><div class="es-title">No attempts yet</div><div class="es-sub">Take a test to see your performance analytics here!</div></div>';
+      return;
+    }
+    var arr = HIST.filtered();
+    var chips = '<div class="jke-pf-range">' + [["all", "All time"], ["10", "Last 10"], ["30d", "Last 30 days"]].map(function (c) {
+      return '<button type="button" class="jke-pf-chip' + (HIST.range === c[0] ? " on" : "") + '" data-range="' + c[0] + '">' + c[1] + "</button>";
+    }).join("") + "</div>";
+
+    if (!arr.length) {
+      summary.innerHTML = chips + '<div class="empty-state"><div class="es-icon">\uD83D\uDDD3\uFE0F</div><div class="es-title">No attempts in this range</div><div class="es-sub">Try "All time" or take a new test.</div></div>';
+      list.innerHTML = "";
+      HIST.bindSummary();
+      HIST.renderWeak();
       return;
     }
 
-    var totalAttempts = h.length;
-    var avgPct =
-      h.reduce(function (s, r) {
-        return s + (parseFloat(r.percentage) || 0);
-      }, 0) / totalAttempts;
-    var best = h.reduce(function (a, b) {
-      return (parseFloat(b.percentage) || 0) > (parseFloat(a.percentage) || 0) ? b : a;
-    });
-    var uniqueTests = {};
-    h.forEach(function (r) {
-      uniqueTests[r.testId] = true;
-    });
-
-    var summaryHtml =
-      '<div class="res-stats" style="grid-template-columns:repeat(4,1fr);margin-bottom:6px">' +
-      '<div class="rs rs-t"><strong>' +
-      totalAttempts +
-      "</strong><span>Attempts</span></div>" +
-      '<div class="rs rs-c"><strong>' +
-      avgPct.toFixed(1) +
-      "%</strong><span>Avg Score</span></div>" +
-      '<div class="rs"><strong style="color:var(--o)">' +
-      parseFloat(best.percentage).toFixed(1) +
-      "%</strong><span>Best Score</span></div>" +
-      '<div class="rs"><strong style="color:var(--p)">' +
-      Object.keys(uniqueTests).length +
-      "</strong><span>Unique Tests</span></div>" +
-      "</div>";
-
-    var groups = {};
-    h.forEach(function (r) {
-      var g = examFromId(r.testId) || "general";
-      if (!groups[g]) groups[g] = [];
-      groups[g].push(parseFloat(r.percentage) || 0);
-    });
-    var barsHtml = "";
-    if (Object.keys(groups).length > 1) {
-      barsHtml =
-        '<div class="hst-bar-wrap"><div class="cat-section-title" style="margin-bottom:10px">📈 Performance by Exam</div>';
-      Object.keys(groups).forEach(function (g) {
-        var arr = groups[g];
-        var avg =
-          arr.reduce(function (a, b) {
-            return a + b;
-          }, 0) / arr.length;
-        var ex = EX[g] || { name: g };
-        barsHtml +=
-          '<div class="hst-bar-row">' +
-          '<div class="hst-bar-lbl">' +
-          ex.name +
-          "</div>" +
-          '<div class="hst-bar-track"><div class="hst-bar-fill" style="width:' +
-          avg.toFixed(1) +
-          '%"></div></div>' +
-          '<div class="hst-bar-val">' +
-          avg.toFixed(0) +
-          "%</div>" +
-          "</div>";
-      });
-      barsHtml += "</div>";
+    var o = HIST.agg(arr), act = HIST.activity(), rd = HIST.readiness(arr), asc = arr.slice().reverse();
+    var best = arr.reduce(function (a, b) { return HIST.pct(b) > HIST.pct(a) ? b : a; });
+    var delta = "";
+    if (arr.length >= 4) {
+      var dd = HIST.avg(asc.slice(-3)) - HIST.avg(asc.slice(Math.max(0, arr.length - 6), arr.length - 3));
+      delta = '<em class="' + (dd >= 0 ? "up" : "dn") + '">' + (dd >= 0 ? "\u25B2 +" : "\u25BC ") + dd.toFixed(1) + " recent</em>";
     }
+    function kpi(v, l, extra) { return '<div class="jke-pf-kpi"><strong>' + v + "</strong><span>" + l + "</span>" + (extra || "") + "</div>"; }
 
-    document.getElementById("hist-summary").innerHTML = summaryHtml + barsHtml;
+    var hero = '<div class="jke-pf-hero"><div class="jke-pf-ring"><svg viewBox="0 0 36 36"><circle class="jke-pf-ring-bg" cx="18" cy="18" r="15.9155"/>' +
+      '<circle class="jke-pf-ring-fg" cx="18" cy="18" r="15.9155" stroke-dasharray="' + rd.score + ' ' + (100 - rd.score) + '"/></svg>' +
+      '<div class="jke-pf-ring-v">' + rd.score + "<small>Readiness</small></div></div>" +
+      '<div><div class="jke-pf-hero-t">Your performance level</div><div class="jke-pf-hero-l">' + rd.level + "</div>" +
+      '<div class="jke-pf-hero-s">Calculated from your last 5 scores (50%), answer accuracy (30%) and practice consistency (20%).</div></div></div>';
 
-    var listHtml = h
-      .map(function (r) {
-        var pct = parseFloat(r.percentage) || 0;
-        var pass = pct >= 33;
-        var dateStr = new Date(r.timestamp).toLocaleDateString("en-IN", {
-          day: "numeric",
-          month: "short",
-          year: "numeric",
-        });
-        return (
-          '<div class="hst-card ' +
-          (pass ? "pass" : "fail") +
-          '" data-subid="' +
-          escHtml(r.submissionId) +
-          '" data-testid="' +
-          escHtml(r.testId) +
-          '" data-testname="' +
-          escHtml(r.testName) +
-          '">' +
-          '<div class="hst-top">' +
-          '<div><div class="hst-name">' +
-          r.testName +
-          '</div><div class="hst-date">' +
-          dateStr +
-          " \u00B7 Rank #" +
-          (r.rank || "\u2014") +
-          "</div></div>" +
-          '<div style="text-align:right"><div class="hst-score">' +
-          r.score +
-          "/" +
-          r.totalMarks +
-          "</div>" +
-          '<span class="hst-pct" style="background:' +
-          (pass ? "var(--gl)" : "var(--rl)") +
-          ";color:" +
-          (pass ? "var(--g)" : "var(--r)") +
-          '">' +
-          pct.toFixed(1) +
-          "%</span></div>" +
-          "</div>" +
-          '<div class="hst-meta">' +
-          "<span>\u2713 <strong>" +
-          r.correct +
-          "</strong> correct</span>" +
-          "<span>\u2717 <strong>" +
-          r.wrong +
-          "</strong> wrong</span>" +
-          "<span>\u2014 <strong>" +
-          r.skipped +
-          "</strong> skipped</span>" +
-          "<span>\u23F1 <strong>" +
-          fmt(r.timeTaken) +
-          "</strong></span>" +
-          "</div>" +
-          '<div class="hst-actions">' +
-          '<button class="hst-btn" data-act="review">📝 Review Answers</button>' +
-          '<button class="hst-btn ghost" data-act="retake">🔄 Retake</button>' +
-          "</div>" +
-          "</div>"
-        );
-      })
-      .join("");
+    var kpis = '<div class="jke-pf-kpis">' +
+      kpi(o.n, "Attempts") +
+      kpi(o.avg.toFixed(0) + "%", "Avg score", delta) +
+      kpi(HIST.pct(best).toFixed(0) + "%", "Best score") +
+      kpi(o.acc.toFixed(0) + "%", "Accuracy", "<em>of attempted</em>") +
+      kpi(act.streak + "d", "Streak", "<em>" + act.active14 + "/14 days active</em>") +
+      kpi(fmt(Math.round(o.avgTime)), "Avg time", "<em>per test</em>") + "</div>";
 
-    document.getElementById("hist-list").innerHTML =
-      '<div class="cat-section-title" style="margin-bottom:10px">🕐 All Attempts</div>' + listHtml;
+    var insightsCard = '<div class="jke-pf-card"><div class="jke-pf-ttl">What your data says<small>personalised from your attempts</small></div><div id="jke-pf-ins-box"></div></div>';
 
-    document.getElementById("hist-list").onclick = function (e) {
+    var trendCard = '<div class="jke-pf-card"><div class="jke-pf-ttl">Score Trend<small>last ' + Math.min(30, arr.length) + " attempts</small></div>" + HIST.chartTrend(arr) + "</div>";
+    var donutCard = '<div class="jke-pf-card"><div class="jke-pf-ttl">Answer Breakdown<small>' + o.q + " questions</small></div>" + HIST.chartDonut(o) + "</div>";
+    var examCard = '<div class="jke-pf-card"><div class="jke-pf-ttl">Performance by Exam<small>average score</small></div>' + HIST.chartExams(arr) + "</div>";
+    var heatCard = '<div class="jke-pf-card"><div class="jke-pf-ttl">Consistency<small>last 12 weeks</small></div>' + HIST.chartHeat(act) + "</div>";
+
+    summary.innerHTML = chips + hero + kpis + insightsCard +
+      '<div class="jke-pf-2">' + trendCard + donutCard + "</div>" +
+      '<div class="jke-pf-2 even">' + examCard + heatCard + "</div>";
+
+    HIST.bindSummary();
+    HIST.fillInsights();
+    if (HIST.weak) HIST.renderWeak();
+
+    var listHtml = arr.map(function (r) {
+      var pct = HIST.pct(r), pass = pct >= 33;
+      var dateStr = new Date(r.timestamp).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+      return (
+        '<div class="hst-card ' + (pass ? "pass" : "fail") + '" data-subid="' + escHtml(r.submissionId) +
+        '" data-testid="' + escHtml(r.testId) + '" data-testname="' + escHtml(r.testName) + '">' +
+        '<div class="hst-top"><div><div class="hst-name">' + r.testName + '</div><div class="hst-date">' + dateStr +
+        " \u00B7 Rank #" + (r.rank || "\u2014") + "</div></div>" +
+        '<div style="text-align:right"><div class="hst-score">' + r.score + "/" + r.totalMarks + "</div>" +
+        '<span class="hst-pct" style="background:' + (pass ? "var(--gl)" : "var(--rl)") + ";color:" + (pass ? "var(--g)" : "var(--r)") + '">' +
+        pct.toFixed(1) + "%</span></div></div>" +
+        '<div class="hst-meta"><span>\u2713 <strong>' + r.correct + "</strong> correct</span><span>\u2717 <strong>" + r.wrong +
+        "</strong> wrong</span><span>\u2014 <strong>" + r.skipped + "</strong> skipped</span><span>\u23F1 <strong>" + fmt(r.timeTaken) + "</strong></span></div>" +
+        '<div class="hst-actions"><button class="hst-btn" data-act="review">\uD83D\uDCDD Review Answers</button>' +
+        '<button class="hst-btn ghost" data-act="retake">\uD83D\uDD04 Retake</button></div></div>'
+      );
+    }).join("");
+
+    list.innerHTML = '<div class="cat-section-title" style="margin-bottom:10px">\uD83D\uDD50 All Attempts</div>' + listHtml;
+    list.onclick = function (e) {
       var btn = e.target.closest(".hst-btn");
       if (!btn) return;
       var card = btn.closest(".hst-card");
       if (!card) return;
       if (btn.dataset.act === "review") HIST.viewReview(card.dataset.subid, card.dataset.testname);
       else handleStartTest(card.dataset.testid, "v");
+    };
+  };
+
+  HIST.bindSummary = function () {
+    document.getElementById("hist-summary").onclick = function (e) {
+      var chip = e.target.closest(".jke-pf-chip");
+      if (chip) { HIST.range = chip.dataset.range; HIST.render(); return; }
+      var b = e.target.closest(".jke-pf-act");
+      if (b && b.dataset.testid) handleStartTest(b.dataset.testid, "v");
     };
   };
 
