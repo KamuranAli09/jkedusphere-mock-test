@@ -6887,7 +6887,8 @@ return (
   // Add one line per exam: pack id (must match PACKS key), display name, date (YYYY-MM-DD)
   var EXAM_DATES = [
     { pack: "jkssb-faa", name: "JKSSB FAA", date: "2026-11-15" }
-    // , { pack: "jkpsi-telecom", name: "JKPSI Telecom", date: "2026-12-20" }
+
+    , { pack: "jkpsi-telecom", name: "JKPSI Telecom", date: "2026-12-23" }
   ];
   // Optional one-line announcement shown in the Community card. Leave "" to hide.
   var SIDE_NOTICE = "";
@@ -6922,11 +6923,12 @@ return (
     });
     return best ? best.t : null;
   };
-  SIDE.isMe = function (r) {
-    var u = ST.user, re = (r.email || "").toLowerCase(), ue = u.email.toLowerCase();
+    SIDE.isMe = function (r) {
+    var u = ST.user, ue = (u.email || "").toLowerCase(), re = (r.email || "").toLowerCase();
     if (re === ue) return true;
-    if (re.indexOf("*") >= 0 && re.charAt(0) === ue.charAt(0) && re.indexOf(ue.split("@")[1] || "~") >= 0) return true;
-    return (r.name || "").trim().toLowerCase() === (u.name || "").trim().toLowerCase();
+    // Masked email: first letter + domain are not unique, so the name must match too
+    var sameName = (r.name || "").trim().toLowerCase() === (u.name || "").trim().toLowerCase();
+    return sameName && re.charAt(0) === ue.charAt(0) && re.indexOf(ue.split("@")[1] || "~") >= 0;
   };
   SIDE.card = function (ico, title, body, cls, small) {
     return '<div class="jke-sd-card' + (cls ? " " + cls : "") + '"><div class="jke-sd-ttl"><span>' + ico + " " + title +
@@ -9100,13 +9102,12 @@ function togglePalette() {
       toast("Enter your email to find rank");
       return;
     }
-    var found = LB.data.find(function (r) {
-      var re = r.email.toLowerCase();
-      // Backend already masks email, so match on visible portion
-      return (
-        re === email ||
-        (re.startsWith(email[0]) && re.includes(email.split("@")[1] || ""))
-      );
+       var found = LB.data.find(function (r) {
+      var re = (r.email || "").toLowerCase();
+      if (re === email) return true;
+      var isMine = ST.user && email === ST.user.email.toLowerCase() &&
+        (r.name || "").trim().toLowerCase() === (ST.user.name || "").trim().toLowerCase();
+      return isMine && re.charAt(0) === email.charAt(0) && re.indexOf(email.split("@")[1] || "~") >= 0;
     });
     var wrap = document.getElementById("lb-rank-wrap");
     if (found) {
