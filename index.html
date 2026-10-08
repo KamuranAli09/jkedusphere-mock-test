@@ -4339,6 +4339,35 @@
 .jke-pf-radar-t{font-size:9px;fill:var(--t2);font-weight:600}
 .jke-pf-topic-h{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin:14px 0 8px}
 .jke-pf-topic-h.w{color:var(--r)}.jke-pf-topic-h.s{color:var(--g)}
+
+  /* ═══ NEW TESTS PANEL ═══ */
+#jke-new-box{margin-bottom:16px}
+#home-pg.calculating #jke-new-box{display:none !important}
+.jke-new{background:var(--s1bg);border:1px solid var(--bd);border-radius:var(--r16);padding:14px;box-shadow:var(--sh1)}
+.jke-new-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:8px}
+.jke-new-ttl{font-size:13px;font-weight:800;color:#0d2b52;display:flex;align-items:center;gap:7px}
+.jke-new-pulse{width:7px;height:7px;border-radius:50%;background:var(--g);animation:pulse 2s ease infinite}
+.jke-new-cnt{font-size:10.5px;font-weight:700;color:var(--t3);background:var(--s2bg);border:1px solid var(--bd);padding:2px 9px;border-radius:var(--rf)}
+.jke-new-list{display:flex;gap:9px;overflow-x:auto;padding-bottom:4px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+.jke-new-card{flex:0 0 235px;scroll-snap-align:start;display:flex;align-items:center;gap:10px;padding:10px 11px;border:1px solid var(--bd);border-radius:var(--r12);background:var(--bg);cursor:pointer;transition:all .15s;min-width:0}
+.jke-new-card:hover{border-color:#cfe4f7;background:#eaf3fb;transform:translateY(-1px);box-shadow:var(--sh2)}
+.jke-new-ico{width:34px;height:34px;border-radius:9px;background:#eaf3fb;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.jke-new-body{min-width:0;flex:1}
+.jke-new-name{font-size:12.5px;font-weight:700;color:#0d2b52;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.jke-new-meta{font-size:10.5px;color:var(--t3);margin-top:3px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jke-new-meta b{color:var(--g);font-weight:800}
+.jke-new-tag{font-size:9px;font-weight:800;padding:3px 8px;border-radius:99px;flex-shrink:0;letter-spacing:.4px}
+.jke-new-tag.free{background:#e6f7f1;color:#0f766e}
+.jke-new-tag.lock{background:#f3e8fd;color:#7c3aed}
+.jke-new-tag.open{background:#eaf3fb;color:#1a4a7a}
+
+/* Wide desktop: pin the panel into the empty left gutter */
+@media (min-width:1320px){
+  #jke-new-box{position:fixed;top:calc(var(--nav) + 16px);left:calc(50% - 634px);width:270px;margin:0;z-index:50;max-height:calc(100vh - var(--nav) - 32px);display:flex}
+  .jke-new{display:flex;flex-direction:column;width:100%;max-height:100%;min-height:0}
+  .jke-new-list{flex-direction:column;overflow-y:auto;overflow-x:hidden;scroll-snap-type:none;padding-right:2px}
+  .jke-new-card{flex:0 0 auto;width:100%}
+}
 </style>
 
 
@@ -4797,6 +4826,7 @@
         <input type="text" id="dash-search" class="jke-search-input" placeholder="Search tests by name or subject..." oninput="SEARCH.dashboard(this.value)" />
         <button type="button" class="jke-search-clear" id="dash-search-clear" onclick="SEARCH.clearDashboard()">✕</button>
       </div>
+            <div id="jke-new-box" style="display:none"></div>
       <div class="mtabs">
         <div class="mt on" id="mt-free" onclick="switchTab('free')">
           📋 Free Tests<span class="mt-cnt" id="mc-free">0</span>
@@ -6522,6 +6552,7 @@ return (
   }
 
   function renderDashboardTests(tests, isSearch) {
+        renderNewTests(isSearch);
     var u = ST.user;
     var pp = u.purchasedPacks || [];
     var premActive = document.getElementById("mt-prem").classList.contains("on");
@@ -6639,6 +6670,79 @@ return (
     if (el) el.value = "";
     SEARCH.publicCat("");
   };
+    // ═══════════════════════════════════════
+  //  NEW TESTS PANEL (last 14 days, newest first)
+  // ═══════════════════════════════════════
+  function renderNewTests(isSearch) {
+    var box = document.getElementById("jke-new-box");
+    if (!box) return;
+    var tests = ST.tests || [];
+    if (isSearch || !ST.user || !tests.length) {
+      box.style.display = "none";
+      box.innerHTML = "";
+      return;
+    }
+    var today = new Date();
+    today.setHours(0, 0, 0, 0);
+    var pp = ST.user.purchasedPacks || [];
+
+    var items = [];
+    tests.forEach(function (t) {
+      var d = t.dateAdded ? new Date(t.dateAdded) : null;
+      if (!d || isNaN(d.getTime())) return;
+      d.setHours(0, 0, 0, 0);
+      var age = Math.round((today - d) / 864e5);
+      if (age < 0 || age > 14) return;
+      items.push({ t: t, age: age });
+    });
+    items.sort(function (a, b) {
+      if (a.age !== b.age) return a.age - b.age;
+      return (b.t.testId || "").localeCompare(a.t.testId || "");
+    });
+    items = items.slice(0, 8);
+
+    if (!items.length) {
+      box.style.display = "none";
+      box.innerHTML = "";
+      return;
+    }
+
+    var cards = items.map(function (x) {
+      var t = x.t;
+      var paid = t.access === "paid";
+      var pk = (t.packId || "").trim() || examFromId(t.testId);
+      var unlocked = !paid || pp.indexOf(pk) >= 0 || !!(ST._unlocked && ST._unlocked[pk]);
+      var g = paid ? pk : (t.examGroup || examFromId(t.testId) || "general");
+      var ex = EX[g] || { name: g, icon: "\uD83D\uDCDA" };
+      var when = x.age === 0 ? "Today" : x.age === 1 ? "Yesterday" : x.age + "d ago";
+      var tag = !paid
+        ? '<span class="jke-new-tag free">FREE</span>'
+        : unlocked
+          ? '<span class="jke-new-tag open">OPEN</span>'
+          : '<span class="jke-new-tag lock">\uD83D\uDD12 PRO</span>';
+      return (
+        '<div class="jke-new-card" data-tid="' + escHtml(t.testId) + '" data-pk="' + escHtml(pk) + '" data-open="' + (unlocked ? "1" : "0") + '">' +
+        '<div class="jke-new-ico">' + (ex.icon || "\uD83D\uDCDD") + "</div>" +
+        '<div class="jke-new-body"><div class="jke-new-name">' + escHtml(t.testName) + "</div>" +
+        '<div class="jke-new-meta"><b>' + when + "</b> \u00B7 " + escHtml(ex.name) + "</div></div>" +
+        tag + "</div>"
+      );
+    }).join("");
+
+    box.innerHTML =
+      '<div class="jke-new"><div class="jke-new-hd">' +
+      '<div class="jke-new-ttl"><span class="jke-new-pulse"></span>Just Added</div>' +
+      '<span class="jke-new-cnt">' + items.length + " new</span></div>" +
+      '<div class="jke-new-list">' + cards + "</div></div>";
+    box.style.display = "";
+
+    box.onclick = function (e) {
+      var c = e.target.closest(".jke-new-card");
+      if (!c) return;
+      if (c.dataset.open === "1") handleStartTest(c.dataset.tid, "b");
+      else handleBuy(c.dataset.pk);
+    };
+  }
 
   function switchTab(t) {
     document.getElementById("mt-free").classList.toggle("on", t === "free");
