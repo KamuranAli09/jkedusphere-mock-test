@@ -4503,6 +4503,15 @@
 .mt:hover{border-color:var(--bd2)}
 .mt.on{border-color:transparent}
 .mt-cnt{font-size:9.5px;padding:1px 6px}
+  /* ═══ MY PACKS TAB ═══ */
+.mt.on.mine{background:linear-gradient(135deg,var(--g2),var(--g));box-shadow:0 2px 10px rgba(13,148,136,.3)}
+.jke-mp-sum{background:var(--s1bg);border:1px solid var(--bd);border-radius:var(--r12);padding:11px 14px;margin-bottom:8px;box-shadow:var(--sh1)}
+.jke-mp-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:7px}
+.jke-mp-n{font-size:13px;font-weight:800;color:#0d2b52}
+.jke-mp-c{font-size:11px;font-weight:700;color:var(--t3);font-family:var(--m);white-space:nowrap}
+.jke-mp-track{height:7px;background:var(--s3bg);border-radius:99px;overflow:hidden}
+.jke-mp-fill{height:100%;background:linear-gradient(90deg,var(--g),var(--g2));border-radius:99px;transition:width .6s}
+.jke-mp-gap{height:6px}
 </style>
 
 
@@ -4969,9 +4978,13 @@
         <div class="mt prem" id="mt-prem" onclick="switchTab('prem')">
           🔒 Premium<span class="mt-cnt" id="mc-prem">0</span>
         </div>
+                <div class="mt mine" id="mt-mine" onclick="switchTab('mine')">
+          &#128230; My Packs<span class="mt-cnt" id="mc-mine">0</span>
+        </div>
       </div>
       <div class="tab-pane on" id="tp-free"></div>
       <div class="tab-pane" id="tp-prem"></div>
+            <div class="tab-pane" id="tp-mine"></div>
             <div id="jke-side-box"></div>
       <!-- FAQ -->
       <div class="faq-section">
@@ -6693,7 +6706,8 @@ return (
     if (!isSearch) SIDE.refresh();
     var u = ST.user;
     var pp = u.purchasedPacks || [];
-    var premActive = document.getElementById("mt-prem").classList.contains("on");
+        var premActive = document.getElementById("mt-prem").classList.contains("on");
+    var mineActive = document.getElementById("mt-mine").classList.contains("on");
     tests.sort(function (a, b) {
       var da = a.dateAdded ? new Date(a.dateAdded).getTime() : 0;
       var db = b.dateAdded ? new Date(b.dateAdded).getTime() : 0;
@@ -6733,7 +6747,7 @@ return (
       });
     }
     document.getElementById("tp-free").innerHTML = fHtml;
-    document.getElementById("tp-free").classList.toggle("on", !premActive);
+        document.getElementById("tp-free").classList.toggle("on", !premActive && !mineActive);
 
     // Premium tab
     var pHtml = "";
@@ -6770,6 +6784,7 @@ return (
     }
     document.getElementById("tp-prem").innerHTML = pHtml;
     document.getElementById("tp-prem").classList.toggle("on", premActive);
+        renderMyPacks(paid, pp, isSearch, mineActive);
   }
 
   // ═══════════════════════════════════════
@@ -7109,8 +7124,21 @@ return (
     if (SIDE.busy) return;
     SIDE.busy = true;
     var pending = 2;
-    function done() {
-      if (--pending === 0) { SIDE.busy = false; SIDE.t = Date.now(); SIDE.render(); }
+        function done() {
+      if (--pending === 0) {
+        SIDE.busy = false;
+        SIDE.t = Date.now();
+        SIDE.render();
+        var ds = document.getElementById("dash-search");
+        if (ST.tests && !(ds && ds.value.trim())) {
+          renderMyPacks(
+            ST.tests.filter(function (t) { return t.access === "paid"; }),
+            (ST.user.purchasedPacks || []),
+            false,
+            document.getElementById("mt-mine").classList.contains("on")
+          );
+        }
+      }
     }
     api({ action: "getStudentHistory", email: ST.user.email }, function (err, d) {
       if (!err && d && d.success) HIST.data = d.history || [];
@@ -7134,12 +7162,69 @@ return (
     else if (a === "nav") goNav(b.dataset.to);
     else if (a === "lbtab") { SIDE.lbPack = b.dataset.pk; SIDE.render(); SIDE.loadLB(); }
   });
+    function renderMyPacks(paid, pp, isSearch, mineActive) {
+    var pane = document.getElementById("tp-mine");
+    if (!pane) return;
+    var owned = (pp || []).slice();
+    Object.keys(ST._unlocked || {}).forEach(function (k) {
+      if (ST._unlocked[k] && owned.indexOf(k) < 0) owned.push(k);
+    });
+    owned = owned.filter(Boolean);
+    tx("mc-mine", owned.length);
+    pane.classList.toggle("on", !!mineActive);
 
-  function switchTab(t) {
-    document.getElementById("mt-free").classList.toggle("on", t === "free");
-    document.getElementById("mt-prem").classList.toggle("on", t === "prem");
-    document.getElementById("tp-free").classList.toggle("on", t === "free");
-    document.getElementById("tp-prem").classList.toggle("on", t === "prem");
+    if (!owned.length) {
+      pane.innerHTML =
+        '<div class="empty-state"><div class="es-icon">\uD83D\uDCE6</div><div class="es-title">No packs yet</div>' +
+        '<div class="es-sub">Packs you buy will appear here with your progress.</div>' +
+        '<button class="btn-primary" style="max-width:240px;margin:14px auto 0" onclick="switchTab(\'prem\')">Browse Premium Packs \u2192</button></div>';
+      return;
+    }
+
+    function gid(t) { return (t.packId || "").trim() || examFromId(t.testId) || "general"; }
+    var shown = {}, totals = {};
+    paid.forEach(function (t) {
+      var g = gid(t);
+      if (owned.indexOf(g) >= 0) (shown[g] = shown[g] || []).push(t);
+    });
+    (ST.tests || []).forEach(function (t) {
+      if (t.access !== "paid") return;
+      var g = gid(t);
+      if (owned.indexOf(g) >= 0) (totals[g] = totals[g] || []).push(t);
+    });
+    var att = {};
+    var haveHist = Array.isArray(HIST.data);
+    if (haveHist) HIST.data.forEach(function (r) { att[r.testId] = true; });
+
+    var html = "";
+    owned.forEach(function (pid) {
+      var ts = shown[pid] || [];
+      var ex = EX[pid] || { icon: "\uD83D\uDCDA", name: (PACKS[pid] && PACKS[pid].name) || pid, sub: "" };
+      var tot = totals[pid] || [];
+      if (isSearch && !ts.length) return;
+      var sum = "";
+      if (tot.length && haveHist) {
+        var done = tot.filter(function (t) { return att[t.testId]; }).length;
+        sum = '<div class="jke-mp-sum"><div class="jke-mp-top"><span class="jke-mp-n">Your progress</span><span class="jke-mp-c">' +
+          done + " / " + tot.length + ' tests done</span></div><div class="jke-mp-track"><div class="jke-mp-fill" style="width:' +
+          (done / tot.length * 100).toFixed(0) + '%"></div></div></div>';
+      }
+      if (!ts.length) {
+        html += sum + '<div class="exam-folder"><div class="ef-head"><div class="ef-icon">' + ex.icon + '</div><div class="ef-info"><div class="ef-name">' +
+          escHtml(ex.name) + '</div><div class="ef-sub">Tests are being added \u2013 check back soon</div></div></div></div><div class="jke-mp-gap"></div>';
+      } else {
+        html += sum + buildFolder(pid, ex, ts, true, null, isSearch || owned.length === 1, false);
+      }
+    });
+    pane.innerHTML = html ||
+      '<div class="empty-state"><div class="es-icon">\uD83D\uDD0D</div><div class="es-title">No matching tests</div><div class="es-sub">Try a different search term</div></div>';
+  }
+
+    function switchTab(t) {
+    ["free", "prem", "mine"].forEach(function (k) {
+      document.getElementById("mt-" + k).classList.toggle("on", k === t);
+      document.getElementById("tp-" + k).classList.toggle("on", k === t);
+    });
   }
 
 function toggleFolder(head) {
@@ -7891,9 +7976,11 @@ function togglePalette() {
     var calcMsg = CALC_MSGS[Math.floor(Math.random() * CALC_MSGS.length)];
     document.getElementById("tp-free").innerHTML =
       '<div class="spin-box"><div class="spin"></div><div class="spin-lbl">' + calcMsg + "</div></div>";
-    document.getElementById("tp-free").classList.add("on");
+        document.getElementById("tp-free").classList.add("on");
     document.getElementById("tp-prem").classList.remove("on");
     document.getElementById("tp-prem").innerHTML = "";
+    document.getElementById("tp-mine").classList.remove("on");
+    document.getElementById("tp-mine").innerHTML = "";
     document.getElementById("home-pg").classList.add("calculating");
 
     apiPost(
