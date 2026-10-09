@@ -123,94 +123,16 @@
   color: var(--bd2);
   font-size: 11px;
 }
-  /* ═══ RIGHT SIDE PANEL (progress / countdown / leaderboard / promo) ═══ */
-#jke-side-box{margin-top:20px;display:flex;flex-direction:column;gap:12px}
+#jke-side-box{margin-top:20px}
 #home-pg.calculating #jke-side-box{display:none !important}
-.jke-sd-card{background:var(--s1bg);border:1px solid var(--bd);border-radius:var(--r16);padding:14px;box-shadow:var(--sh1)}
-.jke-sd-ttl{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.7px;color:var(--t3);margin-bottom:11px;display:flex;justify-content:space-between;align-items:center;gap:8px}
-.jke-sd-ttl small{font-size:10px;text-transform:none;letter-spacing:0;font-weight:700;color:var(--t4)}
-.jke-sd-sub{font-size:12px;color:var(--t2);line-height:1.6;font-weight:500}
-.jke-sd-btn{display:block;width:100%;margin-top:11px;padding:10px 12px;border-radius:var(--r8);background:linear-gradient(135deg,#1a4a7a,#0d2b52);color:#fff;font-size:12px;font-weight:700;border:none;cursor:pointer;font-family:var(--f);text-align:center;line-height:1.35;box-shadow:0 4px 12px rgba(26,74,122,.22);transition:all .15s}
-.jke-sd-btn:hover{transform:translateY(-1px)}
-.jke-sd-btn.ghost{background:var(--s2bg);color:var(--t2);border:1.5px solid var(--bd);box-shadow:none}
-.jke-sd-btn.buy{background:linear-gradient(135deg,#f0b429,#e8820c);box-shadow:0 4px 14px rgba(232,130,12,.3)}
-.jke-sd-link{display:block;text-align:center;margin-top:8px;font-size:11px;font-weight:700;color:var(--t3);background:none;border:none;cursor:pointer;font-family:var(--f);width:100%}
-.jke-sd-link:hover{color:var(--p)}
-
-/* progress */
-.jke-sd-prog{display:flex;align-items:center;gap:14px}
-.jke-sd-ring{position:relative;width:76px;height:76px;flex-shrink:0}
-.jke-sd-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
-.jke-sd-ring-bg{fill:none;stroke:var(--s3bg);stroke-width:3.6}
-.jke-sd-ring-fg{fill:none;stroke:var(--p);stroke-width:3.6;stroke-linecap:round}
-.jke-sd-ring-v{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--m);font-size:20px;font-weight:800;color:var(--t1);line-height:1}
-.jke-sd-ring-v small{font-family:var(--f);font-size:8px;font-weight:700;color:var(--t4);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
-.jke-sd-lvl{font-size:15px;font-weight:800;color:#0d2b52;margin-bottom:6px}
-.jke-sd-mini{display:flex;gap:12px;flex-wrap:wrap}
-.jke-sd-mini div{font-size:10px;color:var(--t3);font-weight:600;text-transform:uppercase;letter-spacing:.4px}
-.jke-sd-mini strong{display:block;font-family:var(--m);font-size:14px;color:var(--t1);letter-spacing:0;margin-bottom:1px}
-
-/* countdown */
-.jke-sd-cd{padding:11px 12px;border-radius:var(--r12);background:var(--pl);border:1px solid var(--pm);margin-bottom:8px}
-.jke-sd-cd:last-child{margin-bottom:0}
-.jke-sd-cd.warn{background:var(--ol);border-color:var(--om)}
-.jke-sd-cd.hot{background:var(--rl);border-color:var(--rm)}
-.jke-sd-cd-top{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
-.jke-sd-cd-n{font-size:12.5px;font-weight:700;color:var(--t1)}
-.jke-sd-cd-d{font-family:var(--m);font-size:22px;font-weight:800;color:var(--p);line-height:1}
-.jke-sd-cd.warn .jke-sd-cd-d{color:var(--o)}
-.jke-sd-cd.hot .jke-sd-cd-d{color:var(--r)}
-.jke-sd-cd-d small{font-family:var(--f);font-size:10px;font-weight:700;margin-left:3px}
-.jke-sd-track{height:6px;background:rgba(0,0,0,.07);border-radius:99px;overflow:hidden;margin-top:8px}
-.jke-sd-fill{height:100%;background:linear-gradient(90deg,var(--g),var(--g2));border-radius:99px}
-.jke-sd-cd-s{font-size:10.5px;color:var(--t3);font-weight:600;margin-top:5px}
-
-/* focus topic */
-.jke-sd-focus{display:flex;align-items:center;gap:11px}
-.jke-sd-focus-pct{font-family:var(--m);font-size:20px;font-weight:800;color:var(--r);flex-shrink:0;min-width:54px;text-align:center;padding:8px 6px;border-radius:var(--r12);background:var(--rl);border:1px solid var(--rm)}
-
-/* leaderboard */
-.jke-sd-pills{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}
-.jke-sd-pill{padding:4px 10px;border-radius:99px;font-size:10.5px;font-weight:700;background:var(--s2bg);color:var(--t3);border:1px solid var(--bd);cursor:pointer;font-family:var(--f);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.jke-sd-pill.on{background:var(--p);color:#fff;border-color:var(--p)}
-.jke-sd-row{display:flex;align-items:center;gap:9px;padding:8px 9px;border-radius:var(--r8);margin-bottom:5px;background:var(--s2bg);border:1px solid transparent}
-.jke-sd-row.me{background:var(--pl);border-color:var(--pm)}
-.jke-sd-row-m{font-size:17px;width:22px;text-align:center;flex-shrink:0;font-family:var(--m);font-weight:800;color:var(--t3)}
-.jke-sd-row-b{flex:1;min-width:0}
-.jke-sd-row-n{font-size:12px;font-weight:700;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.jke-sd-row-s{font-size:10px;color:var(--t4);font-weight:600;margin-top:1px}
-.jke-sd-row-r{font-family:var(--m);font-size:11.5px;font-weight:800;color:var(--o);background:var(--ol);border:1px solid var(--om);padding:2px 8px;border-radius:99px;flex-shrink:0}
-.jke-sd-you{margin-top:8px;padding:8px 10px;border-radius:var(--r8);background:var(--pl);border:1px dashed var(--pm);font-size:11.5px;font-weight:700;color:var(--p);text-align:center}
-.jke-sd-skel{height:12px;border-radius:6px;margin-bottom:8px}
-
-/* promo */
-.jke-sd-promo{background:linear-gradient(160deg,#0d2b52,#1a4a7a 70%,#2f7bb8);border:none;color:#fff}
-.jke-sd-promo .jke-sd-ttl{color:rgba(255,255,255,.7)}
-.jke-sd-promo-n{font-size:15px;font-weight:800;line-height:1.3;margin-bottom:8px}
-.jke-sd-promo-p{display:flex;align-items:baseline;gap:8px;margin-bottom:9px}
-.jke-sd-promo-p b{font-family:var(--m);font-size:26px;font-weight:800;letter-spacing:-1px}
-.jke-sd-promo-p s{font-size:13px;opacity:.6;font-weight:600}
-.jke-sd-promo-p em{font-style:normal;font-size:10px;font-weight:800;background:#f0b429;color:#0d2b52;padding:2px 8px;border-radius:99px}
-.jke-sd-promo ul{list-style:none;margin-bottom:2px}
-.jke-sd-promo li{font-size:11.5px;font-weight:500;line-height:1.5;padding:2px 0 2px 16px;position:relative;opacity:.92}
-.jke-sd-promo li::before{content:"\2713";position:absolute;left:0;color:#7ee2b8;font-weight:800}
-.jke-sd-promo .jke-sd-link{color:rgba(255,255,255,.7)}
-.jke-sd-promo .jke-sd-link:hover{color:#fff}
-
-/* community */
-.jke-sd-soc{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.jke-sd-soc a{padding:10px 8px;border-radius:var(--r8);font-size:12px;font-weight:700;text-align:center;color:#fff;transition:all .15s}
-.jke-sd-soc a:hover{transform:translateY(-1px)}
-.jke-sd-soc .tg{background:#229ed9}.jke-sd-soc .wa{background:#25a244}
-.jke-sd-note{margin-bottom:10px;padding:9px 11px;border-radius:var(--r8);background:var(--ol);border-left:3px solid var(--o);font-size:11.5px;font-weight:600;color:var(--t2);line-height:1.55}
 
 /* Desktop: pin to the empty RIGHT gutter (mirror of the "Just Added" panel) */
-@media (min-width:1100px){
+@media (min-width:900px){
   #jke-side-box{
     position:fixed;
     top:calc(var(--nav) + 16px);
-    left:calc(50% + 356px);
-    width:clamp(180px, calc(50vw - 370px), 300px);
+    left:calc(50% + var(--colw) / 2 + 16px);
+    width:var(--sw);
     margin:0;
     z-index:50;
     max-height:calc(100vh - var(--nav) - 32px);
@@ -1643,20 +1565,6 @@
     transform: translateY(-1px);
     box-shadow: 0 5px 18px rgba(255, 128, 48, 0.4);
   }
-  .already-btn {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--t3);
-    background: none;
-    border: none;
-    cursor: pointer;
-    text-decoration: underline;
-    text-align: right;
-    transition: color 0.15s;
-  }
-  .already-btn:hover {
-    color: var(--t2);
-  }
   @media (max-width: 480px) {
     .lock-strip {
       flex-direction: column;
@@ -2112,26 +2020,6 @@
     color: var(--t4);
     margin-top: 10px;
     line-height: 1.65;
-  }
-  .btn-verify {
-    width: 100%;
-    padding: 13px;
-    border-radius: var(--r8);
-    background: linear-gradient(135deg, var(--p), var(--p2));
-    color: #fff;
-    font-size: 13px;
-    font-weight: 700;
-    transition: all 0.18s;
-    box-shadow: 0 3px 12px rgba(72, 45, 255, 0.25);
-  }
-  .btn-verify:hover {
-    transform: translateY(-1px);
-  }
-  .btn-verify:disabled {
-    opacity: 0.45;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
   }
   .price-row {
     display: flex;
@@ -4034,7 +3922,7 @@
   margin-top: 12px; width: 100%;
 }
   .ls-feat { line-height: 1.4; }
-.ef-count, .ef-badge, .ch, .already-btn {
+.ef-count, .ef-badge, .ch {
   white-space: nowrap;
   flex-shrink: 0;
 }
@@ -4058,7 +3946,6 @@
   box-shadow: 0 6px 18px rgba(26,74,122,0.25);
 }
 .btn-buy:hover { box-shadow: 0 8px 22px rgba(26,74,122,0.35); }
-.already-btn { color: #94a3b8; }
 
 /* ── Test cards inside folder → clean minimal rows ── */
   .tc {
@@ -4462,12 +4349,12 @@
 
 /* Desktop: pin the panel in the empty left gutter, just left of the tests column.
    Width auto-fits the available gutter (works at any browser zoom). */
-@media (min-width:1100px){
+@media (min-width:900px){
   #jke-new-box{
     position:fixed;
     top:calc(var(--nav) + 16px);
-    right:calc(50% + 356px);          /* 340px = half of the 680px column, +16px gap */
-    width:clamp(180px, calc(50vw - 370px), 300px);
+    right:calc(50% + var(--colw) / 2 + 16px);
+    width:var(--sw);
     margin:0;
     z-index:50;
     max-height:calc(100vh - var(--nav) - 32px);
@@ -4505,13 +4392,7 @@
 .mt-cnt{font-size:9.5px;padding:1px 6px}
   /* ═══ MY PACKS TAB ═══ */
 .mt.on.mine{background:linear-gradient(135deg,var(--g2),var(--g));box-shadow:0 2px 10px rgba(13,148,136,.3)}
-.jke-mp-sum{background:var(--s1bg);border:1px solid var(--bd);border-radius:var(--r12);padding:11px 14px;margin-bottom:8px;box-shadow:var(--sh1)}
-.jke-mp-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:7px}
-.jke-mp-n{font-size:13px;font-weight:800;color:#0d2b52}
-.jke-mp-c{font-size:11px;font-weight:700;color:var(--t3);font-family:var(--m);white-space:nowrap}
-.jke-mp-track{height:7px;background:var(--s3bg);border-radius:99px;overflow:hidden}
-.jke-mp-fill{height:100%;background:linear-gradient(90deg,var(--g),var(--g2));border-radius:99px;transition:width .6s}
-.jke-mp-gap{height:6px}
+
 </style>
 
 
@@ -4555,6 +4436,57 @@
 </div>
 
 <!-- Auth modal -->
+<!-- ══ TERMS & CONDITIONS POPUP ══ -->
+<div id="tnc-modal" aria-hidden="true">
+  <div class="tnc-box" role="dialog" aria-modal="true" aria-labelledby="tnc-ttl">
+    <div class="tnc-hd">
+      <div id="tnc-ttl">Terms &amp; Conditions</div>
+      <button type="button" class="tnc-x" onclick="TNC.close()" aria-label="Close">&times;</button>
+    </div>
+    <div class="tnc-body">
+      <p class="tnc-lead">Please read this before purchasing a premium pack on JKEdusphere.</p>
+      <h4>1. Information we save</h4>
+      <ul>
+        <li><b>Account details:</b> your name and email address.</li>
+        <li><b>Test activity:</b> tests attempted, your answers, scores, time taken, ranks and performance history.</li>
+        <li><b>Purchase records:</b> the pack you bought, order and payment reference IDs, and date of purchase. Payments are processed by Razorpay; we never see or store your card, UPI or bank details.</li>
+        <li><b>Device &amp; usage data:</b> basic browser/device information and anonymous usage analytics (Google Analytics) to keep the site fast and reliable.</li>
+        <li><b>On your device:</b> a login session is stored in your browser so you stay signed in.</li>
+      </ul>
+      <h4>2. How we use it</h4>
+      <ul>
+        <li>To create your account and unlock the pack you purchased.</li>
+        <li>To show your results, performance analysis, progress and leaderboards. On leaderboards your name is shown and your email is masked.</li>
+        <li>To send important updates about your purchase and to provide support.</li>
+        <li>To improve tests, content and the platform.</li>
+      </ul>
+      <h4>3. Your data</h4>
+      <ul>
+        <li>We do not sell your personal information to anyone.</li>
+        <li>We share data only with service providers needed to run the platform (such as payments, hosting and analytics).</li>
+        <li>You can ask us to correct or delete your account data by contacting support.</li>
+      </ul>
+      <h4>4. Your purchase</h4>
+      <ul>
+        <li>A pack is a one-time digital purchase with lifetime access to that pack, including tests added to it in future, for as long as JKEdusphere operates.</li>
+        <li>Access is for you alone. Sharing your account, or copying, recording or reselling questions and content, is not allowed and may lead to access being withdrawn.</li>
+        <li>Premium tests may have attempt limits (for example, one attempt per week) as shown on each test.</li>
+        <li>If a payment is deducted but access is not unlocked, contact us on Telegram or WhatsApp and we will resolve it.</li>
+      </ul>
+      <h4>5. Disclaimer</h4>
+      <ul>
+        <li>Tests are practice material to help you prepare. We do not guarantee any exam result or selection.</li>
+        <li>We may update these terms from time to time. Continued use means you accept the updated terms.</li>
+      </ul>
+      <p class="tnc-foot">See also our <a href="https://www.jkedusphere.online/p/privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a>.</p>
+    </div>
+    <div class="tnc-ft">
+      <button type="button" class="tnc-btn ghost" onclick="TNC.close()">Close</button>
+      <button type="button" class="tnc-btn" onclick="TNC.accept()">I Agree</button>
+    </div>
+  </div>
+</div>
+
 <div id="auth-modal">
   <div class="auth-card">
     <div class="auth-hero">
@@ -4962,24 +4894,24 @@
   <div class="page" id="home-pg">
     <div class="wrap">
        <div class="dash-greet">
-        <div class="dg-name">Hello, <span id="db-name">Student</span> 👋</div>
+        <div class="dg-name">Hello, <span id="db-name">Student</span></div>
         <div class="dg-sub" id="db-sub">Ready to practice?</div>
       </div>
+      <div id="jke-new-box" style="display:none"></div>
       <div class="jke-search-wrap">
 
         <input type="text" id="dash-search" class="jke-search-input" placeholder="Search tests by name or subject..." oninput="SEARCH.dashboard(this.value)" />
         <button type="button" class="jke-search-clear" id="dash-search-clear" onclick="SEARCH.clearDashboard()">✕</button>
       </div>
-            <div id="jke-new-box" style="display:none"></div>
       <div class="mtabs">
         <div class="mt on" id="mt-free" onclick="switchTab('free')">
-          📋 Free Tests<span class="mt-cnt" id="mc-free">0</span>
+          Free<span class="mt-cnt" id="mc-free">0</span>
         </div>
         <div class="mt prem" id="mt-prem" onclick="switchTab('prem')">
-          🔒 Premium<span class="mt-cnt" id="mc-prem">0</span>
+          Premium<span class="mt-cnt" id="mc-prem">0</span>
         </div>
                 <div class="mt mine" id="mt-mine" onclick="switchTab('mine')">
-          &#128230; My Packs<span class="mt-cnt" id="mc-mine">0</span>
+          My Packs<span class="mt-cnt" id="mc-mine">0</span>
         </div>
       </div>
       <div class="tab-pane on" id="tp-free"></div>
@@ -5038,29 +4970,15 @@
             <label class="g-lbl">Email Address</label>
             <input class="g-in" type="email" id="b-email" placeholder="your@email.com" />
           </div>
+          <label class="tnc-row" id="b-tnc-row">
+            <input type="checkbox" id="b-tnc" onchange="document.getElementById('b-tnc-row').classList.remove('err')" />
+            <span>I have read and agree to the <a onclick="event.preventDefault();event.stopPropagation();TNC.open()">Terms &amp; Conditions</a>, including how my name, email and test data are saved and used.</span>
+          </label>
           <button class="btn-pay" id="g-pbtn" onclick="GATE.pay()">
             <span>💳</span><span id="pay-btn-text">Pay Securely &amp; Unlock</span>
           </button>
           <div class="pay-secure">🔒 Powered by Razorpay · Secure Checkout</div>
           <p class="pay-note">One-time payment · Lifetime access · All future tests included</p>
-          <!-- Already purchased? link -->
-          <div style="text-align:center;margin-top:14px;padding-top:14px;border-top:1px solid var(--bd)">
-            <span style="font-size:12.5px;color:var(--t3)">Already purchased?</span>
-            <button onclick="showVerifySection()" style="margin-left:6px;font-size:12.5px;font-weight:700;color:var(--p);background:none;border:none;cursor:pointer;padding:0">Verify access &rarr;</button>
-          </div>
-          <!-- Verify section (revealed when clicking above) -->
-          <div id="verify-section" style="display:none;margin-top:14px;padding:16px;background:var(--s2bg);border-radius:var(--r8);border:1px solid var(--bd)">
-            <div class="al" id="g-err"></div>
-            <div class="al" id="g-ok"></div>
-            <div class="g-fl">
-              <label class="g-lbl">Email used during payment</label>
-              <input class="g-in" type="email" id="g-email" placeholder="your@email.com" />
-            </div>
-            <button class="btn-verify" id="g-vbtn" onclick="GATE.verify()">
-              Verify &amp; Unlock &rarr;
-            </button>
-            <p class="g-note">Enter the exact email you used during payment. Access activates instantly.</p>
-          </div>
         </div>
         <!-- Mode picker (shown once access is confirmed \u2014 free tests, or already-purchased/verified premium tests) -->
         <div id="gate-mode-body" style="display:none;padding:18px 20px 20px">
@@ -6496,9 +6414,6 @@ pk.includes
         "')\">" +
         (ST.user ? "Buy Now" : "Sign In to Buy") +
         "</button>" +
-        '<button class="already-btn" onclick="handleVerify(\'' +
-        packId +
-        "')\">Already purchased?</button>" +
         "</div>" +
         "</div>";
     }
@@ -6629,14 +6544,6 @@ return (
     }
     openBuy(packId);
   }
-  function handleVerify(packId) {
-    if (!ST.user) {
-      openAuthModal("si");
-      toast("Sign in to verify purchase", "warn");
-      return;
-    }
-    openVerify(packId);
-  }
   function handleHeroAK() {
     if (ST.user) {
       goNav("ak");
@@ -6701,8 +6608,7 @@ return (
   }
 
   function renderDashboardTests(tests, isSearch) {
-        renderNewTests(isSearch);
-        renderNewTests(isSearch);
+    renderNewTests(isSearch);
     if (!isSearch) SIDE.refresh();
     var u = ST.user;
     var pp = u.purchasedPacks || [];
@@ -6868,24 +6774,18 @@ return (
       var g = paid ? pk : (t.examGroup || examFromId(t.testId) || "general");
       var ex = EX[g] || { name: g, icon: "\uD83D\uDCDA" };
       var when = x.age === 0 ? "Today" : x.age === 1 ? "Yesterday" : x.age + "d ago";
-      var tag = !paid
-        ? '<span class="jke-new-tag free">FREE</span>'
-        : unlocked
-          ? '<span class="jke-new-tag open">OPEN</span>'
-          : '<span class="jke-new-tag lock">\uD83D\uDD12 PRO</span>';
+      var tag = !paid ? '<span class="jke-new-pill free">FREE</span>' : unlocked ? '<span class="jke-new-pill open">OPEN</span>' : '<span class="jke-new-pill pro">PRO</span>';
       return (
         '<div class="jke-new-card" data-tid="' + escHtml(t.testId) + '" data-pk="' + escHtml(pk) + '" data-open="' + (unlocked ? "1" : "0") + '">' +
         '<div class="jke-new-ico">' + (ex.icon || "\uD83D\uDCDD") + "</div>" +
-        '<div class="jke-new-body"><div class="jke-new-name">' + escHtml(t.testName) + "</div>" +
-        '<div class="jke-new-meta"><b>' + when + "</b> \u00B7 " + escHtml(ex.name) + "</div></div>" +
-        tag + "</div>"
+        '<div><div class="jke-new-name">' + escHtml(t.testName) + "</div>" +
+        '<div class="jke-new-meta"><b>' + when + "</b><span>" + escHtml(ex.name) + "</span>" + tag + "</div></div></div>"
       );
     }).join("");
 
     box.innerHTML =
       '<div class="jke-new"><div class="jke-new-hd">' +
-      '<div class="jke-new-ttl"><span class="jke-new-pulse"></span>Just Added</div>' +
-      '<span class="jke-new-cnt">' + items.length + " new</span></div>" +
+      '<div class="jke-new-ttl"><span class="jke-new-pulse"></span>Just added</div></div>' +
       '<div class="jke-new-list">' + cards + "</div></div>";
     box.style.display = "";
 
@@ -6945,46 +6845,36 @@ return (
     var sameName = (r.name || "").trim().toLowerCase() === (u.name || "").trim().toLowerCase();
     return sameName && re.charAt(0) === ue.charAt(0) && re.indexOf(ue.split("@")[1] || "~") >= 0;
   };
-  SIDE.card = function (ico, title, body, cls, small) {
-    return '<div class="jke-sd-card' + (cls ? " " + cls : "") + '"><div class="jke-sd-ttl"><span>' + ico + " " + title +
-      "</span>" + (small ? "<small>" + small + "</small>" : "") + "</div>" + body + "</div>";
+  SIDE.sec = function (label, body, cls) {
+    return '<section class="sd-card' + (cls ? " " + cls : "") + '">' + (label ? '<div class="sd-lbl">' + label + "</div>" : "") + body + "</section>";
   };
 
   // ---- 1. progress ----
   SIDE.cProgress = function () {
     var nxt = SIDE.nextTest();
     var nxtBtn = nxt
-      ? '<button class="jke-sd-btn" data-act="start" data-tid="' + escHtml(nxt.testId) + '">Start next: ' +
-        escHtml(nxt.testName.length > 34 ? nxt.testName.slice(0, 33) + "\u2026" : nxt.testName) + " \u2192</button>"
+      ? '<button class="sd-cta" data-act="start" data-tid="' + escHtml(nxt.testId) + '"><span>Next: ' + escHtml(nxt.testName) + "</span><i>\u2192</i></button>"
       : "";
     var h = HIST.data;
     if (h === null || h === undefined) {
-      return SIDE.card("\uD83D\uDCCA", "Your Progress",
-        '<div class="skel jke-sd-skel" style="width:70%"></div><div class="skel jke-sd-skel" style="width:45%"></div>');
+      return SIDE.sec("Your progress", '<div class="skel sd-skel" style="width:40%;height:34px"></div><div class="skel sd-skel" style="width:75%"></div><div class="skel sd-skel" style="width:60%"></div>', "sd-hero");
     }
     if (!h.length) {
-      return SIDE.card("\uD83D\uDCCA", "Your Progress",
-        '<div class="jke-sd-sub">Take your first test to unlock your readiness score, streak and personalised tips.</div>' + nxtBtn);
+      return SIDE.sec("Your progress", '<div class="sd-muted" style="margin-bottom:14px">Take your first test to see your readiness, streak and tips.</div>' + nxtBtn, "sd-hero");
     }
     var arr = h.slice().sort(function (a, b) { return HIST.ts(b) - HIST.ts(a); });
     var o = HIST.agg(arr), rd = HIST.readiness(arr), act = HIST.activity();
-    var body =
-      '<div class="jke-sd-prog"><div class="jke-sd-ring"><svg viewBox="0 0 36 36"><circle class="jke-sd-ring-bg" cx="18" cy="18" r="15.9155"/>' +
-      '<circle class="jke-sd-ring-fg" cx="18" cy="18" r="15.9155" stroke-dasharray="' + rd.score + " " + (100 - rd.score) + '"/></svg>' +
-      '<div class="jke-sd-ring-v">' + rd.score + "<small>Ready</small></div></div>" +
-      '<div><div class="jke-sd-lvl">' + rd.level + '</div><div class="jke-sd-mini">' +
-      "<div><strong>" + o.avg.toFixed(0) + "%</strong>Avg</div>" +
-      "<div><strong>" + act.streak + "d</strong>Streak</div>" +
-      "<div><strong>" + o.n + "</strong>Tests</div></div></div></div>" + nxtBtn +
-      '<button class="jke-sd-link" data-act="nav" data-to="hist">View full analysis \u203A</button>';
-    return SIDE.card("\uD83D\uDCCA", "Your Progress", body);
+    return SIDE.sec("Your progress",
+      '<div class="sd-big"><b>' + rd.score + "</b><span>Readiness<em>" + escHtml(rd.level) + "</em></span></div>" +
+      '<div class="sd-stats"><div><b>' + o.avg.toFixed(0) + "%</b>Avg</div><div><b>" + act.streak + "d</b>Streak</div><div><b>" + o.n + "</b>Tests</div></div>" +
+      nxtBtn +
+      '<button class="sd-link soft" data-act="nav" data-to="hist"><span>Full analysis \u203A</span></button>', "sd-hero");
   };
 
   // ---- 2. exam countdown ----
   SIDE.cCountdown = function () {
     var today = new Date(); today.setHours(0, 0, 0, 0);
     var examName = (ST.user.exam || "");
-    var att = SIDE.attempted();
     var list = EXAM_DATES.map(function (e) {
       var d = new Date(e.date + "T00:00:00");
       var rel = SIDE.isOwned(e.pack) || (PACKS[e.pack] && examName && PACKS[e.pack].name.indexOf(examName) === 0);
@@ -6994,46 +6884,13 @@ return (
     list.sort(function (a, b) { return (b.rel - a.rel) || (a.days - b.days); });
     var show = list.filter(function (x) { return x.rel; }).slice(0, 2);
     if (!show.length) show = [list[0]];
-    var html = show.map(function (x) {
-      var cls = x.days <= 14 ? "hot" : x.days <= 30 ? "warn" : "";
-      var prog = "";
-      if (SIDE.isOwned(x.e.pack)) {
-        var pt = (ST.tests || []).filter(function (t) { return t.access === "paid" && SIDE.pk(t) === x.e.pack; });
-        var done = pt.filter(function (t) { return att[t.testId]; }).length;
-        if (pt.length) {
-          prog = '<div class="jke-sd-track"><div class="jke-sd-fill" style="width:' + (done / pt.length * 100).toFixed(0) + '%"></div></div>' +
-            '<div class="jke-sd-cd-s">' + done + " of " + pt.length + " tests completed</div>";
-        }
-      }
-      return '<div class="jke-sd-cd ' + cls + '"><div class="jke-sd-cd-top"><span class="jke-sd-cd-n">' + escHtml(x.e.name) +
-        '</span><span class="jke-sd-cd-d">' + x.days + "<small>" + (x.days === 1 ? "day" : "days") + "</small></span></div>" + prog + "</div>";
-    }).join("");
-    return SIDE.card("\u23F3", "Exam Countdown", html);
+    return SIDE.sec("Exam countdown", show.map(function (x) {
+      var cls = x.days <= 14 ? " hot" : x.days <= 30 ? " warn" : "";
+      return '<div class="sd-cd"><span class="sd-nm">' + escHtml(x.e.name) + '</span><span class="sd-days' + cls + '">' + x.days + "<small>" + (x.days === 1 ? "day" : "days") + "</small></span></div>";
+    }).join(""));
   };
 
-  // ---- 3. focus topic ----
-  SIDE.cFocus = function () {
-    var areas = (HIST.weak || []).filter(function (a) { return a.attempted >= 3; })
-      .sort(function (a, b) { return a.accuracy - b.accuracy; });
-    if (!areas.length || areas[0].accuracy >= 70) return "";
-    var a = areas[0], u = a.unit.toLowerCase(), att = SIDE.attempted(), match = null;
-    (ST.tests || []).forEach(function (t) {
-      if (!SIDE.accessible(t)) return;
-      var hay = ((t.subject || "") + " " + (t.testName || "")).toLowerCase();
-      if (hay.indexOf(u) < 0) return;
-      var d = t.dateAdded ? new Date(t.dateAdded).getTime() : 0;
-      var score = (att[t.testId] ? 0 : 1e15) + d;
-      if (!match || score > match.s) match = { t: t, s: score };
-    });
-    var btn = match
-      ? '<button class="jke-sd-btn" data-act="start" data-tid="' + escHtml(match.t.testId) + '">Practise this topic \u2192</button>'
-      : '<button class="jke-sd-btn ghost" data-act="nav" data-to="hist">See topic analysis \u2192</button>';
-    return SIDE.card("\uD83C\uDFAF", "Focus Topic",
-      '<div class="jke-sd-focus"><div class="jke-sd-focus-pct">' + a.accuracy.toFixed(0) + '%</div><div><div class="jke-sd-lvl" style="font-size:13px;margin-bottom:3px">' +
-      escHtml(a.unit) + '</div><div class="jke-sd-sub">Your weakest unit (' + a.correct + "/" + a.attempted + " correct). Improving it gives the biggest score gain.</div></div></div>" + btn);
-  };
-
-  // ---- 4. mini leaderboard (packs the student owns) ----
+  // ---- 3. mini leaderboard (packs the student owns) ----
   SIDE.loadLB = function () {
     var owned = SIDE.ownedPacks();
     if (!owned.length) return;
@@ -7051,34 +6908,32 @@ return (
     if (!owned.length) return "";
     if (!SIDE.lbPack || owned.indexOf(SIDE.lbPack) < 0) SIDE.lbPack = owned[0];
     var p = SIDE.lbPack, c = SIDE.lb[p];
-    var pills = owned.length > 1
-      ? '<div class="jke-sd-pills">' + owned.map(function (k) {
-          var nm = (EX[k] && EX[k].name) || PACKS[k].name;
-          return '<button type="button" class="jke-sd-pill' + (k === p ? " on" : "") + '" data-act="lbtab" data-pk="' + escHtml(k) + '">' + escHtml(nm) + "</button>";
+    var pName = function (k) { return (EX[k] && EX[k].name) || PACKS[k].name; };
+    var tabs = owned.length > 1
+      ? '<div class="sd-tabs">' + owned.map(function (k) {
+          return '<button type="button" class="' + (k === p ? "on" : "") + '" data-act="lbtab" data-pk="' + escHtml(k) + '">' + escHtml(pName(k)) + "</button>";
         }).join("") + "</div>"
-      : '<div class="jke-sd-sub" style="margin-bottom:9px;font-weight:700;color:var(--t1)">' + escHtml((EX[p] && EX[p].name) || PACKS[p].name) + "</div>";
+      : '<div class="sd-muted sd-pk">' + escHtml(pName(p)) + "</div>";
     var body = "";
     if (!c || !c.rows) {
-      body = '<div class="skel jke-sd-skel" style="height:34px"></div><div class="skel jke-sd-skel" style="height:34px"></div><div class="skel jke-sd-skel" style="height:34px"></div>';
+      body = '<div class="skel sd-skel"></div><div class="skel sd-skel"></div><div class="skel sd-skel"></div>';
     } else if (!c.rows.length) {
-      body = '<div class="jke-sd-sub">No rankings yet for this pack. Attempt a test to be the first on the board!</div>';
+      body = '<div class="sd-muted">No rankings yet. Attempt a test to be first.</div>';
     } else {
-      var medals = ["\uD83E\uDD47", "\uD83E\uDD48", "\uD83E\uDD49"];
       body = c.rows.slice(0, 3).map(function (r, i) {
-        return '<div class="jke-sd-row' + (SIDE.isMe(r) ? " me" : "") + '"><div class="jke-sd-row-m">' + medals[i] + '</div><div class="jke-sd-row-b"><div class="jke-sd-row-n">' +
-          escHtml(r.name) + (SIDE.isMe(r) ? " (You)" : "") + '</div><div class="jke-sd-row-s">' + r.totalScore + " marks \u00B7 " + r.testsAttempted + " tests</div></div>" +
-          '<div class="jke-sd-row-r">' + Number(r.rating).toFixed(1) + "</div></div>";
+        var me = SIDE.isMe(r);
+        return '<div class="sd-row' + (me ? " me" : "") + '"><span class="sd-rk">' + (i + 1) + '</span><span class="sd-nm">' +
+          escHtml(r.name) + (me ? " · you" : "") + "</span><b>" + Number(r.rating).toFixed(1) + "</b></div>";
       }).join("");
       var meIdx = -1;
       c.rows.forEach(function (r, i) { if (meIdx < 0 && SIDE.isMe(r)) meIdx = i; });
-      if (meIdx >= 3) body += '<div class="jke-sd-you">Your rank: #' + c.rows[meIdx].rank + " \u00B7 " + c.rows[meIdx].totalScore + " marks</div>";
-      else if (meIdx < 0) body += '<div class="jke-sd-you">Attempt more tests in this pack to enter the top 50</div>';
+      if (meIdx >= 3) body += '<div class="sd-muted sd-you">Your rank #' + c.rows[meIdx].rank + "</div>";
     }
-    return SIDE.card("\uD83C\uDFC6", "Top 3 in Your Pack", pills + body +
-      '<button class="jke-sd-link" data-act="nav" data-to="lb">Full leaderboard \u203A</button>');
+    return SIDE.sec("Top performers", tabs + body +
+      '<button class="sd-link soft" data-act="nav" data-to="lb"><span>Full leaderboard</span><i>›</i></button>');
   };
 
-  // ---- 5. pack promo ----
+  // ---- 4. pack suggestion (one quiet line) ----
   SIDE.cPromo = function () {
     var packsWithTests = {};
     (ST.tests || []).forEach(function (t) {
@@ -7090,29 +6945,22 @@ return (
     if (ex) cands.forEach(function (k) { if (!pick && PACKS[k].name.indexOf(ex) === 0) pick = k; });
     if (!pick) pick = cands[Math.floor(Date.now() / 864e5) % cands.length];
     var pk = PACKS[pick];
-    var off = pk.mrp ? Math.round((1 - pk.price / pk.mrp) * 100) : 0;
-    var body =
-      '<div class="jke-sd-promo-n">' + escHtml(pk.name) + "</div>" +
-      '<div class="jke-sd-promo-p"><b>' + pk.display + "</b>" + (pk.mrp ? "<s>" + pk.mrpDisplay + "</s>" : "") + (off > 0 ? "<em>" + off + "% OFF</em>" : "") + "</div>" +
-      "<ul>" + pk.includes.slice(0, 3).map(function (f) { return "<li>" + f + "</li>"; }).join("") + "</ul>" +
-      '<button class="jke-sd-btn buy" data-act="buy" data-pk="' + escHtml(pick) + '">Unlock Now \u2192</button>' +
-      '<button class="jke-sd-link" data-act="verify" data-pk="' + escHtml(pick) + '">Already purchased?</button>';
-    return SIDE.card("\uD83D\uDD13", "Recommended Pack", body, "jke-sd-promo");
+    return SIDE.sec("Premium",
+      '<button class="sd-link" data-act="buy" data-pk="' + escHtml(pick) + '"><span>' + escHtml(pk.name) + " · " + pk.display +
+      (pk.mrp ? " <s>" + pk.mrpDisplay + "</s>" : "") + "</span><i>→</i></button>", "sd-promo");
   };
 
-  // ---- 6. community ----
+  // ---- 5. community (one line) ----
   SIDE.cCommunity = function () {
     var wa = "https://api.whatsapp.com/send/?phone=" + WA_NUMBER + "&text=" + encodeURIComponent("Hi JKEdusphere, I need help");
-    return SIDE.card("\uD83D\uDCE2", "Stay Connected",
-      (SIDE_NOTICE ? '<div class="jke-sd-note">' + escHtml(SIDE_NOTICE) + "</div>" : "") +
-      '<div class="jke-sd-soc"><a class="tg" href="' + TG_LINK + '" target="_blank" rel="noopener">Telegram</a>' +
-      '<a class="wa" href="' + wa + '" target="_blank" rel="noopener">WhatsApp</a></div>');
+    return '<section class="sd-foot">' + (SIDE_NOTICE ? '<div class="sd-muted">' + escHtml(SIDE_NOTICE) + "</div>" : "") +
+      '<a href="' + TG_LINK + '" target="_blank" rel="noopener">Telegram</a><a href="' + wa + '" target="_blank" rel="noopener">WhatsApp</a></section>';
   };
 
   SIDE.render = function () {
     var box = document.getElementById("jke-side-box");
     if (!box || !ST.user) return;
-    box.innerHTML = SIDE.cProgress() + SIDE.cCountdown() + SIDE.cFocus() + SIDE.cLeaderboard() + SIDE.cPromo() + SIDE.cCommunity();
+    box.innerHTML = SIDE.cProgress() + SIDE.cCountdown() + SIDE.cLeaderboard() + SIDE.cPromo() + SIDE.cCommunity();
   };
 
   SIDE.refresh = function () {
@@ -7158,7 +7006,6 @@ return (
     var a = b.dataset.act;
     if (a === "start") handleStartTest(b.dataset.tid, "b");
     else if (a === "buy") handleBuy(b.dataset.pk);
-    else if (a === "verify") handleVerify(b.dataset.pk);
     else if (a === "nav") goNav(b.dataset.to);
     else if (a === "lbtab") { SIDE.lbPack = b.dataset.pk; SIDE.render(); SIDE.loadLB(); }
   });
@@ -7202,18 +7049,13 @@ return (
       var ex = EX[pid] || { icon: "\uD83D\uDCDA", name: (PACKS[pid] && PACKS[pid].name) || pid, sub: "" };
       var tot = totals[pid] || [];
       if (isSearch && !ts.length) return;
-      var sum = "";
-      if (tot.length && haveHist) {
-        var done = tot.filter(function (t) { return att[t.testId]; }).length;
-        sum = '<div class="jke-mp-sum"><div class="jke-mp-top"><span class="jke-mp-n">Your progress</span><span class="jke-mp-c">' +
-          done + " / " + tot.length + ' tests done</span></div><div class="jke-mp-track"><div class="jke-mp-fill" style="width:' +
-          (done / tot.length * 100).toFixed(0) + '%"></div></div></div>';
-      }
+      var done = tot.length && haveHist ? tot.filter(function (t) { return att[t.testId]; }).length : -1;
+      var ex2 = done >= 0 ? { icon: ex.icon, name: ex.name, sub: done + " of " + tot.length + " tests completed" + '<div class="pk-bar"><i style="width:' + (done / tot.length * 100).toFixed(0) + '%"></i></div>' } : ex;
       if (!ts.length) {
-        html += sum + '<div class="exam-folder"><div class="ef-head"><div class="ef-icon">' + ex.icon + '</div><div class="ef-info"><div class="ef-name">' +
-          escHtml(ex.name) + '</div><div class="ef-sub">Tests are being added \u2013 check back soon</div></div></div></div><div class="jke-mp-gap"></div>';
+        html += '<div class="exam-folder"><div class="ef-head"><div class="ef-icon">' + ex.icon + '</div><div class="ef-info"><div class="ef-name">' +
+          escHtml(ex.name) + '</div><div class="ef-sub">Tests are being added \u2013 check back soon</div></div></div></div>';
       } else {
-        html += sum + buildFolder(pid, ex, ts, true, null, isSearch || owned.length === 1, false);
+        html += buildFolder(pid, ex2, ts, true, null, isSearch || owned.length === 1, false);
       }
     });
     pane.innerHTML = html ||
@@ -7263,7 +7105,7 @@ function toggleFolder(head) {
   }
 
   // ═══════════════════════════════════════
-  //  BUY / VERIFY (open gate)
+  //  BUY (open gate)
   // ═══════════════════════════════════════
   function openBuy(packId) {
     packId = (packId || "").trim();
@@ -7299,37 +7141,6 @@ function toggleFolder(head) {
       else toast("No tests found for this pack.", "warn", 5000);
     });
   }
-  function openVerify(packId) {
-    packId = (packId || "").trim();
-    var tests = ST.tests || [];
-    var t = null;
-    for (var i = 0; i < tests.length; i++) {
-      var x = tests[i];
-      if ((x.packId || "").trim() === packId && x.access === "paid") {
-        t = x;
-        break;
-      }
-    }
-    if (t) {
-      startTest(t.testId, "v");
-      return;
-    }
-    api({ action: "getTests" }, function (err, data) {
-      if (err || !data || !data.tests) {
-        toast("Could not load.", "err");
-        return;
-      }
-      ST.tests = data.tests;
-      for (var j = 0; j < data.tests.length; j++) {
-        var x2 = data.tests[j];
-        if ((x2.packId || "").trim() === packId && x2.access === "paid") {
-          startTest(x2.testId, "v");
-          return;
-        }
-      }
-    });
-  }
-
   // ═══════════════════════════════════════
   //  START TEST
   // ═══════════════════════════════════════
@@ -7343,7 +7154,19 @@ function toggleFolder(head) {
     if (gf) gf.style.display = "none";
     if (gm) gm.style.display = "none";
   }
-  function _gateShowForm(openVerify) {
+  var TNC = {
+    open: function () { var m = document.getElementById("tnc-modal"); m.classList.add("on"); m.setAttribute("aria-hidden", "false"); var b = m.querySelector(".tnc-body"); if (b) b.scrollTop = 0; },
+    close: function () { var m = document.getElementById("tnc-modal"); m.classList.remove("on"); m.setAttribute("aria-hidden", "true"); },
+    accept: function () {
+      var c = document.getElementById("b-tnc"); if (c) c.checked = true;
+      var r = document.getElementById("b-tnc-row"); if (r) r.classList.remove("err");
+      TNC.close();
+    }
+  };
+  document.getElementById("tnc-modal").addEventListener("click", function (e) { if (e.target === this) TNC.close(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") TNC.close(); });
+  function _gateShowForm() {
+    var tc = document.getElementById("b-tnc"); if (tc) tc.checked = false;
     var el = document.getElementById("gate-skel");
     var gi = document.getElementById("gate-info");
     var gf = document.getElementById("gate-form-body");
@@ -7352,12 +7175,6 @@ function toggleFolder(head) {
     if (gi) gi.style.display = "block";
     if (gf) gf.style.display = "block";
     if (gm) gm.style.display = "none";
-    var vs = document.getElementById("verify-section");
-    if (vs) vs.style.display = openVerify ? "block" : "none";
-    if (openVerify && vs) {
-      var ge = document.getElementById("g-email");
-      if (ge && ST.user) ge.value = ST.user.email || "";
-    }
   }
   function _gateShowModePicker() {
     var el = document.getElementById("gate-skel");
@@ -7428,30 +7245,16 @@ function toggleFolder(head) {
         !!(ST._unlocked && ST._unlocked[ST.packId]);
 
       if (cachedUnlocked) {
-        // Already purchased \u2014 verify silently, show mode picker regardless of result
-        api(
-          { action: "verifyAccess", email: u.email, packId: ST.packId },
-          function (ve, vd) {
-            if (vd && vd.hasAccess) {
-              if (!ST._unlocked) ST._unlocked = {};
-              ST._unlocked[ST.packId] = true;
-              if (pp.indexOf(ST.packId) < 0) pp.push(ST.packId);
-              ST.user.purchasedPacks = pp;
-              AUTH.set(ST.user);
-            }
-            // Trust cached access even on network error
-            if (!data.questions || !data.questions.length) {
-              toast("No questions yet. Check back soon!", "warn", 4000);
-              JKE.goHome();
-              return;
-            }
-            _gateShowModePicker();
-          }
-        );
+        if (!data.questions || !data.questions.length) {
+          toast("No questions yet. Check back soon!", "warn", 4000);
+          JKE.goHome();
+          return;
+        }
+        _gateShowModePicker();
         return;
       }
 
-      // NOT PURCHASED: show buy form (+ verify section if user explicitly requested)
+      // NOT PURCHASED: show buy form
       document.getElementById("b-name").value = u.name || "";
       document.getElementById("b-email").value = u.email || "";
       var pk = PACKS[ST.packId] || null;
@@ -7477,19 +7280,8 @@ function toggleFolder(head) {
           "</strong> &mdash; Contact support on Telegram.</div>";
       hideAl("g-err");
       hideAl("g-ok");
-      _gateShowForm(openTab === "v");
+      _gateShowForm();
     });
-  }
-
-  function gTab(t) { /* no-op \u2014 tabs replaced by inline verify section */ }
-
-  function showVerifySection() {
-    var vs = document.getElementById("verify-section");
-    if (!vs) return;
-    vs.style.display = "block";
-    var ge = document.getElementById("g-email");
-    if (ge && ST.user) ge.value = ST.user.email || "";
-    vs.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }
 
   // ═══════════════════════════════════════
@@ -7525,46 +7317,6 @@ function toggleFolder(head) {
       beginTest();
     }
   };
-  GATE.verify = function () {
-    var email = document.getElementById("g-email").value.trim().toLowerCase();
-    hideAl("g-err");
-    hideAl("g-ok");
-    if (!email || !/\S+@\S+\.\S+/.test(email)) {
-      setAl("g-err", "Please enter a valid email address.", "err");
-      return;
-    }
-    setBtn("g-vbtn", "Verifying...", true);
-    api(
-      { action: "verifyAccess", email, packId: ST.packId || "" },
-      function (err, data) {
-        setBtn("g-vbtn", "Verify & Unlock &rarr;", false);
-        if (err || !data) {
-          setAl("g-err", "Network error. Please try again.", "err");
-          return;
-        }
-        if (!data.hasAccess) {
-          setAl(
-            "g-err",
-            "No purchase found for this email. Check the email you used during payment or buy the pack.",
-            "err",
-          );
-          return;
-        }
-        setAl("g-ok", "\u2713 Access verified!", "ok");
-        if (!ST.user.purchasedPacks) ST.user.purchasedPacks = [];
-        if (ST.user.purchasedPacks.indexOf(ST.packId) < 0)
-          ST.user.purchasedPacks.push(ST.packId);
-        ST.user.tier = "premium";
-        AUTH.set(ST.user);
-        if (!ST._unlocked) ST._unlocked = {};
-        ST._unlocked[ST.packId] = true;
-        setTimeout(function () {
-          _gateShowModePicker();
-        }, 700);
-      },
-    );
-  };
-
   GATE.pay = function () {
     var name = document.getElementById("b-name").value.trim();
     var email = document.getElementById("b-email").value.trim().toLowerCase();
@@ -7574,6 +7326,13 @@ function toggleFolder(head) {
     }
     if (!email || !/\S+@\S+\.\S+/.test(email)) {
       toast("Please enter a valid email address", "err");
+      return;
+    }
+    var tnc = document.getElementById("b-tnc");
+    if (tnc && !tnc.checked) {
+      var tr = document.getElementById("b-tnc-row");
+      if (tr) { tr.classList.remove("err"); void tr.offsetWidth; tr.classList.add("err"); }
+      toast("Please agree to the Terms & Conditions to continue", "warn", 3500);
       return;
     }
     var pk = PACKS[ST.packId] || null;
@@ -9587,5 +9346,209 @@ localStorage.setItem("jke_top_performers_v1", JSON.stringify({
   })();
 </script>
  
+<style id="jke-minimal">
+/* ═══════ DASHBOARD v3 — soft surfaces, clear sections, one accent ═══════ */
+html:has(#home-pg.on),body:has(#home-pg.on){background:#f4f5fa !important}
+#home-pg{--cd:#fff;--cb:#e7e9f3;--tile:#eef0fb}
+.sd-card,#home-pg .jke-new,#home-pg .exam-folder,#home-pg .faq-section{background:var(--cd);border:1px solid var(--cb);border-radius:18px;box-shadow:0 1px 2px rgba(20,24,60,.04),0 8px 24px -12px rgba(20,24,60,.08)}
+
+/* greeting + search */
+#home-pg .dash-greet{margin:6px 0 16px;padding:0}
+#home-pg .dg-name{font-size:26px;font-weight:800;letter-spacing:-.6px;color:var(--t1)}
+#home-pg .dg-sub{font-size:13px;color:var(--t3);margin-top:3px}
+#home-pg .jke-search-wrap{margin-bottom:16px}
+#home-pg .jke-search-input{padding:14px 16px 14px 44px;border:1px solid var(--cb);border-radius:14px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='none' stroke='%239aa3b8' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='8' cy='8' r='6'/%3E%3Cpath d='m13 13 4 4'/%3E%3C/svg%3E") no-repeat 16px center;box-shadow:0 1px 2px rgba(20,24,60,.04);font-size:14px}
+#home-pg .jke-search-input:focus{border-color:var(--p);background-color:#fff;box-shadow:0 0 0 4px var(--pl)}
+
+/* segmented tabs */
+#home-pg .mtabs{display:flex;gap:4px;width:100%;margin:0 0 14px;padding:4px;background:#e9ebf5;border:none;border-radius:14px;box-shadow:none}
+#home-pg .mt,#home-pg .mt:hover,#home-pg .mt.on,#home-pg .mt.on.prem,#home-pg .mt.on.mine{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:10px 8px;margin:0;font-size:13.5px;font-weight:600;color:var(--t3);background:transparent !important;border:none !important;border-radius:10px;box-shadow:none !important;cursor:pointer;transition:all .15s}
+#home-pg .mt:hover{color:var(--t1)}
+#home-pg .mt.on,#home-pg .mt.on.prem,#home-pg .mt.on.mine{color:var(--t1);background:#fff !important;box-shadow:0 1px 3px rgba(20,24,60,.12) !important}
+#home-pg .mt .mt-cnt{background:rgba(20,24,60,.07) !important;border:none !important;padding:1px 7px;border-radius:99px;font-size:11px;font-weight:700;color:var(--t3) !important}
+#home-pg .mt.on .mt-cnt{background:var(--pl) !important;color:var(--p) !important}
+
+/* pack groups = cards */
+#home-pg .exam-folder{margin:0 0 12px;overflow:hidden}
+#home-pg .ef-head{padding:14px 16px;background:none;border:none;border-radius:0;gap:14px;transition:background .15s}
+#home-pg .ef-head:hover{background:#fafbff}
+#home-pg .ef-icon{width:46px;height:46px;flex:none;display:flex;align-items:center;justify-content:center;background:var(--tile);border:none;border-radius:13px;font-size:22px}
+#home-pg .ef-name{font-size:15px;font-weight:700;color:var(--t1)}
+#home-pg .ef-sub{font-size:12px;color:var(--t3);margin-top:2px}
+#home-pg .ef-count{background:none;border:none;padding:0;font-size:12px;font-weight:600;color:var(--t4)}
+#home-pg .ef-badge{display:none}
+#home-pg .ef-toggle{color:var(--t4);font-size:10px}
+#home-pg .pk-bar{height:5px;margin-top:8px;max-width:260px;background:#e9ecf5;border-radius:99px;overflow:hidden}
+#home-pg .pk-bar i{display:block;height:100%;background:linear-gradient(90deg,#14b8a6,#0d9488);border-radius:99px}
+#home-pg .ef-tests{padding:0;background:#fafbfe;border:none;border-top:1px solid var(--cb);gap:0}
+#home-pg .tc{background:none;border:none;border-top:1px solid #eef0f7;border-radius:0;box-shadow:none;padding:13px 16px;transform:none}
+#home-pg .tc:first-child{border-top:none}
+#home-pg .tc:hover{background:#fff;transform:none;box-shadow:none}
+#home-pg .tc-ico{width:36px;height:36px;border-radius:10px;background:var(--tile);border:none;font-size:16px}
+#home-pg .tc-ico.lk{background:#f3eefc}
+#home-pg .tc-name{font-size:14px;font-weight:600;color:var(--t1)}
+#home-pg .tc-subj{font-size:12px;color:var(--t3);margin-top:2px}
+#home-pg .tc-chips{display:flex;gap:0;margin-top:5px;flex-wrap:wrap}
+#home-pg .tc-chips .ch{background:none;border:none;padding:0;font-size:11.5px;font-weight:500;color:var(--t3);border-radius:0}
+#home-pg .tc-chips .ch+.ch::before{content:"\00B7";margin:0 7px;color:var(--bd2)}
+#home-pg .tc-chips .ch-free,#home-pg .tc-chips .ch-unlocked,#home-pg .tc-chips .ch-gn{display:none}
+#home-pg .tc-arr{color:var(--t4)}
+#home-pg .ch-buy{background:var(--p);border:none;color:#fff;font-size:12px;font-weight:700;padding:6px 12px;border-radius:99px}
+#home-pg .lock-strip{background:#fafbfe;border:none;border-top:1px solid var(--cb);padding:12px 16px}
+
+/* ═══ Just Added (left card) ═══ */
+#home-pg #jke-new-box{margin:0 0 14px}
+#home-pg .jke-new{padding:6px 6px 8px;overflow:hidden}
+#home-pg .jke-new-hd{margin:0;padding:12px 10px 8px}
+#home-pg .jke-new-ttl{font-size:12px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--t2);gap:8px}
+#home-pg .jke-new-pulse{display:inline-block;width:7px;height:7px;background:#14b8a6;box-shadow:0 0 0 4px rgba(20,184,166,.16)}
+#home-pg .jke-new-cnt{display:none}
+#home-pg .jke-new-list{display:flex;flex-direction:column;gap:2px;overflow:visible;padding:0}
+#home-pg .jke-new-card{display:grid;grid-template-columns:34px 1fr;column-gap:11px;flex:none;width:100%;padding:10px;background:none;border:none;border-radius:12px;box-shadow:none;transform:none;cursor:pointer;align-items:center}
+#home-pg .jke-new-card:hover{background:#f5f6fc;box-shadow:none;transform:none}
+#home-pg .jke-new-ico{display:flex;width:34px;height:34px;border-radius:10px;background:var(--tile);font-size:16px;align-items:center;justify-content:center}
+#home-pg .jke-new-name{font-size:13px;font-weight:600;color:var(--t1);line-height:1.35;-webkit-line-clamp:2}
+#home-pg .jke-new-meta{font-size:11.5px;font-weight:500;color:var(--t3);margin-top:2px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+#home-pg .jke-new-meta b{font-weight:600;color:var(--t3)}
+#home-pg .jke-new-pill{font-size:10px;font-weight:800;padding:2px 8px;border-radius:99px;letter-spacing:.3px}
+#home-pg .jke-new-pill.free{background:#e3f6f1;color:#0d8579}
+#home-pg .jke-new-pill.pro{background:#f1eafd;color:#7c3aed}
+#home-pg .jke-new-pill.open{background:#e8edff;color:#3b3fd8}
+
+/* ═══ Right rail: one card per job ═══ */
+#jke-side-box{margin-top:0;display:flex;flex-direction:column;gap:14px}
+.sd-card{padding:16px 18px}
+.sd-lbl{font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.7px;color:var(--t3);margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+.sd-muted{font-size:12.5px;line-height:1.55;color:var(--t3);font-weight:500}
+/* hero progress card: the only coloured surface */
+.sd-hero{background:linear-gradient(150deg,#3b2fe0,#482dff 55%,#6a5cff);border:none;color:#fff;box-shadow:0 14px 30px -14px rgba(72,45,255,.55)}
+.sd-hero .sd-lbl{color:rgba(255,255,255,.72)}
+.sd-hero .sd-muted{color:rgba(255,255,255,.8)}
+.sd-big{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.sd-big b{font-family:var(--m);font-size:44px;font-weight:700;letter-spacing:-2px;line-height:1}
+.sd-big span{font-size:12px;font-weight:600;line-height:1.35;opacity:.85}
+.sd-big em{display:block;font-style:normal;font-size:14px;font-weight:800;opacity:1}
+.sd-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-bottom:14px}
+.sd-stats div{min-width:0;padding:9px 2px;border-radius:12px;background:rgba(255,255,255,.14);text-align:center;font-size:10.5px;font-weight:600;color:rgba(255,255,255,.78);text-transform:uppercase;letter-spacing:.4px}
+.sd-stats b{display:block;font-family:var(--m);font-size:16px;color:#fff;letter-spacing:0;margin-bottom:1px}
+.sd-cta{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:11px 14px;border-radius:12px;background:#fff;color:#2a1fb8;border:none;font-family:var(--f);font-size:13px;font-weight:700;cursor:pointer;text-align:left;transition:transform .15s}
+.sd-cta:hover{transform:translateY(-1px)}
+.sd-cta span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sd-cta i{font-style:normal;flex-shrink:0}
+.sd-link{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;margin-top:12px;padding:0;background:none;border:none;font-family:var(--f);font-size:12.5px;font-weight:600;color:var(--p);cursor:pointer;text-align:left}
+.sd-link span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sd-link i{font-style:normal;flex-shrink:0}
+.sd-link:hover{text-decoration:underline}
+.sd-link.soft{color:var(--t3);font-weight:600}
+.sd-link.soft:hover{color:var(--t1)}
+.sd-hero .sd-link.soft{color:rgba(255,255,255,.8);justify-content:center;margin-top:12px}
+.sd-hero .sd-link.soft:hover{color:#fff}
+.sd-link s{color:var(--t4);font-weight:500}
+/* countdown chips */
+.sd-cd{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid #eef0f7}
+.sd-cd:first-of-type{border-top:none;padding-top:0}
+.sd-cd:last-child{padding-bottom:0}
+.sd-cd .sd-nm{font-weight:600}
+.sd-days{display:flex;align-items:baseline;gap:4px;padding:5px 11px;border-radius:10px;background:#eef0ff;color:#3b3fd8;font-family:var(--m);font-size:17px;font-weight:700;line-height:1}
+.sd-days small{font-family:var(--f);font-size:10.5px;font-weight:700}
+.sd-days.warn{background:#fff3e0;color:#b45309}
+.sd-days.hot{background:#fee9e7;color:#c62828}
+.sd-nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--t1);font-weight:600;font-size:13px}
+/* leaderboard */
+.sd-row{display:flex;align-items:center;gap:10px;padding:7px 8px;margin:0 -8px;border-radius:10px;font-size:13px}
+.sd-row b{font-family:var(--m);font-size:12.5px;font-weight:700;color:var(--t2)}
+.sd-rk{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--m);font-size:11px;font-weight:800;background:#f0f1f7;color:var(--t3);flex:none}
+.sd-row:nth-of-type(1) .sd-rk{background:#fff1c9;color:#a16207}
+.sd-row.me{background:var(--pl)}
+.sd-row.me .sd-nm{color:var(--p);font-weight:700}
+.sd-tabs{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}
+.sd-tabs button{padding:5px 11px;border-radius:99px;background:#f0f1f7;border:none;font-family:var(--f);font-size:11.5px;font-weight:700;color:var(--t3);cursor:pointer;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sd-tabs button.on{background:var(--t1);color:#fff}
+.sd-pk{margin-bottom:6px;color:var(--t2);font-weight:600}
+.sd-you{margin-top:6px}
+.sd-skel{height:14px;border-radius:6px;margin-bottom:9px}
+/* premium + community */
+.sd-promo{background:linear-gradient(135deg,#fff8e8,#fff3dc);border-color:#f6e2b3}
+.sd-promo .sd-lbl{color:#a16207}
+.sd-promo .sd-link{color:#92400e;margin-top:0}
+.sd-foot{display:flex;gap:8px;flex-wrap:wrap;padding:0;background:none;border:none;box-shadow:none}
+.sd-foot .sd-muted{flex-basis:100%}
+.sd-foot a{flex:1;text-align:center;padding:10px;border-radius:12px;background:#fff;border:1px solid var(--cb);font-size:12.5px;font-weight:700;color:var(--t2)}
+.sd-foot a:hover{color:var(--p);border-color:var(--pm)}
+
+/* FAQ card */
+#home-pg .faq-section{margin-top:26px;padding:6px 18px 8px;overflow:hidden}
+#home-pg .faq-hd{padding:14px 0 6px}
+#home-pg .faq-hd-icon,#home-pg .faq-hd-sub{display:none}
+#home-pg .faq-hd-title{font-size:15px;font-weight:800}
+#home-pg .faq-item{background:none;border:none;border-top:1px solid #eef0f7;border-radius:0;box-shadow:none;margin:0}
+#home-pg .faq-q{padding:14px 0;background:none;font-size:13.5px;font-weight:600}
+#home-pg .faq-a{padding-left:0;padding-right:0}
+
+/* ═══ Premium lock strip: keep features ═══ */
+#home-pg .ls-feats{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px}
+#home-pg .ls-feat{background:none;border:none;padding:0;font-size:12px;font-weight:500;color:var(--t2)}
+#home-pg .ls-feat::before{content:"\2713";color:var(--g);font-weight:800;margin-right:6px}
+#home-pg .btn-buy{background:var(--p);box-shadow:0 8px 18px -8px rgba(72,45,255,.6);border-radius:12px;padding:12px 20px;font-size:13px}
+#home-pg .btn-buy:hover{box-shadow:0 10px 22px -8px rgba(72,45,255,.7)}
+/* ═══ T&C checkbox + popup ═══ */
+.tnc-row{display:flex;align-items:flex-start;gap:10px;margin:14px 0 12px;padding:12px 14px;border-radius:12px;background:#f6f7fc;border:1px solid #e7e9f3;cursor:pointer;font-size:12.5px;line-height:1.5;color:var(--t2);transition:border-color .15s,background .15s}
+.tnc-row input{width:18px;height:18px;margin-top:1px;accent-color:var(--p);flex:none;cursor:pointer}
+.tnc-row a{color:var(--p);font-weight:700;text-decoration:underline;cursor:pointer}
+.tnc-row.err{border-color:var(--r);background:var(--rl);animation:tncShake .35s}
+@keyframes tncShake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+#tnc-modal{position:fixed;inset:0;z-index:10000;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(15,18,40,.55);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+#tnc-modal.on{display:flex}
+.tnc-box{width:100%;max-width:560px;max-height:min(86vh,680px);display:flex;flex-direction:column;background:#fff;border-radius:20px;box-shadow:0 30px 70px -20px rgba(15,18,40,.5);overflow:hidden}
+.tnc-hd{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid #eef0f7;font-size:17px;font-weight:800;color:var(--t1)}
+.tnc-x{width:32px;height:32px;border-radius:50%;border:none;background:#f0f1f7;color:var(--t2);font-size:20px;line-height:1;cursor:pointer}
+.tnc-body{padding:6px 22px 8px;overflow-y:auto;font-size:13px;line-height:1.65;color:var(--t2)}
+.tnc-lead{margin:12px 0 4px;font-weight:600;color:var(--t1)}
+.tnc-body h4{margin:16px 0 6px;font-size:13px;font-weight:800;color:var(--t1)}
+.tnc-body ul{list-style:none;padding:0;margin:0}
+.tnc-body li{position:relative;padding:3px 0 3px 16px}
+.tnc-body li::before{content:"";position:absolute;left:2px;top:12px;width:5px;height:5px;border-radius:50%;background:var(--p);opacity:.6}
+.tnc-foot{margin:16px 0 10px;font-size:12px;color:var(--t3)}
+.tnc-foot a{color:var(--p);font-weight:700}
+.tnc-ft{display:flex;gap:10px;justify-content:flex-end;padding:14px 22px;border-top:1px solid #eef0f7;background:#fafbfe}
+.tnc-btn{padding:11px 22px;border-radius:12px;border:none;background:var(--p);color:#fff;font-family:var(--f);font-size:13px;font-weight:700;cursor:pointer}
+.tnc-btn.ghost{background:#eceef6;color:var(--t2)}
+@media (max-width:520px){#tnc-modal{align-items:flex-end;padding:0}.tnc-box{max-width:none;border-radius:20px 20px 0 0;max-height:88vh}}
+
+@media (min-width:900px){
+  #home-pg #jke-new-box{top:calc(var(--nav) + 20px);margin:0}
+  #jke-side-box{top:calc(var(--nav) + 20px);scrollbar-width:none}
+  #jke-side-box::-webkit-scrollbar{display:none}
+}
+@media (max-width:1099px){ #jke-side-box{margin-top:18px} }
+
+/* ═══ Responsive: laptop layout also in "Desktop site" mode on phones (≥900px) ═══ */
+:root{--sw:clamp(190px,calc(50vw - 370px),300px);--colw:680px}
+@media (min-width:900px) and (max-width:1099px){
+  :root{--sw:200px;--colw:calc(100vw - 456px)}
+  #home-pg .wrap{max-width:var(--colw)}
+}
+/* ═══ Phone: Just Added = horizontal swipe row above search ═══ */
+@media (max-width:899px){
+  #home-pg #jke-new-box{margin:0 -14px 16px}
+  #home-pg .jke-new{background:none;border:none;box-shadow:none;padding:0;border-radius:0;overflow:visible}
+  #home-pg .jke-new-hd{padding:0 16px 10px}
+  #home-pg .jke-new-list{flex-direction:row;gap:10px;overflow-x:auto;overflow-y:hidden;padding:2px 16px 8px;scroll-snap-type:x proximity;scroll-padding-left:16px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  #home-pg .jke-new-list::-webkit-scrollbar{display:none}
+  #home-pg .jke-new-card{flex:0 0 min(78vw,260px);width:auto;scroll-snap-align:start;align-items:start;background:#fff;border:1px solid var(--cb);border-radius:16px;padding:12px;box-shadow:0 1px 2px rgba(20,24,60,.04)}
+  #home-pg .jke-new-card:hover{background:#fff}
+  #home-pg .jke-new-name{-webkit-line-clamp:2;min-height:2.7em}
+}
+
+/* Desktop: Just Added scrolls inside its card */
+@media (min-width:900px){
+  #home-pg #jke-new-box{display:flex;max-height:calc(100vh - var(--nav) - 40px)}
+  #home-pg .jke-new{display:flex;flex-direction:column;width:100%;max-height:100%;min-height:0;overflow:hidden}
+  #home-pg .jke-new-list{overflow-y:auto;overflow-x:hidden;min-height:0;flex:1;scrollbar-width:thin;scrollbar-color:#d5d9e8 transparent;padding-right:2px}
+  #home-pg .jke-new-list::-webkit-scrollbar{width:6px}
+  #home-pg .jke-new-list::-webkit-scrollbar-thumb{background:#d5d9e8;border-radius:99px}
+}
+</style>
+
 </body>
 </html>
