@@ -4407,10 +4407,11 @@
     <div class="nav-link" id="nl-lb" onclick="goNav('lb')">🏆 Ranks</div>
     <div class="nav-link" id="nl-ak" onclick="goNav('ak')" style="display:none">🔑 Check Your Score</div>
     <div class="nav-link" id="nl-hist" onclick="goNav('hist')" style="display:none">📊 My Attempts</div>
+    <a class="nav-link nl-notes" href="https://jkedusphere.com/notes">📝 Notes</a>
   </div>
    <div class="nav-desktop-links">
     <a href="https://jkedusphere.blogspot.com/" class="nav-link">Home</a>
-    <a href="https://jkedusphere.blogspot.com/p/premium-notes-store-jkedusphere.html" class="nav-link">Notes</a>
+    <a href="https://jkedusphere.com/notes" class="nav-link">Notes</a>
   </div>
   <div class="nav-right" id="nav-right">
     <button class="nav-btn" onclick="openAuthModal('si')">Sign In</button>
@@ -4661,6 +4662,11 @@
         Free &amp; premium mock tests for JKPSI, JKSSB, KAS &amp; UPSC — crafted
         by toppers, trusted by thousands of aspirants.
       </p>
+      <div class="hp-ctas">
+        <button type="button" class="hp-btn pri" onclick="openAuthModal('su')">Start free &rarr;</button>
+        <button type="button" class="hp-btn sec" onclick="document.getElementById('pub-search').scrollIntoView({behavior:'smooth',block:'center'})">Browse tests</button>
+      </div>
+      <div class="hp-trust"><span>Free tests daily</span><span>Detailed analysis</span><span>Live ranks</span></div>
       <div class="hero-ak-cta" onclick="handleHeroAK()">
         <span class="hero-ak-icon">🔑</span>
         <div class="hero-ak-text">
@@ -4681,7 +4687,12 @@
       </div>
     </div>
 
-    <div id="splash-toppers" style="display:none"></div>
+    <div class="hp-band"><div class="hp-explore">
+        <a class="hp-ex notes" href="https://jkedusphere.com/notes"><div class="hp-ico">📝</div><div><b>Browse Notes</b><span>Premium study notes</span></div></a>
+        <div class="hp-ex" onclick="handleHeroAK()"><div class="hp-ico">🔑</div><div><b>Check Your Score</b><span>Match answer key, free</span></div></div>
+        <div class="hp-ex" onclick="goNav('lb')"><div class="hp-ico">🏆</div><div><b>Leaderboard</b><span>See live ranks</span></div></div>
+        <a class="hp-ex" href="https://t.me/JKEdusphere" target="_blank" rel="noopener"><div class="hp-ico">📣</div><div><b>Join Telegram</b><span>Daily updates &amp; PDFs</span></div></a>
+      </div><div id="splash-new" style="display:none"></div><div id="splash-toppers" style="display:none"></div></div>
 
     <div class="splash-layout">
       <!-- Left: Test Catalogue -->
@@ -6285,6 +6296,7 @@
     var psc = document.getElementById("pub-search-clear");
     if (psc) psc.classList.remove("show");
     if (ST.publicTests) {
+      renderSplashNew(ST.publicTests);
       renderPublicCatalogue(ST.publicTests, false);
       return;
     }
@@ -6299,8 +6311,49 @@
       }
       ST.publicTests = data.tests;
       tx("sp-test-count", data.tests.length);
+      renderSplashNew(data.tests);
       renderPublicCatalogue(data.tests, false);
     });
+  }
+
+
+  // ── Public home: Recently added ──
+  function renderSplashNew(tests) {
+    var box = document.getElementById("splash-new");
+    if (!box) return;
+    var today = new Date(); today.setHours(0, 0, 0, 0);
+    var items = [];
+    (tests || []).forEach(function (t) {
+      var d = t.dateAdded ? new Date(t.dateAdded) : null;
+      if (!d || isNaN(d.getTime())) return;
+      d.setHours(0, 0, 0, 0);
+      var age = Math.round((today - d) / 864e5);
+      if (age < 0) age = 0;
+      items.push({ t: t, age: age });
+    });
+    items.sort(function (a, b) { return a.age - b.age || (b.t.testId || "").localeCompare(a.t.testId || ""); });
+    var fresh = items.filter(function (x) { return x.age <= 14; });
+    items = (fresh.length >= 3 ? fresh : items).slice(0, 8);
+    if (!items.length) { box.style.display = "none"; box.innerHTML = ""; return; }
+    box.innerHTML = '<div class="hp-card"><div class="hp-hd"><div class="hp-ttl"><i class="hp-dot"></i>Recently added</div><div class="hp-arrows"><button type="button" class="hp-arr" data-d="-1" aria-label="Previous">\u2039</button><button type="button" class="hp-arr" data-d="1" aria-label="Next">\u203A</button></div></div><div class="hp-newlist">' +
+      items.map(function (x) {
+        var t = x.t, paid = t.access === "paid";
+        var pk = (t.packId || "").trim() || examFromId(t.testId);
+        var g = paid ? pk : (t.examGroup || examFromId(t.testId) || "general");
+        var ex = EX[g] || { name: g, icon: "\uD83D\uDCDA" };
+        var when = x.age === 0 ? "Today" : x.age === 1 ? "Yesterday" : x.age + "d ago";
+        return '<div class="hp-new" data-tid="' + escHtml(t.testId) + '" data-pk="' + escHtml(pk) + '" data-paid="' + (paid ? 1 : 0) + '">' +
+          '<div class="hp-ico">' + (ex.icon || "\uD83D\uDCDD") + '</div><div class="hp-nb"><div class="hp-nn">' + escHtml(t.testName) + '</div>' +
+          '<div class="hp-nm"><b>' + when + "</b><span>" + escHtml(ex.name) + '</span><span class="hp-pill ' + (paid ? "pro" : "free") + '">' + (paid ? "PRO" : "FREE") + '</span></div></div><span class="hp-go">\u203A</span></div>';
+      }).join("") + "</div></div>";
+    box.style.display = "";
+    box.onclick = function (e) {
+      var ar = e.target.closest(".hp-arr");
+      if (ar) { var l = box.querySelector(".hp-newlist"); if (l) l.scrollBy({ left: ar.dataset.d * 300, behavior: "smooth" }); return; }
+      var c = e.target.closest(".hp-new");
+      if (!c) return;
+      if (c.dataset.paid === "1") handleBuy(c.dataset.pk); else handleStartTest(c.dataset.tid, "b");
+    };
   }
 
   function renderPublicCatalogue(tests, isSearch) {
@@ -6339,7 +6392,7 @@
       fOrd.forEach(function (g) {
         var ex = EX[g] || { icon: "📚", name: g, sub: "" };
         var ts = fGrps[g];
-        html += buildFolder(g, ex, ts, true, null, !!isSearch, true);
+        html += buildFolder(g, ex, ts, true, null, !!isSearch, true, 3);
       });
       html += "</div>";
     }
@@ -6365,7 +6418,7 @@
       pOrd.forEach(function (pid) {
         var ts = pGrps[pid];
         var ex = EX[pid] || { icon: "📚", name: pid, sub: "" };
-        html += buildFolder(pid, ex, ts, false, pid, !!isSearch, false);
+        html += buildFolder(pid, ex, ts, false, pid, !!isSearch, false, 3);
       });
       html += "</div>";
     }
@@ -6377,7 +6430,7 @@
     document.getElementById("public-catalogue").innerHTML = html;
   }
 
-  function buildFolder(groupId, ex, tests, unlocked, packId, autoOpen, isFreeGroup) {
+  function buildFolder(groupId, ex, tests, unlocked, packId, autoOpen, isFreeGroup, previewLimit) {
     var openCls = autoOpen ? " open" : "";
     var badgeCls = unlocked
       ? (isFreeGroup ? "ef-badge-free" : "ef-badge-purchased")
@@ -6418,11 +6471,16 @@ pk.includes
         "</div>";
     }
 
-    var cards = tests
+    var shownTests = previewLimit && tests.length > previewLimit + 1 ? tests.slice(0, previewLimit) : tests;
+    var cards = shownTests
       .map(function (t, i) {
         return buildCard(t, i, unlocked, packId, isFreeGroup);
       })
       .join("");
+    if (shownTests.length < tests.length) {
+      var more = tests.length - shownTests.length;
+      cards += '<div class="tc more-row" onclick="openAuthModal(\'su\')"><div class="more-ico">\uD83D\uDD13</div><div class="tc-body"><div class="tc-name">+' + more + ' more tests</div><div class="tc-subj">' + (ST.user ? "Open the pack to see all" : "Sign in free to see the full list") + '</div></div><span class="more-cta">' + (ST.user ? "View" : "Sign in") + ' \u2192</span></div>';
+    }
 
 return (
       '<div class="exam-folder">' +
@@ -9008,7 +9066,7 @@ function togglePalette() {
     try {
       var stored = JSON.parse(localStorage.getItem("jke_top_performers_v1") || "null");
       // Replace the localStorage TTL check near the top of TOPPERS.load:
-if (stored && Array.isArray(stored.data) && Date.now() - stored.time < 21600000) { // 6h
+if (stored && Array.isArray(stored.data) && stored.data.length && Date.now() - stored.time < 21600000) { // 6h
   TOPPERS.data = stored.data;
   TOPPERS.computedAt = stored.computedAt || null;
   TOPPERS.render(containerId);
@@ -9021,75 +9079,72 @@ if (stored && Array.isArray(stored.data) && Date.now() - stored.time < 21600000)
     }
     TOPPERS.loading = true;
     el.style.display = "block";
-    el.innerHTML =
-      '<div class="toppers-wrap"><div class="toppers-hd"><span class="toppers-hd-icon">🏆</span><div><div class="toppers-hd-title">Top Performers</div><div class="toppers-hd-sub">Loading\u2026</div></div></div>' +
-      '<div class="topper-skel-row">' +
-      [1, 2, 3].map(function () { return '<div class="topper-skel skel"></div>'; }).join("") +
-      "</div></div>";
+    el.innerHTML = '<div class="hp-card hp-top"><div class="hp-hd"><div class="hp-ttl">\uD83C\uDFC6 Top performers</div><span class="hp-sub">Loading\u2026</span></div><div class="hp-tgrid"><div class="skel" style="height:62px;border-radius:14px"></div><div class="skel" style="height:62px;border-radius:14px"></div></div></div>';
 
-    api({ action: "getTopPerformers" }, function (err, data) {
-      var results = [];
-      if (!err && data && data.success && data.toppers) {
-        results = data.toppers.map(function (top) {
-          var pid = top.packId;
-          var ex = EX[pid] || { icon: "📚" };
-          return {
-            name: top.name,
-            rating: top.rating,
-            packName: (PACKS[pid] && PACKS[pid].name) || pid,
-            icon: ex.icon || "📚",
-          };
-        });
-        // Inside the api({action:"getTopPerformers"}, ...) callback, add computedAt:
-TOPPERS.computedAt = (!err && data && data.computedAt) || null;
-// and include it when writing to localStorage:
-localStorage.setItem("jke_top_performers_v1", JSON.stringify({
-  time: Date.now(), data: results, computedAt: TOPPERS.computedAt
-}));
-      }
-
+    function finish(results) {
       TOPPERS.data = results;
-      try {
-        localStorage.setItem("jke_top_performers_v1", JSON.stringify({
-          time: Date.now(),
-          data: results
-        }));
-      } catch (storageErr) {}
+      if (results.length) {
+        try {
+          localStorage.setItem("jke_top_performers_v1", JSON.stringify({ time: Date.now(), data: results, computedAt: TOPPERS.computedAt || null }));
+        } catch (storageErr) {}
+      }
       TOPPERS.loading = false;
       var targets = TOPPERS.pending.concat([containerId]);
       TOPPERS.pending = [];
-      targets.forEach(function (id) { TOPPERS.render(id); });
+      if (!results.length) TOPPERS.data = null; // never cache an empty / failed result
+      targets.forEach(function (id) { TOPPERS.render(id, results); });
+    }
+    // Fallback: build the list from each pack's own leaderboard (rank #1)
+    function fromLeaderboards() {
+      var ids = Object.keys(PACKS), out = [], left = ids.length;
+      if (!left) return finish([]);
+      ids.forEach(function (pid) {
+        api({ action: "getPackLeaderboard", packId: pid, limit: 1 }, function (err, d) {
+          var r = !err && d && d.success && d.leaderboard && d.leaderboard[0];
+          if (r) out.push({ name: r.name, rating: Number(r.rating) || 0, packName: (PACKS[pid] && PACKS[pid].name) || pid, icon: (EX[pid] && EX[pid].icon) || "\uD83D\uDCDA" });
+          if (--left === 0) finish(out);
+        });
+      });
+    }
+
+    api({ action: "getTopPerformers" }, function (err, data) {
+      var results = [];
+      if (!err && data && data.success && data.toppers && data.toppers.length) {
+        TOPPERS.computedAt = data.computedAt || null;
+        results = data.toppers.map(function (top) {
+          var pid = top.packId;
+          var ex = EX[pid] || { icon: "\uD83D\uDCDA" };
+          return {
+            name: top.name,
+            rating: Number(top.rating) || 0,
+            packName: (PACKS[pid] && PACKS[pid].name) || pid,
+            icon: ex.icon || "\uD83D\uDCDA",
+          };
+        });
+      }
+      if (results.length) finish(results); else fromLeaderboards();
     });
   };
 
-  TOPPERS.render = function (containerId) {
+  TOPPERS.render = function (containerId, passed) {
     var el = document.getElementById(containerId);
     if (!el) return;
-    var data = TOPPERS.data || [];
+    var data = passed || TOPPERS.data || [];
     if (!data.length) {
       el.innerHTML = "";
       el.style.display = "none";
       return;
     }
     el.style.display = "block";
+    var rows = data.slice().sort(function (a, b) { return b.rating - a.rating; });
     el.innerHTML =
-      '<div class="toppers-wrap">' +
-      '<div class="toppers-hd"><span class="toppers-hd-icon">🏆</span><div><div class="toppers-hd-title">Top Performers</div><div class="toppers-hd-sub">Rank #1 across our exam packs</div></div></div>' +
-      '<div class="toppers-row">' +
-      data
-        .map(function (t) {
-          var ini = (t.name || "?").split(" ").map(function (w) { return w[0] || ""; }).slice(0, 2).join("").toUpperCase() || "?";
-          return (
-            '<div class="topper-card">' +
-            '<div class="topper-av">' + ini + "</div>" +
-            '<div class="topper-name">' + t.name + "</div>" +
-            '<div class="topper-pack">' + t.icon + " " + t.packName + "</div>" +
-            '<div class="topper-rating">\u2b50 ' + t.rating.toFixed(1) + "</div>" +
-            "</div>"
-          );
-        })
-        .join("") +
-      "</div></div>";
+      '<div class="hp-card hp-top"><div class="hp-hd"><div class="hp-ttl">\uD83C\uDFC6 Top performers</div><span class="hp-sub">Rank #1 in each pack</span></div>' +
+      '<div class="hp-tgrid">' + rows.map(function (t, i) {
+        var ini = (t.name || "?").split(" ").map(function (w) { return w[0] || ""; }).slice(0, 2).join("").toUpperCase() || "?";
+        return '<div class="hp-trow"><div class="hp-av">' + ini + (i === 0 ? '<span class="hp-crown">\uD83D\uDC51</span>' : "") + '</div>' +
+          '<div style="min-width:0"><div class="hp-tn">' + escHtml(t.name) + '</div><div class="hp-tp">' + t.icon + " " + escHtml(t.packName) + '</div></div>' +
+          '<div class="hp-rate">\u2605 ' + Number(t.rating).toFixed(1) + "</div></div>";
+      }).join("") + "</div></div>";
   };
 
   // ═══════════════════════════════════════
@@ -9548,6 +9603,143 @@ html:has(#home-pg.on),body:has(#home-pg.on){background:#f4f5fa !important}
   #home-pg .jke-new-list::-webkit-scrollbar{width:6px}
   #home-pg .jke-new-list::-webkit-scrollbar-thumb{background:#d5d9e8;border-radius:99px}
 }
+</style>
+
+<style id="jke-home">
+/* ═══════ PUBLIC HOME v2 ═══════ */
+#splash-pg{--hcb:#e7e9f3;--tile:#eef0fb}
+html:has(#splash-pg.on),body:has(#splash-pg.on){background:#f4f5fa !important}
+/* hero */
+#splash-pg .splash-hero{background:radial-gradient(60% 90% at 15% 0%,rgba(72,45,255,.10),transparent 70%),radial-gradient(50% 80% at 90% 10%,rgba(20,184,166,.10),transparent 70%),#fff;border-bottom:1px solid var(--hcb);padding:44px 20px 34px}
+#splash-pg .splash-hero::before{display:none}
+#splash-pg .splash-h1{font-size:clamp(32px,6vw,54px);letter-spacing:-1.5px;line-height:1.08}
+#splash-pg .splash-sub{max-width:560px;margin-left:auto;margin-right:auto}
+.hp-ctas{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:22px 0 4px}
+.hp-btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:14px;font-family:var(--f);font-size:14px;font-weight:700;cursor:pointer;border:none;text-decoration:none;transition:transform .15s,box-shadow .15s}
+.hp-btn:hover{transform:translateY(-1px)}
+.hp-btn.pri{background:var(--p);color:#fff;box-shadow:0 12px 24px -10px rgba(72,45,255,.6)}
+.hp-btn.sec{background:#fff;color:var(--t1);border:1px solid var(--hcb)}
+.hp-trust{display:flex;gap:8px 18px;justify-content:center;flex-wrap:wrap;margin:16px 0 22px;font-size:12px;font-weight:600;color:var(--t3)}
+.hp-trust span::before{content:"\2713";color:#0d9488;font-weight:800;margin-right:6px}
+#splash-pg .splash-stats{gap:10px;border:none}
+#splash-pg .splash-stat{background:#fff;border:1px solid var(--hcb);border-radius:16px;padding:14px 18px;box-shadow:0 1px 2px rgba(20,24,60,.04)}
+/* band: recently added + toppers */
+.hp-band{display:flex;flex-wrap:wrap;gap:16px;max-width:1100px;margin:0 auto;padding:22px 16px 0;align-items:flex-start}
+#splash-new{flex:1.6 1 420px;min-width:0}
+#splash-toppers{flex:1 1 300px;min-width:0}
+.hp-card{background:#fff;border:1px solid var(--hcb);border-radius:20px;padding:16px 16px 10px;box-shadow:0 1px 2px rgba(20,24,60,.04),0 10px 28px -14px rgba(20,24,60,.12)}
+.hp-hd{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:2px 4px 12px}
+.hp-ttl{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:800;color:var(--t1)}
+.hp-dot{width:8px;height:8px;border-radius:50%;background:#14b8a6;box-shadow:0 0 0 4px rgba(20,184,166,.16)}
+.hp-sub{font-size:11.5px;color:var(--t3);font-weight:500}
+.hp-newlist{display:flex;flex-direction:column;gap:2px}
+.hp-new{display:flex;align-items:center;gap:12px;padding:10px;border-radius:14px;cursor:pointer;transition:background .15s}
+.hp-new:hover{background:#f5f6fc}
+.hp-ico{width:40px;height:40px;flex:none;border-radius:12px;background:var(--tile);display:flex;align-items:center;justify-content:center;font-size:19px}
+.hp-nb{flex:1;min-width:0}
+.hp-nn{font-size:13.5px;font-weight:700;color:var(--t1);line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.hp-nm{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:3px;font-size:11.5px;color:var(--t3);font-weight:500}
+.hp-nm b{font-weight:700;color:var(--t2)}
+.hp-pill{font-size:10px;font-weight:800;padding:2px 8px;border-radius:99px;letter-spacing:.3px}
+.hp-pill.free{background:#e3f6f1;color:#0d8579}
+.hp-pill.pro{background:#f1eafd;color:#7c3aed}
+.hp-go{color:var(--t4);font-size:18px;flex:none}
+/* toppers */
+.hp-top{padding-bottom:12px}
+.hp-trow{display:flex;align-items:center;gap:12px;padding:10px;border-radius:14px}
+.hp-trow:nth-child(odd){background:#f8f9fd}
+.hp-av{position:relative;width:40px;height:40px;flex:none;border-radius:50%;background:linear-gradient(135deg,#6a5cff,#482dff);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800}
+.hp-trow:first-child .hp-av{background:linear-gradient(135deg,#f5b52e,#e8820c)}
+.hp-crown{position:absolute;top:-9px;right:-4px;font-size:14px}
+.hp-tn{font-size:13.5px;font-weight:700;color:var(--t1);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hp-tp{font-size:11.5px;color:var(--t3);font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hp-rate{margin-left:auto;flex:none;font-family:var(--m);font-size:12.5px;font-weight:800;color:#a16207;background:#fff4d6;padding:4px 10px;border-radius:99px}
+.hp-note{margin:8px 6px 0;font-size:11px;color:var(--t4)}
+/* phone: recently added swipes sideways */
+@media (max-width:859px){
+  .hp-band{padding-top:16px}
+  #splash-new{flex-basis:100%}
+  #splash-toppers{flex-basis:100%}
+  #splash-new .hp-card{background:none;border:none;box-shadow:none;padding:0}
+  #splash-new .hp-hd{margin:0 2px 10px}
+  #splash-new .hp-newlist{flex-direction:row;gap:10px;overflow-x:auto;padding:2px 2px 8px;scroll-snap-type:x proximity;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  #splash-new .hp-newlist::-webkit-scrollbar{display:none}
+  #splash-new .hp-new{flex:0 0 min(76vw,260px);align-items:flex-start;background:#fff;border:1px solid var(--hcb);border-radius:16px;padding:12px;scroll-snap-align:start}
+  #splash-new .hp-go{display:none}
+}
+@media (min-width:860px){ #splash-new .hp-newlist{max-height:330px;overflow-y:auto;scrollbar-width:thin} }
+/* nav: Notes tab visible on phones (laptop keeps its own Notes link) */
+.nav-links .nl-notes{text-decoration:none}
+@media (min-width:768px){ .nav-links .nl-notes{display:none} }
+
+@media (max-width:480px){
+  #jke-nav .nav-logo-name{display:none}
+  #jke-nav .nav-logo{padding-right:4px}
+  #jke-nav .nav-link{padding:0 8px;font-size:11.5px;gap:3px}
+  #jke-nav .nav-btn{padding:8px 14px}
+}
+</style>
+
+<style id="jke-fix2">
+/* ═══ Auth modal: always fits the screen, scrolls inside, sits above nav ═══ */
+#auth-modal{z-index:11000}
+#reset-modal{z-index:11001 !important}
+#auth-modal .auth-card{display:flex;flex-direction:column;max-height:calc(100vh - 24px);max-height:calc(100dvh - 24px);max-width:440px}
+#auth-modal .auth-hero{flex:none;padding:18px 20px 14px}
+#auth-modal .auth-logo{width:44px;height:44px;margin-bottom:8px;font-size:15px}
+#auth-modal .auth-title{font-size:16px}
+#auth-modal .auth-tabs{flex:none}
+#auth-modal .auth-body.on{display:block;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;min-height:0}
+@media (min-width:560px){
+  #auth-modal .auth-card{max-width:520px}
+  #auth-modal #ab-su.on{display:grid;grid-template-columns:1fr 1fr;column-gap:12px;align-content:start}
+  #ab-su .auth-warn,#ab-su .al,#ab-su #su-btn,#ab-su .auth-switch,#ab-su .fl:has(#su-name),#ab-su .fl:has(#su-email){grid-column:1/-1}
+}
+/* ═══ Public catalogue: compact grid cards ═══ */
+#public-catalogue .cat-section{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;align-items:start;margin-bottom:22px}
+#public-catalogue .cat-section-hd{grid-column:1/-1;margin-bottom:0}
+#public-catalogue .exam-folder{margin:0}
+#public-catalogue .ef-head{padding:12px 14px}
+#public-catalogue .ef-icon{width:40px;height:40px;font-size:19px;border-radius:12px}
+#public-catalogue .ef-name{font-size:14px}
+#public-catalogue .ef-right{display:none}
+#public-catalogue .lock-strip{display:flex;flex-direction:column;align-items:stretch;gap:12px;padding:14px}
+#public-catalogue .ls-left{display:block}
+#public-catalogue .ls-price{font-size:22px}
+#public-catalogue .ls-feats{margin-top:8px;gap:4px 12px}
+#public-catalogue .ls-right{width:100%}
+#public-catalogue .btn-buy{width:100%;text-align:center}
+#public-catalogue .tc{padding:11px 14px}
+/* ═══ Home band: stacked full-width rows ═══ */
+.hp-band{flex-direction:column;flex-wrap:nowrap;gap:16px}
+#splash-new,#splash-toppers,.hp-explore{flex:none;width:100%}
+.hp-explore{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.hp-ex{display:flex;align-items:center;gap:12px;padding:14px;background:#fff;border:1px solid var(--hcb);border-radius:16px;text-decoration:none;cursor:pointer;transition:transform .15s,box-shadow .15s;box-shadow:0 1px 2px rgba(20,24,60,.04)}
+.hp-ex:hover{transform:translateY(-2px);box-shadow:0 12px 24px -14px rgba(20,24,60,.25)}
+.hp-ex .hp-ico{width:42px;height:42px}
+.hp-ex b{display:block;font-size:13.5px;color:var(--t1);font-weight:700}
+.hp-ex span{display:block;font-size:11.5px;color:var(--t3);font-weight:500;margin-top:1px}
+.hp-ex.notes .hp-ico{background:#fff1d6}
+@media (max-width:859px){ .hp-explore{grid-template-columns:1fr 1fr;gap:10px} .hp-ex{padding:12px;gap:10px;flex-direction:column;align-items:flex-start} }
+/* recently added: horizontal row everywhere */
+#splash-new .hp-newlist{flex-direction:row;gap:12px;overflow-x:auto;overflow-y:hidden;max-height:none;padding:2px 2px 10px;scroll-snap-type:x proximity;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+#splash-new .hp-new{flex:0 0 280px;align-items:flex-start;background:#fff;border:1px solid var(--hcb);border-radius:16px;padding:14px;scroll-snap-align:start}
+#splash-new .hp-new:hover{background:#fafbff;border-color:#d3d8ee}
+#splash-new .hp-go{display:none}
+.hp-arrows{display:none;gap:6px}
+@media (min-width:860px){.hp-arrows{display:flex}}
+.hp-arr{width:30px;height:30px;border-radius:50%;border:1px solid var(--hcb);background:#fff;color:var(--t2);font-size:16px;line-height:1;cursor:pointer}
+.hp-arr:hover{border-color:var(--p);color:var(--p)}
+/* top performers: card grid */
+.hp-tgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.hp-trow{background:#f8f9fd;border:1px solid #eef0f7}
+.hp-trow:nth-child(odd){background:#f8f9fd}
+
+/* "+N more tests" row (public catalogue) */
+.tc.more-row{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#f3f1ff,#eef4ff) !important;border:1px dashed #cfd0f5 !important;border-radius:12px !important;margin:6px 10px 10px;padding:12px 14px !important}
+.more-ico{width:34px;height:34px;flex:none;border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:16px}
+.more-cta{flex:none;font-size:12.5px;font-weight:700;color:var(--p);white-space:nowrap}
+.tc.more-row:hover{border-color:var(--p) !important}
 </style>
 
 </body>
