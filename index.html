@@ -5588,6 +5588,34 @@
       sub: "Open to all aspirants",
     },
   };
+    function mergeBackendPacks(cb) {
+    api({ action: "getPacks" }, function (err, data) {
+      if (!err && data) {
+        var list = Array.isArray(data) ? data : (data.packs || []);
+        list.forEach(function (p) {
+          if (!p || !p.packId) return;
+          if (PACKS[p.packId]) return; // never overwrite an existing hardcoded pack
+          var priceRupees = Number(p.price) || 0;
+          var mrpRupees = Number(p.originalPrice) || priceRupees;
+          PACKS[p.packId] = {
+            id: p.packId,
+            name: p.name,
+            price: Math.round(priceRupees * 100),
+            display: "\u20B9" + priceRupees,
+            mrp: Math.round(mrpRupees * 100),
+            mrpDisplay: "\u20B9" + mrpRupees,
+            includes: p.description
+              ? p.description.split(/\r?\n/).map(function (s) { return s.trim(); }).filter(Boolean)
+              : ["Lifetime Access \u2014 All Future Tests"],
+          };
+          if (!EX[p.packId]) {
+            EX[p.packId] = { icon: "\uD83D\uDCE6", name: p.name, sub: p.examGroup || "" };
+          }
+        });
+      }
+      cb();
+    });
+  }
   var ICONS = [
     "📡",
     "🧠",
@@ -9379,25 +9407,27 @@ if (stored && Array.isArray(stored.data) && stored.data.length && Date.now() - s
   // ═══════════════════════════════════════
   //  BOOT
   // ═══════════════════════════════════════
-  (function init() {
+    (function init() {
     var resetToken = gp('resetToken');
     if (resetToken) {
       document.getElementById('reset-modal').style.display = 'flex';
       return;
     }
-    var u = AUTH.get();
-    if (u) {
-      ST.user = u;
-      renderNav();
-      var tid = gp("test");
-      if (tid) {
-        startTest(tid, gp("tab") === "b" ? "b" : "v");
+    mergeBackendPacks(function () {
+      var u = AUTH.get();
+      if (u) {
+        ST.user = u;
+        renderNav();
+        var tid = gp("test");
+        if (tid) {
+          startTest(tid, gp("tab") === "b" ? "b" : "v");
+        } else {
+          loadDashboard();
+        }
       } else {
-        loadDashboard();
+        loadPublicTests();
       }
-    } else {
-      loadPublicTests();
-    }
+    });
   })();
 </script>
  
