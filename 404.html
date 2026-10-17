@@ -1,0 +1,477 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f8f7ff" />
+  <meta name="robots" content="noindex, follow" />
+
+  <title>Page Not Found | JKEdusphere</title>
+  <meta name="description"
+        content="This page couldn't be found. Explore JKEdusphere for J&K exam preparation, study resources and mock tests." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #f8f7ff;
+      --surface: #ffffff;
+      --ink: #19152d;
+      --muted: #716d83;
+      --primary: #6952d9;
+      --primary-dark: #5140b5;
+      --teal: #0e9f91;
+      --border: #e9e5f5;
+      --shadow: 0 20px 70px rgba(44, 30, 100, 0.09);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "DM Sans", sans-serif;
+      background:
+        radial-gradient(ellipse at 10% 5%, #ebe6ff 0, transparent 38%),
+        radial-gradient(ellipse at 95% 90%, #dff8f3 0, transparent 32%),
+        var(--bg);
+      color: var(--ink);
+      display: flex;
+      flex-direction: column;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .navbar {
+      width: min(1080px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 25px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-weight: 800;
+      font-size: 20px;
+      letter-spacing: -0.7px;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      color: white;
+      background: linear-gradient(145deg, #8069f0, #5943c1);
+      border-radius: 14px;
+      box-shadow: 0 7px 18px #6952d933;
+      font-size: 22px;
+    }
+
+    .brand small {
+      display: block;
+      margin-top: 1px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.3px;
+      text-transform: uppercase;
+    }
+
+    .nav-link {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    main {
+      flex: 1;
+      display: grid;
+      place-items: center;
+      padding: 28px 20px 64px;
+    }
+
+    .container {
+      width: min(740px, 100%);
+      text-align: center;
+    }
+
+    .illustration {
+      width: 150px;
+      height: 150px;
+      margin: 0 auto 24px;
+      position: relative;
+      display: grid;
+      place-items: center;
+      border: 1px solid #ffffff;
+      border-radius: 42px;
+      background: linear-gradient(145deg, #eeeaff, #ffffff);
+      box-shadow: var(--shadow);
+      transform: rotate(-4deg);
+    }
+
+    .illustration .number {
+      color: var(--primary);
+      font-size: 47px;
+      font-weight: 800;
+      letter-spacing: -4px;
+    }
+
+    .illustration .book {
+      position: absolute;
+      right: -15px;
+      bottom: -9px;
+      width: 49px;
+      height: 49px;
+      display: grid;
+      place-items: center;
+      background: #dff7f1;
+      border: 4px solid var(--bg);
+      border-radius: 17px;
+      font-size: 24px;
+      transform: rotate(9deg);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 13px;
+      color: var(--primary-dark);
+      background: #eeeaff;
+      border: 1px solid #e1dbff;
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      background: var(--primary);
+      border-radius: 50%;
+    }
+
+    h1 {
+      margin: 19px 0 12px;
+      font-size: clamp(32px, 6vw, 51px);
+      line-height: 1.1;
+      letter-spacing: -2px;
+    }
+
+    .description {
+      max-width: 490px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .bad-path {
+      display: inline-block;
+      max-width: min(100%, 440px);
+      margin-top: 18px;
+      padding: 9px 13px;
+      overflow-wrap: anywhere;
+      color: #746c90;
+      background: #ffffffa8;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font: 12px/1.6 monospace;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 27px;
+    }
+
+    .button {
+      min-height: 48px;
+      padding: 0 19px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: var(--surface);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      transition: transform .2s, box-shadow .2s, background .2s;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px #35266b12;
+    }
+
+    .button-primary {
+      color: white;
+      background: var(--primary);
+      border-color: var(--primary);
+      box-shadow: 0 8px 20px #6952d926;
+    }
+
+    .button-primary:hover { background: var(--primary-dark); }
+
+    .destinations {
+      margin-top: 65px;
+      text-align: left;
+    }
+
+    .section-heading {
+      margin-bottom: 17px;
+      text-align: center;
+    }
+
+    .section-heading h2 {
+      margin: 0 0 6px;
+      font-size: 19px;
+      letter-spacing: -.5px;
+    }
+
+    .section-heading p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .destination {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 21px;
+      background: #ffffffc9;
+      border: 1px solid var(--border);
+      border-radius: 19px;
+      transition: transform .2s, box-shadow .2s, border-color .2s;
+    }
+
+    .destination:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+      border-color: #d6cdfd;
+    }
+
+    .destination-icon {
+      width: 43px;
+      height: 43px;
+      flex: 0 0 43px;
+      display: grid;
+      place-items: center;
+      background: #eeeaff;
+      border-radius: 13px;
+      font-size: 21px;
+    }
+
+    .destination:nth-child(2) .destination-icon {
+      background: #ddf7f0;
+    }
+
+    .destination h3 {
+      margin: 2px 0 6px;
+      font-size: 14px;
+    }
+
+    .destination p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
+    .visit {
+      display: inline-block;
+      margin-top: 12px;
+      color: var(--primary-dark);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    footer {
+      padding: 23px 20px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 11px;
+      line-height: 1.8;
+    }
+
+    footer a {
+      color: var(--primary-dark);
+      font-weight: 700;
+    }
+
+    a:focus-visible, button:focus-visible {
+      outline: 3px solid var(--teal);
+      outline-offset: 4px;
+    }
+
+    @media (max-width: 540px) {
+      .navbar { padding: 18px 0; }
+      .brand { font-size: 18px; }
+      .brand-mark { width: 38px; height: 38px; }
+      main { padding: 25px 18px 42px; }
+      .illustration {
+        width: 122px;
+        height: 122px;
+        border-radius: 34px;
+      }
+      .illustration .number { font-size: 39px; }
+      h1 { letter-spacing: -1.5px; }
+      .description { font-size: 14px; }
+      .actions { flex-direction: column; }
+      .button { width: 100%; }
+      .destinations { margin-top: 45px; }
+      .cards { grid-template-columns: 1fr; }
+      .destination { padding: 18px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="navbar">
+    <a class="brand" href="https://jkedusphere.com/" aria-label="JKEdusphere home">
+      <span class="brand-mark" aria-hidden="true">J</span>
+      <span>
+        JKEdusphere
+        <small>Learn smarter. Score better.</small>
+      </span>
+    </a>
+
+    <a class="nav-link" href="https://jkedusphere.online/">
+      Explore resources ↗
+    </a>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="illustration" aria-hidden="true">
+        <span class="number">404</span>
+        <span class="book">📚</span>
+      </div>
+
+      <span class="eyebrow">
+        <span class="dot"></span>
+        Wrong turn, not the end
+      </span>
+
+      <h1>This page seems<br />to be missing.</h1>
+
+      <p class="description">
+        Looks like this link took you somewhere we didn't plan.
+        The page may have moved, the URL may be incorrect, or
+        the resource may no longer be available.
+        Let's get you back to your preparation.
+      </p>
+
+      <div class="bad-path" id="requested-path">
+        Requested page
+      </div>
+
+      <div class="actions">
+        <a class="button button-primary"
+           href="https://jkedusphere.com/">
+          Explore mock tests <span aria-hidden="true">→</span>
+        </a>
+
+        <a class="button"
+           href="https://jkedusphere.online/">
+          Explore study resources ↗
+        </a>
+
+        <button class="button" id="back-button" type="button">
+          ← Go back
+        </button>
+      </div>
+
+      <section class="destinations" aria-labelledby="destinations-title">
+        <div class="section-heading">
+          <h2>Your preparation doesn't stop here.</h2>
+          <p>Choose where you'd like to continue.</p>
+        </div>
+
+        <div class="cards">
+          <a class="destination" href="https://jkedusphere.com/">
+            <span class="destination-icon" aria-hidden="true">🎯</span>
+            <span>
+              <h3>Practice & improve</h3>
+              <p>
+                Explore mock tests, practise under timed
+                conditions and work towards a better score.
+              </p>
+              <span class="visit">Visit test platform →</span>
+            </span>
+          </a>
+
+          <a class="destination" href="https://jkedusphere.online/">
+            <span class="destination-icon" aria-hidden="true">📖</span>
+            <span>
+              <h3>Learn & stay updated</h3>
+              <p>
+                Discover study notes, exam resources,
+                current affairs and recruitment updates.
+              </p>
+              <span class="visit">Explore learning hub →</span>
+            </span>
+          </a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    Made for learners in Jammu & Kashmir and beyond.<br />
+    © <span id="year"></span> JKEdusphere ·
+    <a href="https://jkedusphere.com/">Mock Tests</a> ·
+    <a href="https://jkedusphere.online/">Study Resources</a>
+  </footer>
+
+  <script>
+    // Show the requested path safely; never interpret it as HTML.
+    const pathElement = document.getElementById("requested-path");
+    pathElement.textContent = "Requested page: " + window.location.pathname;
+
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+
+    document.getElementById("back-button").addEventListener("click", () => {
+      if (window.history.length > 1 &&
+          document.referrer &&
+          new URL(document.referrer).origin === window.location.origin) {
+        window.history.back();
+      } else {
+        window.location.assign("https://jkedusphere.com/");
+      }
+    });
+  </script>
+</body>
+</html>
