@@ -4407,11 +4407,11 @@
     <div class="nav-link" id="nl-lb" onclick="goNav('lb')">🏆 Ranks</div>
     <div class="nav-link" id="nl-ak" onclick="goNav('ak')" style="display:none">🔑 Check Your Score</div>
     <div class="nav-link" id="nl-hist" onclick="goNav('hist')" style="display:none">📊 My Attempts</div>
-    <a class="nav-link nl-notes" href="https://jkedusphere.com/notes">📝 Notes</a>
+    <a class="nav-link nl-notes" href="/notes">📝 Notes</a>
+    <a class="nav-link nl-mcqs" href="/HistoryOfJ%26KMCQS/">📖 MCQs</a>
   </div>
    <div class="nav-desktop-links">
     <a href="https://jkedusphere.blogspot.com/" class="nav-link">Home</a>
-    <a href="https://jkedusphere.com/notes" class="nav-link">Notes</a>
   </div>
   <div class="nav-right" id="nav-right">
     <button class="nav-btn" onclick="openAuthModal('si')">Sign In</button>
@@ -4993,6 +4993,7 @@
         </div>
         <!-- Mode picker (shown once access is confirmed \u2014 free tests, or already-purchased/verified premium tests) -->
         <div id="gate-mode-body" style="display:none;padding:18px 20px 20px">
+          <div class="g-details" id="g-details"></div>
           <div class="mode-toggle" id="mode-toggle">
             <button type="button" class="mt-opt on" data-mode="exam" onclick="GATE.selectMode('exam')">
               <span class="mt-opt-title">🎯 Exam Mode</span>
@@ -5003,7 +5004,11 @@
               <span class="mt-opt-sub">No timer &middot; Instant answers &middot; Not ranked</span>
             </button>
           </div>
-          <button class="btn-primary" id="gate-start-btn" onclick="GATE.beginSelected()" style="margin-top:16px">
+          <label class="tnc-row" id="g-agree-row">
+            <input type="checkbox" id="g-agree" onchange="document.getElementById('g-agree-row').classList.remove('err')" />
+            <span>I have read the test details and instructions above, and I am ready to begin.</span>
+          </label>
+          <button class="btn-primary" id="gate-start-btn" onclick="GATE.beginSelected()" style="margin-top:4px">
             Start Test &rarr;
           </button>
         </div>
@@ -5763,7 +5768,31 @@
   var API_GET_CACHE = {};
   var API_GET_INFLIGHT = {};
 
+  function jkeEsc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  // Actions that carry a password or the login token go over POST, so they never
+  // end up in URLs / server logs. apiPost() adds the signed-in user's token.
+  var POST_ACTIONS = {
+    login: 1, register: 1, forgotPassword: 1,
+    getTest: 1, getTestPractice: 1, getStudentHistory: 1,
+    getWeakAreas: 1, getSubmissionReview: 1, verifyAccess: 1,
+  };
+
+  function sessionExpired() {
+    if (!AUTH.get()) return;
+    AUTH.logout();
+    toast("Your session expired. Please sign in again.", "warn", 5000);
+  }
+
   function api(params, cb) {
+    if (POST_ACTIONS[params.action]) {
+      apiPost(params, cb);
+      return;
+    }
     var cacheKey = params.action === "getTests" ? "getTests" : "";
     if (cacheKey && API_GET_CACHE[cacheKey]) {
       setTimeout(function () { cb(null, API_GET_CACHE[cacheKey]); }, 0);
@@ -5807,6 +5836,10 @@
       });
   }
   function apiPost(body, cb) {
+    var sess = AUTH.get();
+    if (sess && sess.token) {
+      body = Object.assign({}, body, { authToken: sess.token });
+    }
     fetch(JKE_URL, {
       method: "POST",
       // text/plain is a CORS-safelisted content type. Apps Script still
@@ -5819,6 +5852,7 @@
         return r.json();
       })
       .then(function (d) {
+        if (d && d.code === "auth_required") sessionExpired();
         cb(null, d);
       })
       .catch(function (err) {
@@ -5994,14 +6028,14 @@
       ini +
       "</div>" +
       '<span class="nav-uname">' +
-      u.name +
+      jkeEsc(u.name) +
       "</span>" +
       "</div>" +
       '<div class="profile-menu" id="profile-menu">' +
       '<div class="pm-head"><div class="pm-name">' +
-      u.name +
+      jkeEsc(u.name) +
       '</div><div class="pm-email">' +
-      u.email +
+      jkeEsc(u.email) +
       "</div></div>" +
       '<div class="pm-item" onclick="closeProfileMenu();goNav(\'home\')">📋 My Tests</div>' +
       '<div class="pm-item" onclick="closeProfileMenu();goNav(\'ak\')">🔑 Check Your Score</div>' +
@@ -7262,7 +7296,37 @@ function toggleFolder(head) {
     if (gf) gf.style.display = "block";
     if (gm) gm.style.display = "none";
   }
+  function _gateFmtNum(n) {
+    return String(Number(Number(n || 0).toFixed(2)));
+  }
+  function _gateFillDetails() {
+    var d = ST.testData || {};
+    var el = document.getElementById("g-details");
+    if (!el) return;
+    var mc = Number(d.marksCorrect) || 1;
+    var mw = Math.abs(Number(d.marksWrong) || 0);
+    var pass = Number(d.passMarks) || 0;
+    var dur = Number(d.durationMinutes) || 0;
+    var html =
+      '<div class="gd-grid">' +
+      '<div class="gd-i"><b class="gd-pos">+' + _gateFmtNum(mc) + "</b><span>Per correct</span></div>" +
+      '<div class="gd-i"><b class="' + (mw ? "gd-neg" : "") + '">' + (mw ? "\u2212" + _gateFmtNum(mw) : "None") + "</b><span>Per wrong</span></div>" +
+      '<div class="gd-i"><b>' + (pass ? _gateFmtNum(pass) : "--") + "</b><span>Pass marks</span></div>" +
+      "</div>" +
+      '<ul class="gd-notes">' +
+      (dur ? "<li>Exam Mode is timed (" + dur + " minutes). The test is submitted automatically when time runs out.</li>" : "") +
+      "<li>" + (mw ? "Negative marking: " + _gateFmtNum(mw) + " mark" + (mw === 1 ? "" : "s") + " deducted for every wrong answer. Unattempted questions carry no penalty." : "There is no negative marking in this test.") + "</li>" +
+      "<li>Rank is decided by score first, then by time taken. Only Exam Mode attempts are ranked.</li>" +
+      "<li>Practice Mode has no timer, shows answers instantly and is not ranked.</li>" +
+      "</ul>";
+    el.innerHTML = html;
+    var ag = document.getElementById("g-agree");
+    if (ag) ag.checked = false;
+    var row = document.getElementById("g-agree-row");
+    if (row) row.classList.remove("err");
+  }
   function _gateShowModePicker() {
+    _gateFillDetails();
     var el = document.getElementById("gate-skel");
     var gi = document.getElementById("gate-info");
     var gf = document.getElementById("gate-form-body");
@@ -7327,6 +7391,7 @@ function toggleFolder(head) {
       var u = ST.user;
       var pp = u.purchasedPacks || [];
       var cachedUnlocked =
+        data.hasAccess === true ||
         pp.indexOf(ST.packId) >= 0 ||
         !!(ST._unlocked && ST._unlocked[ST.packId]);
 
@@ -7336,6 +7401,15 @@ function toggleFolder(head) {
           JKE.goHome();
           return;
         }
+        // Unlocked: show this test's own details instead of the pack's sales header
+        var pkName = PACKS[ST.packId] ? PACKS[ST.packId].name : "";
+        tx("g-title", data.testName);
+        tx("g-subj", (pkName ? pkName + " \u00B7 " : "") + (data.subject || ""));
+        if (gsEl) gsEl.style.display = "grid";
+        tx("g-qs", data.totalQuestions || "--");
+        tx("g-dur", data.durationMinutes || "--");
+        tx("g-mks", data.totalMarks || "--");
+        tx("gate-pill", "\uD83D\uDD13 Premium Test \u00B7 Unlocked");
         _gateShowModePicker();
         return;
       }
@@ -7381,6 +7455,13 @@ function toggleFolder(head) {
     });
   };
   GATE.beginSelected = function () {
+    var ag = document.getElementById("g-agree");
+    if (ag && !ag.checked) {
+      var row = document.getElementById("g-agree-row");
+      if (row) { row.classList.remove("err"); void row.offsetWidth; row.classList.add("err"); }
+      toast("Please tick the box to confirm you have read the test details", "warn", 3500);
+      return;
+    }
     var btn = document.getElementById("gate-start-btn");
     if (ST._gateMode === "practice") {
       if (btn) { btn.disabled = true; btn.textContent = "Loading practice questions\u2026"; }
@@ -7465,15 +7546,19 @@ function toggleFolder(head) {
                   );
                 } else if (data && data.error) {
                   toast(
-                    "Payment done! Sheet error \u2014 contact Telegram support with Payment ID: " +
+                    "Payment received but could not be activated (" + data.error + "). Contact Telegram support with Payment ID: " +
                       response.razorpay_payment_id,
                     "warn",
-                    10000,
+                    12000,
                   );
                 } else {
                   toast("Payment successful! Access unlocked. 🎉", "ok", 4000);
                 }
+                // Access is only granted once the server has verified the payment.
+                if (err || !data || data.error) return;
+                var _tok = ST.user && ST.user.token;
                 if (data && data.user) ST.user = data.user;
+                if (_tok && !ST.user.token) ST.user.token = _tok;
                 if (!ST.user.purchasedPacks) ST.user.purchasedPacks = [];
                 if (ST.user.purchasedPacks.indexOf(pk.id) < 0)
                   ST.user.purchasedPacks.push(pk.id);
@@ -8853,9 +8938,9 @@ function togglePalette() {
             r.rank +
             "</span></td>" +
             '<td><div class="lb-name">' +
-            r.name +
+            jkeEsc(r.name) +
             '</div><div class="lb-email">' +
-            r.email +
+            jkeEsc(r.email) +
             "</div></td>" +
             '<td style="text-align:center"><span class="lb-rating-badge ' +
             ratingCls +
@@ -9006,9 +9091,9 @@ function togglePalette() {
             rc +
             "</td>" +
             '<td><div class="lb-name">' +
-            r.name +
+            jkeEsc(r.name) +
             '</div><div class="lb-email">' +
-            r.email +
+            jkeEsc(r.email) +
             "</div></td>" +
             '<td><div class="lb-score">' +
             r.score +
@@ -9046,7 +9131,7 @@ function togglePalette() {
       wrap.innerHTML =
         '<div class="lb-my-rank">' +
         '<div><div class="lb-mr-name">' +
-        found.name +
+        jkeEsc(found.name) +
         "</div>" +
         '<div class="lb-mr-det">Score: ' +
         found.score +
@@ -9427,6 +9512,10 @@ if (stored && Array.isArray(stored.data) && stored.data.length && Date.now() - s
       } else {
         loadPublicTests();
       }
+      // Links from the notes / MCQ pages: ?login=1 opens the sign-in popup, ?go=lb opens Ranks.
+      var _lg = gp("login");
+      if (_lg && !AUTH.get()) openAuthModal(_lg === "su" ? "su" : "si");
+      if (gp("go") === "lb") goNav("lb");
     });
   })();
 </script>
@@ -9700,7 +9789,6 @@ html:has(#splash-pg.on),body:has(#splash-pg.on){background:#f4f5fa !important}
 @media (min-width:860px){ #splash-new .hp-newlist{max-height:330px;overflow-y:auto;scrollbar-width:thin} }
 /* nav: Notes tab visible on phones (laptop keeps its own Notes link) */
 .nav-links .nl-notes{text-decoration:none}
-@media (min-width:768px){ .nav-links .nl-notes{display:none} }
 
 @media (max-width:480px){
   #jke-nav .nav-logo-name{display:none}
@@ -9772,5 +9860,19 @@ html:has(#splash-pg.on),body:has(#splash-pg.on){background:#f4f5fa !important}
 .tc.more-row:hover{border-color:var(--p) !important}
 </style>
 
+
+<style id="jke-gate-details">
+.g-details{margin-bottom:14px}
+.g-details .gd-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.g-details .gd-i{background:#f6f7fc;border:1px solid #e7e9f3;border-radius:12px;padding:10px 6px;text-align:center}
+.g-details .gd-i b{display:block;font-size:17px;font-weight:800;color:var(--t1);font-family:var(--m);letter-spacing:-.4px}
+.g-details .gd-i b.gd-pos{color:var(--g2)}
+.g-details .gd-i b.gd-neg{color:var(--r2)}
+.g-details .gd-i span{display:block;margin-top:4px;font-size:10px;font-weight:600;color:var(--t3)}
+.g-details .gd-notes{list-style:none;margin:0;padding:0;display:grid;gap:7px}
+.g-details .gd-notes li{position:relative;padding-left:16px;font-size:12px;line-height:1.5;color:var(--t2)}
+.g-details .gd-notes li::before{content:"";position:absolute;left:2px;top:6px;width:6px;height:6px;border-radius:50%;background:var(--p)}
+#gate-mode-body .tnc-row{margin:14px 0 12px}
+</style>
 </body>
 </html>
