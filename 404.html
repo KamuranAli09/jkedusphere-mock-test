@@ -1,477 +1,437 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YRE82139KK"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#f8f7ff" />
+  <meta name="theme-color" content="#fdfcff" />
   <meta name="robots" content="noindex, follow" />
 
-  <title>Page Not Found | JKEdusphere</title>
-  <meta name="description"
-        content="This page couldn't be found. Explore JKEdusphere for J&K exam preparation, study resources and mock tests." />
+  <title>Page Not Found (404) | JKEdusphere</title>
+  <meta name="description" content="This page couldn't be found. Head back to JKEdusphere for JKSSB, JKPSC, JKPSI and UPSC mock tests, premium notes and free MCQs." />
+
+  <!-- Root-absolute paths on purpose: this page is served at ANY invalid URL depth (/a/b/c). -->
+  <link rel="icon" type="image/png" href="/fevicon.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <style>
     :root {
-      --bg: #f8f7ff;
+      --bg: #fdfcff;
       --surface: #ffffff;
-      --ink: #19152d;
-      --muted: #716d83;
-      --primary: #6952d9;
-      --primary-dark: #5140b5;
-      --teal: #0e9f91;
-      --border: #e9e5f5;
-      --shadow: 0 20px 70px rgba(44, 30, 100, 0.09);
+      --ink: #08102b;
+      --muted: #4a5568;
+      --soft: #718096;
+      --border: #e2e8f0;
+      --navy-900: #0d2b52;
+      --navy: #1a4a7a;
+      --sky: #4db3e6;
+      --teal: #0d9488;
+      --brand-grad: linear-gradient(135deg, #0d2b52 0%, #1a4a7a 55%, #4db3e6 100%);
+      --text-grad: linear-gradient(90deg, #0d2b52 0%, #1a4a7a 45%, #4db3e6 100%);
+      --shadow: 0 18px 50px rgba(13, 43, 82, 0.10);
     }
 
     * { box-sizing: border-box; }
 
+    html { -webkit-text-size-adjust: 100%; }
+
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: "DM Sans", sans-serif;
-      background:
-        radial-gradient(ellipse at 10% 5%, #ebe6ff 0, transparent 38%),
-        radial-gradient(ellipse at 95% 90%, #dff8f3 0, transparent 32%),
-        var(--bg);
-      color: var(--ink);
       display: flex;
       flex-direction: column;
+      font-family: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse 60% 45% at 8% 0%, rgba(77, 179, 230, .16) 0, transparent 70%),
+        radial-gradient(ellipse 55% 40% at 100% 100%, rgba(26, 74, 122, .09) 0, transparent 70%),
+        var(--bg);
     }
 
     a { color: inherit; text-decoration: none; }
 
-    .navbar {
-      width: min(1080px, calc(100% - 40px));
+    /* ---------- Header (matches site logo) ---------- */
+    .topbar {
+      width: min(960px, calc(100% - 40px));
       margin: 0 auto;
-      padding: 25px 0;
+      padding: 22px 0;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 16px;
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      font-weight: 800;
-      font-size: 20px;
-      letter-spacing: -0.7px;
+    .logo { display: flex; align-items: center; gap: 10px; }
+
+    .logo-icon {
+      width: 38px; height: 38px;
+      display: grid; place-items: center;
+      border-radius: 11px;
+      background: var(--brand-grad);
+      box-shadow: 0 2px 10px rgba(26, 74, 122, .35);
+      color: #fff; font-weight: 800; font-size: 14px; letter-spacing: .3px;
     }
 
-    .brand-mark {
-      width: 42px;
-      height: 42px;
-      display: grid;
-      place-items: center;
-      color: white;
-      background: linear-gradient(145deg, #8069f0, #5943c1);
-      border-radius: 14px;
-      box-shadow: 0 7px 18px #6952d933;
-      font-size: 22px;
+    .logo-name {
+      font-weight: 800; font-size: 21px; letter-spacing: -.5px;
+      background: var(--text-grad);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; color: transparent;
     }
 
-    .brand small {
-      display: block;
-      margin-top: 1px;
-      color: var(--muted);
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 1.3px;
-      text-transform: uppercase;
+    .top-link {
+      font-size: 13px; font-weight: 700; color: var(--navy);
+      padding: 9px 14px; border-radius: 10px;
+      border: 1px solid var(--border); background: rgba(255,255,255,.7);
+      transition: background .2s, border-color .2s;
     }
+    .top-link:hover { background: #fff; border-color: #c4d6e8; }
 
-    .nav-link {
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 700;
-    }
+    /* ---------- Hero ---------- */
+    main { flex: 1; padding: 20px 20px 56px; }
 
-    main {
-      flex: 1;
-      display: grid;
-      place-items: center;
-      padding: 28px 20px 64px;
-    }
+    .wrap { width: min(860px, 100%); margin: 0 auto; text-align: center; }
 
-    .container {
-      width: min(740px, 100%);
-      text-align: center;
+    .num {
+      display: flex; align-items: center; justify-content: center;
+      font-size: clamp(96px, 20vw, 168px);
+      font-weight: 800; line-height: 1; letter-spacing: -0.06em;
+      user-select: none;
     }
-
-    .illustration {
-      width: 150px;
-      height: 150px;
-      margin: 0 auto 24px;
-      position: relative;
-      display: grid;
-      place-items: center;
-      border: 1px solid #ffffff;
-      border-radius: 42px;
-      background: linear-gradient(145deg, #eeeaff, #ffffff);
-      box-shadow: var(--shadow);
-      transform: rotate(-4deg);
+    .num .d {
+      background: var(--text-grad);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; color: transparent;
+      padding: 0 .02em;
     }
-
-    .illustration .number {
-      color: var(--primary);
-      font-size: 47px;
-      font-weight: 800;
-      letter-spacing: -4px;
+    .bubble { width: .74em; height: .74em; margin: 0 .03em; display: block; }
+    .bubble .ring { fill: none; stroke: url(#bg404); stroke-width: 7; }
+    .bubble .dot {
+      fill: url(#bg404);
+      transform-box: fill-box; transform-origin: center;
+      animation: mark .7s .35s cubic-bezier(.2, .9, .3, 1.3) both;
     }
-
-    .illustration .book {
-      position: absolute;
-      right: -15px;
-      bottom: -9px;
-      width: 49px;
-      height: 49px;
-      display: grid;
-      place-items: center;
-      background: #dff7f1;
-      border: 4px solid var(--bg);
-      border-radius: 17px;
-      font-size: 24px;
-      transform: rotate(9deg);
-    }
+    .bubble text { fill: #fff; font: 800 34px "DM Sans", sans-serif; }
+    @keyframes mark { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
     .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 13px;
-      color: var(--primary-dark);
-      background: #eeeaff;
-      border: 1px solid #e1dbff;
-      border-radius: 100px;
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 1px;
-      text-transform: uppercase;
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 6px; padding: 7px 14px;
+      font-size: 11px; font-weight: 800; letter-spacing: 1.1px; text-transform: uppercase;
+      color: var(--navy); background: rgba(26, 74, 122, .07);
+      border: 1px solid rgba(26, 74, 122, .15); border-radius: 100px;
     }
-
-    .dot {
-      width: 7px;
-      height: 7px;
-      background: var(--primary);
-      border-radius: 50%;
-    }
+    .eyebrow i { width: 7px; height: 7px; border-radius: 50%; background: var(--sky); display: block; }
 
     h1 {
-      margin: 19px 0 12px;
-      font-size: clamp(32px, 6vw, 51px);
-      line-height: 1.1;
-      letter-spacing: -2px;
+      margin: 18px 0 12px;
+      font-size: clamp(27px, 5vw, 42px);
+      line-height: 1.15; letter-spacing: -1.2px; color: var(--ink);
     }
 
-    .description {
-      max-width: 490px;
-      margin: 0 auto;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.8;
+    .lead {
+      max-width: 520px; margin: 0 auto;
+      font-size: 15.5px; line-height: 1.75; color: var(--muted);
     }
 
-    .bad-path {
-      display: inline-block;
-      max-width: min(100%, 440px);
-      margin-top: 18px;
-      padding: 9px 13px;
-      overflow-wrap: anywhere;
-      color: #746c90;
-      background: #ffffffa8;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      font: 12px/1.6 monospace;
+    .path {
+      display: inline-block; max-width: min(100%, 520px);
+      margin-top: 18px; padding: 8px 13px;
+      font: 500 12.5px/1.6 ui-monospace, "JetBrains Mono", Menlo, Consolas, monospace;
+      color: var(--soft); background: rgba(255,255,255,.8);
+      border: 1px dashed #cbd5e0; border-radius: 10px;
+      overflow-wrap: anywhere; text-align: left;
     }
 
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 12px;
-      margin-top: 27px;
+    /* ---------- Smart suggestion ---------- */
+    .suggest {
+      display: none;
+      width: min(520px, 100%); margin: 24px auto 0;
+      padding: 16px 18px; text-align: left;
+      align-items: center; gap: 14px;
+      background: linear-gradient(135deg, rgba(77,179,230,.12), rgba(26,74,122,.07));
+      border: 1px solid rgba(26, 74, 122, .18); border-radius: 16px;
+      transition: transform .2s, box-shadow .2s;
     }
+    .suggest.show { display: flex; }
+    .suggest:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+    .suggest .s-ico {
+      flex: 0 0 40px; height: 40px; display: grid; place-items: center;
+      border-radius: 12px; background: var(--brand-grad); color: #fff;
+    }
+    .suggest small { display: block; font-size: 11px; font-weight: 800; letter-spacing: .9px; text-transform: uppercase; color: var(--navy); }
+    .suggest strong { display: block; margin-top: 2px; font-size: 15px; color: var(--ink); }
+    .suggest .go { margin-left: auto; font-weight: 800; color: var(--navy); font-size: 18px; }
 
-    .button {
-      min-height: 48px;
-      padding: 0 19px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 9px;
-      border: 1px solid var(--border);
-      border-radius: 13px;
-      background: var(--surface);
-      font: inherit;
-      font-size: 13px;
-      font-weight: 700;
+    /* ---------- Actions ---------- */
+    .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 26px; }
+
+    .btn {
+      min-height: 48px; padding: 0 22px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      font: inherit; font-size: 14px; font-weight: 700;
+      color: var(--ink); background: var(--surface);
+      border: 1px solid var(--border); border-radius: 13px; cursor: pointer;
       transition: transform .2s, box-shadow .2s, background .2s;
-      cursor: pointer;
     }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(13, 43, 82, .10); }
+    .btn-primary { color: #fff; border-color: transparent; background: var(--brand-grad); box-shadow: 0 8px 20px rgba(26, 74, 122, .28); }
 
-    .button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 22px #35266b12;
-    }
+    /* ---------- Destination cards ---------- */
+    .section-title { margin: 58px 0 6px; font-size: 19px; letter-spacing: -.4px; }
+    .section-sub { margin: 0 0 20px; font-size: 13.5px; color: var(--soft); }
 
-    .button-primary {
-      color: white;
-      background: var(--primary);
-      border-color: var(--primary);
-      box-shadow: 0 8px 20px #6952d926;
-    }
+    .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; text-align: left; }
 
-    .button-primary:hover { background: var(--primary-dark); }
-
-    .destinations {
-      margin-top: 65px;
-      text-align: left;
-    }
-
-    .section-heading {
-      margin-bottom: 17px;
-      text-align: center;
-    }
-
-    .section-heading h2 {
-      margin: 0 0 6px;
-      font-size: 19px;
-      letter-spacing: -.5px;
-    }
-
-    .section-heading p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-    }
-
-    .destination {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      padding: 21px;
-      background: #ffffffc9;
-      border: 1px solid var(--border);
-      border-radius: 19px;
+    .card {
+      display: flex; gap: 14px; padding: 20px;
+      background: rgba(255,255,255,.85);
+      border: 1px solid var(--border); border-radius: 18px;
       transition: transform .2s, box-shadow .2s, border-color .2s;
     }
+    .card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: #bcd3ea; }
 
-    .destination:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow);
-      border-color: #d6cdfd;
+    .c-ico {
+      flex: 0 0 44px; height: 44px; display: grid; place-items: center;
+      border-radius: 13px; color: var(--navy); background: rgba(26, 74, 122, .08);
     }
+    .card:nth-child(2) .c-ico { color: #7c3aed; background: rgba(124, 58, 237, .08); }
+    .card:nth-child(3) .c-ico { color: var(--teal); background: rgba(13, 148, 136, .09); }
+    .card:nth-child(4) .c-ico { color: #b75501; background: rgba(183, 85, 1, .08); }
 
-    .destination-icon {
-      width: 43px;
-      height: 43px;
-      flex: 0 0 43px;
-      display: grid;
-      place-items: center;
-      background: #eeeaff;
-      border-radius: 13px;
-      font-size: 21px;
+    .card h3 { margin: 1px 0 5px; font-size: 15px; }
+    .card p { margin: 0; font-size: 12.8px; line-height: 1.6; color: var(--muted); }
+    .card .arrow { display: inline-block; margin-top: 10px; font-size: 12.5px; font-weight: 800; color: var(--navy); }
+
+    /* ---------- Report strip ---------- */
+    .help {
+      margin-top: 30px; padding: 20px 22px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+      text-align: left;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 18px;
     }
+    .help h3 { margin: 0 0 3px; font-size: 15px; }
+    .help p { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.6; max-width: 460px; }
+    .help-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn-sm { min-height: 42px; padding: 0 16px; font-size: 13px; border-radius: 11px; }
+    .btn-wa { color: #fff; background: #1faa59; border-color: transparent; }
+    .btn-tg { color: #fff; background: #2a9bd8; border-color: transparent; }
 
-    .destination:nth-child(2) .destination-icon {
-      background: #ddf7f0;
-    }
+    footer { padding: 22px 20px 28px; text-align: center; font-size: 12px; line-height: 1.9; color: var(--soft); }
+    footer a { color: var(--navy); font-weight: 700; }
+    footer a:hover { text-decoration: underline; }
 
-    .destination h3 {
-      margin: 2px 0 6px;
-      font-size: 14px;
-    }
+    a:focus-visible, button:focus-visible { outline: 3px solid var(--sky); outline-offset: 3px; }
 
-    .destination p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.65;
-    }
-
-    .visit {
-      display: inline-block;
-      margin-top: 12px;
-      color: var(--primary-dark);
-      font-size: 12px;
-      font-weight: 800;
-    }
-
-    footer {
-      padding: 23px 20px;
-      color: var(--muted);
-      text-align: center;
-      font-size: 11px;
-      line-height: 1.8;
-    }
-
-    footer a {
-      color: var(--primary-dark);
-      font-weight: 700;
-    }
-
-    a:focus-visible, button:focus-visible {
-      outline: 3px solid var(--teal);
-      outline-offset: 4px;
-    }
-
-    @media (max-width: 540px) {
-      .navbar { padding: 18px 0; }
-      .brand { font-size: 18px; }
-      .brand-mark { width: 38px; height: 38px; }
-      main { padding: 25px 18px 42px; }
-      .illustration {
-        width: 122px;
-        height: 122px;
-        border-radius: 34px;
-      }
-      .illustration .number { font-size: 39px; }
-      h1 { letter-spacing: -1.5px; }
-      .description { font-size: 14px; }
+    @media (max-width: 600px) {
+      .topbar { padding: 16px 0; }
+      .top-link { display: none; }
+      main { padding: 8px 16px 40px; }
+      .grid { grid-template-columns: 1fr; }
       .actions { flex-direction: column; }
-      .button { width: 100%; }
-      .destinations { margin-top: 45px; }
-      .cards { grid-template-columns: 1fr; }
-      .destination { padding: 18px; }
+      .btn { width: 100%; }
+      .section-title { margin-top: 44px; }
+      .help { padding: 18px; }
+      .help-actions { width: 100%; }
+      .help-actions .btn { flex: 1; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        scroll-behavior: auto !important;
-        transition: none !important;
-      }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
     }
   </style>
 </head>
 
 <body>
-  <header class="navbar">
-    <a class="brand" href="https://jkedusphere.com/" aria-label="JKEdusphere home">
-      <span class="brand-mark" aria-hidden="true">J</span>
-      <span>
-        JKEdusphere
-        <small>Learn smarter. Score better.</small>
-      </span>
+  <header class="topbar">
+    <a class="logo" href="/" aria-label="JKEdusphere home">
+      <span class="logo-icon" aria-hidden="true">JK</span>
+      <span class="logo-name">JKEdusphere</span>
     </a>
-
-    <a class="nav-link" href="https://jkedusphere.online/">
-      Explore resources ↗
-    </a>
+    <a class="top-link" href="https://jkedusphere.online/">Study resources &amp; updates ↗</a>
   </header>
 
   <main>
-    <div class="container">
-      <div class="illustration" aria-hidden="true">
-        <span class="number">404</span>
-        <span class="book">📚</span>
+    <div class="wrap">
+
+      <div class="num" role="img" aria-label="Error 404">
+        <span class="d">4</span>
+        <svg class="bubble" viewBox="0 0 100 100" aria-hidden="true">
+          <defs>
+            <linearGradient id="bg404" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#0d2b52" />
+              <stop offset=".55" stop-color="#1a4a7a" />
+              <stop offset="1" stop-color="#4db3e6" />
+            </linearGradient>
+          </defs>
+          <circle class="ring" cx="50" cy="50" r="42" />
+          <circle class="dot" cx="50" cy="50" r="29" />
+          <text x="50" y="62" text-anchor="middle">?</text>
+        </svg>
+        <span class="d">4</span>
       </div>
 
-      <span class="eyebrow">
-        <span class="dot"></span>
-        Wrong turn, not the end
-      </span>
+      <span class="eyebrow"><i></i> Page not found</span>
 
-      <h1>This page seems<br />to be missing.</h1>
+      <h1>Wrong option marked — this page isn't in the answer key.</h1>
 
-      <p class="description">
-        Looks like this link took you somewhere we didn't plan.
-        The page may have moved, the URL may be incorrect, or
-        the resource may no longer be available.
-        Let's get you back to your preparation.
+      <p class="lead">
+        The link may be mistyped, the page may have moved, or it may have been retired.
+        No marks lost — pick where you'd like to continue below.
       </p>
 
-      <div class="bad-path" id="requested-path">
-        Requested page
-      </div>
+      <div class="path" id="path">Requested: …</div>
+
+      <!-- Filled in by script when the URL looks like something we have -->
+      <a class="suggest" id="suggest" href="/">
+        <span class="s-ico" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        </span>
+        <span>
+          <small>Were you looking for</small>
+          <strong id="suggest-title">Mock Tests</strong>
+        </span>
+        <span class="go" aria-hidden="true">→</span>
+      </a>
 
       <div class="actions">
-        <a class="button button-primary"
-           href="https://jkedusphere.com/">
-          Explore mock tests <span aria-hidden="true">→</span>
-        </a>
-
-        <a class="button"
-           href="https://jkedusphere.online/">
-          Explore study resources ↗
-        </a>
-
-        <button class="button" id="back-button" type="button">
-          ← Go back
-        </button>
+        <a class="btn btn-primary" href="/">Go to Mock Tests <span aria-hidden="true">→</span></a>
+        <button class="btn" id="back" type="button"><span aria-hidden="true">←</span> Go back</button>
       </div>
 
-      <section class="destinations" aria-labelledby="destinations-title">
-        <div class="section-heading">
-          <h2>Your preparation doesn't stop here.</h2>
-          <p>Choose where you'd like to continue.</p>
-        </div>
+      <h2 class="section-title">Jump back into your preparation</h2>
+      <p class="section-sub">Everything you need for JKSSB, JKPSC, JKPSI and more.</p>
 
-        <div class="cards">
-          <a class="destination" href="https://jkedusphere.com/">
-            <span class="destination-icon" aria-hidden="true">🎯</span>
-            <span>
-              <h3>Practice & improve</h3>
-              <p>
-                Explore mock tests, practise under timed
-                conditions and work towards a better score.
-              </p>
-              <span class="visit">Visit test platform →</span>
-            </span>
-          </a>
+      <section class="grid" aria-label="Popular pages">
+        <a class="card" href="/">
+          <span class="c-ico" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="m9 12 2 2 4-4"/><path d="M9 7h6"/></svg>
+          </span>
+          <span>
+            <h3>Mock Tests</h3>
+            <p>Timed full-length and free tests with live ranks and detailed performance analysis.</p>
+            <span class="arrow">Start practising →</span>
+          </span>
+        </a>
 
-          <a class="destination" href="https://jkedusphere.online/">
-            <span class="destination-icon" aria-hidden="true">📖</span>
-            <span>
-              <h3>Learn & stay updated</h3>
-              <p>
-                Discover study notes, exam resources,
-                current affairs and recruitment updates.
-              </p>
-              <span class="visit">Explore learning hub →</span>
-            </span>
-          </a>
-        </div>
+        <a class="card" href="/notes.html">
+          <span class="c-ico" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg>
+          </span>
+          <span>
+            <h3>Premium Notes</h3>
+            <p>Hand-crafted PDF notes for J&amp;K exams, available as an instant download.</p>
+            <span class="arrow">Browse notes →</span>
+          </span>
+        </a>
+
+        <a class="card" href="/mcqs/history-of-jandk.html">
+          <span class="c-ico" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7"/><path d="M12 17h.01"/></svg>
+          </span>
+          <span>
+            <h3>Free MCQs</h3>
+            <p>100+ History of Jammu &amp; Kashmir questions with instant answers and explanations.</p>
+            <span class="arrow">Try free MCQs →</span>
+          </span>
+        </a>
+
+        <a class="card" href="https://jkedusphere.online/">
+          <span class="c-ico" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h13a2 2 0 0 1 2 2v12H6a2 2 0 0 1-2-2z"/><path d="M19 9h2v8a2 2 0 0 1-2 2"/><path d="M8 9h7M8 13h7"/></svg>
+          </span>
+          <span>
+            <h3>Jobs, Updates &amp; Current Affairs</h3>
+            <p>Vacancies, notifications, govt schemes and current affairs on our content site.</p>
+            <span class="arrow">Visit jkedusphere.online ↗</span>
+          </span>
+        </a>
       </section>
+
+      <aside class="help" aria-labelledby="help-title">
+        <div>
+          <h3 id="help-title">Followed a link from Telegram or WhatsApp?</h3>
+          <p>If a JKEdusphere link is broken, tell us and we'll fix it — it takes ten seconds.</p>
+        </div>
+        <div class="help-actions">
+          <a class="btn btn-sm btn-wa" id="report-wa" href="https://wa.me/917051617362" target="_blank" rel="noopener">Report on WhatsApp</a>
+          <a class="btn btn-sm btn-tg" href="https://t.me/JKEdusphere" target="_blank" rel="noopener">Telegram</a>
+        </div>
+      </aside>
     </div>
   </main>
 
   <footer>
-    Made for learners in Jammu & Kashmir and beyond.<br />
+    Made for learners in Jammu &amp; Kashmir and beyond.<br />
     © <span id="year"></span> JKEdusphere ·
-    <a href="https://jkedusphere.com/">Mock Tests</a> ·
+    <a href="/">Mock Tests</a> ·
+    <a href="/notes.html">Notes</a> ·
     <a href="https://jkedusphere.online/">Study Resources</a>
   </footer>
 
   <script>
-    // Show the requested path safely; never interpret it as HTML.
-    const pathElement = document.getElementById("requested-path");
-    pathElement.textContent = "Requested page: " + window.location.pathname;
+    (function () {
+      var path = location.pathname;
 
-    document.getElementById("year").textContent =
-      new Date().getFullYear();
+      // Requested path — always textContent, never HTML.
+      document.getElementById("path").textContent = "Requested: " + path;
+      document.getElementById("year").textContent = new Date().getFullYear();
 
-    document.getElementById("back-button").addEventListener("click", () => {
-      if (window.history.length > 1 &&
-          document.referrer &&
-          new URL(document.referrer).origin === window.location.origin) {
-        window.history.back();
-      } else {
-        window.location.assign("https://jkedusphere.com/");
+      // Pre-filled WhatsApp report with the broken URL.
+      var msg = "Hi JKEdusphere, this link is not working: " + location.href +
+                (document.referrer ? "\nI came from: " + document.referrer : "");
+      document.getElementById("report-wa").href =
+        "https://wa.me/917051617362?text=" + encodeURIComponent(msg);
+
+      // Smart "Were you looking for…" — fuzzy-match the bad URL to real pages.
+      var routes = [
+        { href: "/notes.html", title: "Premium Notes",
+          keys: ["note", "pdf", "premium", "material", "download", "syllabus", "book"] },
+        { href: "/mcqs/history-of-jandk.html", title: "History of J&K MCQs",
+          keys: ["mcq", "history", "jammu", "kashmir", "question", "quiz", "practice"] },
+        { href: "/", title: "Mock Tests",
+          keys: ["test", "mock", "rank", "leaderboard", "result", "score", "login", "signup",
+                 "jkssb", "jkpsi", "jkpsc", "upsc", "kas", "exam", "series", "answer", "key", "faa"] },
+        { href: "https://jkedusphere.online/", title: "Jobs, Updates & Current Affairs",
+          keys: ["vacanc", "job", "update", "current", "affairs", "scheme", "news", "blog",
+                 "post", "recruit", "notification", "admit", "syllabus"] }
+      ];
+
+      var hay = decodeURIComponent(path).toLowerCase().replace(/[^a-z0-9&]+/g, " ");
+      var best = null, bestScore = 0;
+      routes.forEach(function (r) {
+        var score = 0;
+        r.keys.forEach(function (k) { if (hay.indexOf(k) !== -1) score++; });
+        if (score > bestScore) { best = r; bestScore = score; }
+      });
+      if (best) {
+        var box = document.getElementById("suggest");
+        box.href = best.href;
+        document.getElementById("suggest-title").textContent = best.title;
+        box.classList.add("show");
       }
-    });
+
+      // Back button: only go back if the previous page is on our site.
+      document.getElementById("back").addEventListener("click", function () {
+        var ok = false;
+        try { ok = history.length > 1 && document.referrer &&
+                   new URL(document.referrer).origin === location.origin; } catch (e) {}
+        if (ok) history.back(); else location.assign("/");
+      });
+
+      // Log 404s in GA4 so you can spot broken links and fix them.
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag("js", new Date());
+      gtag("config", "G-YRE82139KK");
+      gtag("event", "page_not_found", {
+        page_path: path,
+        page_referrer: document.referrer || "(direct)"
+      });
+    })();
   </script>
 </body>
 </html>
