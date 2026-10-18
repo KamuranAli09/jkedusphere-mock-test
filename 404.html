@@ -40,6 +40,7 @@
 
     body {
       margin: 0;
+      padding-top: 54px; /* height of the fixed shared nav (nav.js) */
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -52,43 +53,6 @@
     }
 
     a { color: inherit; text-decoration: none; }
-
-    /* ---------- Header (matches site logo) ---------- */
-    .topbar {
-      width: min(960px, calc(100% - 40px));
-      margin: 0 auto;
-      padding: 22px 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .logo { display: flex; align-items: center; gap: 10px; }
-
-    .logo-icon {
-      width: 38px; height: 38px;
-      display: grid; place-items: center;
-      border-radius: 11px;
-      background: var(--brand-grad);
-      box-shadow: 0 2px 10px rgba(26, 74, 122, .35);
-      color: #fff; font-weight: 800; font-size: 14px; letter-spacing: .3px;
-    }
-
-    .logo-name {
-      font-weight: 800; font-size: 21px; letter-spacing: -.5px;
-      background: var(--text-grad);
-      -webkit-background-clip: text; background-clip: text;
-      -webkit-text-fill-color: transparent; color: transparent;
-    }
-
-    .top-link {
-      font-size: 13px; font-weight: 700; color: var(--navy);
-      padding: 9px 14px; border-radius: 10px;
-      border: 1px solid var(--border); background: rgba(255,255,255,.7);
-      transition: background .2s, border-color .2s;
-    }
-    .top-link:hover { background: #fff; border-color: #c4d6e8; }
 
     /* ---------- Hero ---------- */
     main { flex: 1; padding: 20px 20px 56px; }
@@ -227,8 +191,6 @@
     a:focus-visible, button:focus-visible { outline: 3px solid var(--sky); outline-offset: 3px; }
 
     @media (max-width: 600px) {
-      .topbar { padding: 16px 0; }
-      .top-link { display: none; }
       main { padding: 8px 16px 40px; }
       .grid { grid-template-columns: 1fr; }
       .actions { flex-direction: column; }
@@ -246,13 +208,8 @@
 </head>
 
 <body>
-  <header class="topbar">
-    <a class="logo" href="/" aria-label="JKEdusphere home">
-      <span class="logo-icon" aria-hidden="true">JK</span>
-      <span class="logo-name">JKEdusphere</span>
-    </a>
-    <a class="top-link" href="https://jkedusphere.online/">Study resources &amp; updates ↗</a>
-  </header>
+  <div id="jke-nav"></div>
+  <script src="/nav.js"></script>
 
   <main>
     <div class="wrap">
