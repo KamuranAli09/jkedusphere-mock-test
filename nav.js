@@ -7,10 +7,10 @@
   var SESSION_KEY = "jke_sess_v4"; // same key the mock-test app uses to remember a login
   var BLOG = "https://jkedusphere.blogspot.com/";
   var LINKS = [
-    { id: "tests", label: "📋 Tests", href: "/" },
-    { id: "ranks", label: "🏆 Ranks", href: "/?go=lb" },
-    { id: "notes", label: "📝 Notes", href: "/notes" },
-    { id: "mcqs", label: "📖 MCQs", href: "/HistoryOfJ%26KMCQS/" },
+    { id: "tests", label: "Tests", href: "/" },
+    { id: "ranks", label: "Ranks", href: "/?go=lb" },
+    { id: "notes", label: "Notes", href: "/notes" },
+    { id: "mcqs", label: "MCQs", href: "/HistoryOfJ%26KMCQS/" },
   ];
 
   var CSS =
