@@ -4778,6 +4778,27 @@ html:has(#splash-pg.on),body:has(#splash-pg.on){background:#f4f5fa !important}
 #gate-mode-body .tnc-row{margin:14px 0 12px}
 </style>
 
+<style id="jke-exit">
+#exit-modal{position:fixed;inset:0;z-index:20000;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(8,16,43,.55);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+#exit-modal.on{display:flex}
+#exit-modal .xm-card{width:100%;max-width:380px;background:#fff;border-radius:20px;padding:24px 22px 20px;box-shadow:0 20px 60px rgba(0,0,0,.3);text-align:center}
+#exit-modal .xm-t{font-size:19px;font-weight:800;color:#08102b;letter-spacing:-.3px;margin-bottom:8px}
+#exit-modal .xm-s{font-size:13.5px;line-height:1.55;color:#4a5568;margin-bottom:20px}
+#exit-modal .xm-b{display:flex;gap:10px}
+#exit-modal button{flex:1;padding:13px 10px;border-radius:12px;border:0;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer}
+#exit-modal .xm-stay{background:#4527ff;color:#fff;box-shadow:0 6px 18px rgba(69,39,255,.3)}
+#exit-modal .xm-exit{background:#fdecea;color:#c53030}
+</style>
+<div id="exit-modal" aria-hidden="true">
+  <div class="xm-card">
+    <div class="xm-t">Are you sure you want to exit?</div>
+    <div class="xm-s">Your answers so far will be lost and this attempt won't be saved. The timer keeps running while you decide.</div>
+    <div class="xm-b">
+      <button type="button" class="xm-exit" onclick="EXITGUARD.leave()">Exit test</button>
+      <button type="button" class="xm-stay" onclick="EXITGUARD.stay()">Continue test</button>
+    </div>
+  </div>
+</div>
 <div id="jke-nav">
   <div class="nav-logo">
     <div class="nav-logo-icon">JK</div>
@@ -6192,6 +6213,7 @@ html:has(#splash-pg.on),body:has(#splash-pg.on){background:#f4f5fa !important}
 
   function sessionExpired() {
     if (!AUTH.get()) return;
+    EXITGUARD.off();
     AUTH.logout();
     toast("Your session expired. Please sign in again.", "warn", 5000);
   }
@@ -6372,6 +6394,11 @@ html:has(#splash-pg.on),body:has(#splash-pg.on){background:#f4f5fa !important}
     window.scrollTo(0, 0);
   }
   function goNav(pg) {
+    EXITGUARD.confirm(function () {
+      _goNavReal(pg);
+    });
+  }
+  function _goNavReal(pg) {
     document.querySelectorAll(".nav-link").forEach(function (a) {
       a.classList.remove("on");
     });
@@ -6453,7 +6480,7 @@ html:has(#splash-pg.on),body:has(#splash-pg.on){background:#f4f5fa !important}
       '<div class="pm-item" onclick="closeProfileMenu();goNav(\'ak\')">🔑 Check Your Score</div>' +
       '<div class="pm-item" onclick="closeProfileMenu();goNav(\'hist\')">📊 My Attempts</div>' +
       '<div class="pm-item" onclick="closeProfileMenu();goNav(\'lb\')">🏆 Leaderboard</div>' +
-      '<div class="pm-item pm-danger" onclick="closeProfileMenu();AUTH.logout()">🚪 Sign Out</div>' +
+      '<div class="pm-item pm-danger" onclick="closeProfileMenu();EXITGUARD.confirm(AUTH.logout)">🚪 Sign Out</div>' +
       "</div>" +
       "</div>";
   }
@@ -8053,6 +8080,7 @@ function toggleFolder(head) {
   //  TEST ENGINE
   // ═══════════════════════════════════════
   function beginTest() {
+    try { history.pushState({ jkeTest: 1 }, "", location.href); } catch (e) {}
     ST.answers = {};
     ST.marked = {};
     ST.current = 0;
@@ -8226,6 +8254,73 @@ function togglePalette() {
   var expanded = pal.classList.toggle("expanded");
   btn.classList.toggle("on", expanded);
 }
+  // ═══════════════════════════════════════
+  //  EXIT GUARD: "Are you sure you want to exit?" while a test is running
+  // ═══════════════════════════════════════
+  var EXITGUARD = (function () {
+    var pending = null;
+    var disabled = false;
+
+    function active() {
+      if (disabled) return false;
+      var tp = document.getElementById("test-pg");
+      return !!(tp && tp.classList.contains("on") && ST.testData && !ST.submitted);
+    }
+    function box() {
+      return document.getElementById("exit-modal");
+    }
+    function open(fn) {
+      pending = fn;
+      var b = box();
+      if (b) b.classList.add("on");
+    }
+    function close() {
+      var b = box();
+      if (b) b.classList.remove("on");
+    }
+    function stay() {
+      pending = null;
+      close();
+    }
+    function leave() {
+      var fn = pending;
+      pending = null;
+      close();
+      disabled = true; // let the navigation through without asking again
+      try { if (fn) fn(); } finally { disabled = false; }
+    }
+    function confirmLeave(fn) {
+      if (!active()) { fn(); return; }
+      open(fn);
+    }
+
+    // Phone Back button / browser Back
+    window.addEventListener("popstate", function () {
+      if (!active()) return;
+      try { history.pushState({ jkeTest: 1 }, "", location.href); } catch (e) {}
+      open(_goHomeReal);
+    });
+    // Refresh / closing the tab (the browser shows its own message)
+    window.addEventListener("beforeunload", function (e) {
+      if (!active()) return;
+      e.preventDefault();
+      e.returnValue = "";
+    });
+    // Links that leave this page (logo, Home, Notes, MCQs, footer links...)
+    document.addEventListener("click", function (e) {
+      if (!active()) return;
+      var a = e.target && e.target.closest ? e.target.closest("a[href]") : null;
+      if (!a) return;
+      var href = a.getAttribute("href") || "";
+      if (a.target === "_blank" || href.charAt(0) === "#" || /^javascript:/i.test(href)) return;
+      e.preventDefault();
+      e.stopPropagation();
+      open(function () { location.href = a.href; });
+    }, true);
+
+    return { confirm: confirmLeave, stay: stay, leave: leave, active: active, off: function () { disabled = true; setTimeout(function () { disabled = false; }, 0); } };
+  })();
+
   var JKE = {};
   JKE.sel = function (k) {
     var q = ST.testData.questions[ST.current];
@@ -8254,6 +8349,9 @@ function togglePalette() {
     if (ST.current < ST.testData.questions.length - 1) renderQ(ST.current + 1);
   };
   JKE.goHome = function () {
+    EXITGUARD.confirm(_goHomeReal);
+  };
+  function _goHomeReal() {
     ST.testId = null;
     ST.testData = null;
     ST.isPaid = false;
@@ -8263,7 +8361,7 @@ function togglePalette() {
       loadPublicTests();
       showPage("splash-pg");
     }
-  };
+  }
 
   JKE.confirmSub = function () {
     if (ST.isPractice) {
@@ -9928,6 +10026,7 @@ if (stored && Array.isArray(stored.data) && stored.data.length && Date.now() - s
       var _lg = gp("login");
       if (_lg && !AUTH.get()) openAuthModal(_lg === "su" ? "su" : "si");
       if (gp("go") === "lb") goNav("lb");
+      if (gp("go") === "prem" && AUTH.get()) switchTab("prem");
     });
   })();
 </script>
