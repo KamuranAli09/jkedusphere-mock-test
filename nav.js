@@ -10,7 +10,7 @@
     { id: "tests", label: "Tests", href: "/" },
     { id: "ranks", label: "Ranks", href: "/?go=lb" },
     { id: "notes", label: "Notes", href: "/notes" },
-    { id: "mcqs", label: "MCQs", href: "/HistoryOfJ%26KMCQS/" },
+    { id: "mcqs", label: "MCQs", href: "#", menu: true },
   ];
 
   var CSS =
@@ -45,6 +45,14 @@
     "#jke-nav .nav-menu a,#jke-nav .nav-menu button{display:block;width:100%;text-align:left;padding:9px 10px;border:0;background:none;border-radius:8px;font-family:inherit;font-size:12.5px;font-weight:600;color:var(--t2);cursor:pointer}" +
     "#jke-nav .nav-menu a:hover,#jke-nav .nav-menu button:hover{background:#f1f4f9;color:var(--t1)}" +
     "@media (max-width:480px){#jke-nav .nav-logo-name{display:none}#jke-nav .nav-logo{padding-right:4px}#jke-nav .nav-link{padding:0 8px;font-size:11.5px;gap:3px}#jke-nav .nav-btn{padding:8px 14px}}";
+
+  var MENU_CSS =
+    "#jke-nav .mq-caret,.nav-link .mq-caret{font-size:9px;margin-left:3px;opacity:.7}" +
+    "#jke-mcq-menu{display:none;position:fixed;z-index:9500;min-width:210px;max-width:calc(100vw - 16px);max-height:70vh;overflow-y:auto;background:#fff;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 12px 36px rgba(8,16,43,.16);padding:6px;font-family:'Google Sans Text','DM Sans',Arial,Helvetica,sans-serif}" +
+    "#jke-mcq-menu.open{display:block}" +
+    "#jke-mcq-menu a{display:block;padding:10px 12px;border-radius:8px;font-size:13px;font-weight:600;color:#4a5568;text-decoration:none;line-height:1.3}" +
+    "#jke-mcq-menu a:hover{background:#f1f4f9;color:#08102b}" +
+    "#jke-mcq-menu .mq-empty{padding:10px 12px;font-size:12.5px;color:#718096}";
 
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
@@ -86,6 +94,35 @@
     );
   }
 
+  // ── "MCQs" dropdown (list comes from /mcq-pages.js) ──
+  var menuEl = null;
+  function mcqPages() {
+    return (window.JKE_MCQ_PAGES || []).filter(function (p) { return p && p.href && p.title; });
+  }
+  function closeMenu() {
+    if (menuEl) menuEl.classList.remove("open");
+  }
+  function toggleMenu(ev) {
+    if (ev) { ev.preventDefault(); ev.stopPropagation(); }
+    if (!menuEl) { menuEl = document.createElement("div"); menuEl.id = "jke-mcq-menu"; document.body.appendChild(menuEl); }
+    if (menuEl.classList.contains("open")) { closeMenu(); return false; }
+    var pages = mcqPages();
+    menuEl.innerHTML = pages.length
+      ? pages.map(function (p) { return '<a href="' + esc(p.href) + '">' + esc(p.title) + "</a>"; }).join("")
+      : '<div class="mq-empty">No MCQ pages yet.</div>';
+    menuEl.classList.add("open");
+    var a = ev && (ev.currentTarget || ev.target);
+    var r = a && a.getBoundingClientRect ? a.getBoundingClientRect() : { left: 8, bottom: 54 };
+    var w = menuEl.offsetWidth || 220;
+    menuEl.style.top = Math.round(r.bottom + 6) + "px";
+    menuEl.style.left = Math.max(8, Math.min(Math.round(r.left), window.innerWidth - w - 8)) + "px";
+    return false;
+  }
+  document.addEventListener("click", closeMenu);
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeMenu(); });
+  window.addEventListener("resize", closeMenu);
+  window.MCQMENU = { toggle: toggleMenu, close: closeMenu };
+
   function render() {
     var host = document.getElementById("jke-nav");
     if (!host) {
@@ -98,12 +135,17 @@
       '<a class="nav-logo" href="' + BLOG + '"><div class="nav-logo-icon">JK</div><span class="nav-logo-name">JKEdusphere</span></a>' +
       '<div class="nav-links">' +
       LINKS.map(function (l) {
+        if (l.menu) {
+          return '<a class="nav-link' + (l.id === on ? " on" : "") + '" href="#" data-mcqs="1">' + l.label + ' <span class="mq-caret">▾</span></a>';
+        }
         return '<a class="nav-link' + (l.id === on ? " on" : "") + '" href="' + l.href + '">' + l.label + "</a>";
       }).join("") +
       "</div>" +
       '<div class="nav-desktop-links"><a class="nav-link" href="' + BLOG + '">Home</a></div>' +
       '<div class="nav-right" id="nav-right">' + rightHtml() + "</div>";
 
+    var mq = host.querySelector("[data-mcqs]");
+    if (mq) mq.addEventListener("click", toggleMenu);
     var signin = document.getElementById("jn-signin");
     if (signin) {
       // The sign-in popup lives in the mock-test app; "?login=1" opens it straight away.
@@ -127,10 +169,21 @@
   if (!document.getElementById("jke-nav-css")) {
     var st = document.createElement("style");
     st.id = "jke-nav-css";
-    st.textContent = CSS;
+    st.textContent = (window.JKE_NAV_MENU_ONLY ? "" : CSS) + MENU_CSS;
     document.head.appendChild(st);
   }
-  if (document.body) render();
-  else document.addEventListener("DOMContentLoaded", render);
+  function start() {
+    if (!window.JKE_NAV_MENU_ONLY) render();
+  }
+  function boot() {
+    if (window.JKE_MCQ_PAGES || window.JKE_NAV_MENU_ONLY) { start(); return; }
+    // pages that don't include /mcq-pages.js themselves: load it, then draw the bar
+    var sc = document.createElement("script");
+    sc.src = "/mcq-pages.js";
+    sc.onload = sc.onerror = start;
+    document.head.appendChild(sc);
+  }
+  if (document.body) boot();
+  else document.addEventListener("DOMContentLoaded", boot);
   window.JKENav = { render: render };
 })();

@@ -18,6 +18,9 @@
   <meta name="description" content="JKEdusphere — free and premium exam prep for J&K aspirants. Mock tests, study notes, current affairs, and syllabus guides for JKSSB, JKPSC, JKPSI Telecom, UPSC, SSC, and NEET." />
 </head>
 <body>
+<script>window.JKE_NAV_MENU_ONLY = 1;</script>
+<script src="/mcq-pages.js"></script>
+<script src="/nav.js"></script>
 <script>
   var JKE_URL =
     "https://jkedusphere-backend.onrender.com/api";
@@ -4813,7 +4816,7 @@ html:has(#splash-pg.on),body:has(#splash-pg.on){background:#f4f5fa !important}
 <div id="jke-nav">
   <div class="nav-logo">
     <div class="nav-logo-icon">JK</div>
-    <a href="https://jkedusphere.com/"><span class="nav-logo-name">JKEdusphere</span></a>
+    <a href="https://jkedusphere.blogspot.com/"><span class="nav-logo-name">JKEdusphere</span></a>
   </div>
   <div class="nav-links">
     <div class="nav-link on" id="nl-home" onclick="goNav('home')">Tests</div>
@@ -4821,7 +4824,7 @@ html:has(#splash-pg.on),body:has(#splash-pg.on){background:#f4f5fa !important}
     <div class="nav-link" id="nl-ak" onclick="goNav('ak')" style="display:none">Check Your Score</div>
     <div class="nav-link" id="nl-hist" onclick="goNav('hist')" style="display:none">My Attempts</div>
     <a class="nav-link nl-notes" href="/notes">Notes</a>
-    <a class="nav-link nl-mcqs" href="/HistoryOfJ%26KMCQS/">MCQs</a>
+    <a class="nav-link nl-mcqs" href="#" onclick="return window.MCQMENU ? MCQMENU.toggle(event) : false">MCQs <span class="mq-caret">▾</span></a>
   </div>
    <div class="nav-desktop-links">
     <a href="https://jkedusphere.blogspot.com/" class="nav-link">Home</a>
