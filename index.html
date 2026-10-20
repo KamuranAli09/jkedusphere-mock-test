@@ -526,9 +526,25 @@
     border-color: var(--pu);
     color: #fff;
   }
-.rv-q, .rv-expl {
+.rv-expl {
   white-space: pre-line;
 }
+/* ── Structured question formatting (jke-q*) ── */
+.jke-qp{margin:0 0 10px;line-height:1.75}
+.jke-qp:last-child{margin-bottom:0}
+.jke-qprompt{margin-top:12px;font-weight:700}
+.jke-ql{list-style:none;margin:6px 0 10px;padding:0;display:flex;flex-direction:column;gap:6px}
+.jke-ql li{display:flex;gap:10px;align-items:flex-start;padding:8px 12px;border-radius:10px;background:rgba(26,39,68,.04);border:1px solid rgba(26,39,68,.08)}
+.jke-qm{flex:none;min-width:22px;font-family:'JetBrains Mono',monospace;font-size:.85em;font-weight:700;color:#0F6E56}
+.jke-qkv{display:flex;flex-direction:column;gap:3px;margin:6px 0;padding:9px 13px;border-left:3px solid #1D9E75;border-radius:0 10px 10px 0;background:rgba(29,158,117,.07)}
+.jke-qk{font-size:.72em;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:#0F6E56}
+.jke-qt{width:100%;border-collapse:separate;border-spacing:0;margin:8px 0 10px;font-size:.95em;border:1px solid rgba(26,39,68,.12);border-radius:10px;overflow:hidden}
+.jke-qt th{padding:7px 12px;text-align:left;font-size:.72em;letter-spacing:.6px;text-transform:uppercase;background:rgba(26,39,68,.07);color:#1a2744}
+.jke-qt td{padding:8px 12px;vertical-align:top;border-top:1px solid rgba(26,39,68,.08);width:50%}
+.jke-qt .jke-qm{margin-right:6px}
+.jke-qcode{font-family:'JetBrains Mono',monospace;font-size:.88em;padding:1px 6px;border-radius:5px;background:rgba(26,39,68,.08)}
+.jke-qpre{margin:8px 0 10px;padding:10px 12px;border-radius:10px;background:#0d2b52;color:#e8eefc;font-family:'JetBrains Mono',monospace;font-size:.85em;line-height:1.6;overflow-x:auto;white-space:pre}
+.jke-blank{display:inline-block;min-width:56px;border-bottom:2px solid currentColor;vertical-align:baseline;margin:0 3px}
   /* ── CONFIRM MODAL ── */
   #jke-modal {
     display: none;
@@ -2420,7 +2436,6 @@
     line-height: 1.85;
     color: var(--t1);
     font-weight: 500;
-    white-space: pre-line;
   }
   .q-img {
     display: block;
@@ -6323,6 +6338,19 @@ html:has(#splash-pg.on),body:has(#splash-pg.on){background:#f4f5fa !important}
     var e = document.getElementById(id);
     if (e) e.textContent = v;
   }
+  // Structured question formatting: server sends pre-escaped html; fall back to escaped text.
+  function jkeEsc(s) {
+    return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+  function fmtQ(q) {
+    return q.html || '<p class="jke-qp">' + jkeEsc(q.text) + "</p>";
+  }
+  function fmtOpt(q, k) {
+    return (q.optionsHtml && q.optionsHtml[k]) || jkeEsc((q.options && q.options[k]) || "");
+  }
+  function fmtEx(q) {
+    return q.explanationHtml || jkeEsc(q.explanation || "");
+  }
   function qs(sel) {
     return document.querySelector(sel);
   }
@@ -8192,7 +8220,8 @@ function toggleFolder(head) {
       if (qmpEl) { qmpEl.textContent = "+" + q.marks; qmpEl.className = "qm-p"; }
       if (qmnEl) { qmnEl.style.display = ""; qmnEl.textContent = q.negative || 0; }
     }
-    tx("q-txt", q.text);
+    var qtEl = document.getElementById("q-txt");
+    if (qtEl) qtEl.innerHTML = fmtQ(q);
     var imgEl = document.getElementById("q-img");
     if (imgEl) {
       if (q.image) {
@@ -8228,7 +8257,7 @@ function toggleFolder(head) {
           k +
           "</div>" +
           '<div class="q-opt-t">' +
-          (q.options[k] || "") +
+          fmtOpt(q, k) +
           icon +
           "</div>" +
           "</div>"
@@ -8238,7 +8267,7 @@ function toggleFolder(head) {
     var explEl = document.getElementById("q-practice-expl");
     if (explEl) {
       if (revealed && q.explanation) {
-        explEl.innerHTML = "\ud83d\udca1 " + q.explanation;
+        explEl.innerHTML = "\ud83d\udca1 " + fmtEx(q);
         explEl.style.display = "block";
       } else {
         explEl.innerHTML = "";
@@ -8501,13 +8530,13 @@ function togglePalette() {
               k +
               "</div><span>" +
               ic +
-              (q.options[k] || "") +
+              fmtOpt(q, k) +
               "</span></div>"
             );
           })
           .join("");
         var expl = q.explanation
-          ? '<div class="rv-expl">💡 ' + q.explanation + "</div>"
+          ? '<div class="rv-expl">💡 ' + fmtEx(q) + "</div>"
           : "";
         var img = q.image
           ? '<img class="rv-img" src="' + escHtml(q.image) + '" alt="Question diagram" onerror="this.style.display=\'none\'" />'
@@ -8525,7 +8554,7 @@ function togglePalette() {
           label +
           "</span></div>" +
           '<div class="rv-q">' +
-          q.text +
+          fmtQ(q) +
           "</div>" +
           img +
           '<div class="rv-opts">' +
@@ -9288,12 +9317,12 @@ function togglePalette() {
                   k +
                   "</div><span>" +
                   ic +
-                  (q.options[k] || "") +
+                  fmtOpt(q, k) +
                   "</span></div>"
                 );
               })
               .join("");
-            var expl = q.explanation ? '<div class="rv-expl">💡 ' + q.explanation + "</div>" : "";
+            var expl = q.explanation ? '<div class="rv-expl">💡 ' + fmtEx(q) + "</div>" : "";
             var img = q.image
               ? '<img class="rv-img" src="' + escHtml(q.image) + '" alt="Question diagram" onerror="this.style.display=\'none\'" />'
               : "";
@@ -9310,7 +9339,7 @@ function togglePalette() {
               label +
               "</span></div>" +
               '<div class="rv-q">' +
-              q.text +
+              fmtQ(q) +
               "</div>" +
               img +
               '<div class="rv-opts">' +
