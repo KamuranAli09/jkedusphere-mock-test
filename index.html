@@ -4829,6 +4829,310 @@ html:has(#splash-pg.on),body:has(#splash-pg.on){background:#f4f5fa !important}
 .sd-hero .sd-link.soft{color:var(--t3)}
 .sd-hero .sd-link.soft:hover{color:var(--t1)}
 </style>
+<style id="jke-dash-v4">
+/* ═══════════════════════════════════════════════════════════════
+   DASHBOARD v4: flat, quiet, one accent.
+   Loaded LAST so it replaces the older dashboard layers
+   (jke-minimal / jke-hero-plain / fixed side panels) for #home-pg.
+   Structure:  .dash > .dash-main (list)  +  .dash-rail (progress etc.)
+   Phones: one column, order set below.  ≥960px: list + sticky rail.
+   ═══════════════════════════════════════════════════════════════ */
+html:has(#home-pg.on),body:has(#home-pg.on){background:#fff !important}
+
+#home-pg{
+  --ink:var(--t1);
+  --mute:#5b6478;
+  --faint:#8b92a5;
+  --line:#e7e9f1;
+  --acc:#482dff;
+  --acc-d:#3a22e0;
+  --acc-t:#f3f1ff;
+  --ok:#0f766e;
+  --warn:#b45309;
+  --hot:#c62828;
+  font-variant-numeric:tabular-nums;
+}
+
+/* ── layout ─────────────────────────────────────────────── */
+#home-pg .wrap.dash{display:flex;flex-direction:column;max-width:720px;padding:24px 16px 96px}
+#home-pg .dash-main,
+#home-pg .dash-rail,
+#home-pg #jke-side-box{display:contents}
+
+@media (max-width:959px){
+  /* phone/tablet: single column, most useful things first */
+  #home-pg .dash-greet{order:1}
+  #home-pg .sd-hero{order:2}
+  #home-pg .jke-search-wrap{order:3}
+  #home-pg .mtabs{order:4}
+  #home-pg .tab-pane{order:5}
+  #home-pg #jke-new-box{order:6}
+  #home-pg .sd-cdwn{order:7}
+  #home-pg .sd-lb{order:8}
+  #home-pg .sd-promo{order:9}
+  #home-pg .sd-foot{order:10}
+  #home-pg .faq-section{order:11}
+}
+@media (min-width:960px){
+  #home-pg .wrap.dash{
+    display:grid;grid-template-columns:minmax(0,1fr) 320px;column-gap:64px;align-items:start;
+    max-width:1120px;padding:36px 32px 96px;
+  }
+  #home-pg .dash-main{display:block;grid-column:1;grid-row:1}
+  #home-pg .faq-section{grid-column:1;grid-row:2}
+  #home-pg .dash-rail{
+    display:flex;flex-direction:column;grid-column:2;grid-row:1 / span 2;
+    position:sticky;top:calc(var(--nav) + 24px);
+    max-height:calc(100vh - var(--nav) - 48px);overflow-y:auto;scrollbar-width:none;
+  }
+  #home-pg .dash-rail::-webkit-scrollbar{display:none}
+  #home-pg .sd-hero{order:1}
+  #home-pg .sd-cdwn{order:2}
+  #home-pg #jke-new-box{order:3}
+  #home-pg .sd-lb{order:4}
+  #home-pg .sd-promo{order:5}
+  #home-pg .sd-foot{order:6}
+}
+
+/* ── greeting + search ──────────────────────────────────── */
+#home-pg .dash-greet{margin:0 0 24px;padding:0}
+#home-pg .dg-name{font-size:28px;font-weight:700;letter-spacing:-.02em;line-height:1.15;color:var(--ink)}
+#home-pg .dg-sub{font-size:14px;color:var(--mute);margin-top:6px}
+
+#home-pg .jke-search-wrap{margin:0 0 28px}
+#home-pg .jke-search-input{
+  height:46px;padding:0 40px 0 44px;border:1px solid var(--line);border-radius:12px;
+  background-color:#fff;color:var(--ink);font-size:15px;box-shadow:none;
+}
+#home-pg .jke-search-input::placeholder{color:var(--faint)}
+#home-pg .jke-search-input:focus{border-color:var(--acc);background-color:#fff;box-shadow:0 0 0 3px rgba(72,45,255,.14);outline:none}
+
+/* ── tabs: underline, not pills ─────────────────────────── */
+#home-pg .mtabs{display:flex;gap:28px;width:100%;margin:0 0 4px;padding:0;background:none;border:0;border-bottom:1px solid var(--line);border-radius:0;box-shadow:none}
+#home-pg .mtabs .mt,
+#home-pg .mtabs .mt:hover,
+#home-pg .mtabs .mt.on,
+#home-pg .mtabs .mt.on.prem,
+#home-pg .mtabs .mt.on.mine{
+  flex:none;display:flex;align-items:center;justify-content:flex-start;gap:8px;
+  padding:10px 0 12px;margin:0 0 -1px;
+  font-size:15px;font-weight:500;color:var(--mute);text-align:left;
+  background:none !important;border:0 !important;border-bottom:2px solid transparent !important;
+  border-radius:0;box-shadow:none !important;
+}
+#home-pg .mtabs .mt:hover{color:var(--ink)}
+#home-pg .mtabs .mt.on,
+#home-pg .mtabs .mt.on.prem,
+#home-pg .mtabs .mt.on.mine{color:var(--ink);font-weight:600;border-bottom-color:var(--acc) !important}
+#home-pg .mtabs .mt .mt-cnt,
+#home-pg .mtabs .mt.on .mt-cnt{background:none !important;border:0 !important;padding:0;font-size:13px;font-weight:500;color:var(--mute) !important}
+
+/* ── pack groups: rows with a quiet tree, not boxed cards ── */
+#home-pg .exam-folder{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:none;margin:0 0 12px;overflow:hidden}
+#home-pg .ef-head,
+#home-pg .ef-head.open{display:flex;align-items:center;gap:14px;padding:16px 18px;background:none;border:0;border-radius:0;cursor:pointer}
+#home-pg .ef-head:hover{background:#fafafd}
+#home-pg .ef-head:hover .ef-name{color:var(--acc)}
+#home-pg .ef-icon{width:40px;height:40px;flex:none;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#f3f4f9;font-size:19px}
+#home-pg .ef-info{flex:1;min-width:0}
+#home-pg .ef-name{font-size:16px;font-weight:600;line-height:1.3;color:var(--ink)}
+#home-pg .ef-sub{font-size:13px;line-height:1.4;color:var(--mute);margin-top:2px}
+#home-pg .ef-right{display:flex;align-items:center}
+#home-pg .ef-count{font-size:13px;font-weight:500;color:var(--mute);white-space:nowrap}
+#home-pg .ef-badge{display:none}
+#home-pg .ef-toggle{position:relative;flex:none;width:18px;height:18px;font-size:0}
+#home-pg .ef-toggle::after{content:"";position:absolute;left:4px;top:3px;width:7px;height:7px;border-right:1.75px solid var(--mute);border-bottom:1.75px solid var(--mute);transform:rotate(45deg)}
+#home-pg .pk-bar{height:4px;margin-top:8px;max-width:240px;background:var(--line);border-radius:99px;overflow:hidden}
+#home-pg .pk-bar i{display:block;height:100%;background:var(--acc);border-radius:99px}
+
+#home-pg .ef-tests-body{border:0;border-top:1px solid var(--line);background:#fafafd}
+#home-pg .ef-tests{display:block;margin:0;padding:0 18px;background:none;border:0;border-radius:0}
+#home-pg .tc{
+  display:flex;align-items:center;gap:14px;margin:0;padding:12px 0;
+  background:none;border:0;border-top:1px solid var(--line);border-radius:0;box-shadow:none;transform:none;
+}
+#home-pg .tc:first-child{border-top:0}
+#home-pg .tc:hover{background:none;transform:none;box-shadow:none}
+#home-pg .tc:hover .tc-name{color:var(--acc)}
+#home-pg .tc-ico,#home-pg .tc-ico.lk{display:none}
+#home-pg .tc-body{flex:1;min-width:0}
+#home-pg .tc-name{font-size:15px;font-weight:500;line-height:1.35;color:var(--ink)}
+#home-pg .tc-subj{font-size:13px;color:var(--mute);margin-top:2px}
+#home-pg .tc-chips{display:flex;flex-wrap:wrap;gap:0;margin-top:4px}
+#home-pg .tc-chips .ch{background:none;border:0;border-radius:0;padding:0;font-size:13px;font-weight:500;color:var(--mute)}
+#home-pg .tc-chips .ch+.ch::before{content:"\00B7";margin:0 8px;color:var(--faint)}
+#home-pg .tc-chips .ch-free,
+#home-pg .tc-chips .ch-unlocked,
+#home-pg .tc-chips .ch-gn,
+#home-pg .tc-chips .ch-lk{display:none}
+#home-pg .tc-arr{flex:none;font-size:20px;line-height:1;color:var(--faint)}
+#home-pg .tc .ch-buy{
+  flex:none;padding:6px 14px;border-radius:99px;background:#fff;border:1px solid var(--acc);
+  color:var(--acc);font-size:13px;font-weight:600;
+}
+
+#home-pg .lock-strip{
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px 18px;
+  margin:0;padding:16px 18px;background:#f7f7fb;border:0;border-top:1px solid var(--line);border-radius:0;
+}
+#home-pg .ls-price{font-size:20px;font-weight:700;color:var(--ink)}
+#home-pg .ls-mrp{font-size:14px;font-weight:500;color:var(--faint);text-decoration:line-through;margin-right:8px}
+#home-pg .ls-label{font-size:13px;font-weight:500;letter-spacing:0;text-transform:none;color:var(--mute);margin-top:2px}
+#home-pg .ls-feats{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:8px}
+#home-pg .ls-feat{background:none;border:0;padding:0;font-size:13px;font-weight:500;color:var(--mute)}
+#home-pg .ls-feat::before{content:"\2713";color:var(--ok);font-weight:800;margin-right:6px}
+#home-pg .btn-buy{padding:11px 20px;border-radius:10px;background:var(--acc);box-shadow:none;font-size:14px;font-weight:600}
+#home-pg .btn-buy:hover{background:var(--acc-d);box-shadow:none}
+
+#home-pg .empty-state{padding:48px 0;color:var(--mute)}
+#home-pg .tc-skel{background:none;border:0;border-bottom:1px solid var(--line);border-radius:0;padding:18px 0}
+
+/* ── rail: progress (the one filled surface) ────────────── */
+#home-pg .sd-card{background:none;border:0;border-radius:0;box-shadow:none;padding:0;margin:0}
+#home-pg .sd-lbl{margin:0 0 12px;font-size:14px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--ink)}
+#home-pg .sd-muted{font-size:13px;line-height:1.55;color:var(--mute);font-weight:400}
+
+#home-pg .sd-hero{background:var(--acc-t);border:0;border-radius:16px;padding:20px;margin:0 0 4px;box-shadow:none;color:var(--ink)}
+#home-pg .sd-hero .sd-lbl{margin-bottom:10px;font-weight:500;color:var(--mute)}
+#home-pg .sd-hero .sd-muted{color:var(--mute)}
+#home-pg .sd-big{display:flex;align-items:flex-end;gap:14px;margin:0 0 18px}
+#home-pg .sd-big b{font-family:var(--f);font-size:60px;font-weight:700;letter-spacing:-.04em;line-height:.9;color:var(--acc)}
+#home-pg .sd-big span{padding-bottom:3px;font-size:13px;font-weight:500;line-height:1.4;color:var(--mute);opacity:1}
+#home-pg .sd-big em{display:block;font-size:16px;font-weight:600;color:var(--ink)}
+#home-pg .sd-stats{display:flex;gap:0;margin:0 0 18px;padding-top:14px;border-top:1px solid rgba(72,45,255,.14)}
+#home-pg .sd-hero .sd-stats div{
+  flex:1;min-width:0;padding:0 0 0 14px;border-left:1px solid rgba(72,45,255,.14);border-radius:0;background:none;
+  text-align:left;font-size:12.5px;font-weight:500;letter-spacing:0;text-transform:none;color:var(--mute);
+}
+#home-pg .sd-hero .sd-stats div:first-child{padding-left:0;border-left:0}
+#home-pg .sd-hero .sd-stats b{display:block;margin-bottom:2px;font-family:var(--f);font-size:19px;font-weight:600;letter-spacing:0;color:var(--ink)}
+#home-pg .sd-next{margin:0 0 10px;font-size:15px;font-weight:600;line-height:1.35;color:var(--ink)}
+#home-pg .sd-next span{display:block;margin-bottom:2px;font-size:12.5px;font-weight:500;color:var(--mute)}
+#home-pg .sd-hero .sd-cta{justify-content:center;padding:13px 16px;border-radius:12px;background:var(--acc);box-shadow:none;color:#fff;font-size:14px;font-weight:600;text-align:center;transform:none}
+#home-pg .sd-hero .sd-cta:hover{background:var(--acc-d);transform:none}
+#home-pg .sd-cta i{display:none}
+#home-pg .sd-hero .sd-link.soft{justify-content:center;margin-top:14px;font-size:13px;font-weight:500;color:var(--mute)}
+#home-pg .sd-hero .sd-link.soft:hover{color:var(--ink);text-decoration:underline}
+
+/* ── rail: the rest are plain sections with a hairline ──── */
+#home-pg .sd-cdwn,
+#home-pg .sd-lb,
+#home-pg .sd-promo,
+#home-pg #jke-new-box{margin-top:28px;padding-top:24px;border-top:1px solid var(--line)}
+#home-pg .sd-cdwn{margin-top:24px}
+
+#home-pg .sd-cd{display:flex;align-items:baseline;gap:12px;padding:6px 0;border:0}
+#home-pg .sd-nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px;font-weight:500;color:var(--ink)}
+#home-pg .sd-days,
+#home-pg .sd-days.warn,
+#home-pg .sd-days.hot{display:flex;align-items:baseline;gap:4px;padding:0;border-radius:0;background:none;font-family:var(--f);font-size:20px;font-weight:700;line-height:1.2;color:var(--ink)}
+#home-pg .sd-days.warn{color:var(--warn)}
+#home-pg .sd-days.hot{color:var(--hot)}
+#home-pg .sd-days small{font-size:13px;font-weight:500;color:var(--mute)}
+
+#home-pg .sd-tabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 6px}
+#home-pg .sd-tabs button{padding:5px 12px;border-radius:99px;background:#f1f2f7;font-size:12.5px;font-weight:600;color:var(--mute)}
+#home-pg .sd-tabs button.on{background:var(--ink);color:#fff}
+#home-pg .sd-pk{margin:0 0 6px;font-size:13px;font-weight:500;color:var(--mute)}
+#home-pg .sd-row,
+#home-pg .sd-row.me{display:flex;align-items:center;gap:12px;margin:0;padding:8px 0;border-radius:0;font-size:14px}
+#home-pg .sd-rk,
+#home-pg .sd-row:nth-of-type(1) .sd-rk{width:16px;height:auto;flex:none;justify-content:flex-start;background:none;border-radius:0;font-family:var(--f);font-size:13px;font-weight:600;color:var(--faint)}
+#home-pg .sd-row b{font-family:var(--f);font-size:14px;font-weight:600;color:var(--ink)}
+#home-pg .sd-row.me{margin:0 -10px;padding:8px 10px;border-radius:8px;background:var(--acc-t)}
+#home-pg .sd-row.me .sd-nm{color:var(--acc);font-weight:600}
+#home-pg .sd-you{margin-top:6px}
+#home-pg .sd-lb .sd-link.soft,
+#home-pg .sd-promo .sd-link{margin-top:10px;font-size:13px;font-weight:500;color:var(--mute)}
+#home-pg .sd-lb .sd-link.soft:hover{color:var(--ink);text-decoration:underline}
+#home-pg .sd-lb .sd-link i{display:none}
+
+#home-pg .sd-promo{background:none}
+#home-pg .sd-promo .sd-lbl{color:var(--ink)}
+#home-pg .sd-promo .sd-link{margin-top:0;font-size:14px;font-weight:600;color:var(--acc)}
+#home-pg .sd-promo .sd-link i{display:none}
+#home-pg .sd-link s{color:var(--faint);font-weight:400}
+
+#home-pg .sd-foot{display:flex;flex-wrap:wrap;gap:6px 22px;margin-top:28px;padding:24px 0 0;border-top:1px solid var(--line);background:none;box-shadow:none}
+#home-pg .sd-foot .sd-muted{flex-basis:100%}
+#home-pg .sd-foot a{flex:none;padding:0;border:0;border-radius:0;background:none;text-align:left;font-size:13px;font-weight:500;color:var(--mute)}
+#home-pg .sd-foot a:hover{color:var(--ink);text-decoration:underline;border:0}
+
+/* ── just added: a short list on desktop, a swipe row on phones ── */
+#home-pg #jke-new-box{position:static;top:auto;left:auto;right:auto;width:auto;max-height:none;margin-bottom:0;z-index:auto}
+#home-pg #jke-new-box .jke-new{display:block;max-height:none;min-height:0;padding:0;overflow:visible;background:none;border:0;border-radius:0;box-shadow:none}
+#home-pg #jke-new-box .jke-new-hd{margin:0 0 10px;padding:0}
+#home-pg #jke-new-box .jke-new-ttl{font-size:14px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--ink)}
+#home-pg #jke-new-box .jke-new-pulse,
+#home-pg #jke-new-box .jke-new-ico,
+#home-pg #jke-new-box .jke-new-cnt{display:none}
+#home-pg #jke-new-box .jke-new-list{display:flex;flex-direction:column;gap:0;max-height:none;overflow:visible;padding:0;scroll-snap-type:none}
+#home-pg #jke-new-box .jke-new-card{
+  display:block;width:auto;flex:none;margin:0;padding:9px 0;
+  background:none;border:0;border-radius:0;box-shadow:none;transform:none;cursor:pointer;
+}
+#home-pg #jke-new-box .jke-new-card:hover{background:none;box-shadow:none;transform:none}
+#home-pg #jke-new-box .jke-new-card:hover .jke-new-name{color:var(--acc)}
+#home-pg #jke-new-box .jke-new-name{min-height:0;font-size:14px;font-weight:500;line-height:1.35;color:var(--ink);-webkit-line-clamp:2}
+#home-pg #jke-new-box .jke-new-meta{display:flex;align-items:center;flex-wrap:wrap;gap:2px 10px;margin-top:3px;font-size:12.5px;font-weight:400;color:var(--mute)}
+#home-pg #jke-new-box .jke-new-meta b{font-weight:500;color:var(--mute)}
+#home-pg #jke-new-box .jke-new-pill{padding:0;border-radius:0;background:none;font-size:12.5px;font-weight:600;letter-spacing:0}
+#home-pg #jke-new-box .jke-new-pill.free{background:none;color:var(--ok)}
+#home-pg #jke-new-box .jke-new-pill.open{background:none;color:var(--acc)}
+#home-pg #jke-new-box .jke-new-pill.pro{background:none;color:#6d28d9}
+@media (min-width:960px){
+  #home-pg #jke-new-box .jke-new-card:nth-child(n+5){display:none}
+}
+@media (max-width:959px){
+  #home-pg #jke-new-box{margin:32px -16px 0;padding:0;border:0}
+  #home-pg #jke-new-box .jke-new-hd{padding:0 16px}
+  #home-pg #jke-new-box .jke-new-list{flex-direction:row;gap:10px;overflow-x:auto;overflow-y:hidden;padding:2px 16px 6px;scroll-snap-type:x proximity;scroll-padding-left:16px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  #home-pg #jke-new-box .jke-new-list::-webkit-scrollbar{display:none}
+  #home-pg #jke-new-box .jke-new-card{flex:0 0 min(72vw,250px);scroll-snap-align:start;padding:12px 14px;background:#fff;border:1px solid var(--line);border-radius:12px}
+  #home-pg #jke-new-box .jke-new-name{min-height:2.7em}
+}
+
+/* ── FAQ ───────────────────────────────────────────────── */
+#home-pg .faq-section{margin-top:56px;padding:0;background:none;border:0;border-radius:0;box-shadow:none;overflow:visible}
+#home-pg .faq-hd{padding:0 0 10px}
+#home-pg .faq-hd-title{font-size:18px;font-weight:600;color:var(--ink)}
+#home-pg .faq-item{margin:0;background:none;border:0;border-top:1px solid var(--line);border-radius:0;box-shadow:none}
+#home-pg .faq-item:last-child{border-bottom:1px solid var(--line)}
+#home-pg .faq-q{padding:16px 0;background:none}
+#home-pg .faq-q:hover{background:none}
+#home-pg .faq-q-text{font-size:15px;font-weight:500;line-height:1.4;color:var(--ink)}
+#home-pg .faq-arrow{position:relative;flex:none;width:18px;height:18px;font-size:0}
+#home-pg .faq-arrow::after{content:"";position:absolute;left:4px;top:3px;width:7px;height:7px;border-right:1.75px solid var(--mute);border-bottom:1.75px solid var(--mute);transform:rotate(45deg)}
+#home-pg .faq-a{max-width:62ch;padding:0 0 18px;font-size:14px;line-height:1.7;color:var(--mute)}
+
+/* ── small screens ─────────────────────────────────────── */
+@media (max-width:480px){
+  #home-pg .wrap.dash{padding:20px 16px 96px}
+  #home-pg .dg-name{font-size:26px}
+  #home-pg .dash-greet{margin-bottom:18px}
+  #home-pg .jke-search-wrap{margin-bottom:20px}
+  #home-pg .sd-hero{padding:16px;margin-bottom:20px}
+  #home-pg .sd-hero .sd-lbl{margin-bottom:6px}
+  #home-pg .sd-big{margin-bottom:12px}
+  #home-pg .sd-big b{font-size:48px}
+  #home-pg .sd-stats{margin-bottom:12px;padding-top:12px}
+  #home-pg .sd-hero .sd-link.soft{margin-top:10px}
+  #home-pg .mtabs{gap:22px}
+  #home-pg .ef-head{padding:14px 16px}
+  #home-pg .ef-tests{padding:0 16px}
+  #home-pg .lock-strip{padding:14px 16px}
+  #home-pg .ef-count{display:none}
+}
+
+/* ── keyboard + motion ─────────────────────────────────── */
+#home-pg [role="button"]:focus-visible,
+#home-pg .mt:focus-visible,
+#home-pg .sd-cta:focus-visible,
+#home-pg .sd-link:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:8px}
+@media (prefers-reduced-motion:reduce){
+  #home-pg *{transition:none !important;animation:none !important}
+}
+</style>
 <div id="jke-nav">
   <div class="nav-logo">
     <div class="nav-logo-icon">JK</div>
@@ -5345,38 +5649,41 @@ html:has(#splash-pg.on),body:has(#splash-pg.on){background:#f4f5fa !important}
 
   <!-- ══ HOME PAGE (logged in) ══ -->
   <div class="page" id="home-pg">
-    <div class="wrap">
-       <div class="dash-greet">
-        <div class="dg-name">Hello, <span id="db-name">Student</span></div>
-        <div class="dg-sub" id="db-sub">Ready to practice?</div>
-      </div>
-      <div id="jke-new-box" style="display:none"></div>
-      <div class="jke-search-wrap">
-
-        <input type="text" id="dash-search" class="jke-search-input" placeholder="Search tests by name or subject..." oninput="SEARCH.dashboard(this.value)" />
-        <button type="button" class="jke-search-clear" id="dash-search-clear" onclick="SEARCH.clearDashboard()">✕</button>
-      </div>
-      <div class="mtabs">
-        <div class="mt on" id="mt-free" onclick="switchTab('free')">
-          Free<span class="mt-cnt" id="mc-free">0</span>
+    <div class="wrap dash">
+      <div class="dash-main">
+        <div class="dash-greet">
+          <div class="dg-name">Hello, <span id="db-name">Student</span></div>
+          <div class="dg-sub" id="db-sub">Ready to practice?</div>
         </div>
-        <div class="mt prem" id="mt-prem" onclick="switchTab('prem')">
-          Premium<span class="mt-cnt" id="mc-prem">0</span>
+        <div class="jke-search-wrap">
+          <input type="text" id="dash-search" class="jke-search-input" placeholder="Search tests by name or subject" aria-label="Search tests" oninput="SEARCH.dashboard(this.value)" />
+          <button type="button" class="jke-search-clear" id="dash-search-clear" aria-label="Clear search" onclick="SEARCH.clearDashboard()">✕</button>
         </div>
-                <div class="mt mine" id="mt-mine" onclick="switchTab('mine')">
-          My Packs<span class="mt-cnt" id="mc-mine">0</span>
+        <div class="mtabs">
+          <div class="mt on" id="mt-free" role="button" tabindex="0" onclick="switchTab('free')">
+            Free<span class="mt-cnt" id="mc-free">0</span>
+          </div>
+          <div class="mt prem" id="mt-prem" role="button" tabindex="0" onclick="switchTab('prem')">
+            Premium<span class="mt-cnt" id="mc-prem">0</span>
+          </div>
+          <div class="mt mine" id="mt-mine" role="button" tabindex="0" onclick="switchTab('mine')">
+            My packs<span class="mt-cnt" id="mc-mine">0</span>
+          </div>
         </div>
+        <div class="tab-pane on" id="tp-free"></div>
+        <div class="tab-pane" id="tp-prem"></div>
+        <div class="tab-pane" id="tp-mine"></div>
       </div>
-      <div class="tab-pane on" id="tp-free"></div>
-      <div class="tab-pane" id="tp-prem"></div>
-            <div class="tab-pane" id="tp-mine"></div>
-            <div id="jke-side-box"></div>
+      <aside class="dash-rail">
+        <div id="jke-side-box"></div>
+        <div id="jke-new-box" style="display:none"></div>
+      </aside>
       <!-- FAQ -->
       <div class="faq-section">
         <div class="faq-hd">
           <div class="faq-hd-icon">❓</div>
           <div>
-            <div class="faq-hd-title">Frequently Asked Questions</div>
+            <div class="faq-hd-title">Frequently asked questions</div>
             <div class="faq-hd-sub">Everything you need to know</div>
           </div>
         </div>
@@ -7030,7 +7337,7 @@ return (
       '<div class="exam-folder">' +
       '<div class="ef-head' +
       openCls +
-      '" onclick="toggleFolder(this)">' +
+      '" role="button" tabindex="0" onclick="toggleFolder(this)">' +
       '<div class="ef-icon">' +
       ex.icon +
       "</div>" +
@@ -7069,7 +7376,7 @@ return (
     var isFree = isFreeGroup || t.access !== "paid";
     if (unlocked) {
       return (
-        '<div class="tc" onclick="handleStartTest(\'' +
+        '<div class="tc" role="button" tabindex="0" onclick="handleStartTest(\'' +
         t.testId +
         "','b')\">" +
         '<div class="tc-ico">' +
@@ -7103,7 +7410,7 @@ return (
     } else {
       var arg = packId || examFromId(t.testId);
       return (
-        '<div class="tc locked" onclick="handleBuy(\'' +
+        '<div class="tc locked" role="button" tabindex="0" onclick="handleBuy(\'' +
         arg +
         "')\">" +
         '<div class="tc-ico lk">🔒</div>' +
@@ -7376,9 +7683,9 @@ return (
       var g = paid ? pk : (t.examGroup || examFromId(t.testId) || "general");
       var ex = EX[g] || { name: g, icon: "\uD83D\uDCDA" };
       var when = x.age === 0 ? "Today" : x.age === 1 ? "Yesterday" : x.age + "d ago";
-      var tag = !paid ? '<span class="jke-new-pill free">FREE</span>' : unlocked ? '<span class="jke-new-pill open">OPEN</span>' : '<span class="jke-new-pill pro">PRO</span>';
+      var tag = !paid ? '<span class="jke-new-pill free">Free</span>' : unlocked ? '<span class="jke-new-pill open">Open</span>' : '<span class="jke-new-pill pro">Pro</span>';
       return (
-        '<div class="jke-new-card" data-tid="' + escHtml(t.testId) + '" data-pk="' + escHtml(pk) + '" data-open="' + (unlocked ? "1" : "0") + '">' +
+        '<div class="jke-new-card" role="button" tabindex="0" data-tid="' + escHtml(t.testId) + '" data-pk="' + escHtml(pk) + '" data-open="' + (unlocked ? "1" : "0") + '">' +
         '<div class="jke-new-ico">' + (ex.icon || "\uD83D\uDCDD") + "</div>" +
         '<div><div class="jke-new-name">' + escHtml(t.testName) + "</div>" +
         '<div class="jke-new-meta"><b>' + when + "</b><span>" + escHtml(ex.name) + "</span>" + tag + "</div></div></div>"
@@ -7387,7 +7694,7 @@ return (
 
     box.innerHTML =
       '<div class="jke-new"><div class="jke-new-hd">' +
-      '<div class="jke-new-ttl"><span class="jke-new-pulse"></span>Just added</div></div>' +
+      '<div class="jke-new-ttl">Just added</div></div>' +
       '<div class="jke-new-list">' + cards + "</div></div>";
     box.style.display = "";
 
@@ -7455,7 +7762,7 @@ return (
   SIDE.cProgress = function () {
     var nxt = SIDE.nextTest();
     var nxtBtn = nxt
-      ? '<button class="sd-cta" data-act="start" data-tid="' + escHtml(nxt.testId) + '"><span>Next: ' + escHtml(nxt.testName) + "</span><i>\u2192</i></button>"
+      ? '<div class="sd-next"><span>Up next</span>' + escHtml(nxt.testName) + '</div><button class="sd-cta" data-act="start" data-tid="' + escHtml(nxt.testId) + '"><span>Start test</span></button>'
       : "";
     var h = HIST.data;
     if (h === null || h === undefined) {
@@ -7470,7 +7777,7 @@ return (
       '<div class="sd-big"><b>' + rd.score + "</b><span>Readiness<em>" + escHtml(rd.level) + "</em></span></div>" +
       '<div class="sd-stats"><div><b>' + o.avg.toFixed(0) + "%</b>Avg</div><div><b>" + act.streak + "d</b>Streak</div><div><b>" + o.n + "</b>Tests</div></div>" +
       nxtBtn +
-      '<button class="sd-link soft" data-act="nav" data-to="hist"><span>Full analysis \u203A</span></button>', "sd-hero");
+      '<button class="sd-link soft" data-act="nav" data-to="hist"><span>View full analysis</span></button>', "sd-hero");
   };
 
   // ---- 2. exam countdown ----
@@ -7489,7 +7796,7 @@ return (
     return SIDE.sec("Exam countdown", show.map(function (x) {
       var cls = x.days <= 14 ? " hot" : x.days <= 30 ? " warn" : "";
       return '<div class="sd-cd"><span class="sd-nm">' + escHtml(x.e.name) + '</span><span class="sd-days' + cls + '">' + x.days + "<small>" + (x.days === 1 ? "day" : "days") + "</small></span></div>";
-    }).join(""));
+    }).join(""), "sd-cdwn");
   };
 
   // ---- 3. mini leaderboard (packs the student owns) ----
@@ -7532,7 +7839,7 @@ return (
       if (meIdx >= 3) body += '<div class="sd-muted sd-you">Your rank #' + c.rows[meIdx].rank + "</div>";
     }
     return SIDE.sec("Top performers", tabs + body +
-      '<button class="sd-link soft" data-act="nav" data-to="lb"><span>Full leaderboard</span><i>›</i></button>');
+      '<button class="sd-link soft" data-act="nav" data-to="lb"><span>View full leaderboard</span><i>›</i></button>', "sd-lb");
   };
 
   // ---- 4. pack suggestion (one quiet line) ----
@@ -7671,6 +7978,14 @@ return (
     });
   }
 
+// Keyboard: Enter / Space activates any div that acts as a button
+document.addEventListener("keydown", function (e) {
+  if (e.key !== "Enter" && e.key !== " ") return;
+  var el = e.target;
+  if (!el || !el.getAttribute || el.getAttribute("role") !== "button" || el.tagName === "BUTTON") return;
+  e.preventDefault();
+  el.click();
+});
 function toggleFolder(head) {
   head.classList.toggle("open");
   var folder = head.closest(".exam-folder");
@@ -7687,7 +8002,7 @@ function toggleFolder(head) {
     el.innerHTML = FAQS.map(function (f) {
       return (
         '<div class="faq-item">' +
-        '<div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">' +
+        '<div class="faq-q" role="button" tabindex="0" onclick="toggleFaq(this)"><span class="faq-q-text">' +
         f.q +
         '</span><span class="faq-arrow">\u25BC</span></div>' +
         '<div class="faq-a">' +
