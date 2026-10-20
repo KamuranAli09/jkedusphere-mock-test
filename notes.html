@@ -675,6 +675,7 @@ function pay(){
     key: RAZORPAY_KEY,
     amount: curProduct.price * 100,
     currency: 'INR',
+    notes: { productId: curProduct.id },
     name: 'JKEdusphere',
     description: curProduct.title + ' \u2014 Premium PDF Notes',
     handler: function(r){ closeOv('ov-buy'); verifyAndDeliver(r.razorpay_payment_id); },
