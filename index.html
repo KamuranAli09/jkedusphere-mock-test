@@ -6490,11 +6490,11 @@ html:has(#splash-pg.on),body:has(#splash-pg.on){background:#f4f5fa !important}
       '</div><div class="pm-email">' +
       jkeEsc(u.email) +
       "</div></div>" +
-      '<div class="pm-item" onclick="closeProfileMenu();goNav(\'home\')">📋 My Tests</div>' +
-      '<div class="pm-item" onclick="closeProfileMenu();goNav(\'ak\')">🔑 Check Your Score</div>' +
-      '<div class="pm-item" onclick="closeProfileMenu();goNav(\'hist\')">📊 My Attempts</div>' +
-      '<div class="pm-item" onclick="closeProfileMenu();goNav(\'lb\')">🏆 Leaderboard</div>' +
-      '<div class="pm-item pm-danger" onclick="closeProfileMenu();EXITGUARD.confirm(AUTH.logout)">🚪 Sign Out</div>' +
+      '<div class="pm-item" onclick="closeProfileMenu();goNav(\'home\')">My Tests</div>' +
+      '<div class="pm-item" onclick="closeProfileMenu();goNav(\'ak\')">Check Your Score</div>' +
+      '<div class="pm-item" onclick="closeProfileMenu();goNav(\'hist\')">My Attempts</div>' +
+      '<div class="pm-item" onclick="closeProfileMenu();goNav(\'lb\')">Leaderboard</div>' +
+      '<div class="pm-item pm-danger" onclick="closeProfileMenu();EXITGUARD.confirm(AUTH.logout)">Sign Out</div>' +
       "</div>" +
       "</div>";
   }
@@ -10041,6 +10041,8 @@ if (stored && Array.isArray(stored.data) && stored.data.length && Date.now() - s
       if (_lg && !AUTH.get()) openAuthModal(_lg === "su" ? "su" : "si");
       if (gp("go") === "lb") goNav("lb");
       if (gp("go") === "prem" && AUTH.get()) switchTab("prem");
+      if (gp("go") === "ak" && AUTH.get()) goNav("ak");
+      if (gp("go") === "hist" && AUTH.get()) goNav("hist");
     });
   })();
 </script>

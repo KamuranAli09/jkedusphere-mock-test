@@ -9,12 +9,14 @@
   var LINKS = [
     { id: "tests", label: "Tests", href: "/" },
     { id: "ranks", label: "Ranks", href: "/?go=lb" },
+    { id: "ak", label: "Check Your Score", href: "/?go=ak", auth: true },
+    { id: "hist", label: "My Attempts", href: "/?go=hist", auth: true },
     { id: "notes", label: "Notes", href: "/notes" },
     { id: "mcqs", label: "MCQs", href: "#", menu: true },
   ];
 
   var CSS =
-    "#jke-nav{--nav:54px;--p:#1a4a7a;--p2:#123253;--g:#0d9488;--g2:#0f766e;--t1:#08102b;--t2:#4a5568;--t3:#718096;--bd:#e2e8f0;" +
+    "#jke-nav{--nav:54px;--p:#482dff;--p2:#3a22d9;--g:#0d9488;--g2:#0f766e;--t1:#08102b;--t2:#4a5568;--t3:#718096;--bd:#e2e8f0;" +
     "position:fixed;top:0;left:0;right:0;z-index:9000;height:var(--nav);background:rgba(253,252,255,.95);" +
     "backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--bd);" +
     "display:flex;align-items:center;padding:0 16px;gap:10px;font-family:'Google Sans Text','DM Sans',Arial,Helvetica,sans-serif;line-height:1;box-sizing:border-box}" +
@@ -31,10 +33,10 @@
     "#jke-nav .nav-desktop-links{display:none;align-items:center;gap:4px;height:var(--nav)}" +
     "@media (min-width:768px){#jke-nav .nav-desktop-links{display:flex}}" +
     "#jke-nav .nav-right{margin-left:auto;display:flex;align-items:center;gap:8px;flex-shrink:0;position:relative}" +
-    "#jke-nav .nav-btn{padding:7px 15px;border:0;border-radius:9999px;font-size:12px;font-weight:700;font-family:inherit;background:var(--p);color:#fff;cursor:pointer;transition:all .15s;box-shadow:0 2px 10px rgba(26,74,122,.3)}" +
+    "#jke-nav .nav-btn{padding:7px 15px;border:0;border-radius:9999px;font-size:12px;font-weight:700;font-family:inherit;background:var(--p);color:#fff;cursor:pointer;transition:all .15s;box-shadow:0 2px 10px rgba(72,45,255,.3)}" +
     "#jke-nav .nav-btn:hover{background:var(--p2);transform:translateY(-1px)}" +
     "#jke-nav .nav-prof{display:flex;align-items:center;gap:7px;cursor:pointer;padding:6px;margin:-6px;background:none;border:0;font-family:inherit}" +
-    "#jke-nav .nav-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--g),var(--g2));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;box-shadow:0 2px 8px rgba(13,148,136,.25)}" +
+    "#jke-nav .nav-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--g),var(--g2));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;box-shadow:0 2px 8px rgba(0,201,122,.2)}" +
     "#jke-nav .nav-uname{display:none;font-size:12px;font-weight:600;color:var(--t2);max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}" +
     "@media (min-width:440px){#jke-nav .nav-uname{display:block}}" +
     "#jke-nav .nav-menu{display:none;position:absolute;top:calc(100% + 12px);right:0;min-width:190px;background:#fff;border:1px solid var(--bd);border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.12);padding:6px;z-index:9100}" +
@@ -89,7 +91,10 @@
       '<span class="nav-uname">' + esc(name) + "</span></button>" +
       '<div class="nav-menu" id="jn-menu">' +
       '<div class="nm-head"><div class="nm-name">' + esc(name) + '</div><div class="nm-mail">' + esc(u.email) + "</div></div>" +
-      '<a href="/">📋 My Tests</a>' +
+      '<a href="/">My Tests</a>' +
+      '<a href="/?go=ak">Check Your Score</a>' +
+      '<a href="/?go=hist">My Attempts</a>' +
+      '<a href="/?go=lb">Leaderboard</a>' +
       '<button type="button" id="jn-out">Sign out</button></div>'
     );
   }
@@ -134,7 +139,7 @@
     host.innerHTML =
       '<a class="nav-logo" href="' + BLOG + '"><div class="nav-logo-icon">JK</div><span class="nav-logo-name">JKEdusphere</span></a>' +
       '<div class="nav-links">' +
-      LINKS.map(function (l) {
+      LINKS.filter(function (l) { return !l.auth || session(); }).map(function (l) {
         if (l.menu) {
           return '<a class="nav-link' + (l.id === on ? " on" : "") + '" href="#" data-mcqs="1">' + l.label + ' <span class="mq-caret">▾</span></a>';
         }
