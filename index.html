@@ -4945,6 +4945,18 @@ html:has(#home-pg.on),body:has(#home-pg.on){background:#fff !important}
 #home-pg .pk-bar{height:4px;margin-top:8px;max-width:240px;background:var(--line);border-radius:99px;overflow:hidden}
 #home-pg .pk-bar i{display:block;height:100%;background:var(--acc);border-radius:99px}
 
+/* Subject groups inside a pack */
+.sj-head{display:flex;align-items:center;gap:10px;padding:12px 0;cursor:pointer;user-select:none;border-top:1px solid var(--line)}
+.sj-group:first-child .sj-head{border-top:0}
+.sj-name{flex:1;min-width:0;font-size:14px;font-weight:700;color:var(--ink,#0d2b52)}
+.sj-head:hover .sj-name{color:var(--acc,#482dff)}
+.sj-count{font-size:12px;font-weight:600;color:var(--mute,#5b6478);white-space:nowrap}
+.sj-arr{flex:none;width:7px;height:7px;margin:0 5px 3px 2px;border-right:1.75px solid var(--mute,#5b6478);border-bottom:1.75px solid var(--mute,#5b6478);transform:rotate(45deg);transition:transform .15s}
+.sj-head.open .sj-arr{transform:rotate(225deg);margin-bottom:-3px}
+.sj-body{display:none}
+.sj-body.open{display:block}
+#home-pg .sj-body .tc{padding-left:12px;border-top:1px solid var(--line)}
+#home-pg .sj-body .tc:first-child{border-top:1px solid var(--line)}
 #home-pg .ef-tests-body{border:0;border-top:1px solid var(--line);background:#fafafd}
 #home-pg .ef-tests{display:block;margin:0;padding:0 18px;background:none;border:0;border-radius:0}
 #home-pg .tc{
@@ -7323,11 +7335,41 @@ pk.includes
     }
 
     var shownTests = previewLimit && tests.length > previewLimit + 1 ? tests.slice(0, previewLimit) : tests;
-    var cards = shownTests
-      .map(function (t, i) {
-        return buildCard(t, i, unlocked, packId, isFreeGroup);
-      })
-      .join("");
+    var cards = "";
+    var subjMap = {}, subjOrd = [];
+    if (unlocked && !previewLimit) {
+      shownTests.forEach(function (t) {
+        var nm = (t.subject || "").trim() || "Other";
+        var k = nm.toLowerCase();
+        if (!subjMap[k]) { subjMap[k] = { name: nm, tests: [] }; subjOrd.push(k); }
+        subjMap[k].tests.push(t);
+      });
+    }
+    if (subjOrd.length > 1) {
+      if (subjMap["other"]) { subjOrd.splice(subjOrd.indexOf("other"), 1); subjOrd.push("other"); }
+      var histOk = Array.isArray(HIST.data), attd = {};
+      if (histOk) HIST.data.forEach(function (r) { attd[r.testId] = true; });
+      var n = 0;
+      subjOrd.forEach(function (k) {
+        var g = subjMap[k];
+        var dn = histOk ? g.tests.filter(function (t) { return attd[t.testId]; }).length : -1;
+        cards +=
+          '<div class="sj-group">' +
+          '<div class="sj-head' + openCls + '" role="button" tabindex="0" onclick="toggleSubject(this)">' +
+          '<span class="sj-name">' + escHtml(g.name) + '</span>' +
+          '<span class="sj-count">' + (dn >= 0 ? dn + "/" + g.tests.length + " done" : g.tests.length + " tests") + '</span>' +
+          '<span class="sj-arr"></span></div>' +
+          '<div class="sj-body' + openCls + '">' +
+          g.tests.map(function (t) { return buildCard(t, n++, unlocked, packId, isFreeGroup); }).join("") +
+          '</div></div>';
+      });
+    } else {
+      cards = shownTests
+        .map(function (t, i) {
+          return buildCard(t, i, unlocked, packId, isFreeGroup);
+        })
+        .join("");
+    }
     if (shownTests.length < tests.length) {
       var more = tests.length - shownTests.length;
       cards += '<div class="tc more-row" onclick="openAuthModal(\'su\')"><div class="more-ico">\uD83D\uDD13</div><div class="tc-body"><div class="tc-name">+' + more + ' more tests</div><div class="tc-subj">' + (ST.user ? "Open the pack to see all" : "Sign in free to see the full list") + '</div></div><span class="more-cta">' + (ST.user ? "View" : "Sign in") + ' \u2192</span></div>';
@@ -7986,6 +8028,11 @@ document.addEventListener("keydown", function (e) {
   e.preventDefault();
   el.click();
 });
+function toggleSubject(head) {
+  head.classList.toggle("open");
+  var body = head.nextElementSibling;
+  if (body) body.classList.toggle("open");
+}
 function toggleFolder(head) {
   head.classList.toggle("open");
   var folder = head.closest(".exam-folder");
