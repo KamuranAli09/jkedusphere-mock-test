@@ -16,6 +16,38 @@
   <meta property="og:site_name" content="JKEdusphere">
 <title>JKEdusphere – JKSSB, JKPSI, KAS & UPSC Mock Tests</title>
   <meta name="description" content="JKEdusphere — free and premium exam prep for J&K aspirants. Mock tests, study notes, current affairs, and syllabus guides for JKSSB, JKPSC, JKPSI Telecom, UPSC, SSC, and NEET." />
+<style id="jke-motion">
+/* Motion: hero entrance, loading shimmer, scroll reveal, smooth expand */
+@keyframes jkeRise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes jkeOpen{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+@keyframes jkePop{0%{transform:scale(.9)}55%{transform:scale(1.07)}100%{transform:none}}
+.jke-rv{opacity:0}
+.jke-rv.in{animation:jkeRise .55s cubic-bezier(.2,.7,.2,1) both;animation-delay:var(--rvd,0s)}
+#splash-pg.on .splash-badge,
+#splash-pg.on .splash-h1,
+#splash-pg.on .splash-sub,
+#splash-pg.on .hp-ctas,
+#splash-pg.on .hp-trust,
+#splash-pg.on .hero-ak-cta,
+#splash-pg.on .splash-stat{animation:jkeRise .65s cubic-bezier(.2,.7,.2,1) both}
+#splash-pg.on .splash-h1{animation-delay:.07s}
+#splash-pg.on .splash-sub{animation-delay:.14s}
+#splash-pg.on .hp-ctas{animation-delay:.21s}
+#splash-pg.on .hp-trust{animation-delay:.27s}
+#splash-pg.on .hero-ak-cta{animation-delay:.33s}
+#splash-pg.on .splash-stat:nth-child(1){animation-delay:.40s}
+#splash-pg.on .splash-stat:nth-child(2){animation-delay:.46s}
+#splash-pg.on .splash-stat:nth-child(3){animation-delay:.52s}
+#splash-pg.on .splash-stat:nth-child(4){animation-delay:.58s}
+.splash-stat strong.jke-ld{display:block;width:54px;height:24px;margin:0 auto 3px;border-radius:8px;color:transparent !important;-webkit-text-fill-color:transparent;overflow:hidden;background:linear-gradient(90deg,#e8ebf7 25%,#f6f7fd 50%,#e8ebf7 75%);background-size:300% 100%;animation:skel 1.3s ease infinite}
+.splash-stat strong.jke-pop{animation:jkePop .45s ease}
+.ef-tests-body.open,.sj-body.open{animation:jkeOpen .3s ease both}
+@media (prefers-reduced-motion:reduce){
+  .jke-rv{opacity:1 !important;animation:none !important}
+  #splash-pg.on .splash-hero *{animation:none !important}
+  .ef-tests-body.open,.sj-body.open{animation:none !important}
+}
+</style>
 </head>
 <body>
 <script>window.JKE_NAV_MENU_ONLY = 1;</script>
@@ -2662,6 +2694,19 @@
     padding: 5px 16px;
     border-radius: var(--rf);
     font-family: var(--m);
+  }
+  .res-acc {
+    margin-top: 8px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--t3);
+  }
+  .lb-note {
+    display: none;
+    font-size: 11.5px;
+    color: var(--t3);
+    text-align: center;
+    padding: 10px 8px 4px;
   }
   .res-stats {
     display: grid;
@@ -5434,12 +5479,12 @@ html:has(#home-pg.on),body:has(#home-pg.on){background:#fff !important}
       </div>
       <div class="splash-stats">
         <div class="splash-stat">
-          <strong id="sp-test-count">—</strong><span>Mock Tests</span>
+          <strong id="sp-test-count" class="jke-ld">—</strong><span>Mock Tests</span>
         </div>
         <div class="splash-stat">
           <strong>100+</strong><span>MCQs Daily</span>
         </div>
-        <div class="splash-stat"><strong>3</strong><span>Exam Packs</span></div>
+        <div class="splash-stat"><strong id="sp-pack-count" class="jke-ld">—</strong><span>Exam Packs</span></div>
         <div class="splash-stat"><strong>Expert</strong><span>Curated</span></div>
       </div>
     </div>
@@ -5880,6 +5925,7 @@ html:has(#home-pg.on),body:has(#home-pg.on){background:#fff !important}
         <div class="res-score" id="r-score">0</div>
         <div class="res-outof" id="r-outof">out of 0</div>
         <div class="res-pct" id="r-pct">0%</div>
+        <div class="res-acc" id="r-acc"></div>
         <div class="res-rank-row" id="r-rank-row">
           <span class="rr-lbl">Your Rank</span
           ><span class="rr-val" id="r-rank">#—</span>
@@ -6016,6 +6062,7 @@ html:has(#home-pg.on),body:has(#home-pg.on){background:#fff !important}
         <p style="font-size:11.5px;color:var(--t3);margin-bottom:12px">
           Ranked by total marks scored across every test in this pack (best attempt per test). Rating scales from
           <strong>10</strong> (top ranker) down to <strong>1</strong> across all participants.
+          <strong>Only the top 50 students are shown here.</strong>
         </p>
         <div class="lb-tbl-wrap">
           <div class="lb-spin" id="lb-pack-spin">
@@ -6038,6 +6085,7 @@ html:has(#home-pg.on),body:has(#home-pg.on){background:#fff !important}
           <div id="lb-pack-empty" class="lb-empty" style="display: none">
             No pack attempts yet. Be the first to attempt a test in this pack!
           </div>
+          <div id="lb-pack-note" class="lb-note"></div>
         </div>
       </div>
 
@@ -6075,6 +6123,7 @@ html:has(#home-pg.on),body:has(#home-pg.on){background:#fff !important}
         <div id="lb-empty" class="lb-empty" style="display: none">
           No entries yet. Be the first to attempt!
         </div>
+        <div id="lb-test-note" class="lb-note">Only the top 50 students are shown. Your best attempt counts.</div>
       </div>
       </div>
 
@@ -6360,6 +6409,7 @@ html:has(#home-pg.on),body:has(#home-pg.on){background:#fff !important}
     var bootTimer = setTimeout(function () {
       if (started) return;
       started = true;
+      JKEFX.updatePacks(); // show the hardcoded packs now; backend packs are added when the server answers
       cb();
     }, 2500);
     api({ action: "getPacks" }, function (err, data) {
@@ -6386,6 +6436,7 @@ html:has(#home-pg.on),body:has(#home-pg.on){background:#fff !important}
           }
         });
       }
+      JKEFX.updatePacks();
       if (started) {
         // The app already started without these packs: redraw whichever list is on screen.
         var onSplash = document.getElementById("splash-pg").classList.contains("on");
@@ -6439,7 +6490,7 @@ html:has(#home-pg.on),body:has(#home-pg.on){background:#fff !important}
     },
     {
       q: "Can I retake a test?",
-      a: "Yes \u2014 you can retake any test as many times as you want. Your latest attempt is tracked on the leaderboard. Use retakes to improve your score and monitor your progress.",
+      a: "Yes \u2014 you can retake any test as many times as you want. Your best attempt is tracked on the leaderboard. Use retakes to improve your score and monitor your progress.",
     },
     {
       q: "What if I face a payment issue?",
@@ -6658,6 +6709,83 @@ html:has(#home-pg.on),body:has(#home-pg.on){background:#fff !important}
     var e = document.getElementById(id);
     if (e) e.textContent = v;
   }
+
+  // ═══════════════════════════════════════
+  //  MOTION HELPERS (count-up numbers, scroll reveal)
+  // ═══════════════════════════════════════
+  var JKEFX = {};
+  JKEFX.reduced = function () {
+    try { return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches); } catch (e) { return false; }
+  };
+  // Counts a number up from its previous value (or 0) to `to`.
+  JKEFX.count = function (el, to) {
+    if (!el) return;
+    to = Number(to) || 0;
+    el.classList.remove("jke-ld");
+    var from = Number(el._v) || 0;
+    if (el._v === to) return;
+    el._v = to;
+    if (JKEFX.reduced() || !window.requestAnimationFrame || from === to) { el.textContent = to; return; }
+    var dur = Math.min(1200, 450 + Math.abs(to - from) * 5), t0 = null;
+    function step(ts) {
+      if (t0 === null) t0 = ts;
+      var p = Math.min(1, (ts - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(from + (to - from) * e);
+      if (p < 1) requestAnimationFrame(step);
+      else { el.classList.remove("jke-pop"); void el.offsetWidth; el.classList.add("jke-pop"); }
+    }
+    requestAnimationFrame(step);
+  };
+  // "Exam Packs" = hardcoded packs + packs added in the backend (PACKS holds both, no duplicates).
+  JKEFX.updatePacks = function () {
+    JKEFX.count(document.getElementById("sp-pack-count"), Object.keys(PACKS).length);
+  };
+  JKEFX.sel = ".exam-folder,.cat-section-hd,.hp-card,.hp-ex,.faq-item,.pod,.jke-pf-card";
+  JKEFX.seen = {};
+  JKEFX.scan = function () {
+    if (!JKEFX.io) return;
+    var list = document.querySelectorAll(JKEFX.sel), i = 0;
+    for (var k = 0; k < list.length; k++) {
+      var el = list[k];
+      if (el._fx) continue;
+      el._fx = 1;
+      // Re-rendered lists (search, refresh) must not flash again: animate each item once per session.
+      var key = el.className + "|" + (el.textContent || "").replace(/\s+/g, " ").trim().slice(0, 80);
+      if (JKEFX.seen[key]) continue;
+      JKEFX.seen[key] = 1;
+      el._d = (i++ % 6) * 0.06;
+      el.classList.add("jke-rv");
+      JKEFX.io.observe(el);
+    }
+  };
+  JKEFX.init = function () {
+    if (JKEFX.reduced() || !("IntersectionObserver" in window) || !("MutationObserver" in window)) return;
+    JKEFX.io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var el = en.target;
+        JKEFX.io.unobserve(el);
+        el.style.setProperty("--rvd", (el._d || 0) + "s");
+        el.classList.add("in");
+        var done = function (ev) {
+          if (ev && ev.target !== el) return;
+          el.classList.remove("jke-rv", "in");
+          el.style.removeProperty("--rvd");
+          el.removeEventListener("animationend", done);
+        };
+        el.addEventListener("animationend", done);
+      });
+    }, { threshold: 0, rootMargin: "0px 0px -40px 0px" });
+    var timer = null;
+    new MutationObserver(function () {
+      if (timer) return;
+      timer = setTimeout(function () { timer = null; JKEFX.scan(); }, 60);
+    }).observe(document.body, { childList: true, subtree: true });
+    JKEFX.scan();
+  };
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", JKEFX.init);
+  else JKEFX.init();
+
   // Structured question formatting: server sends pre-escaped html; fall back to escaped text.
   function jkeEsc(s) {
     return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -7168,12 +7296,14 @@ html:has(#home-pg.on),body:has(#home-pg.on){background:#fff !important}
       '<div style="display:flex;flex-direction:column;gap:8px">' + [1,2,3,4,5].map(function(){return _sk;}).join("") + '</div><div class="slow-hint">Waking up the server\u2026 the first load can take up to a minute. Thanks for waiting.</div>';
     api({ action: "getTests" }, function (err, data) {
       if (err || !data || !data.tests) {
+        var _tc = document.getElementById("sp-test-count");
+        if (_tc) { _tc.classList.remove("jke-ld"); _tc.textContent = "\u2014"; }
         document.getElementById("public-catalogue").innerHTML =
           '<div class="empty-state"><div class="es-icon">📡</div><div class="es-title">Could not load tests</div><div class="es-sub">Please refresh the page</div></div>';
         return;
       }
       ST.publicTests = data.tests;
-      tx("sp-test-count", data.tests.length);
+      JKEFX.count(document.getElementById("sp-test-count"), data.tests.length);
       renderSplashNew(data.tests);
       renderPublicCatalogue(data.tests, false);
     });
@@ -7339,7 +7469,7 @@ pk.includes
     var subjMap = {}, subjOrd = [];
     if (unlocked && !previewLimit) {
       shownTests.forEach(function (t) {
-        var nm = (t.subject || "").trim() || "Other";
+        var nm = String(t.subject || "").replace(/\s+/g, " ").trim() || "Other";
         var k = nm.toLowerCase();
         if (!subjMap[k]) { subjMap[k] = { name: nm, tests: [] }; subjOrd.push(k); }
         subjMap[k].tests.push(t);
@@ -8943,6 +9073,14 @@ function togglePalette() {
     var pe = document.getElementById("r-pct");
     pe.textContent = pct.toFixed(1) + "%  " + (pass ? "PASSED \u2713" : "FAILED \u2717");
     pe.className = "res-pct " + (pass ? "rp-pass" : "rp-fail");
+    var _att = (Number(data.correct) || 0) + (Number(data.wrong) || 0);
+    tx(
+      "r-acc",
+      _att > 0
+        ? "\uD83C\uDFAF Accuracy " + (((Number(data.correct) || 0) / _att) * 100).toFixed(1) + "% \u00B7 " +
+            (Number(data.correct) || 0) + " correct of " + _att + " attempted"
+        : "Accuracy \u2014 no questions attempted",
+    );
     var rankRow = document.getElementById("r-rank-row");
     if (rankRow) rankRow.style.display = "flex";
     var shareBtn = document.getElementById("r-share-btn");
@@ -9839,6 +9977,8 @@ function togglePalette() {
     document.getElementById("lb-pack-spin").classList.add("on");
     document.getElementById("lb-pack-tbl").style.display = "none";
     document.getElementById("lb-pack-empty").style.display = "none";
+    var _pn = document.getElementById("lb-pack-note");
+    if (_pn) _pn.style.display = "none";
     api({ action: "getPackLeaderboard", packId: packId, limit: 50 }, function (err, data) {
       document.getElementById("lb-pack-spin").classList.remove("on");
       if (err || !data || !data.success || !data.leaderboard || !data.leaderboard.length) {
@@ -9875,6 +10015,13 @@ function togglePalette() {
         })
         .join("");
       document.getElementById("lb-pack-tbl").style.display = "table";
+      if (_pn) {
+        var _tot = Number(data.totalParticipants) || 0;
+        _pn.textContent =
+          "Only the top 50 students are shown" +
+          (_tot > 50 ? " \u2014 " + _tot + " students have attempted this pack." : ".");
+        _pn.style.display = "block";
+      }
     });
   };
 
@@ -9954,6 +10101,8 @@ function togglePalette() {
     if (trigger) trigger.classList.remove("open");
     document.getElementById("lb-tbl").style.display = "none";
     document.getElementById("lb-empty").style.display = "none";
+    var _tn = document.getElementById("lb-test-note");
+    if (_tn) _tn.style.display = "none";
     document.getElementById("lb-spin").classList.add("on");
     document.getElementById("lb-rank-wrap").innerHTML = "";
     document.getElementById("lb-podium-wrap").innerHTML = "";
@@ -9966,6 +10115,8 @@ function togglePalette() {
         return;
       }
       LB.data = data.leaderboard;
+      var _tn2 = document.getElementById("lb-test-note");
+      if (_tn2) _tn2.style.display = "block";
       // Podium
       var top3 = LB.data.slice(0, 3);
       var medals = ["🥇", "🥈", "🥉"];
@@ -9981,7 +10132,7 @@ function togglePalette() {
                 medals[i] +
                 "</span>" +
                 '<div class="pod-name">' +
-                r.name +
+                jkeEsc(r.name) +
                 "</div>" +
                 '<div class="pod-score">' +
                 r.score +
