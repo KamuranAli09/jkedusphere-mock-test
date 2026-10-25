@@ -4210,6 +4210,17 @@
 .ak-omr-q{font-size:11px;font-weight:700;color:var(--t3);font-family:var(--m);width:28px;flex-shrink:0}
 .ak-omr-opts{display:flex;gap:4px}
 .ak-omr-opt{width:26px;height:26px}
+.ak-qmap{display:grid;grid-template-columns:repeat(auto-fill,minmax(38px,1fr));gap:6px}
+.ak-qd{height:34px;border-radius:8px;border:1px solid var(--bd);font-family:var(--m);font-size:11px;font-weight:700;cursor:pointer;background:var(--s3bg);color:var(--t2);padding:0}
+.ak-qd.c{background:var(--gl);color:var(--g);border-color:var(--gm)}
+.ak-qd.w{background:var(--rl);color:var(--r);border-color:var(--rm)}
+.ak-qd.s{background:var(--ol);color:var(--o);border-color:var(--om)}
+.ak-rv-flash{box-shadow:0 0 0 3px var(--pl),0 0 0 1.5px var(--p) !important}
+.ak-hist-hd{font-size:13px;font-weight:800;color:var(--t1);margin:22px 2px 4px}
+.ak-hist-sub{font-size:11.5px;color:var(--t3);margin:0 2px 10px;font-weight:500}
+.ak-cmp{display:grid;gap:9px}
+.ak-cmp-row{display:grid;grid-template-columns:62px 1fr 56px;gap:8px;align-items:center;font-size:11.5px;font-weight:700;color:var(--t2)}
+.ak-cmp-row b{font-family:var(--m);text-align:right;color:var(--t1)}
   
   .ls-mrp, .pr-mrp {
   font-size: 13px;
@@ -6181,6 +6192,13 @@ html:has(#home-pg.on),body:has(#home-pg.on){background:#fff !important}
         </div>
       </div>
 
+      <!-- Previously checked results (saved automatically) -->
+      <div id="ak-history-wrap" style="display:none">
+        <div class="ak-hist-hd">📂 Your Previous Results</div>
+        <div class="ak-hist-sub">Saved automatically — tap any result to see your score and analysis again.</div>
+        <div id="ak-history-list"></div>
+      </div>
+
       <!-- Set picker -->
       <div id="ak-set-picker" style="display:none">
         <button class="btn-home" style="margin-bottom:14px" onclick="AK.backToList()">&larr; Back to Exams</button>
@@ -6217,6 +6235,9 @@ html:has(#home-pg.on),body:has(#home-pg.on){background:#fff !important}
               <div class="res-score" id="ak-r-official" style="font-size:38px;color:var(--g)">0</div>
             </div>
           </div>
+          <div class="res-outof" id="ak-r-outof" style="margin-top:10px"></div>
+          <div class="res-pct" id="ak-r-pct" style="display:none;background:var(--s1bg);border:1px solid var(--bd);color:var(--t1)"></div>
+          <div class="res-outof" id="ak-r-meta" style="margin-top:8px"></div>
         </div>
         <div class="res-stats">
           <div class="rs rs-c"><strong id="ak-r-c">0</strong><span>Correct</span></div>
@@ -6225,7 +6246,10 @@ html:has(#home-pg.on),body:has(#home-pg.on){background:#fff !important}
           <div class="rs rs-t"><strong id="ak-r-t">0</strong><span>Total</span></div>
         </div>
         <div id="ak-r-official-note" class="al" style="display:none"></div>
-        <div class="rev-hd"><h3>Answer Review</h3><span id="ak-rv-cnt">0 Qs</span></div>
+        <div class="lb-note" id="ak-r-saved" style="padding:2px 8px 12px"></div>
+        <div id="ak-an"></div>
+        <div class="rev-hd" id="ak-rv-top"><h3>Answer Review</h3><span id="ak-rv-cnt">0 Qs</span></div>
+        <div class="jke-pf-range" id="ak-rv-filter"></div>
         <div id="ak-rv-list"></div>
       </div>
     </div>
@@ -6611,6 +6635,7 @@ html:has(#home-pg.on),body:has(#home-pg.on){background:#fff !important}
     login: 1, register: 1, forgotPassword: 1,
     getTest: 1, getTestPractice: 1, getStudentHistory: 1,
     getWeakAreas: 1, getSubmissionReview: 1, verifyAccess: 1,
+    getMyAKResults: 1, getAKResult: 1,
   };
 
   function sessionExpired() {
@@ -10338,6 +10363,8 @@ if (stored && Array.isArray(stored.data) && stored.data.length && Date.now() - s
 
   AK.init = function () {
     document.getElementById("ak-exam-list").style.display = "block";
+    document.getElementById("ak-history-wrap").style.display = AK.history && AK.history.length ? "block" : "none";
+    AK.loadHistory();
     document.getElementById("ak-set-picker").style.display = "none";
     document.getElementById("ak-grid-wrap").style.display = "none";
     document.getElementById("ak-result-wrap").style.display = "none";
@@ -10394,6 +10421,7 @@ if (stored && Array.isArray(stored.data) && stored.data.length && Date.now() - s
     AK.currentExam = e;
     AK.currentSet = null;
     document.getElementById("ak-exam-list").style.display = "none";
+    document.getElementById("ak-history-wrap").style.display = "none";
     document.getElementById("ak-set-picker").style.display = "block";
     tx("ak-sp-title", e.examName);
     tx("ak-sp-sub", e.totalQuestions + " Questions \u00B7 Select the set you attempted");
@@ -10422,6 +10450,8 @@ if (stored && Array.isArray(stored.data) && stored.data.length && Date.now() - s
     document.getElementById("ak-grid-wrap").style.display = "none";
     document.getElementById("ak-result-wrap").style.display = "none";
     document.getElementById("ak-exam-list").style.display = "block";
+    document.getElementById("ak-history-wrap").style.display = AK.history && AK.history.length ? "block" : "none";
+    AK.loadHistory();
   };
 
   AK.beginGrid = function () {
@@ -10491,9 +10521,80 @@ if (stored && Array.isArray(stored.data) && stored.data.length && Date.now() - s
     );
   };
 
+  // ── helpers ──
+  AK.num = function (v) {
+    return v == null || isNaN(v) ? "—" : String(Math.round(Number(v) * 100) / 100);
+  };
+  AK.when = function (iso) {
+    if (!iso) return "";
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return "";
+    return d.toLocaleString("en-IN", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
+  };
+
+  // ── previously checked results (saved on the server for every check) ──
+  AK.history = null;
+  AK.loadHistory = function () {
+    apiPost({ action: "getMyAKResults" }, function (err, data) {
+      if (err || !data || !data.success) return;
+      AK.history = data.results || [];
+      AK.renderHistory();
+    });
+  };
+
+  AK.renderHistory = function () {
+    var wrap = document.getElementById("ak-history-wrap");
+    var list = document.getElementById("ak-history-list");
+    var h = AK.history || [];
+    var listVisible = document.getElementById("ak-exam-list").style.display !== "none";
+    if (!h.length) {
+      wrap.style.display = "none";
+      return;
+    }
+    wrap.style.display = listVisible ? "block" : "none";
+    list.innerHTML = h
+      .map(function (r) {
+        var tot = r.maxMarks != null ? "/" + AK.num(r.maxMarks) : "";
+        var chips =
+          '<span class="ch ch-or">🟡 Tentative ' + AK.num(r.tentativeScore) + tot + "</span>" +
+          (r.officialScore != null ? ' <span class="ch ch-gn">✅ Official ' + AK.num(r.officialScore) + tot + "</span>" : "");
+        return (
+          '<div class="tc" style="margin-bottom:8px" onclick="AK.openSaved(\'' + r.resultId + '\')">' +
+          '<div class="tc-ico">📊</div>' +
+          '<div class="tc-body">' +
+          '<div class="tc-name">' + escHtml(r.examName) + "</div>" +
+          '<div class="tc-subj">Set ' + escHtml(r.set) + " · " + escHtml(AK.when(r.savedAt)) + "</div>" +
+          '<div class="tc-chips">' + chips + "</div>" +
+          "</div>" +
+          '<div class="tc-arr">›</div>' +
+          "</div>"
+        );
+      })
+      .join("");
+  };
+
+  AK.openSaved = function (resultId) {
+    if (AK.opening) return;
+    AK.opening = true;
+    toast("Loading your result…", "ok", 1500);
+    apiPost({ action: "getAKResult", resultId: resultId }, function (err, data) {
+      AK.opening = false;
+      if (err || !data || !data.success) {
+        toast("Could not open result: " + ((data && data.error) || "network error"), "err", 6000);
+        return;
+      }
+      AK.showResult(data);
+    });
+  };
+
   AK.showResult = function (data) {
+    document.getElementById("ak-exam-list").style.display = "none";
+    document.getElementById("ak-history-wrap").style.display = "none";
+    document.getElementById("ak-set-picker").style.display = "none";
     document.getElementById("ak-grid-wrap").style.display = "none";
     document.getElementById("ak-result-wrap").style.display = "block";
+    AK.lastData = data;
+    AK.history = null; // a new/updated result exists; reload the list when going back
     tx("ak-r-tent", data.tentativeScore);
     tx("ak-r-c", data.correctCount);
     tx("ak-r-w", data.wrongCount);
@@ -10510,37 +10611,205 @@ if (stored && Array.isArray(stored.data) && stored.data.length && Date.now() - s
       note.className = "al ok";
       note.style.display = "block";
       note.textContent =
-        "Official answer key not released yet \u2014 this score is based on the tentative key only. Check back later for your final score.";
+        "Official answer key not released yet — this score is based on the tentative key only. Check back later for your final score.";
     }
-    // FIX: the stats above (Correct/Wrong/Unattempted/Total) always reflect
-    // `data.review` (the primary result — Tentative if it exists, Official as
-    // fallback). Previously this preferred `data.officialReview` whenever it
-    // existed, which meant that once an Official key was published, the
-    // review list below could disagree with the counts shown above it
-    // (a question tagged "correct" in the stats but shown "wrong" in the
-    // list, or vice versa). Always use `data.review` so both stay in sync.
+
+    // total marks + percentage + which exam / when
+    var pctEl = document.getElementById("ak-r-pct");
+    if (data.maxMarks) {
+      tx("ak-r-outof", "out of " + AK.num(data.maxMarks) + " marks");
+      pctEl.style.display = "inline-block";
+      pctEl.textContent = AK.num(data.percentage) + "% scored";
+    } else {
+      tx("ak-r-outof", "");
+      pctEl.style.display = "none";
+    }
+    tx("ak-r-meta", (data.examName ? data.examName + " · " : "") + (data.set ? "Set " + data.set : "") + (data.savedAt ? " · " + AK.when(data.savedAt) : ""));
+    var sv = document.getElementById("ak-r-saved");
+    sv.style.display = "block";
+    sv.textContent = "✅ Saved to your account — open Check Your Score any time to see this result again.";
+
+    AK.renderAnalytics(data);
+    AK.rvFilterKey = "all";
+    AK.renderReview();
+    window.scrollTo(0, 0);
+  };
+
+  // ── detailed analytics ──
+  AK.renderAnalytics = function (d) {
+    var el = document.getElementById("ak-an");
+    var rev = d.review || [];
+    var tot = d.totalQuestions || rev.length || 0;
+    var c = d.correctCount || 0, w = d.wrongCount || 0, s = d.unattemptedCount || 0, bonus = d.bonusCount || 0;
+    var neg = d.negativeLost || 0;
+    var net = Number(d.tentativeScore) || 0;
+    var gained = Math.round((net + neg) * 100) / 100;
+    var html = "";
+
+    // KPI strip
+    function kpi(v, l, cls) {
+      return '<div class="jke-pf-kpi"><strong' + (cls ? ' style="color:var(--' + cls + ')"' : "") + ">" + v + "</strong><span>" + l + "</span></div>";
+    }
+    html += '<div class="jke-pf-kpis">' +
+      kpi(AK.num(d.percentage) + "%", "Score %") +
+      kpi(AK.num(d.accuracy) + "%", "Accuracy", "g") +
+      kpi(AK.num(d.attemptRate) + "%", "Attempted") +
+      kpi("+" + AK.num(gained), "Marks gained", "g") +
+      kpi("−" + AK.num(neg), "Negative marks", neg > 0 ? "r" : "") +
+      kpi(AK.num(net), "Net score", "p") +
+      "</div>";
+
+    // donut + comparison
+    var off = 25, svg = '<svg class="jke-pf-donut" viewBox="0 0 42 42" role="img" aria-label="Answer breakdown"><circle class="jke-pf-donut-bg" cx="21" cy="21" r="15.9155"/>';
+    [
+      { v: c, k: "c", l: "Correct" }, { v: w, k: "w", l: "Wrong" }, { v: s, k: "s", l: "Unattempted" }, { v: bonus, k: "b", l: "Bonus" }
+    ].forEach(function (sg) {
+      var pp = tot ? (sg.v / tot) * 100 : 0;
+      if (pp <= 0) return;
+      svg += '<circle class="jke-pf-seg ' + (sg.k === "b" ? "" : "jke-pf-seg-" + sg.k) + '" ' + (sg.k === "b" ? 'style="stroke:var(--p)" ' : "") +
+        'cx="21" cy="21" r="15.9155" stroke-dasharray="' + pp.toFixed(2) + " " + (100 - pp).toFixed(2) + '" stroke-dashoffset="' + off.toFixed(2) +
+        '"><title>' + sg.l + ": " + sg.v + " (" + pp.toFixed(0) + "%)</title></circle>";
+      off -= pp;
+    });
+    svg += '<text class="jke-pf-donut-n" x="21" y="22.5">' + Math.round(d.accuracy || 0) + '%</text><text class="jke-pf-donut-l" x="21" y="27">Accuracy</text></svg>';
+    var donut = '<div class="jke-pf-card"><div class="jke-pf-ttl">Answer Breakdown</div><div class="jke-pf-donut-wrap">' + svg +
+      '<div class="jke-pf-leg" style="justify-content:center;margin-top:0">' +
+      '<span><i style="background:var(--g)"></i>Correct ' + c + "</span>" +
+      '<span><i style="background:var(--r)"></i>Wrong ' + w + "</span>" +
+      '<span><i style="background:var(--o)"></i>Unattempted ' + s + "</span>" +
+      (bonus ? '<span><i style="background:var(--p)"></i>Bonus ' + bonus + "</span>" : "") +
+      "</div></div></div>";
+
+    var co = d.cohort || {};
+    var cmp = '<div class="jke-pf-card"><div class="jke-pf-ttl">How You Compare</div>';
+    if (co.students > 1 && co.avg != null) {
+      var mx = Math.max(d.maxMarks || 0, co.top || 0, net, 1);
+      var bar = function (label, v, col) {
+        var wd = Math.max(0, Math.min(100, (v / mx) * 100));
+        return '<div class="ak-cmp-row"><span>' + label + '</span><div class="jke-pf-track"><div class="jke-pf-fill" style="background:' + col + ';width:' + wd.toFixed(1) + '%"></div></div><b>' + AK.num(v) + "</b></div>";
+      };
+      cmp += '<div style="font-size:12px;color:var(--t2);font-weight:600;margin-bottom:12px">Rank <b style="font-family:var(--m);color:var(--t1)">#' + co.rank + "</b> of " + co.students +
+        " students" + (co.percentile != null ? " · better than <b style=\"font-family:var(--m);color:var(--t1)\">" + AK.num(co.percentile) + "%</b>" : "") + "</div>" +
+        '<div class="ak-cmp">' + bar("You", net, "var(--g)") + bar("Average", co.avg, "var(--o)") + bar("Topper", co.top, "var(--p)") + "</div>";
+    } else {
+      cmp += '<div style="font-size:12.5px;color:var(--t3);line-height:1.7;font-weight:500">You are among the first to check this exam. Your rank and comparison with other students will appear here as more students check their marks.</div>';
+    }
+    cmp += "</div>";
+    html += '<div class="jke-pf-2 even">' + donut + cmp + "</div>";
+
+    // tentative vs official
+    if (d.officialAvailable && d.scoreDiff != null) {
+      var up = d.scoreDiff > 0, same = d.scoreDiff === 0;
+      html += '<div class="jke-pf-card"><div class="jke-pf-ttl">Tentative vs Official Key</div>' +
+        '<div style="display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;font-family:var(--m);font-weight:800">' +
+        '<span style="font-size:22px;color:var(--o)">' + AK.num(d.tentativeScore) + '</span><span style="color:var(--t3)">→</span>' +
+        '<span style="font-size:22px;color:var(--g)">' + AK.num(d.officialScore) + '</span>' +
+        '<span style="font-size:13px;color:var(--' + (same ? "t3" : up ? "g" : "r") + ')">' + (same ? "no change" : (up ? "+" : "−") + AK.num(Math.abs(d.scoreDiff)) + " marks") + "</span></div></div>";
+    }
+
+    // performance by question block
+    if (rev.length) {
+      var bs = rev.length <= 60 ? 10 : 25, blocks = [];
+      for (var i = 0; i < rev.length; i += bs) {
+        var sl = rev.slice(i, i + bs), cc = 0, ww = 0, ss = 0;
+        sl.forEach(function (r) {
+          if (r.status === "correct" || r.status === "bonus") cc++;
+          else if (r.status === "wrong") ww++;
+          else ss++;
+        });
+        blocks.push({ a: sl[0].qNo, b: sl[sl.length - 1].qNo, n: sl.length, c: cc, w: ww, s: ss, p: (cc / sl.length) * 100 });
+      }
+      html += '<div class="jke-pf-card"><div class="jke-pf-ttl">Performance by Question Block<small>' + bs + " questions each</small></div>" +
+        blocks.map(function (b) {
+          var cl = b.p >= 65 ? "hi" : b.p >= 40 ? "mid" : "lo";
+          return '<div class="jke-pf-bar"><div class="jke-pf-bar-hd"><span class="jke-pf-bar-n">Q' + b.a + "–" + b.b +
+            '</span><span class="jke-pf-bar-v">' + b.c + "/" + b.n + "<em>" + b.w + " wrong · " + b.s + ' skipped</em></span></div><div class="jke-pf-track"><div class="jke-pf-fill ' + cl +
+            '" style="width:' + b.p.toFixed(1) + '%"></div></div></div>';
+        }).join("") + "</div>";
+
+      // question map
+      html += '<div class="jke-pf-card"><div class="jke-pf-ttl">Question Map<small>tap a number to jump to it</small></div><div class="ak-qmap">' +
+        rev.map(function (r) {
+          var k = r.status === "correct" || r.status === "bonus" ? "c" : r.status === "wrong" ? "w" : "s";
+          return '<button type="button" class="ak-qd ' + k + '" onclick="AK.jumpQ(' + r.qNo + ')">' + r.qNo + "</button>";
+        }).join("") + "</div>" +
+        '<div class="jke-pf-leg"><span><i style="background:var(--g)"></i>Correct</span><span><i style="background:var(--r)"></i>Wrong</span><span><i style="background:var(--o)"></i>Unattempted</span></div></div>';
+
+      // insights
+      var ins = [];
+      function add(cls, ic, t, x) { ins.push('<div class="jke-pf-ins ' + cls + '"><div class="jke-pf-ins-i">' + ic + '</div><div><div class="jke-pf-ins-t">' + t + '</div><div class="jke-pf-ins-x">' + x + "</div></div></div>"); }
+      if (blocks.length > 1) {
+        var best = blocks.slice().sort(function (x, y) { return y.p - x.p; })[0];
+        var worst = blocks.slice().sort(function (x, y) { return x.p - y.p; })[0];
+        if (best !== worst) {
+          add("good", "💪", "Strongest stretch: Q" + best.a + "–" + best.b, best.c + " of " + best.n + " correct here.");
+          add(worst.p < 50 ? "warn" : "info", "🎯", "Weakest stretch: Q" + worst.a + "–" + worst.b, worst.c + " of " + worst.n + " correct — " + worst.w + " wrong and " + worst.s + " left blank.");
+        }
+      }
+      if (d.negativeMarking && neg > 0) {
+        add("bad", "➖", "Negative marking cost you " + AK.num(neg) + " marks", w + " wrong answers. Leaving all of them blank would have given " + AK.num(gained) + " instead of " + AK.num(net) + ".");
+      }
+      if (tot && s / tot >= 0.25) add("warn", "⏭️", "You left " + s + " questions unattempted", "That is " + Math.round((s / tot) * 100) + "% of the paper. If you can eliminate two options, an educated guess is often worth the risk.");
+      if ((d.accuracy || 0) >= 85 && c > 0) add("good", "🏆", "Excellent accuracy", "You got " + AK.num(d.accuracy) + "% of your attempted questions right.");
+      else if ((d.accuracy || 0) < 60 && c + w > 0) add("warn", "📚", "Accuracy can improve", "Only " + AK.num(d.accuracy) + "% of the questions you attempted were correct — revise the topics from the question map's red cells.");
+      if (ins.length) html += '<div class="jke-pf-card"><div class="jke-pf-ttl">Insights</div>' + ins.join("") + "</div>";
+    }
+    el.innerHTML = html;
+  };
+
+  // ── answer review list with filters ──
+  AK.rvFilterKey = "all";
+  AK.rvKind = function (r) {
+    return r.status === "correct" || r.status === "bonus" ? "correct" : r.status === "wrong" ? "wrong" : "skip";
+  };
+  AK.rvFilter = function (k) {
+    AK.rvFilterKey = k;
+    AK.renderReview();
+  };
+  AK.renderReview = function () {
+    var data = AK.lastData || {};
+    // The stats above always reflect `data.review` (the primary result), so the list uses it too.
     var rev = data.review || [];
-    tx("ak-rv-cnt", rev.length + " Qs");
-    document.getElementById("ak-rv-list").innerHTML = rev
-      .map(function (r) {
-        var st2 = r.status === "correct" ? "c" : r.status === "wrong" ? "w" : r.status === "bonus" ? "c" : "s";
-        var label =
-          r.status === "correct"
-            ? "\u2713 Correct"
-            : r.status === "wrong"
-              ? "\u2717 Wrong"
-              : r.status === "bonus"
-                ? "\u2605 Bonus"
-                : "\u2014 Unattempted";
-        var bc = st2 === "c" ? "rvb-c" : st2 === "w" ? "rvb-w" : "rvb-s";
-        return (
-          '<div class="rv r' + st2 + '">' +
-          '<div class="rv-meta"><span class="rv-num">Q' + r.qNo + '</span><span class="rv-badge ' + bc + '">' + label + "</span></div>" +
-          '<div class="rv-q">Your answer: <strong>' + (r.given || "\u2014") + "</strong> &nbsp;|&nbsp; Correct: <strong>" + r.correct + "</strong></div>" +
-          "</div>"
-        );
-      })
-      .join("");
+    var k = AK.rvFilterKey || "all";
+    var cnt = { all: rev.length, correct: 0, wrong: 0, skip: 0 };
+    rev.forEach(function (r) { cnt[AK.rvKind(r)]++; });
+    document.getElementById("ak-rv-filter").innerHTML = [
+      ["all", "All"], ["correct", "Correct"], ["wrong", "Wrong"], ["skip", "Unattempted"]
+    ].map(function (f) {
+      return '<button type="button" class="jke-pf-chip' + (k === f[0] ? " on" : "") + '" onclick="AK.rvFilter(\'' + f[0] + "')\">" + f[1] + " (" + cnt[f[0]] + ")</button>";
+    }).join("");
+    var shown = k === "all" ? rev : rev.filter(function (r) { return AK.rvKind(r) === k; });
+    tx("ak-rv-cnt", (k === "all" ? rev.length : shown.length + " of " + rev.length) + " Qs");
+    document.getElementById("ak-rv-list").innerHTML = shown.length
+      ? shown
+          .map(function (r) {
+            var st2 = r.status === "correct" ? "c" : r.status === "wrong" ? "w" : r.status === "bonus" ? "c" : "s";
+            var label =
+              r.status === "correct"
+                ? "✓ Correct"
+                : r.status === "wrong"
+                  ? "✗ Wrong"
+                  : r.status === "bonus"
+                    ? "★ Bonus"
+                    : "— Unattempted";
+            var bc = st2 === "c" ? "rvb-c" : st2 === "w" ? "rvb-w" : "rvb-s";
+            return (
+              '<div class="rv r' + st2 + '" id="ak-rvq-' + r.qNo + '">' +
+              '<div class="rv-meta"><span class="rv-num">Q' + r.qNo + '</span><span class="rv-badge ' + bc + '">' + label + "</span></div>" +
+              '<div class="rv-q">Your answer: <strong>' + (r.given || "—") + "</strong> &nbsp;|&nbsp; Correct: <strong>" + r.correct + "</strong></div>" +
+              "</div>"
+            );
+          })
+          .join("")
+      : '<div class="empty-state"><div class="es-sub">No questions in this group.</div></div>';
+  };
+  AK.jumpQ = function (n) {
+    if (AK.rvFilterKey !== "all") AK.rvFilter("all");
+    var el = document.getElementById("ak-rvq-" + n);
+    if (!el) return;
+    el.scrollIntoView({ behavior: "smooth", block: "center" });
+    el.classList.add("ak-rv-flash");
+    setTimeout(function () { el.classList.remove("ak-rv-flash"); }, 1600);
   };
 
   // ═══════════════════════════════════════
