@@ -5328,7 +5328,7 @@ html:has(#home-pg.on),body:has(#home-pg.on){background:#fff !important}
   #test-pg #pal-backdrop{display:none}
   #test-pg.sheet-open #pal-backdrop{display:block;position:fixed;inset:0;background:rgba(8,16,43,.35);z-index:90}
 }
-body:has(#test-pg.on) .jke-footer{display:none !important}
+body:has(#test-pg.on) .jke-footer,body:has(#test-pg.on) .jke-ft{display:none !important}
 @media (prefers-reduced-motion:reduce){#jke-nav,#test-pg *{transition:none !important}}
 </style>
 <div id="jke-nav">
@@ -6370,11 +6370,6 @@ body:has(#test-pg.on) .jke-footer{display:none !important}
       </div>
     </div>
   </div>
-</div>
-  <div class="jke-footer">
-  <a href="https://www.jkedusphere.online/p/privacy-policy.html">Privacy Policy</a>
-  <span class="jke-footer-dot">•</span>
-  <a href="https://www.jkedusphere.online/p/contact-us_15.html">Contact Us</a>
 </div>
 <!-- /jke-app -->
 
@@ -11010,5 +11005,6 @@ if (stored && Array.isArray(stored.data) && stored.data.length && Date.now() - s
   })();
 </script>
  
+<script src="/footer.js"></script>
 </body>
 </html>
