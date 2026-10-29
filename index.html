@@ -5203,6 +5203,133 @@ html:has(#home-pg.on),body:has(#home-pg.on){background:#fff !important}
   #home-pg *{transition:none !important;animation:none !important}
 }
 </style>
+<style id="jke-test-v2">
+#test-pg{--tl:#e7e9f1;--tm:#5b6478;--tsoft:#f6f7fb}
+#test-pg .tbar{background:#fff;border:0;padding:0;gap:0;flex-shrink:0}
+#test-pg .tbar-title{font-size:13.5px;font-weight:700;color:var(--t1);line-height:1.3}
+#test-pg .tbar-sub{font-size:11.5px;color:var(--tm);margin-top:2px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#test-pg .ttimer{min-width:0;padding:7px 14px;border:0;border-radius:99px;background:var(--tsoft);font:600 15px/1 var(--m);letter-spacing:.02em;color:var(--t1);font-variant-numeric:tabular-nums;flex-shrink:0}
+#test-pg .ttimer.warn{background:#fff3e0;color:#b45309;border:0}
+#test-pg .ttimer.danger{background:#fee9e7;color:#c62828;border:0}
+#test-pg .tprog{height:3px;background:var(--tl)}
+#test-pg .tprog-fill{height:3px;background:var(--p)}
+#test-pg .tb-toggle{display:flex;align-items:center;gap:8px;height:34px;padding:0 12px;border-radius:10px;border:1px solid var(--tl);background:#fff;color:var(--tm);font:600 12.5px var(--f)}
+#test-pg .tb-toggle:hover{color:var(--t1);border-color:var(--bd2)}
+#test-pg .tb-toggle svg{width:16px;height:16px}
+#test-pg .pn{border-radius:8px;border:1px solid var(--tl);background:#fff;color:var(--tm);font-weight:600}
+#test-pg .pn.a{background:var(--g);border-color:var(--g);color:#fff}
+#test-pg .pn.mk{background:var(--pu2);border-color:var(--pu2);color:#fff}
+#test-pg .pn.cur{background:var(--p);border-color:var(--p);color:#fff;transform:none;box-shadow:0 0 0 3px var(--pm)}
+#test-pg .q-mark-btn{display:none}
+#test-pg .q-marks{align-items:center}
+#test-pg .q-img{width:auto;height:auto;max-width:100%;margin:10px auto 0;border:0;box-shadow:none;object-fit:contain;background:#fff}
+#test-pg .ab-pal{display:none}
+
+/* ═════════ DESKTOP ═════════ */
+@media (min-width:900px){
+  #test-pg.on{display:grid !important;grid-template-columns:minmax(0,1fr) 300px;grid-template-rows:auto minmax(0,1fr) auto;grid-template-areas:"bar info" "qarea palette" "qarea actbar";height:calc(100vh - var(--nav));min-height:0;overflow:hidden;background:#fff}
+  #test-pg .tbar{display:contents}
+  #test-pg .tb-toggle{grid-area:bar;justify-self:start;align-self:center;margin:8px 0 8px 20px}
+  #test-pg .ttimer{grid-area:bar;justify-self:end;align-self:center;margin:8px 24px 8px 0}
+  #test-pg .tprog{grid-area:bar;align-self:end;z-index:1}
+  #test-pg .tbar-left{grid-area:info;min-width:0;padding:12px 16px;background:var(--tsoft);border-left:1px solid var(--tl);border-bottom:1px solid var(--tl)}
+  #test-pg .tbar-title{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+  #test-pg #palette{grid-area:palette;position:static;max-height:none;height:auto;min-height:0;overflow-y:auto;padding:12px 16px;background:var(--tsoft);border:0;border-left:1px solid var(--tl)}
+  #test-pg .pal-nums{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:10px;overflow:visible}
+  #test-pg .pn{width:auto;height:30px;font-size:11px}
+  #test-pg .pal-leg{flex-direction:row;flex-wrap:wrap;gap:6px 12px;margin-top:12px;padding-top:10px;border-top:1px solid var(--tl)}
+
+  #test-pg .act-bar{grid-area:actbar;position:static;display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px 16px;background:#fff;border:0;border-left:1px solid var(--tl);border-top:1px solid var(--tl);box-shadow:none}
+  #test-pg .ab{height:38px;padding:0 10px;font-size:12.5px;border-radius:10px}
+  #test-pg .ab-sub{grid-column:auto;font-size:12.5px}
+
+  #test-pg #q-area{grid-area:qarea;height:auto;min-height:0;overflow-y:auto;display:block;padding:6px 28px 16px;background:#fff}
+  #test-pg .q-card{max-width:860px;margin:0 auto;padding:14px 20px 16px;border:0;box-shadow:none;border-radius:0}
+  #test-pg .q-meta{margin-bottom:10px;padding-bottom:10px}
+  #test-pg .q-unit{margin-bottom:6px;font-size:10.5px}
+  #test-pg .q-txt{font-size:15.5px;line-height:1.6}
+  #test-pg .jke-qp{margin-bottom:6px;line-height:1.6}
+  #test-pg .jke-ql li{padding:6px 10px}
+  #test-pg .q-opts{gap:7px;margin-top:12px}
+  #test-pg .q-opt{padding:9px 14px;gap:12px;border-radius:12px}
+  #test-pg .q-opt-k{width:26px;height:26px}
+  #test-pg .q-opt-t{font-size:14px;line-height:1.45}
+  #test-pg .q-img{max-height:34vh}
+
+  /* diagram questions: text + diagram left, options right */
+  #test-pg .q-card:has(#q-img[src]){max-width:1120px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);column-gap:28px;align-items:start}
+  #test-pg .q-card:has(#q-img[src]) .q-meta{grid-column:1/-1}
+  #test-pg .q-card:has(#q-img[src]) .q-unit,
+  #test-pg .q-card:has(#q-img[src]) .q-txt,
+  #test-pg .q-card:has(#q-img[src]) .q-img{grid-column:1}
+  #test-pg .q-card:has(#q-img[src]) .q-img{max-height:46vh;margin-left:0}
+  #test-pg .q-card:has(#q-img[src]) .q-opts{grid-column:2;grid-row:2 / span 3;margin-top:0}
+  #test-pg .q-card:has(#q-img[src]) .rv-expl{grid-column:1/-1}
+
+  /* collapsed sidebar: controls move to a bottom bar */
+  #test-pg.on.pal-collapsed{grid-template-columns:minmax(0,1fr);grid-template-areas:"bar" "qarea" "actbar"}
+  #test-pg.pal-collapsed .tbar-left,
+  #test-pg.pal-collapsed #palette{display:none}
+  #test-pg.pal-collapsed .act-bar{display:flex;justify-content:center;gap:10px;border:0;border-top:1px solid var(--tl);padding:10px 16px}
+  #test-pg.pal-collapsed .ab{min-width:120px}
+}
+
+/* ═════════ PHONE ═════════ */
+@media (max-width:899px){
+  #test-pg{--abh:64px}
+  #test-pg.sheet-open{--abh:116px}
+  #jke-nav{transition:transform .25s ease}
+  body.t-nav-hide #jke-nav{transform:translateY(-100%)}
+
+  #test-pg .tbar{position:fixed;top:var(--nav);left:0;right:0;height:52px;z-index:120;display:flex;align-items:center;gap:12px;padding:0 14px;background:#fff;border-bottom:1px solid var(--tl);transition:top .25s ease}
+  body.t-nav-hide #test-pg .tbar{top:0}
+  #test-pg .tb-toggle{display:none}
+  #test-pg .tbar-left{flex:1;min-width:0}
+  #test-pg .tbar-title{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  #test-pg .tprog{position:fixed;top:calc(var(--nav) + 52px);left:0;right:0;z-index:121;transition:top .25s ease}
+  body.t-nav-hide #test-pg .tprog{top:52px}
+
+  #test-pg #q-area{flex:none;overflow:visible;padding:64px 12px calc(92px + env(safe-area-inset-bottom,0px));background:#fff}
+  #test-pg .q-card{max-width:none;padding:2px 2px 0;border:0;border-radius:0;box-shadow:none}
+  #test-pg .q-meta{margin-bottom:10px;padding-bottom:10px}
+  #test-pg .q-marks{gap:6px}
+  #test-pg .q-mark-btn{display:inline-flex;align-items:center;justify-content:center;width:30px;height:26px;border-radius:99px;border:1px solid var(--pum);background:var(--pul);color:var(--pu);font-size:13px;padding:0}
+  #test-pg .q-mark-btn.on{background:var(--pu2);border-color:var(--pu2);color:#fff}
+  #test-pg .q-unit{margin-bottom:6px;font-size:10px}
+  #test-pg .q-txt{font-size:15px;line-height:1.6}
+  #test-pg .jke-qp{margin-bottom:6px;line-height:1.6}
+  #test-pg .q-opts{gap:8px;margin-top:14px}
+  #test-pg .q-opt{padding:11px 12px;gap:11px;border-radius:12px}
+  #test-pg .q-opt-k{width:26px;height:26px}
+  #test-pg .q-opt-t{font-size:14px;line-height:1.45}
+  #test-pg .q-img{max-height:30vh}
+
+  /* bottom: Prev | palette handle | Next */
+  #test-pg .act-bar{position:fixed;left:0;right:0;bottom:0;z-index:100;display:grid;grid-template-columns:1fr auto 1fr;column-gap:8px;row-gap:0;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));background:#fff;border-top:1px solid var(--tl);box-shadow:none}
+  #test-pg .ab{height:44px;padding:0 12px;font-size:13px;border-radius:12px}
+  #test-pg .ab-prev{grid-row:2;grid-column:1}
+  #test-pg .ab-pal{grid-row:2;grid-column:2;display:flex;flex-direction:row;gap:7px;padding:0 14px;background:var(--tsoft);color:var(--t1);border:1px solid var(--tl);font-weight:700;font-family:var(--m);font-size:12.5px}
+  #test-pg .ab-next{grid-row:2;grid-column:3}
+  #test-pg .ab-mark,#test-pg .ab-sub{display:none;margin-bottom:8px}
+  #test-pg.sheet-open .ab-mark,#test-pg.sheet-open .ab-sub{display:flex}
+  #test-pg .ab-mark{grid-row:1;grid-column:1}
+  #test-pg .ab-sub{grid-row:1;grid-column:2 / 4}
+  #test-pg .ab-caret{width:7px;height:7px;border-right:2px solid currentColor;border-top:2px solid currentColor;transform:rotate(-45deg);margin-left:2px;transition:transform .2s}
+  #test-pg.sheet-open .ab-caret{transform:rotate(135deg)}
+
+  /* palette = bottom sheet */
+  #test-pg #palette{position:fixed;left:0;right:0;bottom:calc(var(--abh) + env(safe-area-inset-bottom,0px));z-index:95;max-height:46vh;overflow-y:auto;padding:14px 16px 14px;background:#fff;border:0;border-radius:18px 18px 0 0;box-shadow:0 -10px 40px rgba(8,16,43,.18);transform:translateY(105%);visibility:hidden;transition:transform .25s ease,visibility 0s linear .25s}
+  #test-pg.sheet-open #palette{transform:none;visibility:visible;transition:transform .25s ease}
+  #test-pg #palette::before{content:"";display:block;width:36px;height:4px;border-radius:9px;background:var(--bd2);margin:-4px auto 12px}
+  #test-pg .pal-nums{display:grid;grid-template-columns:repeat(auto-fill,minmax(42px,1fr));gap:8px;margin-top:12px;overflow:visible}
+  #test-pg .pn{width:auto;height:40px;font-size:12px}
+  #test-pg .pal-leg{margin-top:12px}
+  #test-pg #pal-backdrop{display:none}
+  #test-pg.sheet-open #pal-backdrop{display:block;position:fixed;inset:0;background:rgba(8,16,43,.35);z-index:90}
+}
+@media (prefers-reduced-motion:reduce){#jke-nav,#test-pg *{transition:none !important}}
+</style>
 <div id="jke-nav">
   <div class="nav-logo">
     <div class="nav-logo-icon">JK</div>
@@ -5858,16 +5985,19 @@ html:has(#home-pg.on),body:has(#home-pg.on){background:#fff !important}
   <!-- ══ TEST ENGINE ══ -->
   <div id="test-pg">
     <div class="tbar">
+      <button type="button" class="tb-toggle" id="tb-toggle" onclick="togglePalette()" aria-label="Show or hide question palette">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>
+        <span>Palette</span>
+      </button>
       <div class="tbar-left">
         <div class="tbar-title" id="tb-title">Test</div>
         <div class="tbar-sub" id="tb-sub"></div>
       </div>
       <div class="ttimer" id="ttimer">00:00</div>
     </div>
-    <div class="tprog">
-      <div class="tprog-fill" id="tprog" style="width: 0%"></div>
-    </div>
-   <div class="palette" id="palette">
+    <div class="tprog"><div class="tprog-fill" id="tprog" style="width: 0%"></div></div>
+
+    <div class="palette" id="palette">
       <div class="pal-top">
         <div class="pal-lbl">Question Palette</div>
         <div class="pal-counts">
@@ -5876,37 +6006,22 @@ html:has(#home-pg.on),body:has(#home-pg.on){background:#fff !important}
           <span class="pc pc-s" id="pc-s">0 skp</span>
         </div>
       </div>
-      <div class="pal-top-row">
-        <div class="pal-nums" id="pal-nums"></div>
-        <button type="button" class="pal-expand-btn" id="pal-expand-btn" onclick="togglePalette()" title="Show all questions">⌄</button>
-      </div>
       <div class="pal-nums" id="pal-nums"></div>
       <div class="pal-leg">
-        <div class="pl">
-          <div class="pl-dot" style="background: var(--bd)"></div>
-          Not visited
-        </div>
-        <div class="pl">
-          <div class="pl-dot" style="background: var(--g)"></div>
-          Answered
-        </div>
-        <div class="pl">
-          <div class="pl-dot" style="background: var(--pu2)"></div>
-          Marked
-        </div>
-        <div class="pl">
-          <div class="pl-dot" style="background: var(--p)"></div>
-          Current
-        </div>
+        <div class="pl"><div class="pl-dot" style="background: var(--bd)"></div>Not visited</div>
+        <div class="pl"><div class="pl-dot" style="background: var(--g)"></div>Answered</div>
+        <div class="pl"><div class="pl-dot" style="background: var(--pu2)"></div>Marked</div>
+        <div class="pl"><div class="pl-dot" style="background: var(--p)"></div>Current</div>
       </div>
     </div>
+
     <div class="q-area" id="q-area">
       <div class="q-card">
         <div class="q-meta">
           <span class="q-badge" id="q-ctr">Q 1/1</span>
           <div class="q-marks">
-            <span class="qm-p" id="qm-p">+1</span
-            ><span class="qm-n" id="qm-n">0</span>
+            <span class="qm-p" id="qm-p">+1</span><span class="qm-n" id="qm-n">0</span>
+            <button type="button" class="q-mark-btn" id="q-mark-btn" onclick="JKE.markQ()" aria-label="Mark for review">🔖</button>
           </div>
         </div>
         <div class="q-unit" id="q-unit" style="display: none"></div>
@@ -5916,18 +6031,18 @@ html:has(#home-pg.on),body:has(#home-pg.on){background:#fff !important}
         <div class="rv-expl" id="q-practice-expl" style="display: none"></div>
       </div>
     </div>
+
     <div class="act-bar">
-      <button class="ab ab-prev" id="ab-prev" onclick="JKE.prevQ()">
-        &larr; Prev
+      <button class="ab ab-prev" id="ab-prev" onclick="JKE.prevQ()">&larr; Prev</button>
+      <button type="button" class="ab ab-pal" id="ab-pal" onclick="togglePalette()" aria-label="Open question palette">
+        <svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>
+        <span id="ab-pal-lbl">1 / 1</span><i class="ab-caret"></i>
       </button>
+      <button class="ab ab-next" id="ab-next" onclick="JKE.nextQ()">Next ›</button>
       <button class="ab ab-mark" onclick="JKE.markQ()">🔖 Mark</button>
-      <button class="ab ab-next" id="ab-next" onclick="JKE.nextQ()">
-        Next ›
-      </button>
-      <button class="ab ab-sub" id="ab-sub-btn" onclick="JKE.confirmSub()">
-        🎯 Submit Test
-      </button>
+      <button class="ab ab-sub" id="ab-sub-btn" onclick="JKE.confirmSub()">🎯 Submit Test</button>
     </div>
+    <div id="pal-backdrop" onclick="togglePalette(false)"></div>
   </div>
 
   <!-- ══ RESULT PAGE ══ -->
@@ -8697,6 +8812,7 @@ function toggleFolder(head) {
       }, 1000);
       if (subBtn) subBtn.innerHTML = "\ud83c\udfaf Submit Test";
     }
+    initTestPanel();
     showPage("test-pg");
     renderQ(0);
   }
@@ -8799,10 +8915,12 @@ function toggleFolder(head) {
       idx === ST.testData.questions.length - 1 ? "Review \u2713" : "Next \u203A";
     var qa = document.getElementById("q-area");
     if (qa) qa.scrollTop = 0;
+    if (window.innerWidth < 900) window.scrollTo(0, 0);
   }
 
   function updStates() {
-    ST.testData.questions.forEach(function (q, i) {
+    var qs = ST.testData.questions;
+    qs.forEach(function (q, i) {
       var e = document.getElementById("pn-" + (i + 1));
       if (!e) return;
       e.classList.remove("a", "mk", "cur");
@@ -8810,12 +8928,27 @@ function toggleFolder(head) {
       else if (ST.marked[q.id]) e.classList.add("mk");
       else if (ST.answers[q.id]) e.classList.add("a");
     });
+    var cq = qs[ST.current];
+    var mb = document.getElementById("q-mark-btn");
+    if (mb) mb.classList.toggle("on", !!(cq && ST.marked[cq.id]));
+    tx("ab-pal-lbl", (ST.current + 1) + " / " + qs.length);
   }
-function togglePalette() {
-  var pal = document.getElementById("palette");
-  var btn = document.getElementById("pal-expand-btn");
-  var expanded = pal.classList.toggle("expanded");
-  btn.classList.toggle("on", expanded);
+function isMobileTest(){ return window.innerWidth < 900; }
+function togglePalette(force) {
+  var tp = document.getElementById("test-pg");
+  if (isMobileTest()) {
+    var o = typeof force === "boolean" ? force : !tp.classList.contains("sheet-open");
+    tp.classList.toggle("sheet-open", o);
+  } else {
+    var c = typeof force === "boolean" ? !force : !tp.classList.contains("pal-collapsed");
+    tp.classList.toggle("pal-collapsed", c);
+    try { localStorage.setItem("jke_pal_c", c ? "1" : "0"); } catch (e) {}
+  }
+}
+function initTestPanel() {
+  var tp = document.getElementById("test-pg");
+  tp.classList.remove("sheet-open", "pal-collapsed");
+  try { if (localStorage.getItem("jke_pal_c") === "1") tp.classList.add("pal-collapsed"); } catch (e) {}
 }
   // ═══════════════════════════════════════
   //  EXIT GUARD: "Are you sure you want to exit?" while a test is running
@@ -8902,7 +9035,22 @@ function togglePalette() {
   };
   JKE.goQ = function (i) {
     renderQ(i);
+    if (window.innerWidth < 900) togglePalette(false); // close the sheet after jumping
   };
+
+  // Phone: slide the main menu away once the student scrolls the question
+  (function () {
+    var tp = document.getElementById("test-pg"), busy = false;
+    function upd() {
+      busy = false;
+      var on = tp.classList.contains("on") && window.innerWidth < 900;
+      document.body.classList.toggle("t-nav-hide", on && window.pageYOffset > 40);
+    }
+    window.addEventListener("scroll", function () {
+      if (!busy) { busy = true; requestAnimationFrame(upd); }
+    }, { passive: true });
+    window.addEventListener("resize", upd);
+  })();
   JKE.markQ = function () {
     var q = ST.testData.questions[ST.current];
     if (ST.marked[q.id]) delete ST.marked[q.id];
