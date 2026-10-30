@@ -5,5 +5,6 @@
  */
 window.JKE_MCQ_PAGES = [
   { title: "History of J&K", href: "/mcqs/history-of-jandk.html" },
-  // { title: "Geography of J&K", href: "/mcqs/geography-of-jk.html" },
+    { title: "Geography of J&K", href: "/mcqs/geography-of-jk.html" },
+  { title: "English", href: "/mcqs/english.html" },
 ];
