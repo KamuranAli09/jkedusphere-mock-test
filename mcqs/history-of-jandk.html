@@ -144,9 +144,6 @@
   var JKE_URL = "https://jkedusphere-backend.onrender.com/api";
   var SUBJECT = "History of J&K"; // must match the "Subject" value of the questions in the database (capital letters don't matter)
   var ALL_Q = [];
-
-  document.getElementById("yr").textContent = new Date().getFullYear();
-
   function escHtml(s){
     return String(s||"").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
   }
