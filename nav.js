@@ -388,14 +388,9 @@
   /* ───────────── the bar (pages that let nav.js draw it) ───────────── */
 
   function rightHtml() {
-    var u = session();
-    if (!u) return '<button type="button" class="nav-btn" id="jn-signin">Sign In</button>';
-    var c = curUser();
-    return (
-      '<button type="button" class="nav-prof" id="jn-prof" aria-label="Open menu">' +
-      '<span class="nav-av">' + esc(c.ini) + "</span>" +
-      '<span class="nav-uname">' + esc(c.name) + "</span></button>"
-    );
+    // signed in: nothing here (the account card is in the side menu)
+    if (session()) return "";
+    return '<button type="button" class="nav-btn" id="jn-signin">Sign In</button>';
   }
 
   function render() {

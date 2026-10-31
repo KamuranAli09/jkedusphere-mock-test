@@ -7103,15 +7103,8 @@ body:has(#test-pg.on) .jke-footer,body:has(#test-pg.on) .jke-ft{display:none !im
         .slice(0, 2)
         .join("")
         .toUpperCase() || "U";
-    nr.innerHTML =
-      '<button type="button" class="nav-prof" aria-label="Open menu" style="display:flex;align-items:center;gap:7px;cursor:pointer;padding:6px;margin:-6px;background:none;border:0;font-family:inherit">' +
-      '<span class="nav-av">' +
-      ini +
-      "</span>" +
-      '<span class="nav-uname">' +
-      jkeEsc(u.name) +
-      "</span>" +
-      "</button>";
+    // signed in: no avatar in the bar; the account card lives in the side menu
+    nr.innerHTML = "";
   }
 
   function closeProfileMenu() {
