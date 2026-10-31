@@ -6,7 +6,7 @@
  * All links live in the side menu (opens from the left when logged out, from the right when logged in).
  *
  * Add to a page with:   <div id="jke-nav"></div><script src="/nav.js"></script>
- * Needs /jke-logo.png (the full logo with tagline). Links are root-relative.
+ * The logo is live text (inline SVG, styled with CSS) so it stays sharp at any size. Links are root-relative.
  *
  * The mock-test page (index.html) draws its own bar and sets window.JKE_NAV_MENU_ONLY = 1,
  * so this file only supplies the menu there. That page tells us about sign-in / sign-out with
@@ -16,14 +16,30 @@
 (function () {
   var SESSION_KEY = "jke_sess_v4"; // same key the mock-test app uses to remember a login
   var BLOG = "https://jkedusphere.online/";
-  var LOGO = "/jke-logo.png";
   var LOGO_ALT = "JKEdusphere – Powered by Vision & Knowledge";
+
+  // Wordmark + tagline as real text on a 657×147 canvas (same proportions and colours as the artwork).
+  // textLength pins each line to its exact width, so it can never look squeezed or stretched.
+  function logoSvg(uid) {
+    var g = "jkeg-" + uid;
+    return (
+      '<svg class="jke-logo" viewBox="0 0 657 147" width="179" height="40" role="img" aria-label="' + esc(LOGO_ALT) + '">' +
+      '<defs><linearGradient id="' + g + '" gradientUnits="userSpaceOnUse" x1="6" y1="0" x2="651" y2="0">' +
+      '<stop offset="0" stop-color="#1b235a"/><stop offset=".124" stop-color="#1b235a"/><stop offset=".248" stop-color="#1f2c61"/>' +
+      '<stop offset=".434" stop-color="#1e3a72"/><stop offset=".496" stop-color="#1f417a"/><stop offset=".62" stop-color="#407eb8"/>' +
+      '<stop offset=".682" stop-color="#61acdd"/><stop offset=".744" stop-color="#6cbce1"/><stop offset=".874" stop-color="#6cbde9"/>' +
+      '<stop offset="1" stop-color="#6cbde9"/></linearGradient></defs>' +
+      '<text x="6" y="86" textLength="645" lengthAdjust="spacing" font-size="106" font-weight="700" fill="url(#' + g + ')">JKEdusphere</text>' +
+      '<text x="74" y="134" textLength="506" lengthAdjust="spacing" font-size="33.5" font-weight="400" fill="#8f8e8d">Powered by Vision &amp; Knowledge</text>' +
+      "</svg>"
+    );
+  }
 
   // go = the mock-test app's own page name (used by window.goNav when it exists)
   var LINKS = [
     { id: "blog", label: "Home", href: BLOG },
-    { id: "home", label: "Tests", href: "/", go: "home" },
-    { id: "lb", label: "Ranks", href: "/?go=lb", go: "lb" },
+    { id: "home", label: "Tests", labelIn: "My Tests", href: "/", go: "home" },
+    { id: "lb", label: "Ranks", labelIn: "Leaderboard", href: "/?go=lb", go: "lb" },
     { id: "ak", label: "Check Your Score", href: "/?go=ak", go: "ak", auth: true },
     { id: "hist", label: "My Attempts", href: "/?go=hist", go: "hist", auth: true },
     { id: "notes", label: "Notes", href: "/notes" },
@@ -42,26 +58,21 @@
     "#jke-nav a{text-decoration:none}",
     "#jke-nav .nav-btn{padding:7px 15px;border:0;border-radius:9999px;font-size:12px;font-weight:700;font-family:inherit;background:var(--p);color:#fff;cursor:pointer;transition:all .15s;box-shadow:0 2px 10px rgba(26,74,122,.3)}",
     "#jke-nav .nav-btn:hover{background:var(--p2);transform:translateY(-1px)}",
-    "#jke-nav .nav-prof{display:flex;align-items:center;gap:7px;cursor:pointer;padding:6px;margin:-6px;background:none;border:0;font-family:inherit}",
+    "#jke-nav .nav-prof{display:flex;align-items:center;gap:7px;cursor:pointer;padding:6px;margin:-6px;background:none;border:0;font-family:inherit;-webkit-tap-highlight-color:transparent}",
     "#jke-nav .nav-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--g),var(--g2));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;box-shadow:0 2px 8px rgba(0,201,122,.2)}",
     "#jke-nav .nav-uname{display:none;font-size:12px;font-weight:600;color:var(--t2);max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}",
     "@media (min-width:440px){#jke-nav .nav-uname{display:block}}",
-    "#jke-nav .nav-menu{display:none;position:absolute;top:calc(100% + 12px);right:0;min-width:190px;background:#fff;border:1px solid var(--bd);border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.12);padding:6px;z-index:9100}",
-    "#jke-nav .nav-menu.open{display:block}",
-    "#jke-nav .nav-menu .nm-head{padding:8px 10px 10px;border-bottom:1px solid var(--bd);margin-bottom:4px}",
-    "#jke-nav .nav-menu .nm-name{font-size:13px;font-weight:700;color:var(--t1)}",
-    "#jke-nav .nav-menu .nm-mail{font-size:11px;color:var(--t3);margin-top:3px;overflow:hidden;text-overflow:ellipsis}",
-    "#jke-nav .nav-menu a,#jke-nav .nav-menu button{display:block;width:100%;text-align:left;padding:9px 10px;border:0;background:none;border-radius:8px;font-family:inherit;font-size:12.5px;font-weight:600;color:var(--t2);cursor:pointer}",
-    "#jke-nav .nav-menu a:hover,#jke-nav .nav-menu button:hover{background:#f1f4f9;color:var(--t1)}",
   ].join("");
 
   // Burger + logo + side menu (injected everywhere, including the mock-test page)
   var MENU_CSS = [
     /* bar pieces shared with the mock-test page's own bar */
     "#jke-nav .nav-logo{display:flex;align-items:center;flex-shrink:0;min-width:0;padding:0;margin:0;border:0;order:1}",
-    "#jke-nav .nav-logo img{display:block;height:38px;width:auto;max-width:100%}",
+    ".jke-logo{display:block;height:40px;width:auto;aspect-ratio:657/147;overflow:visible;flex-shrink:0}",
+    ".jke-logo text{font-family:Lato,Carlito,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;text-rendering:geometricPrecision;-webkit-font-smoothing:antialiased}",
+    "#jke-nav .nav-prof{display:flex;align-items:center;gap:7px;cursor:pointer;padding:6px;margin:-6px;background:none;border:0;font-family:inherit;-webkit-tap-highlight-color:transparent}",
     "#jke-nav .nav-right{margin-left:auto;order:2;display:flex;align-items:center;gap:8px;flex-shrink:0;position:relative}",
-    "@media (max-width:350px){#jke-nav .nav-logo img{height:32px}}",
+    "@media (max-width:350px){#jke-nav .jke-logo{height:33px}}",
 
     /* the staircase burger: no border, no background */
     "#jke-nav .nav-burger{order:0;flex-shrink:0;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:4px;",
@@ -90,7 +101,18 @@
     "#jke-drawer.right{left:auto;right:0;box-shadow:-12px 0 40px rgba(8,16,43,.18);transform:translateX(102%)}",
     "#jke-drawer.open{transform:none;visibility:visible;transition:transform .26s cubic-bezier(.22,.8,.3,1)}",
     "#jke-drawer .jd-head{display:flex;align-items:center;justify-content:space-between;gap:10px;height:62px;padding:0 10px 0 18px;flex-shrink:0}",
-    "#jke-drawer .jd-head img{display:block;height:36px;width:auto;max-width:calc(100% - 48px)}",
+    "#jke-drawer .jd-head a{display:block;line-height:0}",
+    "#jke-drawer .jd-head .jke-logo{height:38px}",
+    "#jke-drawer .jd-user{display:none;align-items:center;gap:12px;margin:2px 10px 8px;padding:12px;border-radius:12px;background:#f4f7fb;flex-shrink:0}",
+    "#jke-drawer.in .jd-user{display:flex}",
+    "#jke-drawer .jd-av{width:38px;height:38px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,#0d9488,#0f766e);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center}",
+    "#jke-drawer .jd-who{min-width:0}",
+    "#jke-drawer .jd-name{font-size:14px;font-weight:700;color:#08102b;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}",
+    "#jke-drawer .jd-mail{font-size:11.5px;color:#718096;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}",
+    "#jke-drawer .jd-foot{display:none;flex-shrink:0;padding:8px 10px calc(10px + env(safe-area-inset-bottom,0px));border-top:1px solid #e2e8f0}",
+    "#jke-drawer.in .jd-foot{display:block}",
+    "#jke-drawer .jd-item.jd-out{color:#c53030}",
+    "#jke-drawer .jd-item.jd-out:hover{background:#fff5f5;color:#c53030}",
     "#jke-drawer .jd-close{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border:0;background:none;border-radius:50%;color:#4a5568;cursor:pointer;-webkit-tap-highlight-color:transparent;flex-shrink:0}",
     "#jke-drawer .jd-close:hover{background:#f1f4f9;color:#08102b}",
     "#jke-drawer .jd-close:focus-visible{outline:2px solid #4db3e6}",
@@ -133,9 +155,19 @@
   }
 
   // The mock-test page reports its login state here; other pages read it from storage.
-  var authOverride = null;
+  var authOverride = null, userOverride = null;
   function isIn() {
     return authOverride !== null ? authOverride : !!session();
+  }
+  function curUser() {
+    var u = authOverride !== null ? userOverride : session();
+    if (!u) return null;
+    var name = String(u.name || u.email || "");
+    return {
+      name: name,
+      email: String(u.email || ""),
+      ini: name.split(" ").map(function (w) { return w[0] || ""; }).join("").slice(0, 2).toUpperCase() || "U",
+    };
   }
 
   function activeId() {
@@ -177,7 +209,7 @@
       if (l.menu) {
         return (
           '<button type="button" class="' + cls + ' jd-mcq" id="nl-' + l.id + '" aria-expanded="false" aria-controls="jd-mcq-list">' +
-          "<span>" + esc(l.label) + "</span>" + CARET + "</button>" +
+          '<span class="jd-lbl">' + esc(l.label) + "</span>" + CARET + "</button>" +
           '<div class="jd-sub" id="jd-mcq-list">' +
           (pages.length
             ? pages.map(function (p) { return '<a href="' + esc(p.href) + '">' + esc(p.title) + "</a>"; }).join("")
@@ -187,19 +219,22 @@
       }
       return (
         '<a class="' + cls + '" id="nl-' + l.id + '" href="' + esc(l.href) + '"' + auth +
-        (l.go ? ' data-go="' + l.go + '"' : "") + "><span>" + esc(l.label) + "</span></a>"
+        (l.go ? ' data-go="' + l.go + '"' : "") + '><span class="jd-lbl">' + esc(l.label) + "</span></a>"
       );
     }).join("");
 
     drawer.innerHTML =
-      '<div class="jd-head"><a href="' + BLOG + '" aria-label="JKEdusphere home"><img src="' + LOGO + '" alt="' + esc(LOGO_ALT) + '"></a>' +
+      '<div class="jd-head"><a href="' + BLOG + '" aria-label="JKEdusphere home">' + logoSvg("dr") + "</a>" +
       '<button type="button" class="jd-close" aria-label="Close menu">' + CLOSE + "</button></div>" +
-      '<nav class="jd-list" aria-label="Main">' + items + "</nav>";
+      '<div class="jd-user"><div class="jd-av" id="jd-av"></div><div class="jd-who"><div class="jd-name" id="jd-name"></div><div class="jd-mail" id="jd-mail"></div></div></div>' +
+      '<nav class="jd-list" aria-label="Main">' + items + "</nav>" +
+      '<div class="jd-foot"><button type="button" class="jd-item jd-out" id="jd-out"><span>Sign out</span></button></div>';
 
     drawer.addEventListener("click", function (e) {
       var t = e.target.closest ? e.target.closest("a,button") : null;
       if (!t) return;
       if (t.classList.contains("jd-close")) { closeDrawer(); return; }
+      if (t.id === "jd-out") { closeDrawer(true); signOut(); return; }
       if (t.classList.contains("jd-mcq")) {
         var open = t.getAttribute("aria-expanded") !== "true";
         t.setAttribute("aria-expanded", open ? "true" : "false");
@@ -230,6 +265,27 @@
     if (!drawer) return;
     drawer.classList.toggle("in", inn);
     drawer.classList.toggle("right", inn);
+    LINKS.forEach(function (l) {
+      if (!l.labelIn) return;
+      var el = document.querySelector("#nl-" + l.id + " .jd-lbl");
+      if (el) el.textContent = inn ? l.labelIn : l.label;
+    });
+    var u = inn ? curUser() : null;
+    var set = function (id, v) { var e = document.getElementById(id); if (e) e.textContent = v; };
+    set("jd-av", u ? u.ini : "");
+    set("jd-name", u ? u.name : "");
+    set("jd-mail", u ? u.email : "");
+  }
+
+  function signOut() {
+    if (window.AUTH && typeof window.AUTH.logout === "function") {
+      // mock-test page: its own logout, behind its exit-test guard
+      if (window.EXITGUARD && typeof window.EXITGUARD.confirm === "function") window.EXITGUARD.confirm(window.AUTH.logout);
+      else window.AUTH.logout();
+      return;
+    }
+    try { localStorage.removeItem(SESSION_KEY); } catch (e) {}
+    render();
   }
 
   function burgerEl() {
@@ -273,7 +329,9 @@
   // One delegated listener, so it works whichever script drew the bar.
   document.addEventListener("click", function (e) {
     var b = e.target.closest ? e.target.closest("#jke-nav .nav-burger") : null;
-    if (b) { e.preventDefault(); e.stopPropagation(); toggleDrawer(); }
+    if (b) { e.preventDefault(); e.stopPropagation(); toggleDrawer(); return; }
+    var p = e.target.closest ? e.target.closest("#jke-nav .nav-prof") : null;
+    if (p) { e.preventDefault(); e.stopPropagation(); toggleDrawer(); }
   });
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") closeDrawer();
@@ -297,19 +355,11 @@
   function rightHtml() {
     var u = session();
     if (!u) return '<button type="button" class="nav-btn" id="jn-signin">Sign In</button>';
-    var name = String(u.name || u.email);
-    var ini = name.split(" ").map(function (w) { return w[0] || ""; }).join("").slice(0, 2).toUpperCase();
+    var c = curUser();
     return (
-      '<button type="button" class="nav-prof" id="jn-prof" aria-haspopup="true">' +
-      '<span class="nav-av">' + esc(ini) + "</span>" +
-      '<span class="nav-uname">' + esc(name) + "</span></button>" +
-      '<div class="nav-menu" id="jn-menu">' +
-      '<div class="nm-head"><div class="nm-name">' + esc(name) + '</div><div class="nm-mail">' + esc(u.email) + "</div></div>" +
-      '<a href="/">My Tests</a>' +
-      '<a href="/?go=ak">Check Your Score</a>' +
-      '<a href="/?go=hist">My Attempts</a>' +
-      '<a href="/?go=lb">Leaderboard</a>' +
-      '<button type="button" id="jn-out">Sign out</button></div>'
+      '<button type="button" class="nav-prof" id="jn-prof" aria-label="Open menu">' +
+      '<span class="nav-av">' + esc(c.ini) + "</span>" +
+      '<span class="nav-uname">' + esc(c.name) + "</span></button>"
     );
   }
 
@@ -323,7 +373,7 @@
     authOverride = null; // this page reads the login from storage
     host.innerHTML =
       '<button type="button" class="nav-burger" aria-label="Open menu" aria-expanded="false" aria-controls="jke-drawer"><i></i><i></i><i></i></button>' +
-      '<a class="nav-logo" href="' + BLOG + '"><img src="' + LOGO + '" width="393" height="88" alt="' + esc(LOGO_ALT) + '"></a>' +
+      '<a class="nav-logo" href="' + BLOG + '" aria-label="JKEdusphere home">' + logoSvg("bar") + "</a>" +
       '<div class="nav-right" id="nav-right">' + rightHtml() + "</div>";
 
     buildDrawer();
@@ -334,19 +384,6 @@
       // The sign-in popup lives in the mock-test app; "?login=1" opens it straight away.
       signin.addEventListener("click", function () { location.href = "/?login=1"; });
     }
-    var prof = document.getElementById("jn-prof");
-    var menu = document.getElementById("jn-menu");
-    if (prof && menu) {
-      prof.addEventListener("click", function (e) { e.stopPropagation(); menu.classList.toggle("open"); });
-      document.addEventListener("click", function () { menu.classList.remove("open"); });
-    }
-    var out = document.getElementById("jn-out");
-    if (out) {
-      out.addEventListener("click", function () {
-        try { localStorage.removeItem(SESSION_KEY); } catch (e) {}
-        render();
-      });
-    }
   }
 
   /* ───────────── boot ───────────── */
@@ -356,6 +393,14 @@
     st.id = "jke-nav-css";
     st.textContent = (window.JKE_NAV_MENU_ONLY ? "" : BAR_CSS) + MENU_CSS;
     document.head.appendChild(st);
+  }
+
+  if (!document.getElementById("jke-nav-font")) {
+    var lk = document.createElement("link");
+    lk.id = "jke-nav-font";
+    lk.rel = "stylesheet";
+    lk.href = "https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap";
+    document.head.appendChild(lk);
   }
 
   function start() {
@@ -381,7 +426,7 @@
     render: render,
     open: openDrawer,
     close: closeDrawer,
-    // for the mock-test page: tell the menu whether someone is signed in
-    setAuth: function (inn) { authOverride = !!inn; syncDrawer(); },
+    // for the mock-test page: tell the menu who (if anyone) is signed in: setAuth(true, {name, email})
+    setAuth: function (inn, user) { authOverride = !!inn; userOverride = user || null; syncDrawer(); },
   };
 })();

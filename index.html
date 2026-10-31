@@ -5331,9 +5331,23 @@ html:has(#home-pg.on),body:has(#home-pg.on){background:#fff !important}
 body:has(#test-pg.on) .jke-footer,body:has(#test-pg.on) .jke-ft{display:none !important}
 @media (prefers-reduced-motion:reduce){#jke-nav,#test-pg *{transition:none !important}}
 </style>
+<style id="jke-nav-critical">
+/* bar basics live here too, so the logo and burger are the right size even if /nav.js is slow or missing */
+#jke-nav .nav-logo{display:flex;align-items:center;flex-shrink:0;min-width:0;padding:0;margin:0;border:0;order:1;text-decoration:none}
+.jke-logo{display:block;height:40px;width:auto;max-width:60vw;aspect-ratio:657/147;overflow:visible;flex-shrink:0}
+.jke-logo text{font-family:Lato,Carlito,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;text-rendering:geometricPrecision}
+@media (max-width:350px){#jke-nav .jke-logo{height:33px}}
+#jke-nav .nav-right{margin-left:auto;order:2}
+#jke-nav .nav-burger{order:0;flex-shrink:0;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:4px;width:40px;height:40px;padding:0 10px;margin:0 -10px;border:0;border-radius:0;background:none;box-shadow:none;cursor:pointer;-webkit-tap-highlight-color:transparent;color:#08102b}
+#jke-nav .nav-burger i{display:block;height:2px;border-radius:2px;background:currentColor}
+#jke-nav .nav-burger i:nth-child(1){width:20px}
+#jke-nav .nav-burger i:nth-child(2){width:14px}
+#jke-nav .nav-burger i:nth-child(3){width:8px}
+#jke-nav.is-in .nav-burger{order:3;align-items:flex-end}
+</style>
 <div id="jke-nav">
   <button type="button" class="nav-burger" aria-label="Open menu" aria-expanded="false" aria-controls="jke-drawer"><i></i><i></i><i></i></button>
-  <a class="nav-logo" href="https://jkedusphere.online/"><img src="/jke-logo.png" width="393" height="88" alt="JKEdusphere – Powered by Vision &amp; Knowledge"></a>
+  <a class="nav-logo" href="https://jkedusphere.online/" aria-label="JKEdusphere home"><svg class="jke-logo" viewBox="0 0 657 147" width="179" height="40" role="img" aria-label="JKEdusphere – Powered by Vision &amp; Knowledge"><defs><linearGradient id="jkeg-bar" gradientUnits="userSpaceOnUse" x1="6" y1="0" x2="651" y2="0"><stop offset="0" stop-color="#1b235a"/><stop offset=".124" stop-color="#1b235a"/><stop offset=".248" stop-color="#1f2c61"/><stop offset=".434" stop-color="#1e3a72"/><stop offset=".496" stop-color="#1f417a"/><stop offset=".62" stop-color="#407eb8"/><stop offset=".682" stop-color="#61acdd"/><stop offset=".744" stop-color="#6cbce1"/><stop offset=".874" stop-color="#6cbde9"/><stop offset="1" stop-color="#6cbde9"/></linearGradient></defs><text x="6" y="86" textLength="645" lengthAdjust="spacing" font-size="106" font-weight="700" fill="url(#jkeg-bar)">JKEdusphere</text><text x="74" y="134" textLength="506" lengthAdjust="spacing" font-size="33.5" font-weight="400" fill="#8f8e8d">Powered by Vision &amp; Knowledge</text></svg></a>
   <div class="nav-right" id="nav-right">
     <button class="nav-btn" onclick="openAuthModal('si')">Sign In</button>
   </div>
@@ -7067,7 +7081,7 @@ body:has(#test-pg.on) .jke-footer,body:has(#test-pg.on) .jke-ft{display:none !im
     // burger: left when signed out, right when signed in; side menu follows
     var _nv = document.getElementById("jke-nav");
     if (_nv) _nv.classList.toggle("is-in", !!u);
-    if (window.JKENav && JKENav.setAuth) JKENav.setAuth(!!u);
+    if (window.JKENav && JKENav.setAuth) JKENav.setAuth(!!u, u);
     var histLink = document.getElementById("nl-hist");
     var akLink = document.getElementById("nl-ak");
     if (!u) {
@@ -7090,28 +7104,14 @@ body:has(#test-pg.on) .jke-footer,body:has(#test-pg.on) .jke-ft{display:none !im
         .join("")
         .toUpperCase() || "U";
     nr.innerHTML =
-      '<div class="profile-wrap">' +
-      '<div class="profile-trigger" style="display:flex;align-items:center;gap:7px;cursor:pointer;padding:6px;margin:-6px">' +
-      '<div class="nav-av">' +
+      '<button type="button" class="nav-prof" aria-label="Open menu" style="display:flex;align-items:center;gap:7px;cursor:pointer;padding:6px;margin:-6px;background:none;border:0;font-family:inherit">' +
+      '<span class="nav-av">' +
       ini +
-      "</div>" +
+      "</span>" +
       '<span class="nav-uname">' +
       jkeEsc(u.name) +
       "</span>" +
-      "</div>" +
-      '<div class="profile-menu" id="profile-menu">' +
-      '<div class="pm-head"><div class="pm-name">' +
-      jkeEsc(u.name) +
-      '</div><div class="pm-email">' +
-      jkeEsc(u.email) +
-      "</div></div>" +
-      '<div class="pm-item" onclick="closeProfileMenu();goNav(\'home\')">My Tests</div>' +
-      '<div class="pm-item" onclick="closeProfileMenu();goNav(\'ak\')">Check Your Score</div>' +
-      '<div class="pm-item" onclick="closeProfileMenu();goNav(\'hist\')">My Attempts</div>' +
-      '<div class="pm-item" onclick="closeProfileMenu();goNav(\'lb\')">Leaderboard</div>' +
-      '<div class="pm-item pm-danger" onclick="closeProfileMenu();EXITGUARD.confirm(AUTH.logout)">Sign Out</div>' +
-      "</div>" +
-      "</div>";
+      "</button>";
   }
 
   function closeProfileMenu() {
