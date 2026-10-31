@@ -5332,25 +5332,22 @@ body:has(#test-pg.on) .jke-footer,body:has(#test-pg.on) .jke-ft{display:none !im
 @media (prefers-reduced-motion:reduce){#jke-nav,#test-pg *{transition:none !important}}
 </style>
 <div id="jke-nav">
-  <div class="nav-logo">
-    <div class="nav-logo-icon">JK</div>
-    <a href="https://jkedusphere.blogspot.com/"><span class="nav-logo-name">JKEdusphere</span></a>
-  </div>
-  <div class="nav-links">
-    <div class="nav-link on" id="nl-home" onclick="goNav('home')">Tests</div>
-    <div class="nav-link" id="nl-lb" onclick="goNav('lb')">Ranks</div>
-    <div class="nav-link" id="nl-ak" onclick="goNav('ak')" style="display:none">Check Your Score</div>
-    <div class="nav-link" id="nl-hist" onclick="goNav('hist')" style="display:none">My Attempts</div>
-    <a class="nav-link nl-notes" href="/notes">Notes</a>
-    <a class="nav-link nl-mcqs" href="#" onclick="return window.MCQMENU ? MCQMENU.toggle(event) : false">MCQs <span class="mq-caret">▾</span></a>
-  </div>
-   <div class="nav-desktop-links">
-    <a href="https://jkedusphere.blogspot.com/" class="nav-link">Home</a>
-  </div>
+  <button type="button" class="nav-burger" aria-label="Open menu" aria-expanded="false" aria-controls="jke-drawer"><i></i><i></i><i></i></button>
+  <a class="nav-logo" href="https://jkedusphere.online/"><img src="/jke-logo.png" width="393" height="88" alt="JKEdusphere – Powered by Vision &amp; Knowledge"></a>
   <div class="nav-right" id="nav-right">
     <button class="nav-btn" onclick="openAuthModal('si')">Sign In</button>
   </div>
 </div>
+<script>
+  /* put the burger on the right straight away if someone is already signed in (no flicker) */
+  (function () {
+    try {
+      var u = JSON.parse(localStorage.getItem("jke_sess_v4") || "null");
+      if (u && u.email && !(u.exp && Date.now() > u.exp))
+        document.getElementById("jke-nav").classList.add("is-in");
+    } catch (e) {}
+  })();
+</script>
 
 <div id="jke-toast"></div>
 
@@ -7027,7 +7024,7 @@ body:has(#test-pg.on) .jke-footer,body:has(#test-pg.on) .jke-ft{display:none !im
     });
   }
   function _goNavReal(pg) {
-    document.querySelectorAll(".nav-link").forEach(function (a) {
+    document.querySelectorAll(".nav-link, .jd-item").forEach(function (a) {
       a.classList.remove("on");
     });
     var nl = document.getElementById("nl-" + pg);
@@ -7067,6 +7064,10 @@ body:has(#test-pg.on) .jke-footer,body:has(#test-pg.on) .jke-ft{display:none !im
   function renderNav() {
     var u = ST.user;
     var nr = document.getElementById("nav-right");
+    // burger: left when signed out, right when signed in; side menu follows
+    var _nv = document.getElementById("jke-nav");
+    if (_nv) _nv.classList.toggle("is-in", !!u);
+    if (window.JKENav && JKENav.setAuth) JKENav.setAuth(!!u);
     var histLink = document.getElementById("nl-hist");
     var akLink = document.getElementById("nl-ak");
     if (!u) {
@@ -7794,7 +7795,7 @@ return (
       "db-sub",
       (u.exam ? u.exam + " \u00B7 " : "") + (u.district || "Ready to practice?"),
     );
-    document.querySelectorAll(".nav-link").forEach(function (a) {
+    document.querySelectorAll(".nav-link, .jd-item").forEach(function (a) {
       a.classList.remove("on");
     });
     var nl = document.getElementById("nl-home");
