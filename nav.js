@@ -15,7 +15,7 @@
  */
 (function () {
   var SESSION_KEY = "jke_sess_v4"; // same key the mock-test app uses to remember a login
-  var BLOG = "https://jkedusphere.online/";
+  var BLOG = "https://jkedusphere.com/";
   var LOGO_ALT = "JKEdusphere – Powered by Vision & Knowledge";
 
   // Wordmark + tagline as real text on a 657×147 canvas (same proportions and colours as the artwork).
@@ -23,7 +23,7 @@
   function logoSvg(uid) {
     var g = "jkeg-" + uid;
     return (
-      '<svg class="jke-logo" viewBox="0 0 657 147" width="179" height="40" role="img" aria-label="' + esc(LOGO_ALT) + '">' +
+      '<svg class="jke-logo" viewBox="0 0 657 147" width="143" height="32" role="img" aria-label="' + esc(LOGO_ALT) + '">' +
       '<defs><linearGradient id="' + g + '" gradientUnits="userSpaceOnUse" x1="6" y1="0" x2="651" y2="0">' +
       '<stop offset="0" stop-color="#1b235a"/><stop offset=".124" stop-color="#1b235a"/><stop offset=".248" stop-color="#1f2c61"/>' +
       '<stop offset=".434" stop-color="#1e3a72"/><stop offset=".496" stop-color="#1f417a"/><stop offset=".62" stop-color="#407eb8"/>' +
@@ -37,14 +37,30 @@
 
   // go = the mock-test app's own page name (used by window.goNav when it exists)
   var LINKS = [
-    { id: "blog", label: "Home", href: BLOG },
-    { id: "home", label: "Tests", labelIn: "My Tests", href: "/", go: "home" },
-    { id: "lb", label: "Ranks", labelIn: "Leaderboard", href: "/?go=lb", go: "lb" },
-    { id: "ak", label: "Check Your Score", href: "/?go=ak", go: "ak", auth: true },
-    { id: "hist", label: "My Attempts", href: "/?go=hist", go: "hist", auth: true },
-    { id: "notes", label: "Notes", href: "/notes" },
-    { id: "mcqs", label: "MCQs", href: "#", menu: true },
+    { id: "blog", label: "Home", href: BLOG, ico: "home" },
+    { sep: true },
+    { id: "home", label: "Tests", labelIn: "My Tests", href: "/", go: "home", ico: "tests" },
+    { id: "lb", label: "Ranks", labelIn: "Leaderboard", href: "/?go=lb", go: "lb", ico: "trophy" },
+    { id: "ak", label: "Check Your Score", href: "/?go=ak", go: "ak", auth: true, ico: "key" },
+    { id: "hist", label: "My Attempts", href: "/?go=hist", go: "hist", auth: true, ico: "clock" },
+    { sep: true },
+    { id: "notes", label: "Notes", href: "/notes", ico: "notes" },
+    { id: "mcqs", label: "MCQs", href: "#", menu: true, ico: "mcq" },
   ];
+
+  var ICONS = {
+    home: '<path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/>',
+    tests: '<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9z"/><path d="M9 14l2 2 4-4"/>',
+    trophy: '<path d="M8 4h8v5a4 4 0 01-8 0z"/><path d="M8 6H5a3 3 0 003 4M16 6h3a3 3 0 01-3 4"/><path d="M12 13v4M9 20h6M10 17h4"/>',
+    key: '<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M16 7l3 3"/>',
+    clock: '<path d="M3 12a9 9 0 109-9 9 9 0 00-7 3.5L3 8"/><path d="M3 3v5h5"/><path d="M12 8v4l3 2"/>',
+    notes: '<path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4M9 12h7M9 16h7"/>',
+    mcq: '<path d="M4 7l2 2 3-3M4 16l2 2 3-3"/><path d="M12 8h8M12 17h8"/>',
+    out: '<path d="M9 4H5v16h4"/><path d="M16 8l4 4-4 4M20 12H9"/>',
+  };
+  function ico(name) {
+    return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ICONS[name] + "</svg>";
+  }
 
   /* ───────────── styles ───────────── */
 
@@ -68,11 +84,11 @@
   var MENU_CSS = [
     /* bar pieces shared with the mock-test page's own bar */
     "#jke-nav .nav-logo{display:flex;align-items:center;flex-shrink:0;min-width:0;padding:0;margin:0;border:0;order:1}",
-    ".jke-logo{display:block;height:40px;width:auto;aspect-ratio:657/147;overflow:visible;flex-shrink:0}",
+    ".jke-logo{display:block;height:32px;width:auto;aspect-ratio:657/147;overflow:visible;flex-shrink:0}",
     ".jke-logo text{font-family:Lato,Carlito,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;text-rendering:geometricPrecision;-webkit-font-smoothing:antialiased}",
     "#jke-nav .nav-prof{display:flex;align-items:center;gap:7px;cursor:pointer;padding:6px;margin:-6px;background:none;border:0;font-family:inherit;-webkit-tap-highlight-color:transparent}",
     "#jke-nav .nav-right{margin-left:auto;order:2;display:flex;align-items:center;gap:8px;flex-shrink:0;position:relative}",
-    "@media (max-width:350px){#jke-nav .jke-logo{height:33px}}",
+    "@media (max-width:350px){#jke-nav .jke-logo{height:27px}}",
 
     /* the staircase burger: no border, no background */
     "#jke-nav .nav-burger{order:0;flex-shrink:0;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:4px;",
@@ -91,47 +107,56 @@
 
     /* side menu */
     "html.jke-lock{overflow:hidden}",
-    "#jke-scrim{position:fixed;inset:0;z-index:9590;background:rgba(8,16,43,.38);opacity:0;visibility:hidden;transition:opacity .25s ease,visibility 0s linear .25s}",
+    "#jke-scrim{position:fixed;inset:0;z-index:9590;background:rgba(8,16,43,.35);opacity:0;visibility:hidden;transition:opacity .25s ease,visibility 0s linear .25s}",
     "#jke-scrim.open{opacity:1;visibility:visible;transition:opacity .25s ease}",
-    "#jke-drawer{--accent:#1a4a7a;position:fixed;top:0;bottom:0;left:0;z-index:9600;width:min(290px,84vw);background:#fff;",
+    "#jke-drawer{--accent:#1a4a7a;position:fixed;top:0;bottom:0;left:0;z-index:9600;width:min(280px,82vw);background:#fff;overflow:hidden;",
     "display:flex;flex-direction:column;font-family:'Google Sans Text','DM Sans',Arial,Helvetica,sans-serif;line-height:1.3;box-sizing:border-box;",
-    "box-shadow:12px 0 40px rgba(8,16,43,.18);transform:translateX(-102%);visibility:hidden;",
-    "transition:transform .26s cubic-bezier(.22,.8,.3,1),visibility 0s linear .26s;padding-top:env(safe-area-inset-top,0)}",
+    "box-shadow:8px 0 32px rgba(8,16,43,.14);transform:translateX(-102%);visibility:hidden;",
+    "transition:transform .26s cubic-bezier(.22,.8,.3,1),visibility 0s linear .26s}",
     "#jke-drawer *{box-sizing:border-box}",
-    "#jke-drawer.right{left:auto;right:0;box-shadow:-12px 0 40px rgba(8,16,43,.18);transform:translateX(102%)}",
+    "#jke-drawer.right{left:auto;right:0;box-shadow:-8px 0 32px rgba(8,16,43,.14);transform:translateX(102%)}",
     "#jke-drawer.open{transform:none;visibility:visible;transition:transform .26s cubic-bezier(.22,.8,.3,1)}",
-    "#jke-drawer .jd-head{display:flex;align-items:center;justify-content:space-between;gap:10px;height:62px;padding:0 10px 0 18px;flex-shrink:0}",
-    "#jke-drawer .jd-head a{display:block;line-height:0}",
-    "#jke-drawer .jd-head .jke-logo{height:38px}",
-    "#jke-drawer .jd-user{display:none;align-items:center;gap:12px;margin:2px 10px 8px;padding:12px;border-radius:12px;background:#f4f7fb;flex-shrink:0}",
+    /* top */
+    "#jke-drawer .jd-top{position:relative;flex-shrink:0;padding:calc(20px + env(safe-area-inset-top,0px)) 20px 18px;border-bottom:1px solid #eef1f5}",
+    "#jke-drawer .jd-close{position:absolute;top:calc(10px + env(safe-area-inset-top,0px));right:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;border:0;background:none;border-radius:50%;color:#8793a6;cursor:pointer;-webkit-tap-highlight-color:transparent}",
+    "#jke-drawer .jd-close:hover{background:#f4f7fb;color:#08102b}",
+    "#jke-drawer .jd-close:focus-visible,#jke-drawer .jd-item:focus-visible,#jke-drawer .jd-sub a:focus-visible,#jke-drawer .jd-signin:focus-visible{outline:2px solid #4db3e6;outline-offset:-2px}",
+    "#jke-drawer .jd-user{display:none;align-items:center;gap:12px;padding-right:34px}",
     "#jke-drawer.in .jd-user{display:flex}",
-    "#jke-drawer .jd-av{width:38px;height:38px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,#0d9488,#0f766e);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center}",
+    "#jke-drawer .jd-av{width:40px;height:40px;border-radius:50%;flex-shrink:0;background:#eef2f8;color:#1a4a7a;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center}",
     "#jke-drawer .jd-who{min-width:0}",
-    "#jke-drawer .jd-name{font-size:14px;font-weight:700;color:#08102b;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}",
-    "#jke-drawer .jd-mail{font-size:11.5px;color:#718096;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}",
-    "#jke-drawer .jd-foot{display:none;flex-shrink:0;padding:8px 10px calc(10px + env(safe-area-inset-bottom,0px));border-top:1px solid #e2e8f0}",
-    "#jke-drawer.in .jd-foot{display:block}",
-    "#jke-drawer .jd-item.jd-out{color:#c53030}",
-    "#jke-drawer .jd-item.jd-out:hover{background:#fff5f5;color:#c53030}",
-    "#jke-drawer .jd-close{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border:0;background:none;border-radius:50%;color:#4a5568;cursor:pointer;-webkit-tap-highlight-color:transparent;flex-shrink:0}",
-    "#jke-drawer .jd-close:hover{background:#f1f4f9;color:#08102b}",
-    "#jke-drawer .jd-close:focus-visible{outline:2px solid #4db3e6}",
-    "#jke-drawer .jd-list{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:6px 10px 18px;-webkit-overflow-scrolling:touch}",
-    "#jke-drawer .jd-item{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;padding:13px 12px;margin:1px 0;border:0;border-radius:10px;background:none;",
-    "font-family:inherit;font-size:14.5px;font-weight:600;color:#4a5568;text-align:left;text-decoration:none;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .15s,color .15s}",
-    "#jke-drawer .jd-item:hover{background:#f1f4f9;color:#08102b}",
-    "#jke-drawer .jd-item:focus-visible{outline:2px solid #4db3e6;outline-offset:-2px}",
-    "#jke-drawer .jd-item.on{background:rgba(26,74,122,.08);color:var(--accent);font-weight:700}",
+    "#jke-drawer .jd-name{font-size:15px;font-weight:700;color:#08102b;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}",
+    "#jke-drawer .jd-mail{font-size:12px;color:#8793a6;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}",
+    "#jke-drawer .jd-guest{padding-right:34px}",
+    "#jke-drawer.in .jd-guest{display:none}",
+    "#jke-drawer .jd-guest b{display:block;font-size:16px;font-weight:700;color:#08102b}",
+    "#jke-drawer .jd-guest span{display:block;font-size:12.5px;color:#8793a6;margin-top:4px;line-height:1.45}",
+    "#jke-drawer .jd-signin{margin-top:14px;padding:9px 20px;border:0;border-radius:9999px;background:#1a4a7a;color:#fff;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer}",
+    /* list */
+    "#jke-drawer .jd-list{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:8px 10px;-webkit-overflow-scrolling:touch}",
+    "#jke-drawer .jd-sep{height:1px;background:#eef1f5;margin:8px 10px}",
+    "#jke-drawer .jd-item{display:flex;align-items:center;gap:14px;width:100%;padding:12px 10px;margin:0;border:0;border-radius:10px;background:none;",
+    "font-family:inherit;font-size:14.5px;font-weight:500;color:#3d4757;text-align:left;text-decoration:none;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .15s,color .15s}",
+    "#jke-drawer .jd-item:hover{background:#f6f8fb;color:#08102b}",
+    "#jke-drawer .jd-ico{width:20px;height:20px;flex-shrink:0;display:flex;color:#8793a6;transition:color .15s}",
+    "#jke-drawer .jd-item:hover .jd-ico{color:#3d4757}",
+    "#jke-drawer .jd-lbl{flex:1;min-width:0}",
+    "#jke-drawer .jd-item.on{background:#f1f5fa;color:var(--accent);font-weight:700}",
+    "#jke-drawer .jd-item.on .jd-ico{color:var(--accent)}",
     "#jke-drawer .jd-item[data-auth]{display:none}",
     "#jke-drawer.in .jd-item[data-auth]{display:flex}",
-    "#jke-drawer .jd-caret{width:16px;height:16px;flex-shrink:0;transition:transform .2s ease;opacity:.6}",
+    "#jke-drawer .jd-caret{width:16px;height:16px;flex-shrink:0;transition:transform .2s ease;opacity:.45}",
     "#jke-drawer .jd-mcq[aria-expanded=true] .jd-caret{transform:rotate(180deg)}",
-    "#jke-drawer .jd-sub{display:none;margin:2px 0 6px 14px;padding-left:10px;border-left:2px solid #e2e8f0}",
+    "#jke-drawer .jd-sub{display:none;margin:0 0 4px 20px;padding-left:24px}",
     "#jke-drawer .jd-sub.open{display:block}",
-    "#jke-drawer .jd-sub a{display:block;padding:10px 12px;border-radius:8px;font-size:13.5px;font-weight:600;color:#4a5568;text-decoration:none}",
-    "#jke-drawer .jd-sub a:hover{background:#f1f4f9;color:#08102b}",
-    "#jke-drawer .jd-sub a:focus-visible{outline:2px solid #4db3e6;outline-offset:-2px}",
-    "#jke-drawer .jd-empty{padding:10px 12px;font-size:13px;color:#718096}",
+    "#jke-drawer .jd-sub a{display:block;padding:9px 10px;border-radius:8px;font-size:13.5px;font-weight:500;color:#5b6678;text-decoration:none}",
+    "#jke-drawer .jd-sub a:hover{background:#f6f8fb;color:#08102b}",
+    "#jke-drawer .jd-empty{padding:9px 10px;font-size:13px;color:#8793a6}",
+    /* footer */
+    "#jke-drawer .jd-foot{display:none;flex-shrink:0;padding:8px 10px calc(10px + env(safe-area-inset-bottom,0px));border-top:1px solid #eef1f5}",
+    "#jke-drawer.in .jd-foot{display:block}",
+    "#jke-drawer .jd-out{width:100%;display:flex;align-items:center;gap:14px;padding:12px 10px;border:0;border-radius:10px;background:none;font-family:inherit;font-size:14.5px;font-weight:500;color:#8793a6;cursor:pointer;text-align:left}",
+    "#jke-drawer .jd-out:hover{background:#fff5f5;color:#c53030}",
     "@media (prefers-reduced-motion:reduce){#jke-drawer,#jke-scrim,#jke-nav .nav-burger i{transition:none !important}}",
   ].join("");
 
@@ -204,12 +229,14 @@
     drawer.setAttribute("aria-hidden", "true");
 
     var items = LINKS.map(function (l) {
+      if (l.sep) return '<div class="jd-sep"></div>';
       var cls = "jd-item" + (l.id === on ? " on" : "");
       var auth = l.auth ? " data-auth" : "";
+      var chip = '<span class="jd-ico">' + ico(l.ico) + "</span>";
       if (l.menu) {
         return (
           '<button type="button" class="' + cls + ' jd-mcq" id="nl-' + l.id + '" aria-expanded="false" aria-controls="jd-mcq-list">' +
-          '<span class="jd-lbl">' + esc(l.label) + "</span>" + CARET + "</button>" +
+          chip + '<span class="jd-lbl">' + esc(l.label) + "</span>" + CARET + "</button>" +
           '<div class="jd-sub" id="jd-mcq-list">' +
           (pages.length
             ? pages.map(function (p) { return '<a href="' + esc(p.href) + '">' + esc(p.title) + "</a>"; }).join("")
@@ -219,22 +246,30 @@
       }
       return (
         '<a class="' + cls + '" id="nl-' + l.id + '" href="' + esc(l.href) + '"' + auth +
-        (l.go ? ' data-go="' + l.go + '"' : "") + '><span class="jd-lbl">' + esc(l.label) + "</span></a>"
+        (l.go ? ' data-go="' + l.go + '"' : "") + ">" + chip + '<span class="jd-lbl">' + esc(l.label) + "</span></a>"
       );
     }).join("");
 
     drawer.innerHTML =
-      '<div class="jd-head"><a href="' + BLOG + '" aria-label="JKEdusphere home">' + logoSvg("dr") + "</a>" +
-      '<button type="button" class="jd-close" aria-label="Close menu">' + CLOSE + "</button></div>" +
+      '<div class="jd-top">' +
+      '<button type="button" class="jd-close" aria-label="Close menu">' + CLOSE + "</button>" +
       '<div class="jd-user"><div class="jd-av" id="jd-av"></div><div class="jd-who"><div class="jd-name" id="jd-name"></div><div class="jd-mail" id="jd-mail"></div></div></div>' +
+      '<div class="jd-guest"><b>Welcome</b><span>Sign in to track your tests and ranks.</span><button type="button" class="jd-signin" id="jd-signin">Sign In</button></div>' +
+      "</div>" +
       '<nav class="jd-list" aria-label="Main">' + items + "</nav>" +
-      '<div class="jd-foot"><button type="button" class="jd-item jd-out" id="jd-out"><span>Sign out</span></button></div>';
+      '<div class="jd-foot"><button type="button" class="jd-out" id="jd-out"><span class="jd-ico">' + ico("out") + "</span>Sign out</button></div>";
 
     drawer.addEventListener("click", function (e) {
       var t = e.target.closest ? e.target.closest("a,button") : null;
       if (!t) return;
       if (t.classList.contains("jd-close")) { closeDrawer(); return; }
       if (t.id === "jd-out") { closeDrawer(true); signOut(); return; }
+      if (t.id === "jd-signin") {
+        closeDrawer(true);
+        if (typeof window.openAuthModal === "function") window.openAuthModal("si");
+        else location.href = "/?login=1";
+        return;
+      }
       if (t.classList.contains("jd-mcq")) {
         var open = t.getAttribute("aria-expanded") !== "true";
         t.setAttribute("aria-expanded", open ? "true" : "false");
