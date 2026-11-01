@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-IN">
 <head>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-YRE82139KK"></script>
 <script>
@@ -11,12 +11,78 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/png" href="fevicon.png">
+  <link rel="icon" type="image/png" href="/fevicon.png">
   <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/fevicon.png">
+  <meta name="theme-color" content="#482dff">
+  <title>JKEdusphere – Free JKSSB, JKPSI, JKPSC &amp; UPSC Mock Tests</title>
+  <meta name="description" content="Free &amp; premium JKSSB, JKPSI Telecom, JKPSC KAS &amp; UPSC mock tests with detailed analysis, live ranks and notes for J&amp;K aspirants.">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <link rel="canonical" href="https://jkedusphere.com/">
+
+  <!-- Open Graph / WhatsApp / Telegram / Facebook -->
   <meta property="og:site_name" content="JKEdusphere">
-<title>JKEdusphere – JKSSB, JKPSI, KAS & UPSC Mock Tests</title>
-  <meta name="description" content="JKEdusphere — free and premium exam prep for J&K aspirants. Mock tests, study notes, current affairs, and syllabus guides for JKSSB, JKPSC, JKPSI Telecom, UPSC, SSC, and NEET." />
-<link rel="canonical" href="https://jkedusphere.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:url" content="https://jkedusphere.com/">
+  <meta property="og:title" content="JKEdusphere – Free JKSSB, JKPSI, JKPSC &amp; UPSC Mock Tests">
+  <meta property="og:description" content="Free &amp; premium JKSSB, JKPSI Telecom, JKPSC KAS &amp; UPSC mock tests with detailed analysis, live ranks and notes for J&amp;K aspirants.">
+  <meta property="og:image" content="https://jkedusphere.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="JKEdusphere: mock tests for JKSSB, JKPSI, JKPSC and UPSC">
+
+  <!-- X / Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@JKEdusphere">
+  <meta name="twitter:title" content="JKEdusphere – Free JKSSB, JKPSI, JKPSC &amp; UPSC Mock Tests">
+  <meta name="twitter:description" content="Free &amp; premium JKSSB, JKPSI Telecom, JKPSC KAS &amp; UPSC mock tests with detailed analysis, live ranks and notes for J&amp;K aspirants.">
+  <meta name="twitter:image" content="https://jkedusphere.com/og-image.png">
+
+  <!-- Structured data: tells Google the site name, logo and official profiles -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://jkedusphere.com/#website",
+      "url": "https://jkedusphere.com/",
+      "name": "JKEdusphere",
+      "alternateName": [
+        "JK Edusphere",
+        "JKEdusphere Mock Tests"
+      ],
+      "description": "Free & premium JKSSB, JKPSI Telecom, JKPSC KAS & UPSC mock tests with detailed analysis, live ranks and notes for J&K aspirants.",
+      "inLanguage": "en-IN",
+      "publisher": {
+        "@id": "https://jkedusphere.com/#org"
+      }
+    },
+    {
+      "@type": "EducationalOrganization",
+      "@id": "https://jkedusphere.com/#org",
+      "name": "JKEdusphere",
+      "url": "https://jkedusphere.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://jkedusphere.com/fevicon.png"
+      },
+      "description": "Competitive exam preparation platform for Jammu & Kashmir aspirants: mock tests, study notes, current affairs and syllabus guides.",
+      "areaServed": {
+        "@type": "AdministrativeArea",
+        "name": "Jammu and Kashmir, India"
+      },
+      "sameAs": [
+        "https://t.me/JKEdusphere",
+        "https://www.youtube.com/@JKEdusphere",
+        "https://x.com/JKEdusphere",
+        "https://www.jkedusphere.online/"
+      ]
+    }
+  ]
+}
+  </script>
 <style id="jke-motion">
 /* Motion: hero entrance, loading shimmer, scroll reveal, smooth expand */
 @keyframes jkeRise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
@@ -151,8 +217,48 @@
   .rz-btn.pri{grid-column:1/-1}
 }
 </style>
+<style id="jke-calc">
+/* Score-calculating screen */
+#home-pg .calc{max-width:420px;margin:6vh auto 0;padding:30px 24px 22px;text-align:center;border:1px solid var(--bd);border-radius:20px;background:#fff}
+.calc-ring{position:relative;width:124px;height:124px;margin:0 auto 20px}
+.calc-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.calc-bg{fill:none;stroke:var(--s3bg);stroke-width:3}
+.calc-fg{fill:none;stroke:var(--p);stroke-width:3;stroke-linecap:round;transition:stroke-dasharray .35s linear}
+.calc-orbit{position:absolute;inset:-7px;border-radius:50%;border:2px solid transparent;border-top-color:var(--pm);animation:spin 1.5s linear infinite}
+.calc-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:800 24px/1 var(--m);letter-spacing:-.5px;color:var(--t1)}
+.calc-t{font-size:18px;font-weight:700;letter-spacing:-.2px;color:var(--t1)}
+.calc-n{margin-top:6px;font-size:13px;color:var(--t3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.calc-steps{list-style:none;margin:22px auto 0;padding:0;max-width:280px;text-align:left}
+.calc-steps li{display:flex;align-items:center;gap:12px;padding:7px 0;font-size:13.5px;font-weight:500;color:var(--t4);transition:color .25s}
+.calc-steps li i{position:relative;flex:none;width:18px;height:18px;border-radius:50%;border:2px solid var(--bd2);transition:all .25s}
+.calc-steps li.act{color:var(--t1);font-weight:600}
+.calc-steps li.act i{border-color:var(--p);box-shadow:0 0 0 4px var(--pl);animation:pulse 1.2s ease infinite}
+.calc-steps li.done{color:var(--t2)}
+.calc-steps li.done i{background:var(--g);border-color:var(--g)}
+.calc-steps li.done i::after{content:"";position:absolute;left:4.5px;top:1.5px;width:4px;height:8px;border-right:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(45deg)}
+.calc-tip{margin-top:20px;padding:12px 14px;border-radius:12px;background:var(--s2bg);border:1px solid var(--bd);text-align:left;transition:opacity .25s}
+.calc-tip.out{opacity:0}
+.calc-tip b{display:block;margin-bottom:4px;font-size:10.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--t3)}
+.calc-tip span{font-size:13px;line-height:1.55;color:var(--t2)}
+.calc-slow{margin-top:14px;font-size:12px;line-height:1.55;color:var(--t3);opacity:0;transition:opacity .4s}
+.calc-slow.on{opacity:1}
+@media (prefers-reduced-motion:reduce){.calc-orbit,.calc-steps li.act i{animation:none}}
+</style>
 </head>
 <body>
+<noscript>
+  <div style="max-width:760px;margin:0 auto;padding:24px 16px;font-family:Arial,sans-serif;line-height:1.6;color:#08102b">
+    <h1>JKEdusphere: Free JKSSB, JKPSI, JKPSC &amp; UPSC Mock Tests</h1>
+    <p>JKEdusphere is an exam preparation platform for Jammu &amp; Kashmir aspirants. Practise free and premium full-length mock tests for JKSSB, JKPSI Telecom, JKPSC KAS, UPSC, SSC and NEET, get detailed answer analysis and subject-wise results, and check your rank on live leaderboards.</p>
+    <ul>
+      <li>Mock tests with negative marking, explanations and rank</li>
+      <li>Free answer key matcher to check your score after the exam</li>
+      <li>PDF study notes, current affairs and syllabus guides</li>
+    </ul>
+    <p><a href="https://jkedusphere.com/notes">Browse PDF notes</a> · <a href="https://t.me/JKEdusphere">Join our Telegram channel</a> · <a href="https://www.jkedusphere.online/p/privacy-policy.html">Privacy policy</a></p>
+    <p>Please enable JavaScript to take tests on this site.</p>
+  </div>
+</noscript>
 <script>window.JKE_NAV_MENU_ONLY = 1;</script>
 <script src="/mcq-pages.js"></script>
 <script src="/nav.js"></script>
@@ -9207,6 +9313,76 @@ function initTestPanel() {
     document.body.style.overflow = "";
   }
 
+  // ═══════════════════════════════════════
+  //  SCORE-CALCULATING SCREEN
+  // ═══════════════════════════════════════
+  var CALC = {
+    t: null, t0: 0, tipBase: 0, tipShown: -1,
+    steps: [
+      "Checking your answers",
+      "Applying the marking scheme",
+      "Working out your rank",
+      "Preparing your analysis"
+    ],
+    tips: [
+      "Review every wrong answer before you retake. Reading the explanation is where the marks are won.",
+      "With negative marking, attempt a question only when you can rule out at least two options.",
+      "Do a first pass for the sure answers, then come back to the doubtful ones.",
+      "Short daily tests beat long weekend marathons. Consistency builds speed and recall.",
+      "Track your weak subjects. Fixing the lowest one usually adds the most marks.",
+      "Keep the last 5 minutes of a test for the questions you marked for review."
+    ]
+  };
+  CALC.html = function (name) {
+    return '<div class="calc" role="status" aria-live="polite">' +
+      '<div class="calc-ring"><div class="calc-orbit"></div>' +
+      '<svg viewBox="0 0 36 36"><circle class="calc-bg" cx="18" cy="18" r="15.9155"/><circle class="calc-fg" id="calc-ring" cx="18" cy="18" r="15.9155" stroke-dasharray="0 100"/></svg>' +
+      '<div class="calc-pct" id="calc-pct">0%</div></div>' +
+      '<div class="calc-t">Calculating your score</div>' +
+      '<div class="calc-n">' + escHtml(name || "") + "</div>" +
+      '<ul class="calc-steps" id="calc-steps">' +
+      CALC.steps.map(function (s) { return "<li><i></i><span>" + s + "</span></li>"; }).join("") + "</ul>" +
+      '<div class="calc-tip" id="calc-tip"><b>Exam tip</b><span id="calc-tip-t"></span></div>' +
+      '<div class="calc-slow" id="calc-slow">The server is waking up, so this can take up to a minute. Your answers are safe.</div></div>';
+  };
+  CALC.start = function (pane, name) {
+    CALC.stop();
+    pane.innerHTML = CALC.html(name);
+    CALC.t0 = Date.now();
+    CALC.tipBase = Math.floor(Math.random() * CALC.tips.length);
+    CALC.tipShown = -1;
+    CALC.tick();
+    CALC.t = setInterval(CALC.tick, 250);
+  };
+  CALC.stop = function () {
+    if (CALC.t) clearInterval(CALC.t);
+    CALC.t = null;
+  };
+  CALC.tick = function () {
+    var ring = document.getElementById("calc-ring");
+    if (!ring) { CALC.stop(); return; }
+    var s = (Date.now() - CALC.t0) / 1000;
+    var p = 94 * (1 - Math.exp(-s / 5)); // eases toward 94% and waits for the server
+    ring.setAttribute("stroke-dasharray", p.toFixed(1) + " " + (100 - p).toFixed(1));
+    tx("calc-pct", Math.round(p) + "%");
+    var cur = Math.min(CALC.steps.length - 1, Math.floor(s / 1.4));
+    var lis = document.querySelectorAll("#calc-steps li");
+    for (var i = 0; i < lis.length; i++) lis[i].className = i < cur ? "done" : i === cur ? "act" : "";
+    var ti = CALC.tipBase + Math.floor(s / 4);
+    if (ti !== CALC.tipShown) {
+      var first = CALC.tipShown < 0, box = document.getElementById("calc-tip");
+      CALC.tipShown = ti;
+      var put = function () {
+        var el = document.getElementById("calc-tip-t");
+        if (el) el.textContent = CALC.tips[ti % CALC.tips.length];
+        if (box) box.classList.remove("out");
+      };
+      if (first) put();
+      else { if (box) box.classList.add("out"); setTimeout(put, 250); }
+    }
+    if (s > 8) { var sl = document.getElementById("calc-slow"); if (sl) sl.classList.add("on"); }
+  };
+
   function submitTest(auto, retryTt) {
     if (ST.submitted) return;
     ST.submitted = true;
@@ -9215,15 +9391,7 @@ function initTestPanel() {
     var tt = retryTt != null ? retryTt : Math.round((Date.now() - ST.startTime) / 1000);
     ST._lastTt = tt;
     showPage("home-pg");
-    var CALC_MSGS = [
-      "Calculating your score\u2026",
-      "Checking your answers\u2026",
-      "Crunching the numbers\u2026",
-      "Almost there\u2026",
-    ];
-    var calcMsg = CALC_MSGS[Math.floor(Math.random() * CALC_MSGS.length)];
-    document.getElementById("tp-free").innerHTML =
-      '<div class="spin-box"><div class="spin"></div><div class="spin-lbl">' + calcMsg + "</div></div>";
+    CALC.start(document.getElementById("tp-free"), ST.testData.testName);
         document.getElementById("tp-free").classList.add("on");
     document.getElementById("tp-prem").classList.remove("on");
     document.getElementById("tp-prem").innerHTML = "";
@@ -9248,6 +9416,7 @@ function initTestPanel() {
   }
 
   function showSubmitError(err, data) {
+    CALC.stop();
     var msg = (data && data.error) ? data.error : "Could not reach the server.";
     document.getElementById("tp-free").innerHTML =
       '<div class="empty-state">' +
@@ -9500,6 +9669,7 @@ function initTestPanel() {
   }
 
   function showResult(data, tt) {
+    CALC.stop();
     HIST.data = null; SIDE.t = 0; SIDE.lb = {};
     var td = ST.testData;
     var pct = parseFloat(data.percentage) || 0;
