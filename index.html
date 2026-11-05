@@ -5553,6 +5553,294 @@ body:has(#test-pg.on) .jke-footer,body:has(#test-pg.on) .jke-ft{display:none !im
 #jke-nav .nav-burger i:nth-child(3){width:8px}
 #jke-nav.is-in .nav-burger{order:3;align-items:flex-end}
 </style>
+<style id="jke-splash-v3">
+/* ═══════════════════════════════════════════════════════════════
+   SIGNED-OUT HOME v3
+   Scope: #splash-pg (and the sign-in modal for button colour).
+   Header and footer are not touched. Loaded after every older layer.
+   One button colour for the whole signed-out flow: deep indigo.
+   ═══════════════════════════════════════════════════════════════ */
+#splash-pg,#auth-modal{
+  --p:#2b1d9e;--p2:#20157a;--p3:#181060;
+  --pl:rgba(43,29,158,.07);--pm:rgba(43,29,158,.16);
+  --btn:#2b1d9e;--btn-h:#20157a;--btn-a:#181060;
+}
+#splash-pg{
+  --ink:#08102b;--line:#e3e6f1;--tile:#ecedfa;
+  --ok:#0f766e;--okbg:#dff5ef;--bad:#b91c1c;--badbg:#fde8e8;
+  --wrap:1160px;
+  font-family:var(--f);color:var(--ink);
+}
+html:has(#splash-pg.on),body:has(#splash-pg.on){background:#f4f5fa !important}
+
+/* icons */
+.ji{width:1em;height:1em;flex:none;display:inline-block;vertical-align:-.14em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;overflow:visible}
+.ji.ji-fill{fill:currentColor;stroke:none}
+.ji-wrap{display:inline-flex;align-items:center;gap:.4em}
+#splash-pg :is(a,button,summary,input,select,[role="button"]):focus-visible{outline:3px solid rgba(43,29,158,.38);outline-offset:2px}
+
+/* shared buttons: one colour, one hover, one pressed state */
+#splash-pg .hp-btn,#splash-pg .hp-btn:hover{transform:none}
+#splash-pg .hp-btn{min-height:48px;padding:13px 24px;border-radius:12px;font-size:15px;font-weight:700;line-height:1.2;transition:background .15s,border-color .15s,box-shadow .15s}
+#splash-pg .hp-btn.pri{background:var(--btn);color:#fff;box-shadow:0 10px 22px -12px rgba(24,16,96,.75)}
+#splash-pg .hp-btn.pri:hover{background:var(--btn-h)}
+#splash-pg .hp-btn.pri:active{background:var(--btn-a)}
+#splash-pg .hp-btn.sec{background:#fff;color:var(--btn);border:1.5px solid #c4c7e8;box-shadow:none}
+#splash-pg .hp-btn.sec:hover{border-color:var(--btn);background:#f6f6ff}
+#splash-pg .btn-primary,#auth-modal .btn-primary{background:var(--btn);box-shadow:none;border-radius:10px;font-size:15px;font-weight:700}
+#splash-pg .btn-primary:hover,#auth-modal .btn-primary:hover{background:var(--btn-h);transform:none;box-shadow:none}
+#splash-pg .btn-primary:active,#auth-modal .btn-primary:active{background:var(--btn-a)}
+#splash-pg .btn-primary:disabled,#auth-modal .btn-primary:disabled{opacity:.55}
+
+/* ── hero ── */
+#splash-pg .splash-hero{position:relative;overflow:hidden;text-align:left;background:#fff;border-bottom:1px solid var(--line);padding:clamp(28px,5vw,60px) 0 0}
+#splash-pg .splash-hero::before{
+  content:"";display:block;position:absolute;inset:0;top:0;left:0;width:auto;height:auto;transform:none;border-radius:0;pointer-events:none;
+  background:radial-gradient(circle,transparent 5px,rgba(43,29,158,.10) 5.6px,rgba(43,29,158,.10) 6.6px,transparent 7.2px) 0 0/30px 30px;
+  -webkit-mask-image:radial-gradient(ellipse 55% 85% at 90% 18%,#000,transparent 72%);
+          mask-image:radial-gradient(ellipse 55% 85% at 90% 18%,#000,transparent 72%);
+}
+.sp-hero-in{position:relative;z-index:1;max-width:var(--wrap);margin:0 auto;padding:0 20px;display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:clamp(28px,5vw,72px);align-items:center}
+.sp-hero-copy{min-width:0}
+#splash-pg .splash-h1{font-size:clamp(34px,5.6vw,60px);font-weight:800;letter-spacing:-.035em;line-height:1.04;color:var(--ink);margin:0 0 18px;max-width:15em;text-wrap:balance}
+#splash-pg .splash-sub{font-size:clamp(15.5px,1.7vw,18px);line-height:1.62;color:var(--t2);font-weight:400;max-width:34em;width:auto;margin:0 0 28px;text-wrap:pretty}
+#splash-pg .hp-ctas{display:flex;flex-wrap:wrap;justify-content:flex-start;gap:12px;margin:0 0 20px}
+#splash-pg .hp-trust{display:flex;flex-wrap:wrap;justify-content:flex-start;gap:8px 20px;margin:0 0 24px;font-size:13.5px;line-height:1.3;font-weight:600;color:var(--t2)}
+#splash-pg .hp-trust span{display:inline-flex;align-items:center;gap:7px}
+#splash-pg .hp-trust span::before{content:none}
+#splash-pg .hp-trust .ji{font-size:17px;color:var(--ok)}
+
+/* free answer-key strip */
+#splash-pg .hero-ak-cta{display:flex;align-items:center;gap:14px;max-width:540px;margin:0;padding:14px 16px;background:#f7f8fe;border:1px solid var(--line);border-radius:14px;box-shadow:none;text-align:left;cursor:pointer;transition:border-color .15s,background .15s}
+#splash-pg .hero-ak-cta:hover{transform:none;box-shadow:none;border-color:#b6b9e4;background:#f1f2fd}
+#splash-pg .hero-ak-icon{width:44px;height:44px;border-radius:12px;background:var(--btn);color:#fff;font-size:21px;display:flex;align-items:center;justify-content:center;flex:none}
+#splash-pg .hero-ak-title{font-size:15px;font-weight:700;line-height:1.3;color:var(--ink);display:flex;align-items:center;gap:8px;margin:0 0 3px}
+#splash-pg .hero-ak-free{font-size:11.5px;font-weight:700;letter-spacing:0;line-height:1;color:var(--ok);background:var(--okbg);padding:3px 8px;border-radius:99px}
+#splash-pg .hero-ak-sub{font-size:13px;line-height:1.45;color:var(--t2);font-weight:400}
+#splash-pg .hero-ak-arrow{display:flex;font-size:20px;color:var(--t3)}
+
+/* sample result card: the one memorable element on the page */
+.sp-score{width:100%;max-width:470px;margin-left:auto;background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 1px 2px rgba(20,24,60,.05),0 30px 60px -30px rgba(32,21,122,.38)}
+#splash-pg.on .sp-score{animation:jkeRise .65s cubic-bezier(.2,.7,.2,1) .25s both}
+.sp-score-hd{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.sp-score-hd b{font-size:15px;font-weight:700;line-height:1.3;color:var(--ink)}
+.sp-score-hd span{font-size:12px;line-height:1;font-weight:700;color:var(--t2);background:#eff0f8;border-radius:99px;padding:5px 10px}
+.sp-score-main{margin-bottom:18px}
+.sp-big{font-size:clamp(40px,6vw,52px);font-weight:800;letter-spacing:-.035em;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
+.sp-big small{font-size:18px;font-weight:600;letter-spacing:0;color:var(--t3)}
+.sp-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px}
+.sp-m{background:#f6f7fc;border:1px solid #eceef8;border-radius:12px;padding:11px 12px}
+.sp-m b{display:block;font-size:18px;font-weight:800;line-height:1.1;color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap}
+.sp-m span{display:block;margin-top:4px;font-size:12px;line-height:1.2;font-weight:500;color:var(--t3)}
+.sp-bars{display:grid;gap:11px;margin-bottom:22px}
+.sp-bar{display:grid;grid-template-columns:84px minmax(0,1fr) 38px;align-items:center;gap:10px;font-size:13px;line-height:1.2;font-weight:600;color:var(--t2)}
+.sp-bar i{display:block;position:relative;height:8px;border-radius:99px;background:#e8eaf5;overflow:hidden}
+.sp-bar i::after{content:"";position:absolute;inset:0 auto 0 0;width:var(--w);background:var(--btn);border-radius:99px}
+.sp-bar em{font-style:normal;text-align:right;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+.sp-pal{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:5px}
+.sp-pal span{aspect-ratio:1;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:11px;line-height:1;font-weight:700;font-variant-numeric:tabular-nums}
+.sp-pal .c,.sp-legend i.c{background:var(--okbg);color:var(--ok)}
+.sp-pal .w,.sp-legend i.w{background:var(--badbg);color:var(--bad)}
+.sp-pal .s,.sp-legend i.s{background:#fff;color:var(--t3);border:1px dashed #c3c7e0}
+.sp-legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:12px;font-size:12.5px;line-height:1.2;font-weight:500;color:var(--t2)}
+.sp-legend span{display:inline-flex;align-items:center;gap:6px}
+.sp-legend i{display:block;width:11px;height:11px;border-radius:3px}
+
+/* live stats bar, sits on the hero's bottom edge */
+.sp-stats-wrap{position:relative;z-index:1;max-width:var(--wrap);margin:clamp(30px,4.5vw,52px) auto 0;padding:0 20px}
+#splash-pg .splash-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:0;background:#fff;border:1px solid var(--line);border-bottom:none;border-radius:16px 16px 0 0;overflow:hidden}
+#splash-pg .splash-stat{padding:20px 22px;text-align:left;background:transparent;border:none;border-right:1px solid var(--line);border-radius:0;box-shadow:none}
+#splash-pg .splash-stat:last-child{border-right:none}
+#splash-pg .splash-stat strong{display:block;font-family:var(--f);font-size:clamp(24px,3vw,32px);font-weight:800;line-height:1.05;letter-spacing:-.025em;color:var(--ink);font-variant-numeric:tabular-nums;margin:0 0 5px}
+#splash-pg .splash-stat strong.jke-ld{width:60px;height:30px;margin:0 0 5px}
+#splash-pg .splash-stat span{display:block;font-size:13.5px;line-height:1.3;font-weight:500;color:var(--t3);text-transform:none;letter-spacing:0}
+
+/* ── quick tools ── */
+#splash-pg .hp-band{max-width:var(--wrap);margin:0 auto;padding:32px 20px 0;gap:28px}
+#splash-pg .hp-explore{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.sp-tool{display:flex;align-items:center;gap:14px;width:100%;padding:16px 18px;background:#fff;border:1px solid var(--line);border-radius:14px;color:inherit;font:inherit;text-align:left;text-decoration:none;cursor:pointer;transition:border-color .15s,box-shadow .15s}
+.sp-tool:hover{border-color:#b6b9e4;box-shadow:0 14px 28px -20px rgba(32,21,122,.5)}
+.sp-tool-ico{width:46px;height:46px;flex:none;display:flex;align-items:center;justify-content:center;border-radius:12px;background:var(--tile);color:var(--btn);font-size:22px}
+.sp-tool-tx{min-width:0;flex:1}
+.sp-tool b{display:block;font-size:15px;font-weight:700;line-height:1.3;color:var(--ink)}
+.sp-tool small{display:block;margin-top:3px;font-size:13px;line-height:1.35;font-weight:500;color:var(--t3)}
+.sp-tool .ji-go{font-size:20px;color:var(--t4)}
+
+/* recently added + top performers */
+#splash-pg .hp-card{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 1px 2px rgba(20,24,60,.04)}
+#splash-pg .hp-ttl{font-size:19px;font-weight:800;line-height:1.2;letter-spacing:-.015em;color:var(--ink);gap:10px}
+#splash-pg .hp-ttl .ji{font-size:21px;color:var(--btn)}
+#splash-pg .hp-sub{font-size:13px;line-height:1.3;color:var(--t3)}
+#splash-pg .hp-arr{display:flex;align-items:center;justify-content:center;width:34px;height:34px;font-size:18px;color:var(--btn);border:1.5px solid #c4c7e8;background:#fff}
+#splash-pg .hp-arr:hover{border-color:var(--btn);background:#f6f6ff;color:var(--btn)}
+#splash-pg .hp-ico{background:var(--tile);color:var(--btn);font-size:21px}
+#splash-new .hp-new{border-radius:14px}
+#splash-pg .hp-nn{font-size:14.5px;font-weight:700;line-height:1.35;color:var(--ink)}
+#splash-pg .hp-nm{font-size:12.5px;line-height:1.3;gap:8px;color:var(--t3)}
+#splash-pg .hp-nm b{color:var(--t2)}
+#splash-pg .hp-pill{font-size:11.5px;font-weight:700;letter-spacing:0;line-height:1;padding:4px 9px;text-transform:none}
+#splash-pg .hp-pill.free{background:var(--okbg);color:var(--ok)}
+#splash-pg .hp-pill.pro{background:var(--tile);color:var(--btn)}
+#splash-pg .hp-av{background:var(--btn);font-size:14px}
+#splash-pg .hp-trow:first-child .hp-av{background:#b45309}
+#splash-pg .hp-crown{display:flex;top:-11px;right:-6px;font-size:16px}
+#splash-pg .hp-crown .ji{fill:#f5b52e;stroke:#92400e;stroke-width:1.7}
+#splash-pg .hp-tn{font-size:14.5px;line-height:1.3}
+#splash-pg .hp-tp{font-size:12.5px;line-height:1.3}
+#splash-pg .hp-rate{display:inline-flex;align-items:center;gap:4px;font-family:var(--f);font-variant-numeric:tabular-nums;font-size:13px;line-height:1;color:#92400e;background:#fff4d6;padding:6px 10px}
+#splash-pg .hp-rate .ji{font-size:12px;color:#d97706}
+
+/* ── catalogue + sign-in column ── */
+#splash-pg .splash-layout{max-width:var(--wrap);margin:0 auto;padding:44px 20px 8px}
+@media (min-width:860px){
+  #splash-pg .splash-layout{grid-template-columns:minmax(0,1fr) 372px;gap:36px}
+  #splash-pg .splash-catalogue{border-right:none}
+}
+#splash-pg .splash-catalogue{padding:0}
+#splash-pg .splash-auth-col{padding:0}
+@media (max-width:859px){#splash-pg .splash-auth-col{margin-top:28px}}
+.sp-sec-hd{margin:0 0 20px}
+.sp-sec-hd h2{margin:0 0 8px;font-size:clamp(24px,3vw,32px);font-weight:800;line-height:1.15;letter-spacing:-.025em;color:var(--ink)}
+.sp-sec-hd p{margin:0;max-width:56ch;font-size:15.5px;line-height:1.6;color:var(--t2)}
+#splash-pg .jke-search-wrap{margin:0 0 22px}
+#splash-pg .jke-search-input{height:52px;padding:0 46px 0 48px;border:1.5px solid #d3d6ea;border-radius:12px;background:#fff;box-shadow:none;font-size:15px;color:var(--ink)}
+#splash-pg .jke-search-input:focus{background:#fff;border-color:var(--btn);box-shadow:0 0 0 4px rgba(43,29,158,.14);outline:none}
+#splash-pg .jke-search-icon{display:flex;left:17px;font-size:19px;color:var(--t3)}
+#splash-pg .jke-search-clear{width:28px;height:28px;right:12px;font-size:15px}
+
+#public-catalogue .cat-section{gap:16px;margin-bottom:32px}
+#public-catalogue .cat-section-hd{padding-bottom:12px;border-bottom:1px solid var(--line)}
+#public-catalogue .cat-section-title{font-size:18px;font-weight:800;line-height:1.2;letter-spacing:-.015em;text-transform:none;color:var(--ink);gap:10px}
+#public-catalogue .cat-section-title .ji{font-size:20px;color:var(--btn)}
+#public-catalogue .cat-section-title .ji.ok{color:var(--ok)}
+#public-catalogue .cat-section-count{font-size:12.5px;font-weight:600;color:var(--t2);background:#fff;border:1px solid var(--line);padding:4px 11px}
+#public-catalogue .exam-folder{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 1px 2px rgba(20,24,60,.04);overflow:hidden;margin:0}
+#public-catalogue .ef-head{background:#fff;border:none;border-radius:0;padding:14px 16px;gap:14px}
+#public-catalogue .ef-head:hover{background:#fafbff;border-color:transparent}
+#public-catalogue .ef-head.open{border-radius:0}
+#public-catalogue .ef-icon{width:46px;height:46px;border-radius:12px;background:var(--tile);color:var(--btn);display:flex;align-items:center;justify-content:center;font-size:23px}
+#public-catalogue .ef-name{font-size:15px;font-weight:700;line-height:1.25;color:var(--ink)}
+#public-catalogue .ef-sub{margin-top:3px;font-size:13px;line-height:1.35;color:var(--t3)}
+#public-catalogue .ef-toggle{display:flex;font-size:19px;color:var(--t3)}
+#public-catalogue .lock-strip{background:#f7f8fe;border-bottom:1px solid var(--line);padding:16px;gap:14px}
+#public-catalogue .ls-price{display:flex;align-items:baseline;gap:8px;font-family:var(--f);font-size:26px;font-weight:800;line-height:1;letter-spacing:-.025em;color:var(--ink);font-variant-numeric:tabular-nums}
+#public-catalogue .ls-mrp{font-size:15px;font-weight:600;letter-spacing:0;color:var(--t3);text-decoration:line-through}
+#public-catalogue .ls-label{margin-top:6px;font-size:13px;line-height:1.3;font-weight:500;text-transform:none;letter-spacing:0;color:var(--t2)}
+#public-catalogue .ls-feats{display:flex;flex-direction:column;gap:7px;margin-top:12px}
+#public-catalogue .ls-feat{position:relative;padding:0 0 0 23px;background:none;border:none;border-radius:0;font-size:13px;line-height:1.4;font-weight:500;color:var(--t2)}
+#public-catalogue .ls-feat::before{content:"";position:absolute;left:0;top:1px;width:15px;height:15px;margin:0;font-size:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230f766e' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/contain no-repeat}
+#public-catalogue .btn-buy{width:100%;min-height:46px;background:var(--btn);box-shadow:none;border-radius:10px;padding:12px 20px;font-size:14.5px;font-weight:700;text-align:center}
+#public-catalogue .btn-buy:hover{background:var(--btn-h);transform:none;box-shadow:none}
+#public-catalogue .btn-buy:active{background:var(--btn-a)}
+#public-catalogue .ef-tests-body{border-top:1px solid var(--line)}
+#public-catalogue .ef-tests,#public-catalogue .ef-tests.unlocked{padding:0;gap:0;background:#fff}
+#public-catalogue .tc{align-items:center;gap:12px;padding:13px 16px;background:#fff;border:none;border-top:1px solid #eef0f7;border-radius:0;box-shadow:none}
+#public-catalogue .tc:first-child{border-top:none}
+#public-catalogue .tc:hover,#public-catalogue .tc.locked:hover{background:#f7f8fe;border-color:#eef0f7;box-shadow:none}
+#public-catalogue .tc-ico{width:38px;height:38px;flex:none;display:flex;align-items:center;justify-content:center;border-radius:10px;background:var(--tile);color:var(--btn);font-size:19px}
+#public-catalogue .tc-ico.lk{background:#f0f1f7;color:var(--t3)}
+#public-catalogue .tc-name{font-size:14.5px;font-weight:600;line-height:1.35;color:var(--ink)}
+#public-catalogue .tc-subj{margin-top:2px;font-size:13px;line-height:1.35;color:var(--t3)}
+#public-catalogue .tc-arr{display:flex;margin:0;font-size:19px;color:var(--t4)}
+#public-catalogue .ch-buy{background:var(--btn);color:#fff;border:none;border-radius:99px;padding:7px 15px;font-size:12.5px;font-weight:700;line-height:1}
+#public-catalogue .tc:hover .ch-buy{background:var(--btn-h)}
+#public-catalogue .tc.more-row{background:#f7f8fe !important;border:none !important;border-top:1px dashed #c9ccec !important;border-radius:0 !important;margin:0;padding:13px 16px !important}
+#public-catalogue .more-ico{background:#fff;color:var(--btn);font-size:18px}
+#public-catalogue .more-cta{font-size:13px;font-weight:700;color:var(--btn)}
+#public-catalogue .empty-state .es-icon{display:flex;justify-content:center;font-size:34px;opacity:1;color:var(--t4)}
+#public-catalogue .empty-state .es-title{font-size:15.5px;color:var(--t2)}
+#public-catalogue .empty-state .es-sub{font-size:13.5px;color:var(--t3)}
+
+/* sign-in card */
+#splash-pg .auth-prompt-card{border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:0 1px 2px rgba(20,24,60,.05),0 28px 56px -32px rgba(32,21,122,.35)}
+#splash-pg .apc-top{display:grid;grid-template-columns:48px minmax(0,1fr);column-gap:14px;align-items:center;text-align:left;padding:20px 20px 18px;background:#f7f8fe}
+#splash-pg .apc-logo{grid-row:span 2;width:48px;height:48px;margin:0;border-radius:12px;background:var(--btn);box-shadow:none;font-size:16px}
+#splash-pg .apc-title{margin:0 0 3px;font-size:17px;font-weight:800;line-height:1.2;color:var(--ink)}
+#splash-pg .apc-sub{font-size:13px;line-height:1.4;color:var(--t2)}
+#splash-pg .apc-tabs{background:#fff}
+#splash-pg .apc-tab{font:inherit;font-size:14px;font-weight:600;color:var(--t3);background:none;border:0;border-bottom:2px solid transparent;margin-bottom:-1px;padding:13px 10px;cursor:pointer}
+#splash-pg .apc-tab:hover{color:var(--ink);background:#fafbff}
+#splash-pg .apc-tab.on{color:var(--btn);border-bottom-color:var(--btn);background:#fff;font-weight:700}
+#splash-pg .apc-body{padding:20px}
+#splash-pg .fl label,#auth-modal .fl label{font-size:13px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--t2);margin-bottom:6px}
+#splash-pg .fi,#auth-modal .fi{min-height:46px;padding:12px 14px;border:1.5px solid #d3d6ea;border-radius:10px;background:#fff;font-size:15px}
+#splash-pg .fi:focus,#auth-modal .fi:focus{border-color:var(--btn);box-shadow:0 0 0 4px rgba(43,29,158,.14);outline:none}
+#splash-pg .fi-eye,#auth-modal .fi-eye{display:flex;align-items:center;justify-content:center;width:36px;height:36px;right:5px;padding:0;font-size:19px;color:var(--t3)}
+#splash-pg .fi-eye:hover,#auth-modal .fi-eye:hover{color:var(--ink)}
+#splash-pg .forgot-lnk{background:none;border:0;padding:4px 6px;font:inherit;font-size:13.5px;font-weight:600;color:var(--btn);cursor:pointer}
+#splash-pg .forgot-lnk:hover{text-decoration:underline}
+#splash-pg .apc-feats{padding:6px 20px 8px;border-top:1px solid var(--line)}
+#splash-pg .apc-feat{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid #eef0f7;font-size:13.5px;line-height:1.4;font-weight:500;color:var(--t2)}
+#splash-pg .apc-feat:last-child{border-bottom:none}
+#splash-pg .apc-feat-icon{display:flex;align-items:center;justify-content:center;width:22px;font-size:19px;color:var(--ok)}
+.sp-tg{display:flex;align-items:center;gap:14px;margin-top:14px;padding:14px 16px;background:#fff;border:1px solid var(--line);border-radius:16px}
+.sp-tg-ico{width:42px;height:42px;flex:none;display:flex;align-items:center;justify-content:center;border-radius:12px;background:var(--tile);color:var(--btn);font-size:20px}
+.sp-tg-tx{flex:1;min-width:0}
+.sp-tg-tx b{display:block;font-size:14.5px;font-weight:700;line-height:1.3;color:var(--ink)}
+.sp-tg-tx small{display:block;margin-top:2px;font-size:12.5px;line-height:1.35;color:var(--t3)}
+.sp-tg-btn{flex:none;padding:10px 18px;border-radius:10px;background:var(--btn);color:#fff;font-size:14px;font-weight:700;line-height:1;text-decoration:none;transition:background .15s}
+.sp-tg-btn:hover{background:var(--btn-h)}
+.sp-tg-btn:active{background:var(--btn-a)}
+
+/* how it works: a real sequence, so it is numbered and joined */
+.sp-sec{max-width:var(--wrap);margin:0 auto;padding:52px 20px 0}
+.sp-steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.sp-step{position:relative;padding:0}
+.sp-n{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;width:34px;height:34px;margin-bottom:16px;border-radius:50%;background:var(--btn);color:#fff;font-size:15px;font-weight:800;line-height:1}
+.sp-step:not(:last-child)::before{content:"";position:absolute;top:16px;left:44px;right:-18px;height:2px;background:#d3d6ea}
+.sp-step h3{margin:0 0 8px;font-size:17px;font-weight:700;line-height:1.3;color:var(--ink)}
+.sp-step p{margin:0;max-width:34ch;font-size:15px;line-height:1.6;color:var(--t2)}
+@media (max-width:759px){
+  .sp-steps{grid-template-columns:1fr;gap:0}
+  .sp-step{padding:0 0 26px 52px}
+  .sp-step:last-child{padding-bottom:0}
+  .sp-n{position:absolute;left:0;top:0;margin:0}
+  .sp-step:not(:last-child)::before{top:40px;bottom:6px;left:16px;right:auto;width:2px;height:auto}
+}
+
+/* faq */
+.sp-faq-list{max-width:820px;border-top:1px solid var(--line)}
+.sp-faq-list details{border-bottom:1px solid var(--line)}
+.sp-faq-list summary{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 2px;list-style:none;cursor:pointer;font-size:16.5px;font-weight:700;line-height:1.4;color:var(--ink)}
+.sp-faq-list summary::-webkit-details-marker{display:none}
+.sp-faq-list summary .ji{font-size:21px;color:var(--t3);transition:transform .2s}
+.sp-faq-list details[open] summary .ji{transform:rotate(180deg)}
+.sp-faq-list details p{margin:0 0 20px;padding-right:38px;max-width:66ch;font-size:15.5px;line-height:1.65;color:var(--t2)}
+.sp-faq-list details p a{color:var(--btn);font-weight:600}
+
+/* closing call to action */
+.sp-final-wrap{padding-bottom:72px}
+.sp-final{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:28px 30px;background:#fff;border:1px solid var(--line);border-radius:20px}
+.sp-final h2{margin:0 0 6px;font-size:clamp(21px,2.6vw,26px);font-weight:800;line-height:1.2;letter-spacing:-.02em;color:var(--ink)}
+.sp-final p{margin:0;max-width:52ch;font-size:15px;line-height:1.55;color:var(--t2)}
+.sp-final .hp-btn{flex:none}
+
+/* ── responsive ── */
+@media (max-width:899px){
+  .sp-hero-in{grid-template-columns:minmax(0,1fr)}
+  .sp-score{margin:6px auto 0;max-width:520px}
+  #splash-pg .hp-explore{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:700px){
+  #splash-pg .splash-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #splash-pg .splash-stat:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  #splash-pg .splash-stat:nth-child(2){border-right:none}
+  #splash-pg .splash-stat{padding:16px 18px}
+  .sp-final{flex-direction:column;align-items:stretch;text-align:left;padding:24px 22px}
+  .sp-final .hp-btn{width:100%}
+}
+@media (max-width:480px){
+  .sp-hero-in,.sp-stats-wrap,#splash-pg .hp-band,#splash-pg .splash-layout,.sp-sec{padding-left:16px;padding-right:16px}
+  #splash-pg .hp-ctas .hp-btn{flex:1 1 100%}
+  .sp-score{padding:18px}
+  .sp-bar{grid-template-columns:76px minmax(0,1fr) 36px}
+  .sp-tg{flex-wrap:wrap}
+}
+@media (prefers-reduced-motion:reduce){
+  #splash-pg *,#splash-pg *::before{transition:none !important}
+}
+</style>
+
 <div id="jke-nav">
   <button type="button" class="nav-burger" aria-label="Open menu" aria-expanded="false" aria-controls="jke-drawer"><i></i><i></i><i></i></button>
   <a class="nav-logo" href="https://jkedusphere.com/" aria-label="JKEdusphere home"><svg class="jke-logo" viewBox="0 0 657 147" width="143" height="32" role="img" aria-label="JKEdusphere – Powered by Vision &amp; Knowledge"><defs><linearGradient id="jkeg-bar" gradientUnits="userSpaceOnUse" x1="6" y1="0" x2="651" y2="0"><stop offset="0" stop-color="#1b235a"/><stop offset=".124" stop-color="#1b235a"/><stop offset=".248" stop-color="#1f2c61"/><stop offset=".434" stop-color="#1e3a72"/><stop offset=".496" stop-color="#1f417a"/><stop offset=".62" stop-color="#407eb8"/><stop offset=".682" stop-color="#61acdd"/><stop offset=".744" stop-color="#6cbce1"/><stop offset=".874" stop-color="#6cbde9"/><stop offset="1" stop-color="#6cbde9"/></linearGradient></defs><text x="6" y="86" textLength="645" lengthAdjust="spacing" font-size="106" font-weight="700" fill="url(#jkeg-bar)">JKEdusphere</text><text x="74" y="134" textLength="506" lengthAdjust="spacing" font-size="33.5" font-weight="400" fill="#8f8e8d">Powered by Vision &amp; Knowledge</text></svg></a>
@@ -5682,7 +5970,7 @@ body:has(#test-pg.on) .jke-footer,body:has(#test-pg.on) .jke-ft{display:none !im
             onclick="togglePw('si-pw','si-eye')"
             id="si-eye"
           >
-            👁
+            <svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-eye"/></svg>
           </button>
         </div>
       </div>
@@ -5767,7 +6055,7 @@ body:has(#test-pg.on) .jke-footer,body:has(#test-pg.on) .jke-ft{display:none !im
             onclick="togglePw('su-pw','su-eye')"
             id="su-eye"
           >
-            👁
+            <svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-eye"/></svg>
           </button>
         </div>
       </div>
@@ -5795,7 +6083,7 @@ body:has(#test-pg.on) .jke-footer,body:has(#test-pg.on) .jke-ft{display:none !im
         <label>New Password (min 6 chars)</label>
         <div class="fi-wrap">
           <input class="fi" type="password" id="reset-pw" placeholder="New password" style="padding-right:40px">
-          <button class="fi-eye" onclick="togglePw('reset-pw','reset-eye')" id="reset-eye">👁</button>
+          <button class="fi-eye" onclick="togglePw('reset-pw','reset-eye')" id="reset-eye"><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-eye"/></svg></button>
         </div>
       </div>
       <button class="btn-primary" id="reset-btn" onclick="doResetPassword()">Update Password &rarr;</button>
@@ -5803,6 +6091,39 @@ body:has(#test-pg.on) .jke-footer,body:has(#test-pg.on) .jke-ft{display:none !im
   </div>
 </div>
 
+<!-- icon sprite (stroke icons, 24px grid) -->
+<svg id="jki-sprite" width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">
+  <symbol id="jki-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="jki-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="jki-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="jki-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="jki-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="jki-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="jki-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+  <symbol id="jki-lock" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="jki-lock-open" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></symbol>
+  <symbol id="jki-eye" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="jki-eye-off" viewBox="0 0 24 24"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><path d="M2 2l20 20"/></symbol>
+  <symbol id="jki-key" viewBox="0 0 24 24"><path d="M2 18v3c0 .6.4 1 1 1h4v-3h3v-3h2l1.4-1.4a6.5 6.5 0 1 0-4-4Z"/><circle cx="16.5" cy="7.5" r=".5"/></symbol>
+  <symbol id="jki-trophy" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></symbol>
+  <symbol id="jki-crown" viewBox="0 0 24 24"><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></symbol>
+  <symbol id="jki-star" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></symbol>
+  <symbol id="jki-file-text" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></symbol>
+  <symbol id="jki-file-check" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="m9 15 2 2 4-4"/></symbol>
+  <symbol id="jki-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></symbol>
+  <symbol id="jki-megaphone" viewBox="0 0 24 24"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></symbol>
+  <symbol id="jki-landmark" viewBox="0 0 24 24"><path d="M3 22h18"/><path d="M6 18v-7"/><path d="M10 18v-7"/><path d="M14 18v-7"/><path d="M18 18v-7"/><path d="m12 2 8 5H4z"/></symbol>
+  <symbol id="jki-book-open" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="jki-radio" viewBox="0 0 24 24"><path d="M4.9 16.1C1 12.2 1 5.8 4.9 1.9"/><path d="M7.8 4.7a6.14 6.14 0 0 0-.8 7.5"/><circle cx="12" cy="9" r="2"/><path d="M16.2 4.8c2 2 2.26 5.11.8 7.47"/><path d="M19.1 1.9a9.96 9.96 0 0 1 0 14.1"/><path d="M9.5 18h5"/><path d="m8 22 4-11 4 11"/></symbol>
+  <symbol id="jki-bar-chart" viewBox="0 0 24 24"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></symbol>
+  <symbol id="jki-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="jki-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></symbol>
+  <symbol id="jki-package" viewBox="0 0 24 24"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></symbol>
+  <symbol id="jki-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
+  <symbol id="jki-list-checks" viewBox="0 0 24 24"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></symbol>
+  <symbol id="jki-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="jki-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+</svg>
 <div id="jke-app">
   <div id="boot-skel">
     <div style="display:flex;flex-direction:column;gap:8px">
@@ -5815,68 +6136,115 @@ body:has(#test-pg.on) .jke-footer,body:has(#test-pg.on) .jke-ft{display:none !im
   </div>
   <!-- ══ SPLASH PAGE (public, before login) ══ -->
   <div class="page" id="splash-pg">
-    <div class="splash-hero">
-      <div class="splash-badge">🎯 J&amp;K's #1 Mock Test Platform</div>
-      <h1 class="splash-h1">
-        J&amp;K's <span>Premier</span><br />Exam Prep Hub
-      </h1>
-      <p class="splash-sub">
-        Free &amp; premium mock tests for JKPSI, JKSSB, KAS &amp; UPSC — crafted
-        by toppers, trusted by thousands of aspirants.
-      </p>
-      <div class="hp-ctas">
-        <button type="button" class="hp-btn pri" onclick="openAuthModal('su')">Start free &rarr;</button>
-        <button type="button" class="hp-btn sec" onclick="document.getElementById('pub-search').scrollIntoView({behavior:'smooth',block:'center'})">Browse tests</button>
-      </div>
-      <div class="hp-trust"><span>Free tests daily</span><span>Detailed analysis</span><span>Live ranks</span></div>
-      <div class="hero-ak-cta" onclick="handleHeroAK()">
-        <span class="hero-ak-icon">🔑</span>
-        <div class="hero-ak-text">
-          <div class="hero-ak-title">Check Your Score Instantly<span class="hero-ak-free">FREE</span></div>
-          <div class="hero-ak-sub">Just gave an exam? Match your answers with the official key &amp; see your rank</div>
+
+    <!-- Hero -->
+    <section class="splash-hero" aria-labelledby="sp-h1">
+      <div class="sp-hero-in">
+        <div class="sp-hero-copy">
+          <h1 class="splash-h1" id="sp-h1">Practise like it’s exam day. See where you rank.</h1>
+          <p class="splash-sub">
+            Free and premium full-length mock tests for JKSSB, JKPSI, JKPSC and UPSC, with negative marking, explained solutions and live leaderboards.
+          </p>
+          <div class="hp-ctas">
+            <button type="button" class="hp-btn pri" onclick="openAuthModal('su')">Start a free test</button>
+            <button type="button" class="hp-btn sec" onclick="document.getElementById('pub-search').scrollIntoView({behavior:'smooth',block:'center'})">Browse tests</button>
+          </div>
+          <div class="hp-trust">
+            <span><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-check-circle"/></svg>Free tests every day</span>
+            <span><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-check-circle"/></svg>Detailed answer analysis</span>
+            <span><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-check-circle"/></svg>Live ranks</span>
+          </div>
+          <div class="hero-ak-cta" role="button" tabindex="0" onclick="handleHeroAK()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();handleHeroAK()}">
+            <span class="hero-ak-icon"><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-key"/></svg></span>
+            <div class="hero-ak-text">
+              <div class="hero-ak-title">Check your score instantly<span class="hero-ak-free">Free</span></div>
+              <div class="hero-ak-sub">Just gave an exam? Match your answers with the official key and see your rank.</div>
+            </div>
+            <span class="hero-ak-arrow"><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-chevron-right"/></svg></span>
+          </div>
         </div>
-        <span class="hero-ak-arrow">→</span>
-      </div>
-      <div class="splash-stats">
-        <div class="splash-stat">
-          <strong id="sp-test-count" class="jke-ld">—</strong><span>Mock Tests</span>
+
+        <!-- Sample result: shows what every test gives you -->
+        <div class="sp-score" role="img" aria-label="Sample result screen showing score, rank, accuracy, subject-wise performance and a question palette">
+          <div class="sp-score-hd"><b>Your result after every test</b><span>Sample</span></div>
+          <div class="sp-score-main"><div class="sp-big">78.5<small> / 100</small></div></div>
+          <div class="sp-metrics">
+            <div class="sp-m"><b>14</b><span>Rank</span></div>
+            <div class="sp-m"><b>82%</b><span>Accuracy</span></div>
+            <div class="sp-m"><b>1h 42m</b><span>Time taken</span></div>
+          </div>
+          <div class="sp-bars">
+            <div class="sp-bar"><span>Polity</span><i style="--w:86%"></i><em>86%</em></div>
+            <div class="sp-bar"><span>Geography</span><i style="--w:74%"></i><em>74%</em></div>
+            <div class="sp-bar"><span>History</span><i style="--w:81%"></i><em>81%</em></div>
+            <div class="sp-bar"><span>Reasoning</span><i style="--w:62%"></i><em>62%</em></div>
+          </div>
+          <div class="sp-pal">
+            <span class="c">1</span><span class="c">2</span><span class="w">3</span><span class="c">4</span><span class="c">5</span><span class="s">6</span><span class="c">7</span><span class="c">8</span><span class="w">9</span><span class="c">10</span>
+            <span class="c">11</span><span class="c">12</span><span class="c">13</span><span class="s">14</span><span class="c">15</span><span class="w">16</span><span class="c">17</span><span class="c">18</span><span class="c">19</span><span class="c">20</span>
+          </div>
+          <div class="sp-legend"><span><i class="c"></i>Correct</span><span><i class="w"></i>Wrong</span><span><i class="s"></i>Skipped</span></div>
         </div>
-        <div class="splash-stat">
-          <strong>100+</strong><span>MCQs Daily</span>
-        </div>
-        <div class="splash-stat"><strong id="sp-pack-count" class="jke-ld">—</strong><span>Exam Packs</span></div>
-        <div class="splash-stat"><strong>Expert</strong><span>Curated</span></div>
       </div>
+
+      <div class="sp-stats-wrap">
+        <div class="splash-stats">
+          <div class="splash-stat"><strong id="sp-test-count" class="jke-ld">—</strong><span>Mock tests</span></div>
+          <div class="splash-stat"><strong>100+</strong><span>MCQs added daily</span></div>
+          <div class="splash-stat"><strong id="sp-pack-count" class="jke-ld">—</strong><span>Exam packs</span></div>
+          <div class="splash-stat"><strong>Live</strong><span>Rank leaderboards</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick tools + live lists (filled by script) -->
+    <div class="hp-band">
+      <div class="hp-explore">
+        <a class="sp-tool" href="https://jkedusphere.com/notes">
+          <span class="sp-tool-ico"><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-file-text"/></svg></span>
+          <span class="sp-tool-tx"><b>Browse notes</b><small>Premium PDF study notes</small></span>
+          <svg class="ji ji-go" aria-hidden="true" focusable="false"><use href="#jki-chevron-right"/></svg>
+        </a>
+        <button type="button" class="sp-tool" onclick="goNav('lb')">
+          <span class="sp-tool-ico"><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-trophy"/></svg></span>
+          <span class="sp-tool-tx"><b>Leaderboard</b><small>See live ranks</small></span>
+          <svg class="ji ji-go" aria-hidden="true" focusable="false"><use href="#jki-chevron-right"/></svg>
+        </button>
+        <a class="sp-tool" href="https://t.me/JKEdusphere" target="_blank" rel="noopener">
+          <span class="sp-tool-ico"><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-send"/></svg></span>
+          <span class="sp-tool-tx"><b>Join Telegram</b><small>Daily updates and PDFs</small></span>
+          <svg class="ji ji-go" aria-hidden="true" focusable="false"><use href="#jki-chevron-right"/></svg>
+        </a>
+      </div>
+      <div id="splash-new" style="display:none"></div>
+      <div id="splash-toppers" style="display:none"></div>
     </div>
 
-    <div class="hp-band"><div class="hp-explore">
-        <a class="hp-ex notes" href="https://jkedusphere.com/notes"><div class="hp-ico">📝</div><div><b>Browse Notes</b><span>Premium study notes</span></div></a>
-        <div class="hp-ex" onclick="handleHeroAK()"><div class="hp-ico">🔑</div><div><b>Check Your Score</b><span>Match answer key, free</span></div></div>
-        <div class="hp-ex" onclick="goNav('lb')"><div class="hp-ico">🏆</div><div><b>Leaderboard</b><span>See live ranks</span></div></div>
-        <a class="hp-ex" href="https://t.me/JKEdusphere" target="_blank" rel="noopener"><div class="hp-ico">📣</div><div><b>Join Telegram</b><span>Daily updates &amp; PDFs</span></div></a>
-      </div><div id="splash-new" style="display:none"></div><div id="splash-toppers" style="display:none"></div></div>
-
     <div class="splash-layout">
-      <!-- Left: Test Catalogue -->
+      <!-- Left: test catalogue -->
       <div class="splash-catalogue">
+        <div class="sp-sec-hd">
+          <h2>Browse mock tests</h2>
+          <p>Free tests open as soon as you sign up. Premium packs are a one-time purchase with lifetime access.</p>
+        </div>
         <div class="jke-search-wrap">
-    
-          <input type="text" id="pub-search" class="jke-search-input" placeholder="Search tests by name or subject..." oninput="SEARCH.publicCat(this.value)" />
-          <button type="button" class="jke-search-clear" id="pub-search-clear" onclick="SEARCH.clearPublic()">✕</button>
+          <span class="jke-search-icon"><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-search"/></svg></span>
+          <input type="text" id="pub-search" class="jke-search-input" placeholder="Search tests by name or subject" aria-label="Search tests by name or subject" oninput="SEARCH.publicCat(this.value)" />
+          <button type="button" class="jke-search-clear" id="pub-search-clear" onclick="SEARCH.clearPublic()" aria-label="Clear search"><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-x"/></svg></button>
         </div>
         <div id="public-catalogue">
-        <div style="display:flex;flex-direction:column;gap:8px">
-          <div class="tc-skel"><div class="skel-ico skel"></div><div class="skel-body"><div class="skel-title skel"></div><div class="skel-sub skel"></div></div></div>
-          <div class="tc-skel"><div class="skel-ico skel"></div><div class="skel-body"><div class="skel-title skel"></div><div class="skel-sub skel"></div></div></div>
-          <div class="tc-skel"><div class="skel-ico skel"></div><div class="skel-body"><div class="skel-title skel"></div><div class="skel-sub skel"></div></div></div>
-          <div class="tc-skel"><div class="skel-ico skel"></div><div class="skel-body"><div class="skel-title skel"></div><div class="skel-sub skel"></div></div></div>
-          <div class="tc-skel"><div class="skel-ico skel"></div><div class="skel-body"><div class="skel-title skel"></div><div class="skel-sub skel"></div></div></div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div class="tc-skel"><div class="skel-ico skel"></div><div class="skel-body"><div class="skel-title skel"></div><div class="skel-sub skel"></div></div></div>
+            <div class="tc-skel"><div class="skel-ico skel"></div><div class="skel-body"><div class="skel-title skel"></div><div class="skel-sub skel"></div></div></div>
+            <div class="tc-skel"><div class="skel-ico skel"></div><div class="skel-body"><div class="skel-title skel"></div><div class="skel-sub skel"></div></div></div>
+            <div class="tc-skel"><div class="skel-ico skel"></div><div class="skel-body"><div class="skel-title skel"></div><div class="skel-sub skel"></div></div></div>
+            <div class="tc-skel"><div class="skel-ico skel"></div><div class="skel-body"><div class="skel-title skel"></div><div class="skel-sub skel"></div></div></div>
+          </div>
+          <div class="slow-hint">Waking up the server… the first load can take up to a minute. Thanks for waiting.</div>
         </div>
-        <div class="slow-hint">Waking up the server… the first load can take up to a minute. Thanks for waiting.</div>
-      </div>
       </div>
 
-      <!-- Right: Auth card (desktop sticky) -->
+      <!-- Right: sign in / sign up (sticky on desktop) -->
       <div class="splash-auth-col">
         <div class="auth-prompt-card">
           <div class="apc-top">
@@ -5885,82 +6253,43 @@ body:has(#test-pg.on) .jke-footer,body:has(#test-pg.on) .jke-ft{display:none !im
             <div class="apc-sub">Create a free account to start practising</div>
           </div>
           <div class="apc-tabs">
-            <div class="apc-tab on" id="apc-si" onclick="apcTab('si')">
-              Sign In
-            </div>
-            <div class="apc-tab" id="apc-su" onclick="apcTab('su')">
-              Sign Up
-            </div>
+            <button type="button" class="apc-tab on" id="apc-si" onclick="apcTab('si')">Sign In</button>
+            <button type="button" class="apc-tab" id="apc-su" onclick="apcTab('su')">Sign Up</button>
           </div>
-          <!-- Inline Sign In -->
+          <!-- Inline sign in -->
           <div class="apc-body on" id="apc-si-body">
             <div class="al" id="apc-si-al"></div>
             <div class="fl">
-              <label>Email</label
-              ><input
-                class="fi"
-                type="email"
-                id="apc-si-email"
-                placeholder="your@email.com"
-                autocomplete="email"
-              />
+              <label for="apc-si-email">Email</label>
+              <input class="fi" type="email" id="apc-si-email" placeholder="your@email.com" autocomplete="email" />
             </div>
             <div class="fl">
-              <label>Password</label>
+              <label for="apc-si-pw">Password</label>
               <div class="fi-wrap">
-                <input
-                  class="fi"
-                  type="password"
-                  id="apc-si-pw"
-                  placeholder="Your password"
-                  style="padding-right: 40px"
-                  autocomplete="current-password"
-                />
-                <button
-                  class="fi-eye"
-                  onclick="togglePw('apc-si-pw','apc-si-eye')"
-                  id="apc-si-eye"
-                >
-                  👁
-                </button>
+                <input class="fi" type="password" id="apc-si-pw" placeholder="Your password" style="padding-right: 44px" autocomplete="current-password" />
+                <button type="button" class="fi-eye" onclick="togglePw('apc-si-pw','apc-si-eye')" id="apc-si-eye" aria-label="Show or hide password"><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-eye"/></svg></button>
               </div>
             </div>
-            <button class="btn-primary" id="apc-si-btn" onclick="doApcSignIn()">
-              Sign In &rarr;
-            </button>
-            <div style="text-align: center; margin-top: 8px">
-              <span class="forgot-lnk" onclick="doApcForgot()"
-                >Forgot password?</span
-              >
+            <button class="btn-primary" id="apc-si-btn" onclick="doApcSignIn()">Sign In</button>
+            <div style="text-align: center; margin-top: 10px">
+              <button type="button" class="forgot-lnk" onclick="doApcForgot()">Forgot password?</button>
             </div>
           </div>
-          <!-- Inline Sign Up -->
+          <!-- Inline sign up -->
           <div class="apc-body" id="apc-su-body">
             <div class="al" id="apc-su-al"></div>
             <div class="fl">
-              <label>Full Name</label
-              ><input
-                class="fi"
-                type="text"
-                id="apc-su-name"
-                placeholder="Your full name"
-                autocomplete="name"
-              />
+              <label for="apc-su-name">Full name</label>
+              <input class="fi" type="text" id="apc-su-name" placeholder="Your full name" autocomplete="name" />
             </div>
             <div class="fl">
-              <label>Email</label
-              ><input
-                class="fi"
-                type="email"
-                id="apc-su-email"
-                placeholder="Active email"
-                autocomplete="email"
-              />
+              <label for="apc-su-email">Email</label>
+              <input class="fi" type="email" id="apc-su-email" placeholder="Active email" autocomplete="email" />
             </div>
             <div class="fl">
-              <label>Exam</label>
+              <label for="apc-su-exam">Exam</label>
               <select class="fi" id="apc-su-exam">
-                <option value="">Select exam...</option>
+                <option value="">Select your exam</option>
                 <option value="JKPSI Telecom">JKPSI Telecom</option>
                 <option value="JKPSI Executive">JKPSI Executive</option>
                 <option value="JKSSB FAA">JKSSB FAA</option>
@@ -5968,100 +6297,95 @@ body:has(#test-pg.on) .jke-footer,body:has(#test-pg.on) .jke-ft{display:none !im
               </select>
             </div>
             <div class="fl">
-              <label>Password</label>
+              <label for="apc-su-pw">Password</label>
               <div class="fi-wrap">
-                <input
-                  class="fi"
-                  type="password"
-                  id="apc-su-pw"
-                  placeholder="Min 6 characters"
-                  style="padding-right: 40px"
-                  autocomplete="new-password"
-                />
-                <button
-                  class="fi-eye"
-                  onclick="togglePw('apc-su-pw','apc-su-eye')"
-                  id="apc-su-eye"
-                >
-                  👁
-                </button>
+                <input class="fi" type="password" id="apc-su-pw" placeholder="Minimum 6 characters" style="padding-right: 44px" autocomplete="new-password" />
+                <button type="button" class="fi-eye" onclick="togglePw('apc-su-pw','apc-su-eye')" id="apc-su-eye" aria-label="Show or hide password"><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-eye"/></svg></button>
               </div>
             </div>
-            <button class="btn-primary" id="apc-su-btn" onclick="doApcSignUp()">
-              Create Free Account &rarr;
-            </button>
+            <button class="btn-primary" id="apc-su-btn" onclick="doApcSignUp()">Create Free Account</button>
           </div>
-          <!-- Features -->
-          <div style="padding: 14px 16px; border-top: 1px solid var(--bd)">
-            <div class="apc-feat">
-              <div class="apc-feat-icon">✅</div>
-              Free &amp; paid tests — no hidden fees
-            </div>
-            <div class="apc-feat">
-              <div class="apc-feat-icon">🏆</div>
-              Live leaderboard &amp; rank tracking
-            </div>
-            <div class="apc-feat">
-              <div class="apc-feat-icon">📄</div>
-              Explained solutions PDF after each test
-            </div>
-            <div class="apc-feat">
-              <div class="apc-feat-icon">🔄</div>
-              Retake tests unlimited times
-            </div>
+          <!-- What you get -->
+          <div class="apc-feats">
+            <div class="apc-feat"><span class="apc-feat-icon"><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-check-circle"/></svg></span>Free and paid tests, no hidden fees</div>
+            <div class="apc-feat"><span class="apc-feat-icon"><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-trophy"/></svg></span>Live leaderboard and rank tracking</div>
+            <div class="apc-feat"><span class="apc-feat-icon"><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-file-text"/></svg></span>Explained solutions PDF after each test</div>
+            <div class="apc-feat"><span class="apc-feat-icon"><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-refresh"/></svg></span>Retake tests to improve your score</div>
           </div>
         </div>
 
-        <!-- Telegram CTA -->
-        <div
-          style="
-            margin-top: 12px;
-            background: var(--s1bg);
-            border: 1px solid var(--bd);
-            border-radius: var(--r12);
-            padding: 14px 15px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-          "
-        >
-          <span style="font-size: 24px; flex-shrink: 0">📢</span>
-          <div style="flex: 1; min-width: 0">
-            <div
-              style="
-                font-size: 13px;
-                font-weight: 700;
-                color: var(--t1);
-                margin-bottom: 2px;
-              "
-            >
-              Join our Telegram
-            </div>
-            <div style="font-size: 11px; color: var(--t3)">
-              Daily updates, test alerts &amp; PDFs
-            </div>
-          </div>
-          <a
-            href="https://t.me/JKEdusphere"
-            target="_blank"
-            rel="noopener"
-            style="
-              background: var(--p);
-              color: #fff;
-              border-radius: var(--rf);
-              padding: 8px 16px;
-              font-size: 12px;
-              font-weight: 700;
-              text-decoration: none;
-              flex-shrink: 0;
-              white-space: nowrap;
-              transition: all 0.15s;
-            "
-            >Join</a
-          >
+        <div class="sp-tg">
+          <span class="sp-tg-ico"><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-send"/></svg></span>
+          <div class="sp-tg-tx"><b>Join our Telegram</b><small>Daily updates, test alerts and PDFs</small></div>
+          <a class="sp-tg-btn" href="https://t.me/JKEdusphere" target="_blank" rel="noopener">Join</a>
         </div>
       </div>
     </div>
+
+    <!-- How it works -->
+    <section class="sp-sec" aria-labelledby="sp-how-h">
+      <div class="sp-sec-hd">
+        <h2 id="sp-how-h">How it works</h2>
+        <p>From sign-up to your first rank in three steps.</p>
+      </div>
+      <ol class="sp-steps">
+        <li class="sp-step">
+          <span class="sp-n">1</span>
+          <h3>Create a free account</h3>
+          <p>All it needs is your name, email and a password. Pick your exam so we know what you are preparing for.</p>
+        </li>
+        <li class="sp-step">
+          <span class="sp-n">2</span>
+          <h3>Take a timed mock test</h3>
+          <p>Attempt full-length tests built like the real paper, with a timer and negative marking.</p>
+        </li>
+        <li class="sp-step">
+          <span class="sp-n">3</span>
+          <h3>Review your result and rank</h3>
+          <p>See your score, subject-wise analysis and explained solutions, then check where you stand on the leaderboard.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- FAQ -->
+    <section class="sp-sec" aria-labelledby="sp-faq-h">
+      <div class="sp-sec-hd">
+        <h2 id="sp-faq-h">Questions aspirants ask</h2>
+      </div>
+      <div class="sp-faq-list">
+        <details>
+          <summary>Are the mock tests really free?<svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-chevron-down"/></svg></summary>
+          <p>Free tests are open to every registered user. Premium packs are a one-time purchase with lifetime access to that pack, including tests added to it later.</p>
+        </details>
+        <details>
+          <summary>Which exams do you cover?<svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-chevron-down"/></svg></summary>
+          <p>JKSSB, JKPSI (Telecom and Executive), JKPSC and UPSC, along with J&amp;K Polity, History and Geography series. New tests are added regularly, and the catalogue above always shows what is live.</p>
+        </details>
+        <details>
+          <summary>How do I check my score after an exam?<svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-chevron-down"/></svg></summary>
+          <p>Use the free answer key matcher. Create a free account, choose your exam, enter your answers and compare them with the official key to see your score and rank.</p>
+        </details>
+        <details>
+          <summary>Is paying online safe?<svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-chevron-down"/></svg></summary>
+          <p>Payments are processed by Razorpay. We never see or store your card, UPI or bank details.</p>
+        </details>
+        <details>
+          <summary>Money was deducted but my pack did not unlock. What now?<svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-chevron-down"/></svg></summary>
+          <p>Message us on <a href="https://t.me/JKEdusphere" target="_blank" rel="noopener">Telegram</a> or <a href="https://wa.me/917051617362" target="_blank" rel="noopener">WhatsApp</a> and we will resolve it.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- Closing call to action -->
+    <section class="sp-sec sp-final-wrap" aria-labelledby="sp-final-h">
+      <div class="sp-final">
+        <div>
+          <h2 id="sp-final-h">Take your first mock test today</h2>
+          <p>Create a free account and start with a free test. Move to a premium pack only when you want more.</p>
+        </div>
+        <button type="button" class="hp-btn pri" onclick="openAuthModal('su')">Create Free Account</button>
+      </div>
+    </section>
   </div>
 
   <!-- ══ HOME PAGE (logged in) ══ -->
@@ -6717,6 +7041,57 @@ body:has(#test-pg.on) .jke-footer,body:has(#test-pg.on) .jke-ft{display:none !im
       ],
     },
   };
+  // ── Icon helper: inline SVG icons from the sprite (replaces emoji on the signed-out page) ──
+  var JKEI = {};
+  JKEI.i = function (name, cls) {
+    return '<svg class="ji' + (cls ? " " + cls : "") + '" aria-hidden="true" focusable="false"><use href="#jki-' + name + '"/></svg>';
+  };
+  JKEI.cp = {
+    0x1F3DB: "landmark", 0x1F4DA: "book-open", 0x1F4D6: "book-open", 0x1F4E1: "radio", 0x1F4CA: "bar-chart",
+    0x1F4C8: "bar-chart", 0x1F6E1: "shield", 0x1F30E: "globe", 0x1F30D: "globe", 0x1F310: "globe",
+    0x1F4E6: "package", 0x1F4DD: "file-text", 0x1F4C4: "file-text", 0x1F511: "key", 0x1F3C6: "trophy",
+    0x1F4E3: "megaphone", 0x1F4E2: "megaphone", 0x2705: "check-circle", 0x1F7E2: "check-circle",
+    0x2713: "check", 0x2714: "check", 0x1F512: "lock", 0x1F513: "lock-open", 0x1F441: "eye",
+    0x1F3AF: "target", 0x1F451: "crown", 0x1F50D: "search", 0x1F4CB: "list-checks", 0x1F504: "refresh",
+    0x2715: "x", 0x2B50: "star", 0x2605: "star"
+  };
+  // Any emoji / pictograph (not arrows, bullets or the rupee sign).
+  JKEI.re = /(?:[\u2600-\u27BF\u2B50\u2B55]|[\uD83C-\uD83E][\uDC00-\uDFFF])[\uFE0F\u200D]*/g;
+  JKEI.fromEmoji = function (s) {
+    var m = String(s || "").match(/[\u2600-\u27BF\u2B50\u2B55]|[\uD83C-\uD83E][\uDC00-\uDFFF]/);
+    var cp = m ? m[0].codePointAt(0) : 0;
+    return JKEI.i(JKEI.cp[cp] || "file-text");
+  };
+  // Turn emoji inside rendered markup into icons. Names and lists are cleaned, not decorated.
+  JKEI.swap = function (root) {
+    if (!root) return;
+    var plain = ".tc-name,.tc-subj,.ef-name,.ef-sub,.hp-nn,.ls-feat";
+    var w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false), hit = [], n;
+    while ((n = w.nextNode())) { if (/[\u2600-\u27BF\u2B50\u2B55\uD83C-\uD83E]/.test(n.nodeValue)) hit.push(n); }
+    hit.forEach(function (tn) {
+      var par = tn.parentNode;
+      if (!par) return;
+      if (par.closest && par.closest(plain)) {
+        tn.nodeValue = tn.nodeValue.replace(JKEI.re, "").replace(/\s{2,}/g, " ").replace(/^\s+/, "");
+        return;
+      }
+      var html = escHtml(tn.nodeValue).replace(JKEI.re, function (e) { return JKEI.fromEmoji(e); });
+      var span = document.createElement("span");
+      span.className = "ji-wrap";
+      span.innerHTML = html;
+      par.replaceChild(span, tn);
+    });
+  };
+  JKEI.sweep = function (root) {
+    if (!root) return;
+    [].forEach.call(root.querySelectorAll(".tc-ico"), function (el) {
+      el.innerHTML = JKEI.i(el.classList.contains("lk") ? "lock" : "file-check");
+    });
+    [].forEach.call(root.querySelectorAll(".ef-toggle"), function (el) { el.innerHTML = JKEI.i("chevron-down"); });
+    [].forEach.call(root.querySelectorAll(".tc-arr"), function (el) { el.innerHTML = JKEI.i("chevron-right"); });
+    JKEI.swap(root);
+  };
+
   var EX = {
     "jkpsc-cce": {
   icon: "🏛",
@@ -7192,12 +7567,12 @@ body:has(#test-pg.on) .jke-footer,body:has(#test-pg.on) .jke-ft{display:none !im
     if (!inp) return;
     inp.type = inp.type === "password" ? "text" : "password";
     var btn = document.getElementById(btnId);
-    if (btn) btn.textContent = inp.type === "password" ? "👁" : "🙈";
+    if (btn) btn.innerHTML = JKEI.i(inp.type === "password" ? "eye" : "eye-off");
   }
   function setBtn(id, label, disabled) {
     var b = document.getElementById(id);
     if (!b) return;
-    b.textContent = label;
+    b.innerHTML = label;
     b.disabled = !!disabled;
   }
 
@@ -7528,7 +7903,7 @@ body:has(#test-pg.on) .jke-footer,body:has(#test-pg.on) .jke-ft{display:none !im
     }
     setBtn("apc-si-btn", "Signing in...", true);
     api({ action: "login", email, password: pw }, function (err, data) {
-      setBtn("apc-si-btn", "Sign In &rarr;", false);
+      setBtn("apc-si-btn", "Sign In", false);
       if (err || !data) {
         setAl("apc-si-al", "Network error. Please try again.", "err");
         return;
@@ -7599,7 +7974,7 @@ body:has(#test-pg.on) .jke-footer,body:has(#test-pg.on) .jke-ft{display:none !im
         password: pw,
       },
       function (err, data) {
-        setBtn("apc-su-btn", "Create Free Account &rarr;", false);
+        setBtn("apc-su-btn", "Create Free Account", false);
         if (err || !data) {
           setAl("apc-su-al", "Network error. Please try again.", "err");
           return;
@@ -7644,7 +8019,7 @@ body:has(#test-pg.on) .jke-footer,body:has(#test-pg.on) .jke-ft{display:none !im
         var _tc = document.getElementById("sp-test-count");
         if (_tc) { _tc.classList.remove("jke-ld"); _tc.textContent = "\u2014"; }
         document.getElementById("public-catalogue").innerHTML =
-          '<div class="empty-state"><div class="es-icon">📡</div><div class="es-title">Could not load tests</div><div class="es-sub">Please refresh the page</div></div>';
+          '<div class="empty-state"><div class="es-icon"><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-radio"/></svg></div><div class="es-title">Could not load tests</div><div class="es-sub">Please refresh the page</div></div>';
         return;
       }
       ST.publicTests = data.tests;
@@ -7673,7 +8048,7 @@ body:has(#test-pg.on) .jke-footer,body:has(#test-pg.on) .jke-ft{display:none !im
     var fresh = items.filter(function (x) { return x.age <= 14; });
     items = (fresh.length >= 3 ? fresh : items).slice(0, 8);
     if (!items.length) { box.style.display = "none"; box.innerHTML = ""; return; }
-    box.innerHTML = '<div class="hp-card"><div class="hp-hd"><div class="hp-ttl"><i class="hp-dot"></i>Recently added</div><div class="hp-arrows"><button type="button" class="hp-arr" data-d="-1" aria-label="Previous">\u2039</button><button type="button" class="hp-arr" data-d="1" aria-label="Next">\u203A</button></div></div><div class="hp-newlist">' +
+    box.innerHTML = '<div class="hp-card"><div class="hp-hd"><div class="hp-ttl"><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-clock"/></svg>Recently added</div><div class="hp-arrows"><button type="button" class="hp-arr" data-d="-1" aria-label="Previous"><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-chevron-left"/></svg></button><button type="button" class="hp-arr" data-d="1" aria-label="Next"><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-chevron-right"/></svg></button></div></div><div class="hp-newlist">' +
       items.map(function (x) {
         var t = x.t, paid = t.access === "paid";
         var pk = (t.packId || "").trim() || examFromId(t.testId);
@@ -7681,8 +8056,8 @@ body:has(#test-pg.on) .jke-footer,body:has(#test-pg.on) .jke-ft{display:none !im
         var ex = EX[g] || { name: g, icon: "\uD83D\uDCDA" };
         var when = x.age === 0 ? "Today" : x.age === 1 ? "Yesterday" : x.age + "d ago";
         return '<div class="hp-new" data-tid="' + escHtml(t.testId) + '" data-pk="' + escHtml(pk) + '" data-paid="' + (paid ? 1 : 0) + '">' +
-          '<div class="hp-ico">' + (ex.icon || "\uD83D\uDCDD") + '</div><div class="hp-nb"><div class="hp-nn">' + escHtml(t.testName) + '</div>' +
-          '<div class="hp-nm"><b>' + when + "</b><span>" + escHtml(ex.name) + '</span><span class="hp-pill ' + (paid ? "pro" : "free") + '">' + (paid ? "PRO" : "FREE") + '</span></div></div><span class="hp-go">\u203A</span></div>';
+          '<div class="hp-ico">' + JKEI.fromEmoji(ex.icon || "\uD83D\uDCDD") + '</div><div class="hp-nb"><div class="hp-nn">' + escHtml(t.testName) + '</div>' +
+          '<div class="hp-nm"><b>' + when + "</b><span>" + escHtml(ex.name) + '</span><span class="hp-pill ' + (paid ? "pro" : "free") + '">' + (paid ? "Premium" : "Free") + '</span></div></div><span class="hp-go"><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-chevron-right"/></svg></span></div>';
       }).join("") + "</div></div>";
     box.style.display = "";
     box.onclick = function (e) {
@@ -7723,7 +8098,7 @@ body:has(#test-pg.on) .jke-footer,body:has(#test-pg.on) .jke-ft{display:none !im
       });
       html +=
         '<div class="cat-section"><div class="cat-section-hd">' +
-        '<div class="cat-section-title">🟢 Free Tests</div>' +
+        '<div class="cat-section-title"><svg class="ji ok" aria-hidden="true" focusable="false"><use href="#jki-check-circle"/></svg>Free tests</div>' +
         '<span class="cat-section-count">' +
         free.length +
         " tests</span></div>";
@@ -7749,7 +8124,7 @@ body:has(#test-pg.on) .jke-footer,body:has(#test-pg.on) .jke-ft{display:none !im
       });
       html +=
         '<div class="cat-section"><div class="cat-section-hd">' +
-        '<div class="cat-section-title">🔒 Premium Packs</div>' +
+        '<div class="cat-section-title"><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-lock"/></svg>Premium packs</div>' +
         '<span class="cat-section-count">' +
         paid.length +
         " tests</span></div>";
@@ -7766,6 +8141,7 @@ body:has(#test-pg.on) .jke-footer,body:has(#test-pg.on) .jke-ft{display:none !im
         ? '<div class="empty-state"><div class="es-icon">🔍</div><div class="es-title">No matching tests</div><div class="es-sub">Try a different search term</div></div>'
         : '<div class="empty-state"><div class="es-icon">📋</div><div class="es-title">No tests available yet</div><div class="es-sub">Check back soon!</div></div>';
     document.getElementById("public-catalogue").innerHTML = html;
+    JKEI.sweep(document.getElementById("public-catalogue"));
   }
 
   function buildFolder(groupId, ex, tests, unlocked, packId, autoOpen, isFreeGroup, previewLimit) {
@@ -7847,7 +8223,7 @@ pk.includes
     }
     if (shownTests.length < tests.length) {
       var more = tests.length - shownTests.length;
-      cards += '<div class="tc more-row" onclick="openAuthModal(\'su\')"><div class="more-ico">\uD83D\uDD13</div><div class="tc-body"><div class="tc-name">+' + more + ' more tests</div><div class="tc-subj">' + (ST.user ? "Open the pack to see all" : "Sign in free to see the full list") + '</div></div><span class="more-cta">' + (ST.user ? "View" : "Sign in") + ' \u2192</span></div>';
+      cards += '<div class="tc more-row" onclick="openAuthModal(\'su\')"><div class="more-ico">\uD83D\uDD13</div><div class="tc-body"><div class="tc-name">+' + more + ' more tests</div><div class="tc-subj">' + (ST.user ? "Open the pack to see all" : "Sign in free to see the full list") + '</div></div><span class="more-cta">' + (ST.user ? "View" : "Sign in") + '</span></div>';
     }
 
 return (
@@ -10831,7 +11207,7 @@ if (stored && Array.isArray(stored.data) && stored.data.length && Date.now() - s
     }
     TOPPERS.loading = true;
     el.style.display = "block";
-    el.innerHTML = '<div class="hp-card hp-top"><div class="hp-hd"><div class="hp-ttl">\uD83C\uDFC6 Top performers</div><span class="hp-sub">Loading\u2026</span></div><div class="hp-tgrid"><div class="skel" style="height:62px;border-radius:14px"></div><div class="skel" style="height:62px;border-radius:14px"></div></div></div>';
+    el.innerHTML = '<div class="hp-card hp-top"><div class="hp-hd"><div class="hp-ttl"><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-trophy"/></svg>Top performers</div><span class="hp-sub">Loading\u2026</span></div><div class="hp-tgrid"><div class="skel" style="height:62px;border-radius:14px"></div><div class="skel" style="height:62px;border-radius:14px"></div></div></div>';
 
     function finish(results) {
       TOPPERS.data = results;
@@ -10890,12 +11266,12 @@ if (stored && Array.isArray(stored.data) && stored.data.length && Date.now() - s
     el.style.display = "block";
     var rows = data.slice().sort(function (a, b) { return b.rating - a.rating; });
     el.innerHTML =
-      '<div class="hp-card hp-top"><div class="hp-hd"><div class="hp-ttl">\uD83C\uDFC6 Top performers</div><span class="hp-sub">Rank #1 in each pack</span></div>' +
+      '<div class="hp-card hp-top"><div class="hp-hd"><div class="hp-ttl"><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-trophy"/></svg>Top performers</div><span class="hp-sub">Rank #1 in each pack</span></div>' +
       '<div class="hp-tgrid">' + rows.map(function (t, i) {
         var ini = (t.name || "?").split(" ").map(function (w) { return w[0] || ""; }).slice(0, 2).join("").toUpperCase() || "?";
-        return '<div class="hp-trow"><div class="hp-av">' + ini + (i === 0 ? '<span class="hp-crown">\uD83D\uDC51</span>' : "") + '</div>' +
-          '<div style="min-width:0"><div class="hp-tn">' + escHtml(t.name) + '</div><div class="hp-tp">' + t.icon + " " + escHtml(t.packName) + '</div></div>' +
-          '<div class="hp-rate">\u2605 ' + Number(t.rating).toFixed(1) + "</div></div>";
+        return '<div class="hp-trow"><div class="hp-av">' + ini + (i === 0 ? '<span class="hp-crown"><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-crown"/></svg></span>' : "") + '</div>' +
+          '<div style="min-width:0"><div class="hp-tn">' + escHtml(t.name) + '</div><div class="hp-tp">' + escHtml(t.packName) + '</div></div>' +
+          '<div class="hp-rate"><svg class="ji ji-fill" aria-hidden="true" focusable="false"><use href="#jki-star"/></svg>' + Number(t.rating).toFixed(1) + "</div></div>";
       }).join("") + "</div></div>";
   };
 
