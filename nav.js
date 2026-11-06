@@ -64,7 +64,7 @@
     { id: "blog", label: "Home", href: BLOG, ico: "home" },
     { sep: true },
     { id: "home", label: "Tests", labelIn: "My Tests", href: P.home, go: "home", ico: "tests" },
-    { id: "lb", label: "Ranks", labelIn: "Leaderboard", href: P.lb, go: "lb", ico: "trophy" },
+    { id: "lb", label: "Ranks", labelIn: "Leaderboard", href: P.lb, go: "lb", tab: "Leaderboard", ico: "trophy" },
     { id: "ak", label: "Check Your Score", href: P.ak, go: "ak", auth: true, ico: "key" },
     { id: "hist", label: "My Attempts", href: P.hist, go: "hist", auth: true, ico: "clock" },
     { sep: true },
@@ -181,6 +181,39 @@
     "#jke-drawer.in .jd-foot{display:block}",
     "#jke-drawer .jd-out{width:100%;display:flex;align-items:center;gap:14px;padding:12px 10px;border:0;border-radius:10px;background:none;font-family:inherit;font-size:14.5px;font-weight:500;color:#8793a6;cursor:pointer;text-align:left}",
     "#jke-drawer .jd-out:hover{background:#fff5f5;color:#c53030}",
+    /* desktop (900px and up): tabs in the bar instead of the burger menu; phones and tablets keep the burger */
+    "#jke-nav .jke-tabs,#jke-nav .jke-acct{display:none}",
+    "@media (min-width:900px){",
+    "#jke-nav .nav-burger{display:none !important}",
+    "#jke-nav .jke-tabs{display:flex;align-items:stretch;gap:2px;order:1;align-self:stretch;margin-left:22px}",
+    "#jke-nav .jt-tab{position:relative;display:flex;align-items:center;gap:5px;padding:0 13px;border:0;background:none;font-family:inherit;font-size:14px;font-weight:600;line-height:1;color:#4a5568;cursor:pointer;white-space:nowrap;-webkit-tap-highlight-color:transparent;transition:color .15s}",
+    "#jke-nav .jt-tab:hover{color:#08102b}",
+    "#jke-nav .jt-tab.on{color:#1a4a7a}",
+    "#jke-nav .jt-tab.on::after{content:'';position:absolute;left:13px;right:13px;bottom:0;height:3px;border-radius:3px 3px 0 0;background:#1a4a7a}",
+    "#jke-nav .jt-tab:focus-visible{outline:2px solid #4db3e6;outline-offset:-3px;border-radius:6px}",
+    "#jke-nav .jt-tab[data-auth]{display:none}",
+    "#jke-nav .jke-tabs.in .jt-tab[data-auth]{display:flex}",
+    "#jke-nav .jt-caret{width:14px;height:14px;opacity:.5;transition:transform .2s ease}",
+    "#jke-nav .jt-mcq[aria-expanded=true] .jt-caret{transform:rotate(180deg)}",
+    "#jke-nav .jt-drop{position:relative;display:flex}",
+    "#jke-nav .jt-pop{display:none;position:absolute;top:calc(100% - 2px);left:0;min-width:210px;padding:6px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 12px 32px rgba(8,16,43,.14)}",
+    "#jke-nav .jt-pop.open{display:block}",
+    "#jke-nav .jt-pop a{display:block;padding:10px 12px;border-radius:8px;font-size:13.5px;font-weight:500;color:#3d4757}",
+    "#jke-nav .jt-pop a:hover{background:#f6f8fb;color:#08102b}",
+    "#jke-nav .jt-pop .jt-empty{padding:10px 12px;font-size:13px;color:#8793a6}",
+    /* account button (signed in) */
+    "#jke-nav.is-in .jke-acct{display:block;order:3;position:relative;margin-left:4px}",
+    "#jke-nav .jt-av{width:34px;height:34px;padding:0;border:0;border-radius:50%;background:#eef2f8;color:#1a4a7a;font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center}",
+    "#jke-nav .jt-av:hover{background:#e3eaf4}",
+    "#jke-nav .jt-av:focus-visible{outline:2px solid #4db3e6;outline-offset:2px}",
+    "#jke-nav .jt-acct-pop{display:none;position:absolute;top:calc(100% + 10px);right:0;width:240px;padding:8px;background:#fff;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 12px 32px rgba(8,16,43,.14)}",
+    "#jke-nav .jt-acct-pop.open{display:block}",
+    "#jke-nav .jt-who{padding:8px 10px 10px;border-bottom:1px solid #eef1f5;margin-bottom:6px}",
+    "#jke-nav .jt-who b{display:block;font-size:14px;color:#08102b;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}",
+    "#jke-nav .jt-who span{display:block;margin-top:3px;font-size:12px;color:#8793a6;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}",
+    "#jke-nav .jt-out{display:flex;align-items:center;gap:10px;width:100%;padding:10px;border:0;border-radius:8px;background:none;font-family:inherit;font-size:13.5px;font-weight:500;color:#5b6678;cursor:pointer;text-align:left}",
+    "#jke-nav .jt-out:hover{background:#fff5f5;color:#c53030}",
+    "}",
     "@media (prefers-reduced-motion:reduce){#jke-drawer,#jke-scrim,#jke-nav .nav-burger i{transition:none !important}}",
   ].join("");
 
@@ -321,6 +354,7 @@
     var nav = document.getElementById("jke-nav");
     var inn = isIn();
     if (nav) nav.classList.toggle("is-in", inn);
+    syncTabs();
     if (!drawer) return;
     drawer.classList.toggle("in", inn);
     drawer.classList.toggle("right", inn);
@@ -335,6 +369,124 @@
     set("jd-name", u ? u.name : "");
     set("jd-mail", u ? u.email : "");
   }
+
+
+  /* ───────────── desktop tabs (900px and up; the CSS hides them on phones) ───────────── */
+
+  function activeTab() {
+    var p = (location.pathname || "/").toLowerCase().replace(/\/+$/, "") || "/";
+    if (p === "/") return "home";
+    if (p === P.lb) return "lb";
+    if (p === P.ak) return "ak";
+    if (p === P.hist) return "hist";
+    if (p.indexOf(P.notes) === 0) return "notes";
+    if (p.indexOf("/mcqs") === 0) return "mcqs";
+    return "";
+  }
+
+  function syncTabs() {
+    var tabs = document.querySelector("#jke-nav .jke-tabs");
+    if (!tabs) return;
+    var inn = isIn();
+    tabs.classList.toggle("in", inn);
+    var on = activeTab();
+    Array.prototype.forEach.call(tabs.querySelectorAll(".jt-tab"), function (t) {
+      t.classList.toggle("on", t.getAttribute("data-id") === on);
+    });
+    var u = inn ? curUser() : null;
+    var set = function (id, v) { var e = document.getElementById(id); if (e) e.textContent = v; };
+    set("jt-av", u ? u.ini : "");
+    set("jt-name", u ? u.name : "");
+    set("jt-mail", u ? u.email : "");
+  }
+
+  function closePops() {
+    Array.prototype.forEach.call(document.querySelectorAll("#jke-nav .jt-pop.open, #jke-nav .jt-acct-pop.open"), function (e) { e.classList.remove("open"); });
+    Array.prototype.forEach.call(document.querySelectorAll("#jke-nav [aria-expanded=true]"), function (e) {
+      if (e.classList.contains("jt-mcq") || e.classList.contains("jt-av")) e.setAttribute("aria-expanded", "false");
+    });
+  }
+
+  function buildTabs() {
+    var bar = document.getElementById("jke-nav");
+    if (!bar || bar.querySelector(".jke-tabs")) return;
+    var pages = mcqPages();
+    var html = LINKS.map(function (l) {
+      if (l.sep || l.id === "blog") return "";
+      var label = esc(l.tab || l.label);
+      if (l.menu) {
+        return (
+          '<div class="jt-drop"><button type="button" class="jt-tab jt-mcq" data-id="' + l.id + '" aria-expanded="false" aria-haspopup="true">' + label + CARET.replace("jd-caret", "jt-caret") + "</button>" +
+          '<div class="jt-pop">' +
+          (pages.length
+            ? pages.map(function (p) { return '<a href="' + esc(p.href) + '">' + esc(p.title) + "</a>"; }).join("")
+            : '<div class="jt-empty">No MCQ pages yet.</div>') +
+          "</div></div>"
+        );
+      }
+      return '<a class="jt-tab" data-id="' + l.id + '" id="nt-' + l.id + '" href="' + esc(l.href) + '"' + (l.auth ? " data-auth" : "") + (l.go ? ' data-go="' + l.go + '"' : "") + ">" + label + "</a>";
+    }).join("");
+
+    var tabs = document.createElement("nav");
+    tabs.className = "jke-tabs";
+    tabs.setAttribute("aria-label", "Main");
+    tabs.innerHTML = html;
+    var logo = bar.querySelector(".nav-logo");
+    if (logo && logo.parentNode === bar) bar.insertBefore(tabs, logo.nextSibling);
+    else bar.appendChild(tabs);
+
+    var acct = document.createElement("div");
+    acct.className = "jke-acct";
+    acct.innerHTML =
+      '<button type="button" class="jt-av" id="jt-av" aria-label="Account" aria-haspopup="true" aria-expanded="false"></button>' +
+      '<div class="jt-acct-pop"><div class="jt-who"><b id="jt-name"></b><span id="jt-mail"></span></div>' +
+      '<button type="button" class="jt-out" id="jt-out"><span class="jd-ico" style="display:flex;width:20px;height:20px">' + ico("out") + "</span>Sign out</button></div>";
+    bar.appendChild(acct);
+
+    bar.addEventListener("click", function (e) {
+      var t = e.target.closest ? e.target.closest(".jt-tab, .jt-av, .jt-out, .jt-pop a") : null;
+      if (!t) return;
+      if (t.classList.contains("jt-mcq")) {
+        var open = t.getAttribute("aria-expanded") !== "true";
+        closePops();
+        t.setAttribute("aria-expanded", open ? "true" : "false");
+        t.nextSibling.classList.toggle("open", open);
+        return;
+      }
+      if (t.classList.contains("jt-av")) {
+        var pop = acct.querySelector(".jt-acct-pop");
+        var o = !pop.classList.contains("open");
+        closePops();
+        pop.classList.toggle("open", o);
+        t.setAttribute("aria-expanded", o ? "true" : "false");
+        return;
+      }
+      if (t.classList.contains("jt-out")) { closePops(); signOut(); return; }
+      closePops();
+      var go = t.getAttribute("data-go");
+      if (go && typeof window.goNav === "function") {
+        e.preventDefault(); // on the mock-test page: switch sections in place
+        window.goNav(go);
+      }
+    });
+    syncTabs();
+  }
+
+  document.addEventListener("click", function (e) {
+    if (!e.target.closest || !e.target.closest("#jke-nav .jke-tabs, #jke-nav .jke-acct")) closePops();
+  });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closePops(); });
+  // the mock-test page changes the address without reloading: keep the highlighted tab in step
+  ["pushState", "replaceState"].forEach(function (m) {
+    var orig = history[m];
+    if (typeof orig !== "function") return;
+    history[m] = function () {
+      var r = orig.apply(this, arguments);
+      setTimeout(syncTabs, 0);
+      return r;
+    };
+  });
+  window.addEventListener("popstate", function () { setTimeout(syncTabs, 0); });
 
   function signOut() {
     if (window.AUTH && typeof window.AUTH.logout === "function") {
@@ -395,7 +547,9 @@
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") closeDrawer();
   });
-  window.addEventListener("resize", function () { /* keep it open on rotate; nothing to do */ });
+  window.addEventListener("resize", function () {
+    if (window.innerWidth >= 900) closeDrawer(true); // desktop uses the tabs
+  });
 
   // Old pages call MCQMENU.toggle(event) from a "MCQs" link; send them to the new menu.
   window.MCQMENU = {
@@ -431,6 +585,7 @@
       '<div class="nav-right" id="nav-right">' + rightHtml() + "</div>";
 
     buildDrawer();
+    buildTabs();
     syncDrawer();
 
     var signin = document.getElementById("jn-signin");
@@ -458,7 +613,7 @@
   }
 
   function start() {
-    if (window.JKE_NAV_MENU_ONLY) buildDrawer();
+    if (window.JKE_NAV_MENU_ONLY) { buildDrawer(); buildTabs(); }
     else render();
   }
   function ready(fn) {
