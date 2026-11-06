@@ -16,6 +16,30 @@
 (function () {
   var SESSION_KEY = "jke_sess_v4"; // same key the mock-test app uses to remember a login
   var BLOG = "https://jkedusphere.com/";
+
+  // ONE place for site addresses. footer.js and the mock-test app read window.JKE_SITE too.
+  // To rename a page, change it here (and add the route in worker.js).
+  window.JKE_SITE = window.JKE_SITE || {
+    url: "https://jkedusphere.com",
+    paths: {
+      home: "/",
+      lb: "/leaderboard",
+      ak: "/answer-key-marker",
+      hist: "/my-attempts",
+      login: "/login",
+      signup: "/signup",
+      notes: "/notes",
+    },
+    emails: { info: "info@jkedusphere.com", support: "support@jkedusphere.com" },
+  };
+  var P = window.JKE_SITE.paths;
+
+  // Sends someone to the sign-in page and brings them back to the page they were on.
+  function loginUrl() {
+    var here = (location.pathname || "/") + (location.search || "");
+    var back = /^\/(login|signup)(\/|$|\?)/.test(here) || here === "/" ? "" : "?next=" + encodeURIComponent(here);
+    return P.login + back;
+  }
   var LOGO_ALT = "JKEdusphere – Powered by Vision & Knowledge";
 
   // Wordmark + tagline as real text on a 657×147 canvas (same proportions and colours as the artwork).
@@ -39,12 +63,12 @@
   var LINKS = [
     { id: "blog", label: "Home", href: BLOG, ico: "home" },
     { sep: true },
-    { id: "home", label: "Tests", labelIn: "My Tests", href: "/", go: "home", ico: "tests" },
-    { id: "lb", label: "Ranks", labelIn: "Leaderboard", href: "/?go=lb", go: "lb", ico: "trophy" },
-    { id: "ak", label: "Check Your Score", href: "/?go=ak", go: "ak", auth: true, ico: "key" },
-    { id: "hist", label: "My Attempts", href: "/?go=hist", go: "hist", auth: true, ico: "clock" },
+    { id: "home", label: "Tests", labelIn: "My Tests", href: P.home, go: "home", ico: "tests" },
+    { id: "lb", label: "Ranks", labelIn: "Leaderboard", href: P.lb, go: "lb", ico: "trophy" },
+    { id: "ak", label: "Check Your Score", href: P.ak, go: "ak", auth: true, ico: "key" },
+    { id: "hist", label: "My Attempts", href: P.hist, go: "hist", auth: true, ico: "clock" },
     { sep: true },
-    { id: "notes", label: "Notes", href: "/notes", ico: "notes" },
+    { id: "notes", label: "Notes", href: P.notes, ico: "notes" },
     { id: "mcqs", label: "MCQs", href: "#", menu: true, ico: "mcq" },
   ];
 
@@ -267,7 +291,7 @@
       if (t.id === "jd-signin") {
         closeDrawer(true);
         if (typeof window.openAuthModal === "function") window.openAuthModal("si");
-        else location.href = "/?login=1";
+        else location.href = loginUrl();
         return;
       }
       if (t.classList.contains("jd-mcq")) {
@@ -411,8 +435,8 @@
 
     var signin = document.getElementById("jn-signin");
     if (signin) {
-      // The sign-in popup lives in the mock-test app; "?login=1" opens it straight away.
-      signin.addEventListener("click", function () { location.href = "/?login=1"; });
+      // Sign-in has its own address, /login; ?next= brings the person back to this page afterwards.
+      signin.addEventListener("click", function () { location.href = loginUrl(); });
     }
   }
 

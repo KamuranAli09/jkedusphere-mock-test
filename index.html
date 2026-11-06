@@ -5872,6 +5872,13 @@ html:has(#splash-pg.on),body:has(#splash-pg.on){background:#f4f5fa !important}
 @media (max-width:559px){#auth-modal #ab-su.on{display:block}}
 </style>
 
+<style id="jke-login-page">
+/* /login and /signup: the sign-in card is shown as a normal page (nav above, shared footer below), not a popup */
+body.route-login #jke-app{display:none !important}
+body.route-login #nav-right .nav-btn{display:none}
+body.route-login #auth-modal{position:relative;inset:auto;z-index:auto;margin-top:var(--nav);min-height:calc(100vh - var(--nav));min-height:calc(100dvh - var(--nav));align-items:center;justify-content:center;padding:28px 16px 44px;background:#f4f7fb;backdrop-filter:none;-webkit-backdrop-filter:none}
+body.route-login #auth-modal .auth-card{border-radius:20px;border-bottom:1px solid var(--bd);box-shadow:0 10px 40px rgba(8,16,43,.08);animation:none}
+</style>
 <div id="jke-nav">
   <button type="button" class="nav-burger" aria-label="Open menu" aria-expanded="false" aria-controls="jke-drawer"><i></i><i></i><i></i></button>
   <a class="nav-logo" href="https://jkedusphere.com/" aria-label="JKEdusphere home"><svg class="jke-logo" viewBox="0 0 657 147" width="143" height="32" role="img" aria-label="JKEdusphere – Powered by Vision &amp; Knowledge"><defs><linearGradient id="jkeg-bar" gradientUnits="userSpaceOnUse" x1="6" y1="0" x2="651" y2="0"><stop offset="0" stop-color="#1b235a"/><stop offset=".124" stop-color="#1b235a"/><stop offset=".248" stop-color="#1f2c61"/><stop offset=".434" stop-color="#1e3a72"/><stop offset=".496" stop-color="#1f417a"/><stop offset=".62" stop-color="#407eb8"/><stop offset=".682" stop-color="#61acdd"/><stop offset=".744" stop-color="#6cbce1"/><stop offset=".874" stop-color="#6cbde9"/><stop offset="1" stop-color="#6cbde9"/></linearGradient></defs><text x="6" y="86" textLength="645" lengthAdjust="spacing" font-size="106" font-weight="700" fill="url(#jkeg-bar)">JKEdusphere</text><text x="74" y="134" textLength="506" lengthAdjust="spacing" font-size="33.5" font-weight="400" fill="#8f8e8d">Powered by Vision &amp; Knowledge</text></svg></a>
@@ -5963,7 +5970,7 @@ html:has(#splash-pg.on),body:has(#splash-pg.on){background:#f4f5fa !important}
 <div id="auth-modal">
   <div class="auth-card">
     <div class="auth-hero">
-      <button class="auth-close" onclick="closeAuthModal()">✕</button>
+      <button class="auth-close" onclick="cancelAuth()" aria-label="Close">✕</button>
       <div class="auth-title">JKEdusphere</div>
       <div class="auth-sub">J&amp;K's Premier Exam Prep Hub</div>
     </div>
@@ -7732,8 +7739,114 @@ html:has(#splash-pg.on),body:has(#splash-pg.on){background:#f4f5fa !important}
       el.style.display = "block";
       el.classList.add("on");
     }
+    syncUrl(id);
     window.scrollTo(0, 0);
   }
+
+  // ═══════════════════════════════════════
+  //  ADDRESS-BAR ROUTES  (/leaderboard, /answer-key-marker, /my-attempts, /login, /signup)
+  //  The addresses come from nav.js (window.JKE_SITE.paths); worker.js serves this page for each.
+  // ═══════════════════════════════════════
+  var PATHS = (window.JKE_SITE && window.JKE_SITE.paths) || {
+    home: "/", lb: "/leaderboard", ak: "/answer-key-marker", hist: "/my-attempts", login: "/login", signup: "/signup",
+  };
+  var PATH_TO_PAGE = {}; // address -> goNav name
+  PATH_TO_PAGE[PATHS.lb] = "lb";
+  PATH_TO_PAGE[PATHS.ak] = "ak";
+  PATH_TO_PAGE[PATHS.hist] = "hist";
+  var GATED = {}; // sections that need a signed-in student
+  GATED[PATHS.ak] = 1;
+  GATED[PATHS.hist] = 1;
+  var PAGE_URL = { "splash-pg": PATHS.home, "home-pg": PATHS.home, "lb-pg": PATHS.lb, "ak-pg": PATHS.ak, "hist-pg": PATHS.hist };
+  var ROUTE_TITLE = {};
+  ROUTE_TITLE[PATHS.home] = "JKEdusphere \u2013 Free JKSSB, JKPSI, JKPSC & UPSC Mock Tests";
+  ROUTE_TITLE[PATHS.lb] = "Leaderboard \u2013 Live Mock Test Ranks | JKEdusphere";
+  ROUTE_TITLE[PATHS.ak] = "Answer Key Matcher \u2013 Check Your Score | JKEdusphere";
+  ROUTE_TITLE[PATHS.hist] = "My Attempts | JKEdusphere";
+  ROUTE_TITLE[PATHS.login] = "Sign In | JKEdusphere";
+  ROUTE_TITLE[PATHS.signup] = "Create Free Account | JKEdusphere";
+  var QUIET = true; // true while the page is starting up / loading a section: don't touch the address bar
+  var AUTHROUTE = false; // true while the sign-in page (/login or /signup) is showing
+  var NEXT_PATH = null; // where to go after signing in
+
+  function normPath(p) {
+    p = String(p || "/").toLowerCase().replace(/\/{2,}/g, "/");
+    return p.length > 1 && p.charAt(p.length - 1) === "/" ? p.slice(0, -1) : p;
+  }
+  function isAuthPath(p) {
+    p = normPath(p);
+    return p === PATHS.login || p === PATHS.signup;
+  }
+  // Only same-site paths are allowed as "next" (stops open redirects).
+  function safeNext(n) {
+    if (!n || typeof n !== "string") return null;
+    if (n.charAt(0) !== "/" || n.charAt(1) === "/" || n.indexOf("\\") >= 0 || /[\u0000-\u001f]/.test(n)) return null;
+    if (isAuthPath(n.split("?")[0].split("#")[0])) return null;
+    return n;
+  }
+  function quiet(fn) {
+    var o = QUIET;
+    QUIET = true;
+    try { fn(); } finally { QUIET = o; }
+  }
+  function setRouteTitle(path) {
+    var t = ROUTE_TITLE[normPath(path)];
+    if (t) document.title = t;
+  }
+  function syncUrl(id) {
+    var want = PAGE_URL[id];
+    if (!want || QUIET || AUTHROUTE) return;
+    if (normPath(location.pathname) !== want) {
+      try { history.pushState({ jkeRoute: 1 }, "", want); } catch (e) {}
+    }
+    setRouteTitle(want);
+  }
+  // Show whatever section an address (path + optional ?query) points to.
+  function openByUrl(u) {
+    var path = normPath(String(u).split("?")[0].split("#")[0]);
+    var q = String(u).indexOf("?") >= 0 ? String(u).slice(String(u).indexOf("?")) : "";
+    var name = PATH_TO_PAGE[path];
+    if (name) { _goNavReal(name); return; }
+    if (path === PATHS.home) {
+      _goNavReal("home");
+      if (ST.user && /[?&]go=prem(&|$)/.test(q)) switchTab("prem");
+      return;
+    }
+    location.href = u; // notes, MCQ pages ...
+  }
+  // Signed in (or signed up): carry on to the page they were heading for.
+  function afterAuth() {
+    var nx = safeNext(NEXT_PATH);
+    NEXT_PATH = null;
+    if (isAuthPath(location.pathname)) {
+      try { history.replaceState({ jkeRoute: 1 }, "", nx || PATHS.home); } catch (e) {}
+    }
+    if (!nx) { loadDashboard(); return; }
+    if (PATH_TO_PAGE[normPath(nx.split("?")[0])]) quiet(loadDashboard);
+    openByUrl(nx);
+  }
+  // Closing the sign-in page without signing in.
+  function cancelAuth() {
+    var nx = safeNext(NEXT_PATH);
+    NEXT_PATH = null;
+    closeAuthModal();
+    if (!isAuthPath(location.pathname)) return;
+    var back = nx && !GATED[normPath(nx.split("?")[0])] ? nx : PATHS.home;
+    try { history.replaceState({ jkeRoute: 1 }, "", back); } catch (e) {}
+    openByUrl(back);
+  }
+  // Back / Forward buttons.  (While a test is running, EXITGUARD handles Back itself.)
+  window.addEventListener("popstate", function () {
+    if (window.EXITGUARD && EXITGUARD.active()) return;
+    if (isAuthPath(location.pathname)) {
+      if (ST.user) { NEXT_PATH = safeNext(gp("next")); afterAuth(); return; }
+      openAuthModal(normPath(location.pathname) === PATHS.signup ? "su" : "si", gp("next"));
+      return;
+    }
+    if (AUTHROUTE) closeAuthModal();
+    openByUrl(location.pathname + location.search);
+  });
+
   function goNav(pg) {
     EXITGUARD.confirm(function () {
       _goNavReal(pg);
@@ -7752,7 +7865,7 @@ html:has(#splash-pg.on),body:has(#splash-pg.on){background:#f4f5fa !important}
     }
     if (pg === "hist") {
       if (!ST.user) {
-        openAuthModal("si");
+        openAuthModal("si", PATHS.hist);
         toast("Sign in to view your attempt history", "warn");
         return;
       }
@@ -7762,7 +7875,7 @@ html:has(#splash-pg.on),body:has(#splash-pg.on){background:#f4f5fa !important}
     }
     if (pg === "ak") {
       if (!ST.user) {
-        openAuthModal("si");
+        openAuthModal("si", PATHS.ak);
         toast("Sign in to use the Answer Key Matcher", "warn");
         return;
       }
@@ -7844,12 +7957,34 @@ html:has(#splash-pg.on),body:has(#splash-pg.on){background:#f4f5fa !important}
   // ═══════════════════════════════════════
   //  AUTH MODAL
   // ═══════════════════════════════════════
-  function openAuthModal(tab) {
+  // Every "Sign In" / "Sign Up" button lands here: the address becomes /login or /signup
+  // (with ?next=<page they were on>), and the sign-in card is shown as its own page.
+  function authUrl(t) {
+    return (t === "su" ? PATHS.signup : PATHS.login) + (NEXT_PATH ? "?next=" + encodeURIComponent(NEXT_PATH) : "");
+  }
+  function openAuthModal(tab, next) {
+    var t = tab === "su" ? "su" : "si";
+    var here = location.pathname + location.search;
+    var asked = safeNext(next); // given by a gated section (e.g. /my-attempts)
+    var nx = asked || safeNext(NEXT_PATH);
+    if (!nx && !isAuthPath(location.pathname)) nx = safeNext(here);
+    if (nx === PATHS.home) nx = null;
+    NEXT_PATH = nx;
+    var url = authUrl(t);
+    if (here !== url) {
+      // coming from the gated page itself (or already on /login): replace, so Back doesn't loop
+      var bounced = asked && normPath(asked.split("?")[0]) === normPath(location.pathname);
+      try { history[bounced || isAuthPath(location.pathname) ? "replaceState" : "pushState"]({ jkeRoute: 1 }, "", url); } catch (e) {}
+    }
+    AUTHROUTE = true;
+    document.body.classList.add("route-login");
     document.getElementById("auth-modal").classList.add("on");
-    authTab(tab || "si");
-    document.body.style.overflow = "hidden";
+    authTab(t);
+    window.scrollTo(0, 0);
   }
   function closeAuthModal() {
+    AUTHROUTE = false;
+    document.body.classList.remove("route-login");
     document.getElementById("auth-modal").classList.remove("on");
     document.body.style.overflow = "";
   }
@@ -7860,6 +7995,13 @@ html:has(#splash-pg.on),body:has(#splash-pg.on){background:#f4f5fa !important}
     });
     hideAl("si-al");
     hideAl("su-al");
+    if (AUTHROUTE) {
+      var u = authUrl(t);
+      if (location.pathname + location.search !== u) {
+        try { history.replaceState({ jkeRoute: 1 }, "", u); } catch (e) {}
+      }
+      setRouteTitle(t === "su" ? PATHS.signup : PATHS.login);
+    }
   }
   function apcTab(t) {
     ["si", "su"].forEach(function (x) {
@@ -7872,7 +8014,7 @@ html:has(#splash-pg.on),body:has(#splash-pg.on){background:#f4f5fa !important}
     hideAl("apc-su-al");
   }
   document.getElementById("auth-modal").addEventListener("click", function (e) {
-    if (e.target === this) closeAuthModal();
+    if (e.target === this) cancelAuth();
   });
   document.getElementById("jke-modal").addEventListener("click", function (e) {
     if (e.target === this) closeModal();
@@ -7904,7 +8046,7 @@ html:has(#splash-pg.on),body:has(#splash-pg.on){background:#f4f5fa !important}
       AUTH.set(data.user);
       closeAuthModal();
       renderNav();
-      loadDashboard();
+      afterAuth();
       toast("Welcome back, " + data.user.name.split(" ")[0] + "! 👋", "ok");
     });
   }
@@ -7945,7 +8087,7 @@ html:has(#splash-pg.on),body:has(#splash-pg.on){background:#f4f5fa !important}
         AUTH.set(data.user);
         closeAuthModal();
         renderNav();
-        loadDashboard();
+        afterAuth();
         toast(
           "Account created! Welcome, " + data.user.name.split(" ")[0] + "! 🎉",
           "ok",
@@ -8029,7 +8171,7 @@ html:has(#splash-pg.on),body:has(#splash-pg.on){background:#f4f5fa !important}
       ST.user = data.user;
       AUTH.set(data.user);
       renderNav();
-      loadDashboard();
+      afterAuth();
       toast("Welcome back, " + data.user.name.split(" ")[0] + "! 👋", "ok");
     });
   }
@@ -8100,7 +8242,7 @@ html:has(#splash-pg.on),body:has(#splash-pg.on){background:#f4f5fa !important}
         ST.user = data.user;
         AUTH.set(data.user);
         renderNav();
-        loadDashboard();
+        afterAuth();
         toast(
           "Welcome to JKEdusphere, " + data.user.name.split(" ")[0] + "! 🎉",
           "ok",
@@ -11885,13 +12027,23 @@ if (stored && Array.isArray(stored.data) && stored.data.length && Date.now() - s
       } else {
         loadPublicTests();
       }
-      // Links from the notes / MCQ pages: ?login=1 opens the sign-in popup, ?go=lb opens Ranks.
+      // Open the section the address points to: /leaderboard, /answer-key-marker, /my-attempts, /login, /signup
+      var _bp = normPath(location.pathname);
+      if (isAuthPath(_bp)) {
+        if (u) { NEXT_PATH = safeNext(gp("next")); afterAuth(); }
+        else openAuthModal(_bp === PATHS.signup ? "su" : "si", gp("next"));
+      } else if (PATH_TO_PAGE[_bp] && !gp("test")) {
+        goNav(PATH_TO_PAGE[_bp]); // signed-out visitors are sent to /login?next=... for gated sections
+      }
+      setRouteTitle(_bp);
+      // Old links (?login=1, ?go=lb) are redirected by worker.js; these keep them working without it.
       var _lg = gp("login");
       if (_lg && !AUTH.get()) openAuthModal(_lg === "su" ? "su" : "si");
       if (gp("go") === "lb") goNav("lb");
       if (gp("go") === "prem" && AUTH.get()) switchTab("prem");
       if (gp("go") === "ak" && AUTH.get()) goNav("ak");
       if (gp("go") === "hist" && AUTH.get()) goNav("hist");
+      QUIET = false; // start is finished: from now on the address follows the section on screen
     });
   })();
 </script>

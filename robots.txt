@@ -1,5 +1,9 @@
 User-agent: *
 Allow: /
-Disallow: /mcqs/_template.html
+Disallow: /mcqs/_template
+Disallow: /login
+Disallow: /signup
+Disallow: /my-attempts
+Disallow: /answer-key-marker
 
 Sitemap: https://jkedusphere.com/sitemap.xml

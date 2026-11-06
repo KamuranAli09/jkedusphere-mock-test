@@ -4,7 +4,7 @@
  *   href  = the page's address on your site
  */
 window.JKE_MCQ_PAGES = [
-  { title: "History of J&K", href: "/mcqs/history-of-jandk.html" },
-    { title: "Geography of J&K", href: "/mcqs/geography-of-jk.html" },
-  { title: "English", href: "/mcqs/english.html" },
+  { title: "History of J&K", href: "/mcqs/history-of-jandk" },
+  { title: "Geography of J&K", href: "/mcqs/geography-of-jk" },
+  { title: "English", href: "/mcqs/english" },
 ];

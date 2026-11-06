@@ -9,6 +9,10 @@
   window.__jkeFooter = true;
 
   var SITE = "https://jkedusphere.com";
+  // Addresses come from nav.js (window.JKE_SITE) so every page uses the same ones.
+  var S = window.JKE_SITE || {};
+  var P = S.paths || { home: "/", lb: "/leaderboard", ak: "/answer-key-marker", notes: "/notes" };
+  var EM = S.emails || { info: "info@jkedusphere.com", support: "support@jkedusphere.com" };
   var CONFIG = {
     name: "JKEdusphere",
     tagline:
@@ -29,11 +33,11 @@
       {
         title: "Quick links",
         links: [
-          { t: "Mock Tests", href: SITE + "/", nav: "home" },
-          { t: "Leaderboard", href: SITE + "/?go=lb", nav: "lb" },
-          { t: "Check Your Score", href: SITE + "/?go=ak", nav: "ak" },
-          { t: "Study Notes", href: SITE + "/notes" },
-          { t: "MCQs", href: SITE + "/", mcq: true },
+          { t: "Mock Tests", href: P.home, nav: "home" },
+          { t: "Leaderboard", href: P.lb, nav: "lb" },
+          { t: "Check Your Score", href: P.ak, nav: "ak" },
+          { t: "Study Notes", href: P.notes },
+          { t: "MCQs", href: P.home, mcq: true },
         ],
       },
       {
@@ -46,6 +50,7 @@
       },
       {
         title: "Support",
+        wide: true,
         links: [
           { t: "Contact Us", href: "https://www.jkedusphere.online/p/contact-us_15.html" },
           {
@@ -54,6 +59,8 @@
             ext: true,
           },
           { t: "Privacy Policy", href: "https://www.jkedusphere.online/p/privacy-policy.html" },
+          { t: EM.info, href: "mailto:" + EM.info, mail: true },
+          { t: EM.support, href: "mailto:" + EM.support, mail: true },
         ],
       },
     ],
@@ -74,7 +81,7 @@
     ".jke-ft{margin-top:8px;background:#fff;border-top:1px solid #e7e9f1;font-family:'Google Sans Text','DM Sans',Arial,Helvetica,sans-serif;line-height:1.4;text-align:left;clear:both}" +
     ".jke-ft *{box-sizing:border-box}" +
     ".jke-ft a{text-decoration:none}" +
-    ".jke-ft-in{max-width:1120px;margin:0 auto;padding:36px 20px 28px;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:28px 40px}" +
+    ".jke-ft-in{max-width:1120px;margin:0 auto;padding:36px 20px 28px;display:grid;grid-template-columns:1.5fr 1fr 1fr 1.25fr;gap:28px 36px}" +
     ".jke-ft-logo{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:800;color:#0d2b52;letter-spacing:-.2px}" +
     ".jke-ft-mark{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#0d2b52,#1a4a7a 55%,#4db3e6);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}" +
     ".jke-ft-brand p{margin:12px 0 16px;max-width:340px;font-size:13px;line-height:1.65;color:#5b6478}" +
@@ -85,8 +92,9 @@
     ".jke-ft-col h4{margin:0 0 12px;font-size:12px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:#08102b}" +
     ".jke-ft-col a{display:block;padding:5px 0;font-size:13.5px;font-weight:500;color:#5b6478;transition:color .15s}" +
     ".jke-ft-col a:hover{color:#482dff}" +
+    ".jke-ft-col a.jke-ft-mail{white-space:nowrap;font-size:13px}" +
     ".jke-ft-bar{max-width:1120px;margin:0 auto;padding:16px 20px calc(18px + env(safe-area-inset-bottom,0px));border-top:1px solid #eef0f7;display:flex;justify-content:space-between;gap:8px 20px;flex-wrap:wrap;font-size:12px;color:#8b92a5}" +
-    "@media (max-width:820px){.jke-ft-in{grid-template-columns:1fr 1fr;padding:28px 18px 20px}.jke-ft-brand{grid-column:1/-1}.jke-ft-bar{flex-direction:column;padding:14px 18px calc(16px + env(safe-area-inset-bottom,0px))}}" +
+    "@media (max-width:820px){.jke-ft-in{grid-template-columns:1fr 1fr;padding:28px 18px 20px}.jke-ft-brand,.jke-ft-col.wide{grid-column:1/-1}.jke-ft-bar{flex-direction:column;padding:14px 18px calc(16px + env(safe-area-inset-bottom,0px))}}" +
     "body:has(#test-pg.on) .jke-ft{display:none !important}";
 
   function link(l) {
@@ -94,6 +102,7 @@
     if (l.nav) a += ' data-jnav="' + esc(l.nav) + '"';
     if (l.mcq) a += ' data-jmcq="1"';
     if (l.ext) a += ' target="_blank" rel="noopener"';
+    if (l.mail) a += ' class="jke-ft-mail"';
     return a + ">" + esc(l.t) + "</a>";
   }
 
@@ -106,7 +115,7 @@
       .join("");
     var cols = c.columns
       .map(function (col) {
-        return '<nav class="jke-ft-col" aria-label="' + esc(col.title) + '"><h4>' + esc(col.title) + "</h4>" + col.links.map(link).join("") + "</nav>";
+        return '<nav class="jke-ft-col' + (col.wide ? " wide" : "") + '" aria-label="' + esc(col.title) + '"><h4>' + esc(col.title) + "</h4>" + col.links.map(link).join("") + "</nav>";
       })
       .join("");
     return (
@@ -126,13 +135,8 @@
       window.goNav(nav);
       return;
     }
-    if (a.getAttribute("data-jmcq")) {
-      var m = document.querySelector(".nl-mcqs");
-      if (m) {
-        e.preventDefault();
-        window.scrollTo(0, 0);
-        setTimeout(function () { m.click(); }, 250);
-      }
+    if (a.getAttribute("data-jmcq") && window.MCQMENU && typeof window.MCQMENU.toggle === "function") {
+      window.MCQMENU.toggle(e); // opens the side menu with the MCQs list expanded
     }
   }
 
