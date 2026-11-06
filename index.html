@@ -5658,7 +5658,7 @@ html:has(#splash-pg.on),body:has(#splash-pg.on){background:#f4f5fa !important}
 .sp-gs-tip em{font-style:normal;font-weight:700;color:var(--t2)}
 .sp-gs-tip button{flex:none;font:inherit;font-size:12.5px;font-weight:700;color:var(--btn);background:none;border:none;padding:0;cursor:pointer}
 .sp-gs-tip button:hover{text-decoration:underline}
-.sp-gs-res{border-top:1px solid var(--line);padding-top:8px;height:236px;overflow-y:auto;overscroll-behavior:contain}
+.sp-gs-res{border-top:1px solid var(--line);padding-top:8px;min-height:236px}
 .sp-gs-sec{margin:6px 4px 6px;font-size:12px;font-weight:700;letter-spacing:.05em;line-height:1;text-transform:uppercase;color:var(--t3)}
 .sp-gs-pop{display:flex;flex-wrap:wrap;gap:7px;margin:0 4px 10px}
 .sp-gs-pop button{font:inherit;font-size:13px;font-weight:600;line-height:1;color:var(--btn);background:var(--tile);border:none;border-radius:99px;padding:7px 12px;cursor:pointer}
@@ -5673,7 +5673,7 @@ html:has(#splash-pg.on),body:has(#splash-pg.on){background:#f4f5fa !important}
 .sp-r .hp-pill{flex:none;font-size:11.5px;font-weight:700;line-height:1;padding:4px 9px;border-radius:99px}
 .sp-r .hp-pill.free{background:var(--okbg);color:var(--ok)}
 .sp-r .hp-pill.pro{background:var(--tile);color:var(--btn)}
-.sp-gs-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:0 18px;text-align:center}
+.sp-gs-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:210px;padding:0 18px;text-align:center}
 .sp-gs-empty b{font-size:14.5px;font-weight:700;color:var(--ink)}
 .sp-gs-empty span{margin-top:4px;font-size:13px;line-height:1.45;color:var(--t3)}
 .sp-gs-sk{height:38px;margin:9px 8px;border-radius:10px;background:linear-gradient(90deg,#eef2f7,#f6f8fb,#eef2f7);background-size:200% 100%;animation:spGsSk 1.2s linear infinite}
@@ -5882,7 +5882,7 @@ html:has(#splash-pg.on),body:has(#splash-pg.on){background:#f4f5fa !important}
   .sp-gs{padding:18px}
   .sp-gs-kbd{display:none}
   .sp-gs-box input{padding-right:48px}
-  .sp-gs-res{height:220px}
+  .sp-gs-res{min-height:220px}
   .sp-tg{flex-wrap:wrap}
 }
 @media (prefers-reduced-motion:reduce){
@@ -6088,6 +6088,35 @@ body.route-login #auth-modal .auth-card{border-radius:20px;border-bottom:1px sol
 @media (max-width:480px){#splash-pg .apc-title,#auth-modal .auth-title{font-size:20px}}
 @media (prefers-reduced-motion:reduce){#splash-pg .apc-body.on,#auth-modal .auth-body.on{animation:none}}
 </style>
+<style id="jke-auth-ux">
+/* status banners: big, readable, sit right above the button */
+#splash-pg .al,#auth-modal .al{align-items:flex-start;gap:10px;margin:2px 0 12px;padding:12px 14px;border-radius:12px;font-size:13.5px;font-weight:500;line-height:1.5;animation:jkeAuthIn .25s cubic-bezier(.2,.7,.2,1) both}
+#splash-pg .al .al-ic,#auth-modal .al .al-ic{display:flex;flex:none;margin-top:1px}
+#splash-pg .al .al-tx,#auth-modal .al .al-tx{display:block;min-width:0;overflow-wrap:anywhere}
+#splash-pg .al .al-tx b,#auth-modal .al .al-tx b{display:block;margin-bottom:1px;font-size:14px;font-weight:800}
+#splash-pg .al.ok,#auth-modal .al.ok{background:#e6f6f1;border:1px solid #a9ddd0;color:#0b5f58}
+#splash-pg .al.err,#auth-modal .al.err{background:#fdecec;border:1px solid #f3b9b9;color:#a61b1b}
+#splash-pg .al.info,#auth-modal .al.info{background:#eaf2fa;border:1px solid #b6cde5;color:#17467a}
+.al-spin{display:block;width:16px;height:16px;margin:2px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:jkeAlSpin .7s linear infinite}
+@keyframes jkeAlSpin{to{transform:rotate(360deg)}}
+/* invalid field */
+#splash-pg .fl .fi.bad,#auth-modal .fl .fi.bad{border-color:#d64545;background-color:#fff8f8;box-shadow:0 0 0 3px rgba(214,69,69,.14)}
+/* loading button */
+#splash-pg .apc-body .btn-primary:disabled,#auth-modal .auth-body .btn-primary:disabled{opacity:.9;cursor:progress}
+#splash-pg .apc-body .btn-primary:disabled::before,#auth-modal .auth-body .btn-primary:disabled::before{content:"";flex:none;width:15px;height:15px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:jkeAlSpin .7s linear infinite}
+/* forgot / resend link */
+#splash-pg .forgot-lnk,#auth-modal .forgot-lnk{display:inline-block;margin:0;padding:6px 10px;font:inherit;font-size:13.5px;font-weight:700;color:var(--btn);background:none;border:0;border-radius:8px;cursor:pointer;transition:background .15s}
+#splash-pg .forgot-lnk:hover,#auth-modal .forgot-lnk:hover{background:#eaf2fa;text-decoration:none}
+#splash-pg .forgot-lnk.busy,#auth-modal .forgot-lnk.busy{color:var(--t3);cursor:default;pointer-events:none;background:none}
+@media (prefers-reduced-motion:reduce){#splash-pg .al,#auth-modal .al{animation:none}.al-spin{animation-duration:1.6s}}
+</style>
+<style id="jke-scroll-fix">
+/* login / sign-up page: one natural page scroll, no scroll box inside the card */
+body.route-login #auth-modal .auth-card{max-height:none}
+body.route-login #auth-modal .auth-body.on{overflow:visible;overscroll-behavior:auto}
+body.route-login #auth-modal{overflow:visible}
+#splash-pg .splash-auth-col.nostick{position:static !important}
+</style>
 <div id="auth-modal">
   <div class="auth-card">
     <div class="auth-hero">
@@ -6103,7 +6132,6 @@ body.route-login #auth-modal .auth-card{border-radius:20px;border-bottom:1px sol
     </div>
     <!-- Sign In -->
     <div class="auth-body on" id="ab-si">
-      <div class="al" id="si-al"></div>
       <div class="fl">
         <label>Email Address</label>
         <input
@@ -6134,11 +6162,12 @@ body.route-login #auth-modal .auth-card{border-radius:20px;border-bottom:1px sol
           </button>
         </div>
       </div>
+      <div class="al" id="si-al" aria-live="polite"></div>
       <button class="btn-primary" id="si-btn" onclick="doSignIn()">
         Sign In &rarr;
       </button>
       <div style="text-align: center; margin-top: 9px">
-        <span class="forgot-lnk" onclick="doForgot()">Forgot password?</span>
+        <button type="button" class="forgot-lnk" id="forgot-lnk" onclick="doForgot()">Forgot password?</button>
       </div>
       <div class="auth-switch">
         No account? <span onclick="authTab('su')">Sign Up Free</span>
@@ -6149,7 +6178,6 @@ body.route-login #auth-modal .auth-card{border-radius:20px;border-bottom:1px sol
       <div class="auth-warn">
         &#9888; Use an active email — your password can be recovered here.
       </div>
-      <div class="al" id="su-al"></div>
       <div class="fl">
         <label>Full Name</label>
         <input
@@ -6219,6 +6247,7 @@ body.route-login #auth-modal .auth-card{border-radius:20px;border-bottom:1px sol
           </button>
         </div>
       </div>
+      <div class="al" id="su-al" aria-live="polite"></div>
       <button class="btn-primary" id="su-btn" onclick="doSignUp()">
         Create Account &rarr;
       </button>
@@ -6463,7 +6492,6 @@ body.route-login #auth-modal .auth-card{border-radius:20px;border-bottom:1px sol
           </div>
           <!-- Inline sign in -->
           <div class="apc-body on" id="apc-si-body">
-            <div class="al" id="apc-si-al"></div>
             <div class="fl">
               <label for="apc-si-email">Email</label>
               <input class="fi" type="email" id="apc-si-email" placeholder="your@email.com" autocomplete="email" />
@@ -6475,14 +6503,14 @@ body.route-login #auth-modal .auth-card{border-radius:20px;border-bottom:1px sol
                 <button type="button" class="fi-eye" onclick="togglePw('apc-si-pw','apc-si-eye')" id="apc-si-eye" aria-label="Show or hide password"><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-eye"/></svg></button>
               </div>
             </div>
+            <div class="al" id="apc-si-al" aria-live="polite"></div>
             <button class="btn-primary" id="apc-si-btn" onclick="doApcSignIn()">Sign In</button>
             <div style="text-align: center; margin-top: 10px">
-              <button type="button" class="forgot-lnk" onclick="doApcForgot()">Forgot password?</button>
+              <button type="button" class="forgot-lnk" id="apc-forgot" onclick="doApcForgot()">Forgot password?</button>
             </div>
           </div>
           <!-- Inline sign up -->
           <div class="apc-body" id="apc-su-body">
-            <div class="al" id="apc-su-al"></div>
             <div class="fl">
               <label for="apc-su-name">Full name</label>
               <input class="fi" type="text" id="apc-su-name" placeholder="Your full name" autocomplete="name" />
@@ -6508,6 +6536,7 @@ body.route-login #auth-modal .auth-card{border-radius:20px;border-bottom:1px sol
                 <button type="button" class="fi-eye" onclick="togglePw('apc-su-pw','apc-su-eye')" id="apc-su-eye" aria-label="Show or hide password"><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-eye"/></svg></button>
               </div>
             </div>
+            <div class="al" id="apc-su-al" aria-live="polite"></div>
             <button class="btn-primary" id="apc-su-btn" onclick="doApcSignUp()">Create Free Account</button>
           </div>
           <!-- What you get -->
@@ -7814,12 +7843,29 @@ body.route-login #auth-modal .auth-card{border-radius:20px;border-bottom:1px sol
       t.className = "";
     }, ms || 3000);
   }
-  function setAl(id, msg, type) {
+  var AL_OK = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>';
+  var AL_ERR = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 7v6"/><path d="M12 17h.01"/></svg>';
+  // type: "ok" | "err" | "info" (loading). Optional bold title line.
+  function setAl(id, msg, type, title) {
     var e = document.getElementById(id);
     if (!e) return;
-    e.textContent = msg;
-    e.style.display = "block";
-    e.className = "al " + (type === "ok" ? "ok" : "err");
+    var kind = type === "ok" ? "ok" : type === "info" ? "info" : "err";
+    e.className = "al " + kind;
+    e.setAttribute("role", kind === "err" ? "alert" : "status");
+    e.textContent = "";
+    var ic = document.createElement("span");
+    ic.className = "al-ic";
+    ic.innerHTML = kind === "ok" ? AL_OK : kind === "info" ? '<i class="al-spin"></i>' : AL_ERR;
+    var tx = document.createElement("span");
+    tx.className = "al-tx";
+    if (title) { var bt = document.createElement("b"); bt.textContent = title; tx.appendChild(bt); }
+    var mt = document.createElement("span");
+    mt.textContent = msg;
+    tx.appendChild(mt);
+    e.appendChild(ic);
+    e.appendChild(tx);
+    e.style.display = "flex";
+    try { e.scrollIntoView({ behavior: "smooth", block: "nearest" }); } catch (_) {}
   }
   function hideAl(id) {
     var e = document.getElementById(id);
@@ -8159,6 +8205,21 @@ body.route-login #auth-modal .auth-card{border-radius:20px;border-bottom:1px sol
     if (a) a.textContent = c[0];
     if (b) b.textContent = c[1];
   }
+  // Sticky sign-in column: only stay pinned when the whole card fits on screen.
+  // If it is taller than the viewport, let it scroll with the page (no cut-off, no trapped scroll).
+  (function () {
+    var col = document.querySelector(".splash-auth-col");
+    if (!col) return;
+    function fit() {
+      var h = col.offsetHeight;
+      if (!h) return;
+      var nav = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--nav"), 10) || 54;
+      col.classList.toggle("nostick", h > window.innerHeight - nav - 32);
+    }
+    window.addEventListener("resize", fit);
+    if (window.ResizeObserver) new ResizeObserver(fit).observe(col);
+    fit();
+  })();
   function apcTab(t) {
     setAuthCopy(t, "apc-title", "apc-sub");
     ["si", "su"].forEach(function (x) {
@@ -8282,26 +8343,55 @@ body.route-login #auth-modal .auth-card{border-radius:20px;border-bottom:1px sol
     });
   }
 
-  function doForgot() {
-    var email = document.getElementById("si-email").value.trim().toLowerCase();
-    hideAl("si-al");
+  // Shared "forgot password" flow: validates, shows progress, confirms, and throttles resends
+  function runForgot(o) {
+    var inp = document.getElementById(o.emailId);
+    var link = document.getElementById(o.linkId);
+    var email = (inp.value || "").trim().toLowerCase();
+    hideAl(o.alId);
+    inp.classList.remove("bad");
+    if (link && link.getAttribute("data-busy")) return;
     if (!email || !/\S+@\S+\.\S+/.test(email)) {
-      setAl("si-al", "Enter your registered email above first.", "err");
+      inp.classList.add("bad");
+      setAl(o.alId, "Type your registered email in the field above, then tap \u201CForgot password?\u201D again.", "err", "Email needed");
+      inp.focus();
       return;
     }
-    setAl("si-al", "Sending...", "ok");
-    api({ action: "forgotPassword", email }, function (err, data) {
+    if (link) { link.setAttribute("data-busy", "1"); link.classList.add("busy"); link.textContent = "Sending\u2026"; }
+    setAl(o.alId, "Sending an email to " + email + "\u2026", "info");
+    api({ action: "forgotPassword", email: email }, function (err, data) {
       if (err || !data || !data.success) {
-        setAl(
-          "si-al",
-          (data && data.error) || "Could not send. Contact us on Telegram.",
-          "err",
-        );
+        if (link) { link.removeAttribute("data-busy"); link.classList.remove("busy"); link.textContent = "Forgot password?"; }
+        setAl(o.alId, (data && data.error) || "We couldn\u2019t send the email. Please try again in a moment, or contact us on Telegram.", "err", "Couldn\u2019t send");
         return;
       }
-      setAl("si-al", "Password sent! Check your inbox and spam folder.", "ok");
+      setAl(o.alId, "We\u2019ve sent your password details to " + email + ". Check your inbox and your spam folder.", "ok", "Email sent");
+      if (!link) return;
+      var n = 30;
+      link.textContent = "Resend in " + n + "s";
+      var iv = setInterval(function () {
+        n--;
+        if (n <= 0) {
+          clearInterval(iv);
+          link.removeAttribute("data-busy"); link.classList.remove("busy"); link.textContent = "Resend email";
+        } else { link.textContent = "Resend in " + n + "s"; }
+      }, 1000);
     });
   }
+  function doForgot() { runForgot({ emailId: "si-email", alId: "si-al", linkId: "forgot-lnk" }); }
+  // Enter key submits the open form; typing clears the red "invalid" state
+  document.addEventListener("keydown", function (e) {
+    if (e.key !== "Enter" || e.shiftKey || e.isComposing) return;
+    var t = e.target;
+    if (!t || t.tagName !== "INPUT") return;
+    var body = t.closest(".apc-body,.auth-body");
+    if (!body) return;
+    var btn = body.querySelector(".btn-primary");
+    if (btn && !btn.disabled) { e.preventDefault(); btn.click(); }
+  });
+  document.addEventListener("input", function (e) {
+    if (e.target && e.target.classList && e.target.classList.contains("bad")) e.target.classList.remove("bad");
+  });
   // Sidebar auth form actions
   function doApcSignIn() {
     var email = document
@@ -8332,28 +8422,7 @@ body.route-login #auth-modal .auth-card{border-radius:20px;border-bottom:1px sol
       toast("Welcome back, " + data.user.name.split(" ")[0] + "! 👋", "ok");
     });
   }
-  function doApcForgot() {
-    var email = document
-      .getElementById("apc-si-email")
-      .value.trim()
-      .toLowerCase();
-    if (!email || !/\S+@\S+\.\S+/.test(email)) {
-      setAl("apc-si-al", "Enter your email above first.", "err");
-      return;
-    }
-    setAl("apc-si-al", "Sending password to " + email + "...", "ok");
-    api({ action: "forgotPassword", email }, function (err, data) {
-      if (err || !data || !data.success) {
-        setAl(
-          "apc-si-al",
-          (data && data.error) || "Could not send. Contact support.",
-          "err",
-        );
-        return;
-      }
-      setAl("apc-si-al", "Password sent! Check your inbox.", "ok");
-    });
-  }
+  function doApcForgot() { runForgot({ emailId: "apc-si-email", alId: "apc-si-al", linkId: "apc-forgot" }); }
   function doApcSignUp() {
     var name = document.getElementById("apc-su-name").value.trim();
     var email = document
@@ -9048,7 +9117,7 @@ return (
       var re = toks.length ? new RegExp("(" + toks.map(esc).join("|") + ")", "ig") : null;
 
       if (!filtersOn()) {
-        var recent = list.slice(0, 3);
+        var recent = list.slice(0, 2);
         res.innerHTML = '<div class="sp-gs-sec">Popular searches</div><div class="sp-gs-pop">' +
           POPULAR.map(function (p) { return '<button type="button" data-act="pop" data-v="' + escHtml(p) + '">' + escHtml(p) + "</button>"; }).join("") +
           "</div>" + (recent.length ? '<div class="sp-gs-sec">Recently added</div>' + recent.map(function (x, i) { return row(x.t, null, i); }).join("") : "");
@@ -9062,9 +9131,8 @@ return (
         foot.innerHTML = "<span>0 results</span><button type=\"button\" data-act=\"reset\">Reset filters</button>";
         return;
       }
-      res.innerHTML = list.slice(0, 30).map(function (x, i) { return row(x.t, re, i); }).join("");
-      res.scrollTop = 0;
-      foot.innerHTML = "<span>" + list.length + (list.length === 1 ? " test" : " tests") + " found</span><button type=\"button\" data-act=\"all\">View in catalogue \u2192</button>";
+      res.innerHTML = list.slice(0, 4).map(function (x, i) { return row(x.t, re, i); }).join("");
+      foot.innerHTML = "<span>" + (list.length > 4 ? "Top 4 of " + list.length + " tests" : list.length + (list.length === 1 ? " test found" : " tests found")) + "</span><button type=\"button\" data-act=\"all\">" + (list.length > 4 ? "View all" : "View in catalogue") + " \u2192</button>";
     }
 
     function scrollToCat() {
