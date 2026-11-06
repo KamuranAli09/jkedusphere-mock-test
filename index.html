@@ -5619,32 +5619,68 @@ html:has(#splash-pg.on),body:has(#splash-pg.on){background:#f4f5fa !important}
 #splash-pg .hero-ak-sub{font-size:13px;line-height:1.45;color:var(--t2);font-weight:400}
 #splash-pg .hero-ak-arrow{display:flex;font-size:20px;color:var(--t3)}
 
-/* sample result card: the one memorable element on the page */
-.sp-score{width:100%;max-width:470px;margin-left:auto;background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 1px 2px rgba(20,24,60,.05),0 30px 60px -30px rgba(13,43,82,.38)}
-#splash-pg.on .sp-score{animation:jkeRise .65s cubic-bezier(.2,.7,.2,1) .25s both}
-.sp-score-hd{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
-.sp-score-hd b{font-size:15px;font-weight:700;line-height:1.3;color:var(--ink)}
-.sp-score-hd span{font-size:12px;line-height:1;font-weight:700;color:var(--t2);background:#edf1f6;border-radius:99px;padding:5px 10px}
-.sp-score-main{margin-bottom:18px}
-.sp-big{font-size:clamp(40px,6vw,52px);font-weight:800;letter-spacing:-.035em;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
-.sp-big small{font-size:18px;font-weight:600;letter-spacing:0;color:var(--t3)}
-.sp-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px}
-.sp-m{background:#f5f7fb;border:1px solid #e8edf3;border-radius:12px;padding:11px 12px}
-.sp-m b{display:block;font-size:18px;font-weight:800;line-height:1.1;color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap}
-.sp-m span{display:block;margin-top:4px;font-size:12px;line-height:1.2;font-weight:500;color:var(--t3)}
-.sp-bars{display:grid;gap:11px;margin-bottom:22px}
-.sp-bar{display:grid;grid-template-columns:84px minmax(0,1fr) 38px;align-items:center;gap:10px;font-size:13px;line-height:1.2;font-weight:600;color:var(--t2)}
-.sp-bar i{display:block;position:relative;height:8px;border-radius:99px;background:#e3e9f0;overflow:hidden}
-.sp-bar i::after{content:"";position:absolute;inset:0 auto 0 0;width:var(--w);background:var(--btn);border-radius:99px}
-.sp-bar em{font-style:normal;text-align:right;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
-.sp-pal{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:5px}
-.sp-pal span{aspect-ratio:1;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:11px;line-height:1;font-weight:700;font-variant-numeric:tabular-nums}
-.sp-pal .c,.sp-legend i.c{background:var(--okbg);color:var(--ok)}
-.sp-pal .w,.sp-legend i.w{background:var(--badbg);color:var(--bad)}
-.sp-pal .s,.sp-legend i.s{background:#fff;color:var(--t3);border:1px dashed #c3cddb}
-.sp-legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:12px;font-size:12.5px;line-height:1.2;font-weight:500;color:var(--t2)}
-.sp-legend span{display:inline-flex;align-items:center;gap:6px}
-.sp-legend i{display:block;width:11px;height:11px;border-radius:3px}
+/* global search card (hero) */
+.sp-gs{width:100%;max-width:470px;margin-left:auto;background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 1px 2px rgba(20,24,60,.05),0 30px 60px -30px rgba(13,43,82,.38)}
+#splash-pg.on .sp-gs{animation:jkeRise .65s cubic-bezier(.2,.7,.2,1) .25s both}
+.sp-gs-hd{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.sp-gs-hd b{font-size:15px;font-weight:700;line-height:1.3;color:var(--ink)}
+.sp-gs-adv{position:relative;display:inline-flex;align-items:center;gap:6px;font:inherit;font-size:12.5px;font-weight:700;line-height:1;color:var(--t2);background:#edf1f6;border:1px solid transparent;border-radius:99px;padding:7px 12px;cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+.sp-gs-adv:hover{background:#e3e9f0}
+.sp-gs-adv[aria-expanded="true"]{background:var(--tile);color:var(--btn);border-color:#b6c9de}
+.sp-gs-dot{display:none;width:7px;height:7px;border-radius:50%;background:var(--btn)}
+.sp-gs-dot.on{display:block}
+.sp-gs-box{position:relative;margin-bottom:16px}
+.sp-gs-box input{width:100%;height:52px;padding:0 78px 0 48px;border:1.5px solid #d1d9e5;border-radius:12px;background:#fff;font:inherit;font-size:15px;color:var(--ink);box-shadow:none;transition:border-color .15s,box-shadow .15s}
+.sp-gs-box input::placeholder{color:var(--t4)}
+.sp-gs-box input:focus{outline:none;border-color:var(--btn);box-shadow:0 0 0 4px rgba(26,74,122,.14)}
+.sp-gs-ico{position:absolute;left:17px;top:50%;transform:translateY(-50%);display:flex;font-size:19px;color:var(--t3);pointer-events:none}
+.sp-gs-clear{position:absolute;right:12px;top:50%;transform:translateY(-50%);display:none;align-items:center;justify-content:center;width:28px;height:28px;border:none;border-radius:50%;background:#edf1f6;color:var(--t3);font-size:15px;cursor:pointer}
+.sp-gs-clear.show{display:flex}
+.sp-gs-clear:hover{background:#e3e9f0;color:var(--ink)}
+.sp-gs-kbd{position:absolute;right:13px;top:50%;transform:translateY(-50%);font:inherit;font-size:12px;font-weight:700;line-height:1;color:var(--t3);background:#f5f7fb;border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:4px 8px;pointer-events:none}
+.sp-gs-box.has-q .sp-gs-kbd{display:none}
+.sp-gs-lbl{margin:0 0 9px;font-size:12px;font-weight:700;letter-spacing:.05em;line-height:1;text-transform:uppercase;color:var(--t3)}
+.sp-gs-chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px}
+.sp-chip{display:inline-flex;align-items:center;gap:6px;font:inherit;font-size:13px;font-weight:600;line-height:1;color:var(--t2);background:#fff;border:1px solid var(--line);border-radius:99px;padding:8px 13px;cursor:pointer;transition:border-color .15s,background .15s,color .15s}
+.sp-chip:hover{border-color:#9fb9d3;background:#f5f8fc}
+.sp-chip.on{background:var(--btn);border-color:var(--btn);color:#fff}
+.sp-chip small{font-size:11px;font-weight:700;color:var(--t3);background:#edf1f6;border-radius:99px;padding:2px 6px}
+.sp-chip.on small{background:rgba(255,255,255,.2);color:#fff}
+.sp-chip.more{border-style:dashed;color:var(--t3)}
+.sp-gs-panel{display:none;gap:12px;margin:0 0 16px;padding:14px;background:#f5f7fb;border:1px solid #e8edf3;border-radius:14px}
+.sp-gs-panel.open{display:grid}
+.sp-gs-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.sp-gs-row>span{font-size:13px;font-weight:600;color:var(--t2)}
+.sp-seg{display:inline-flex;background:#e3e9f0;border-radius:10px;padding:3px;gap:2px}
+.sp-seg button{font:inherit;font-size:12.5px;font-weight:700;line-height:1;color:var(--t2);background:transparent;border:none;border-radius:8px;padding:7px 11px;cursor:pointer;transition:background .15s,color .15s}
+.sp-seg button.on{background:#fff;color:var(--btn);box-shadow:0 1px 2px rgba(20,24,60,.12)}
+.sp-gs-tip{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12.5px;line-height:1.4;color:var(--t3)}
+.sp-gs-tip em{font-style:normal;font-weight:700;color:var(--t2)}
+.sp-gs-tip button{flex:none;font:inherit;font-size:12.5px;font-weight:700;color:var(--btn);background:none;border:none;padding:0;cursor:pointer}
+.sp-gs-tip button:hover{text-decoration:underline}
+.sp-gs-res{border-top:1px solid var(--line);padding-top:8px;height:236px;overflow-y:auto;overscroll-behavior:contain}
+.sp-gs-sec{margin:6px 4px 6px;font-size:12px;font-weight:700;letter-spacing:.05em;line-height:1;text-transform:uppercase;color:var(--t3)}
+.sp-gs-pop{display:flex;flex-wrap:wrap;gap:7px;margin:0 4px 10px}
+.sp-gs-pop button{font:inherit;font-size:13px;font-weight:600;line-height:1;color:var(--btn);background:var(--tile);border:none;border-radius:99px;padding:7px 12px;cursor:pointer}
+.sp-gs-pop button:hover{background:#d6e4f2}
+.sp-r{display:flex;align-items:center;gap:12px;width:100%;padding:9px 8px;font:inherit;text-align:left;color:inherit;background:none;border:none;border-radius:10px;cursor:pointer}
+.sp-r:hover,.sp-r:focus-visible{background:#f2f6fb;outline:none}
+.sp-r-ico{display:flex;align-items:center;justify-content:center;flex:none;width:38px;height:38px;border-radius:10px;background:var(--tile);color:var(--btn);font-size:19px}
+.sp-r-tx{flex:1;min-width:0}
+.sp-r-tx b{display:block;font-size:14px;font-weight:700;line-height:1.3;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sp-r-tx small{display:block;margin-top:2px;font-size:12.5px;line-height:1.3;color:var(--t3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sp-r mark{background:#fff0b8;color:inherit;border-radius:3px;padding:0 1px}
+.sp-r .hp-pill{flex:none;font-size:11.5px;font-weight:700;line-height:1;padding:4px 9px;border-radius:99px}
+.sp-r .hp-pill.free{background:var(--okbg);color:var(--ok)}
+.sp-r .hp-pill.pro{background:var(--tile);color:var(--btn)}
+.sp-gs-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:0 18px;text-align:center}
+.sp-gs-empty b{font-size:14.5px;font-weight:700;color:var(--ink)}
+.sp-gs-empty span{margin-top:4px;font-size:13px;line-height:1.45;color:var(--t3)}
+.sp-gs-sk{height:38px;margin:9px 8px;border-radius:10px;background:linear-gradient(90deg,#eef2f7,#f6f8fb,#eef2f7);background-size:200% 100%;animation:spGsSk 1.2s linear infinite}
+@keyframes spGsSk{to{background-position:-200% 0}}
+.sp-gs-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px;font-size:12.5px;line-height:1.3;color:var(--t3)}
+.sp-gs-foot button{font:inherit;font-size:13px;font-weight:700;color:var(--btn);background:none;border:none;padding:0;cursor:pointer}
+.sp-gs-foot button:hover{text-decoration:underline}
 
 /* live stats bar, sits on the hero's bottom edge */
 .sp-stats-wrap{position:relative;z-index:1;max-width:var(--wrap);margin:clamp(30px,4.5vw,52px) auto 0;padding:0 20px}
@@ -5829,7 +5865,7 @@ html:has(#splash-pg.on),body:has(#splash-pg.on){background:#f4f5fa !important}
 /* ── responsive ── */
 @media (max-width:899px){
   .sp-hero-in{grid-template-columns:minmax(0,1fr)}
-  .sp-score{margin:6px auto 0;max-width:520px}
+  .sp-gs{margin:6px auto 0;max-width:520px}
   #splash-pg .hp-explore{grid-template-columns:minmax(0,1fr)}
 }
 @media (max-width:700px){
@@ -5843,8 +5879,10 @@ html:has(#splash-pg.on),body:has(#splash-pg.on){background:#f4f5fa !important}
 @media (max-width:480px){
   .sp-hero-in,.sp-stats-wrap,#splash-pg .hp-band,#splash-pg .splash-layout,.sp-sec{padding-left:16px;padding-right:16px}
   #splash-pg .hp-ctas .hp-btn{flex:1 1 100%}
-  .sp-score{padding:18px}
-  .sp-bar{grid-template-columns:76px minmax(0,1fr) 36px}
+  .sp-gs{padding:18px}
+  .sp-gs-kbd{display:none}
+  .sp-gs-box input{padding-right:48px}
+  .sp-gs-res{height:220px}
   .sp-tg{flex-wrap:wrap}
 }
 @media (prefers-reduced-motion:reduce){
@@ -6225,26 +6263,46 @@ body.route-login #auth-modal .auth-card{border-radius:20px;border-bottom:1px sol
           </div>
         </div>
 
-        <!-- Sample result: shows what every test gives you -->
-        <div class="sp-score" role="img" aria-label="Sample result screen showing score, rank, accuracy, subject-wise performance and a question palette">
-          <div class="sp-score-hd"><b>Your result after every test</b><span>Sample</span></div>
-          <div class="sp-score-main"><div class="sp-big">78.5<small> / 100</small></div></div>
-          <div class="sp-metrics">
-            <div class="sp-m"><b>14</b><span>Rank</span></div>
-            <div class="sp-m"><b>82%</b><span>Accuracy</span></div>
-            <div class="sp-m"><b>1h 42m</b><span>Time taken</span></div>
+        <!-- Global search: exams covered + advanced filters -->
+        <div class="sp-gs" id="gs" role="search" aria-label="Search all exams, tests and packs">
+          <div class="sp-gs-hd">
+            <b>Search every exam &amp; test</b>
+            <button type="button" class="sp-gs-adv" id="gs-adv" data-act="adv" aria-expanded="false" aria-controls="gs-panel">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h2M10 12h10M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="8" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+              Advanced<i class="sp-gs-dot" id="gs-dot"></i>
+            </button>
           </div>
-          <div class="sp-bars">
-            <div class="sp-bar"><span>Polity</span><i style="--w:86%"></i><em>86%</em></div>
-            <div class="sp-bar"><span>Geography</span><i style="--w:74%"></i><em>74%</em></div>
-            <div class="sp-bar"><span>History</span><i style="--w:81%"></i><em>81%</em></div>
-            <div class="sp-bar"><span>Reasoning</span><i style="--w:62%"></i><em>62%</em></div>
+
+          <div class="sp-gs-box">
+            <span class="sp-gs-ico"><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-search"/></svg></span>
+            <input type="text" id="gs-q" autocomplete="off" spellcheck="false" enterkeyhint="search" placeholder="Search tests, exams, subjects, topics…" aria-label="Search tests, exams, subjects and topics" />
+            <button type="button" class="sp-gs-clear" id="gs-clear" data-act="clear" aria-label="Clear search"><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-x"/></svg></button>
+            <kbd class="sp-gs-kbd" id="gs-kbd" aria-hidden="true">/</kbd>
           </div>
-          <div class="sp-pal">
-            <span class="c">1</span><span class="c">2</span><span class="w">3</span><span class="c">4</span><span class="c">5</span><span class="s">6</span><span class="c">7</span><span class="c">8</span><span class="w">9</span><span class="c">10</span>
-            <span class="c">11</span><span class="c">12</span><span class="c">13</span><span class="s">14</span><span class="c">15</span><span class="w">16</span><span class="c">17</span><span class="c">18</span><span class="c">19</span><span class="c">20</span>
+
+          <div class="sp-gs-lbl">Exams covered</div>
+          <div class="sp-gs-chips" id="gs-chips" role="group" aria-label="Filter by exam"></div>
+
+          <div class="sp-gs-panel" id="gs-panel">
+            <div class="sp-gs-row"><span>Access</span>
+              <div class="sp-seg" role="group" aria-label="Access">
+                <button type="button" data-act="access" data-v="all" class="on">All</button>
+                <button type="button" data-act="access" data-v="free">Free</button>
+                <button type="button" data-act="access" data-v="paid">Premium</button>
+              </div>
+            </div>
+            <div class="sp-gs-row"><span>Sort by</span>
+              <div class="sp-seg" role="group" aria-label="Sort by">
+                <button type="button" data-act="sort" data-v="rel" class="on">Best match</button>
+                <button type="button" data-act="sort" data-v="new">Newest</button>
+                <button type="button" data-act="sort" data-v="az">A–Z</button>
+              </div>
+            </div>
+            <div class="sp-gs-tip"><span>Tip: use several words to narrow down, e.g. <em>jkssb polity</em>.</span><button type="button" data-act="reset">Reset all</button></div>
           </div>
-          <div class="sp-legend"><span><i class="c"></i>Correct</span><span><i class="w"></i>Wrong</span><span><i class="s"></i>Skipped</span></div>
+
+          <div class="sp-gs-res" id="gs-res" role="list" aria-live="polite"></div>
+          <div class="sp-gs-foot" id="gs-foot"></div>
         </div>
       </div>
 
@@ -8787,6 +8845,212 @@ return (
     if (el) el.value = "";
     SEARCH.publicCat("");
   };
+
+  // ═══════════════════════════════════════
+  //  HERO GLOBAL SEARCH (exams covered + advanced filters)
+  // ═══════════════════════════════════════
+  var GS = (function () {
+    var EXAMS = [
+      { id: "ssc",     label: "SSC",     re: /\b(ssc|cgl|chsl|mts|cpo|stenographer)\b/i },
+      { id: "jkssb",   label: "JKSSB",   re: /\b(jkssb|jkpsi|faa|naib|patwari|constable|forester)\b/i },
+      { id: "jkpsc",   label: "JKPSC",   re: /\b(jkpsc|jkas|kas|cce)\b/i },
+      { id: "upsc",    label: "UPSC",    re: /\b(upsc|ias|ips|csat|civil services)\b/i },
+      { id: "banking", label: "Banking", re: /\b(bank\w*|ibps|sbi|rbi|nabard|lic)\b/i },
+      { id: "neet",    label: "NEET",    re: /\b(neet|aiims|mbbs|medical|biology)\b/i },
+      { id: "jee",     label: "JEE",     re: /\b(jee|iit|engineering)\b/i },
+      { id: "cds",     label: "CDS",     re: /\b(cds|nda|afcat|capf|defen[cs]e)\b/i }
+    ];
+    var POPULAR = ["JKSSB FAA", "JKPSC CCE", "Polity", "Reasoning", "PYQs", "Current affairs"];
+    var S = { q: "", exam: "all", access: "all", sort: "rel", adv: false };
+    var root, $ = function (id) { return document.getElementById(id); };
+
+    function esc(s) { return String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
+    function ico(t) {
+      var g = t.examGroup || t.packId || examFromId(t.testId);
+      var ex = EX[g] || {};
+      var raw = ex.icon || "\uD83D\uDCDD";
+      return (window.JKEI && JKEI.fromEmoji) ? JKEI.fromEmoji(raw) : raw;
+    }
+    function exInfo(t) { return EX[t.examGroup] || EX[t.packId] || EX[examFromId(t.testId)] || {}; }
+    function hay(t) {
+      var ex = exInfo(t);
+      return [t.testName, t.subject, t.examGroup, t.packId, ex.name, ex.sub].join(" ").toLowerCase();
+    }
+    function tokens() { return S.q.toLowerCase().split(/\s+/).filter(Boolean); }
+    function ts(t) { var d = t.dateAdded ? new Date(t.dateAdded).getTime() : 0; return isNaN(d) ? 0 : d; }
+    function filtersOn() { return !!S.q.trim() || S.exam !== "all" || S.access !== "all"; }
+
+    function results() {
+      var all = ST.publicTests || [], toks = tokens(), out = [];
+      var ex = EXAMS.filter(function (e) { return e.id === S.exam; })[0];
+      all.forEach(function (t) {
+        if (S.access === "free" && t.access === "paid") return;
+        if (S.access === "paid" && t.access !== "paid") return;
+        var h = hay(t);
+        if (ex && !ex.re.test(h)) return;
+        var sc = 0, name = (t.testName || "").toLowerCase(), sub = (t.subject || "").toLowerCase();
+        for (var i = 0; i < toks.length; i++) {
+          var k = toks[i];
+          if (name.indexOf(k) === 0) sc += 4;
+          else if (name.indexOf(k) >= 0) sc += 3;
+          else if (sub.indexOf(k) >= 0) sc += 2;
+          else if (h.indexOf(k) >= 0) sc += 1;
+          else return;
+        }
+        out.push({ t: t, s: sc });
+      });
+      out.sort(function (a, b) {
+        if (S.sort === "az") return (a.t.testName || "").localeCompare(b.t.testName || "");
+        if (S.sort === "rel" && toks.length && b.s !== a.s) return b.s - a.s;
+        return ts(b.t) - ts(a.t);
+      });
+      return out;
+    }
+
+    function renderChips() {
+      var box = $("gs-chips"); if (!box) return;
+      var all = ST.publicTests, h = "";
+      h += '<button type="button" class="sp-chip' + (S.exam === "all" ? " on" : "") + '" data-act="exam" data-v="all" aria-pressed="' + (S.exam === "all") + '">All exams</button>';
+      EXAMS.forEach(function (e) {
+        var n = all ? all.filter(function (t) { return e.re.test(hay(t)); }).length : null;
+        h += '<button type="button" class="sp-chip' + (S.exam === e.id ? " on" : "") + '" data-act="exam" data-v="' + e.id + '" aria-pressed="' + (S.exam === e.id) + '">' + e.label + (n !== null ? "<small>" + n + "</small>" : "") + "</button>";
+      });
+      h += '<button type="button" class="sp-chip more" data-act="more" title="Type any exam name in the search box">+ more</button>';
+      box.innerHTML = h;
+    }
+
+    function row(t, re, i) {
+      var ex = exInfo(t), paid = t.access === "paid";
+      var hl = function (s) {
+        s = s || "";
+        if (!re) return escHtml(s);
+        return s.split(re).map(function (p, j) { return j % 2 ? "<mark>" + escHtml(p) + "</mark>" : escHtml(p); }).join("");
+      };
+      var meta = [ex.name || t.packId || t.examGroup || "", t.subject || ""].filter(Boolean).join(" \u00B7 ");
+      return '<button type="button" class="sp-r" role="listitem" data-act="open" data-tid="' + escHtml(t.testId) + '">' +
+        '<span class="sp-r-ico">' + ico(t) + '</span>' +
+        '<span class="sp-r-tx"><b>' + hl(t.testName) + '</b><small>' + hl(meta) + '</small></span>' +
+        '<span class="hp-pill ' + (paid ? "pro" : "free") + '">' + (paid ? "Premium" : "Free") + '</span></button>';
+    }
+
+    function render() {
+      var res = $("gs-res"), foot = $("gs-foot"); if (!res) return;
+      var box = root.querySelector(".sp-gs-box");
+      box.classList.toggle("has-q", !!S.q);
+      $("gs-clear").classList.toggle("show", !!S.q);
+      $("gs-dot").classList.toggle("on", S.access !== "all" || S.sort !== "rel");
+
+      if (!ST.publicTests) {
+        res.innerHTML = '<div class="sp-gs-sk"></div><div class="sp-gs-sk"></div><div class="sp-gs-sk"></div><div class="sp-gs-sk"></div>';
+        foot.innerHTML = "<span>Loading tests\u2026</span>";
+        return;
+      }
+      var list = results(), toks = tokens();
+      var re = toks.length ? new RegExp("(" + toks.map(esc).join("|") + ")", "ig") : null;
+
+      if (!filtersOn()) {
+        var recent = list.slice(0, 3);
+        res.innerHTML = '<div class="sp-gs-sec">Popular searches</div><div class="sp-gs-pop">' +
+          POPULAR.map(function (p) { return '<button type="button" data-act="pop" data-v="' + escHtml(p) + '">' + escHtml(p) + "</button>"; }).join("") +
+          "</div>" + (recent.length ? '<div class="sp-gs-sec">Recently added</div>' + recent.map(function (x, i) { return row(x.t, null, i); }).join("") : "");
+        foot.innerHTML = "<span>" + ST.publicTests.length + " tests available</span><button type=\"button\" data-act=\"all\">Browse all \u2192</button>";
+        return;
+      }
+      if (!list.length) {
+        var ex = EXAMS.filter(function (e) { return e.id === S.exam; })[0];
+        res.innerHTML = '<div class="sp-gs-empty"><b>' + (S.q.trim() ? "No tests match \u201C" + escHtml(S.q.trim()) + "\u201D" : "No " + (ex ? ex.label + " " : "") + "tests yet") + '</b><span>' +
+          (S.q.trim() ? "Check the spelling, try fewer words, or switch the exam or access filter." : "New tests are added every day. Check back soon or pick another exam.") + "</span></div>";
+        foot.innerHTML = "<span>0 results</span><button type=\"button\" data-act=\"reset\">Reset filters</button>";
+        return;
+      }
+      res.innerHTML = list.slice(0, 30).map(function (x, i) { return row(x.t, re, i); }).join("");
+      res.scrollTop = 0;
+      foot.innerHTML = "<span>" + list.length + (list.length === 1 ? " test" : " tests") + " found</span><button type=\"button\" data-act=\"all\">View in catalogue \u2192</button>";
+    }
+
+    function scrollToCat() {
+      var el = $("pub-search");
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+    function viewAll() {
+      var ps = $("pub-search"), pc = $("pub-search-clear");
+      if (ps) ps.value = S.q.trim();
+      if (pc) pc.classList.toggle("show", !!S.q.trim());
+      var list = results().map(function (x) { return x.t; });
+      renderPublicCatalogue(list, filtersOn());
+      scrollToCat();
+    }
+    function openTest(id) {
+      var t = (ST.publicTests || []).filter(function (x) { return x.testId === id; })[0];
+      if (!t) return;
+      var ps = $("pub-search"); if (ps) ps.value = t.testName || "";
+      SEARCH.publicCat(t.testName || "");
+      scrollToCat();
+    }
+    function setQ(v, focus) {
+      S.q = v; var i = $("gs-q"); if (i) { i.value = v; if (focus) i.focus(); }
+      render();
+    }
+    function reset() {
+      S.q = ""; S.exam = "all"; S.access = "all"; S.sort = "rel";
+      $("gs-q").value = "";
+      root.querySelectorAll('[data-act="access"],[data-act="sort"]').forEach(function (b) {
+        b.classList.toggle("on", b.getAttribute("data-v") === (b.getAttribute("data-act") === "access" ? "all" : "rel"));
+      });
+      renderChips(); render();
+    }
+
+    function init() {
+      root = $("gs"); if (!root) return;
+      var input = $("gs-q");
+      input.addEventListener("input", function () { S.q = input.value; render(); });
+      input.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") { e.preventDefault(); viewAll(); }
+        else if (e.key === "Escape") { if (S.q) { e.preventDefault(); setQ("", false); } }
+        else if (e.key === "ArrowDown") { var r = root.querySelector(".sp-r"); if (r) { e.preventDefault(); r.focus(); } }
+      });
+      $("gs-res").addEventListener("keydown", function (e) {
+        var rows = Array.prototype.slice.call(root.querySelectorAll(".sp-r")), i = rows.indexOf(document.activeElement);
+        if (i < 0) return;
+        if (e.key === "ArrowDown") { e.preventDefault(); if (rows[i + 1]) rows[i + 1].focus(); }
+        else if (e.key === "ArrowUp") { e.preventDefault(); if (i === 0) input.focus(); else rows[i - 1].focus(); }
+      });
+      root.addEventListener("click", function (e) {
+        var b = e.target.closest("[data-act]"); if (!b || !root.contains(b)) return;
+        var a = b.getAttribute("data-act"), v = b.getAttribute("data-v");
+        if (a === "adv") {
+          S.adv = !S.adv; $("gs-panel").classList.toggle("open", S.adv); b.setAttribute("aria-expanded", S.adv);
+        } else if (a === "clear") { setQ("", true); }
+        else if (a === "exam") { S.exam = (S.exam === v && v !== "all") ? "all" : v; renderChips(); render(); }
+        else if (a === "access" || a === "sort") {
+          S[a] = v;
+          root.querySelectorAll('[data-act="' + a + '"]').forEach(function (x) { x.classList.toggle("on", x === b); });
+          render();
+        }
+        else if (a === "more") { input.focus(); }
+        else if (a === "pop") { setQ(v, true); }
+        else if (a === "open") { openTest(b.getAttribute("data-tid")); }
+        else if (a === "all") { viewAll(); }
+        else if (a === "reset") { reset(); }
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key !== "/" || e.ctrlKey || e.metaKey || e.altKey) return;
+        var t = e.target, tag = t && t.tagName;
+        if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || (t && t.isContentEditable)) return;
+        var pg = $("splash-pg"); if (!pg || !pg.classList.contains("on")) return;
+        e.preventDefault(); input.focus();
+      });
+      renderChips(); render();
+      if (!ST.publicTests) {
+        var tries = 0, iv = setInterval(function () {
+          if (ST.publicTests) { clearInterval(iv); renderChips(); render(); }
+          else if (++tries > 240) clearInterval(iv);
+        }, 500);
+      }
+    }
+    init();
+    return { reset: reset, render: render };
+  })();
     // ═══════════════════════════════════════
   //  NEW TESTS PANEL (last 14 days, newest first)
   // ═══════════════════════════════════════
