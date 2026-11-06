@@ -6005,12 +6005,97 @@ body.route-login #auth-modal .auth-card{border-radius:20px;border-bottom:1px sol
   </div>
 </div>
 
+<style id="jke-auth-polish">
+/* ── shared: gradient header (splash card + login/sign-up page) ── */
+#splash-pg .apc-top,#auth-modal .auth-hero{position:relative;overflow:hidden;text-align:left;border:0;color:#fff;
+  background:radial-gradient(120% 140% at 100% 0%,rgba(79,172,230,.45),transparent 55%),linear-gradient(135deg,#0b2a50 0%,#17467a 55%,#235f9d 100%)}
+#splash-pg .apc-top::before,#auth-modal .auth-hero::before{content:"";display:block;position:absolute;inset:0;top:0;left:0;width:auto;height:auto;transform:none;border-radius:0;pointer-events:none;
+  background:radial-gradient(circle,transparent 4px,rgba(255,255,255,.13) 4.6px,rgba(255,255,255,.13) 5.6px,transparent 6.2px) 0 0/26px 26px;
+  -webkit-mask-image:radial-gradient(ellipse 70% 100% at 100% 0%,#000,transparent 75%);mask-image:radial-gradient(ellipse 70% 100% at 100% 0%,#000,transparent 75%)}
+#splash-pg .apc-top{padding:22px 22px 20px}
+#auth-modal .auth-hero{padding:22px 22px 20px}
+.apc-badge{position:relative;display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;margin-bottom:12px;border-radius:13px;font-size:23px;color:#fff;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);box-shadow:0 8px 20px -8px rgba(0,0,0,.45);backdrop-filter:blur(4px)}
+#splash-pg .apc-title,#auth-modal .auth-title{position:relative;margin:0 0 5px;font-size:22px;font-weight:800;line-height:1.15;letter-spacing:-.02em;color:#fff}
+#splash-pg .apc-sub,#auth-modal .auth-sub{position:relative;max-width:30em;font-size:13.5px;font-weight:500;line-height:1.5;color:rgba(255,255,255,.84)}
+.apc-exams{position:relative;display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.apc-exams span{font-size:11.5px;font-weight:700;line-height:1;color:#fff;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:99px;padding:5px 9px}
+.apc-exams span:last-child{background:transparent;border-style:dashed;color:rgba(255,255,255,.8)}
+#auth-modal .auth-close{z-index:2;top:14px;right:14px;background:rgba(255,255,255,.16);color:#fff}
+#auth-modal .auth-close:hover{background:rgba(255,255,255,.28);color:#fff}
+
+/* ── pill tabs ── */
+#splash-pg .apc-tabs,#auth-modal .auth-tabs{display:flex;gap:4px;margin:16px 20px 0;padding:4px;background:#edf1f6;border:0;border-radius:12px}
+#splash-pg .apc-tab,#auth-modal .auth-tab{flex:1;margin:0;padding:10px 8px;border:0;border-radius:9px;font-size:14px;font-weight:600;text-align:center;color:var(--t3);background:transparent;cursor:pointer;transition:background .18s,color .18s,box-shadow .18s}
+#splash-pg .apc-tab:hover,#auth-modal .auth-tab:hover{background:rgba(255,255,255,.6);color:var(--ink)}
+#splash-pg .apc-tab.on,#auth-modal .auth-tab.on{background:#fff;color:var(--btn);font-weight:700;border:0;box-shadow:0 1px 2px rgba(20,24,60,.14),0 4px 10px -6px rgba(13,43,82,.35)}
+#auth-modal .auth-tabs{margin:16px 22px 0}
+#splash-pg .apc-body{padding:18px 20px 20px}
+#auth-modal .auth-body{padding:18px 22px 22px}
+#splash-pg .apc-body.on,#auth-modal .auth-body.on{animation:jkeAuthIn .32s cubic-bezier(.2,.7,.2,1) both}
+@keyframes jkeAuthIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ── fields ── */
+#splash-pg .fl label,#auth-modal .fl label{font-weight:700;color:var(--t2)}
+#splash-pg .fi,#auth-modal .fi{height:46px;border-radius:12px;background-color:#fbfcfe}
+#splash-pg .fl .fi[id$="email"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b97ab' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='5' width='18' height='14' rx='2'/%3E%3Cpath d='m3 7 9 6 9-6'/%3E%3C/svg%3E");background-position:14px center;background-size:18px 18px}
+#splash-pg .fl .fi[id$="email"]:focus{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a4a7a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='5' width='18' height='14' rx='2'/%3E%3Cpath d='m3 7 9 6 9-6'/%3E%3C/svg%3E")}
+#auth-modal .fl .fi[id$="email"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b97ab' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='5' width='18' height='14' rx='2'/%3E%3Cpath d='m3 7 9 6 9-6'/%3E%3C/svg%3E");background-position:14px center;background-size:18px 18px}
+#auth-modal .fl .fi[id$="email"]:focus{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a4a7a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='5' width='18' height='14' rx='2'/%3E%3Cpath d='m3 7 9 6 9-6'/%3E%3C/svg%3E")}
+#splash-pg .fl .fi[id$="-pw"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b97ab' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='11' width='16' height='10' rx='2'/%3E%3Cpath d='M8 11V7a4 4 0 0 1 8 0v4'/%3E%3C/svg%3E");background-position:14px center;background-size:18px 18px}
+#splash-pg .fl .fi[id$="-pw"]:focus{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a4a7a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='11' width='16' height='10' rx='2'/%3E%3Cpath d='M8 11V7a4 4 0 0 1 8 0v4'/%3E%3C/svg%3E")}
+#auth-modal .fl .fi[id$="-pw"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b97ab' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='11' width='16' height='10' rx='2'/%3E%3Cpath d='M8 11V7a4 4 0 0 1 8 0v4'/%3E%3C/svg%3E");background-position:14px center;background-size:18px 18px}
+#auth-modal .fl .fi[id$="-pw"]:focus{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a4a7a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='11' width='16' height='10' rx='2'/%3E%3Cpath d='M8 11V7a4 4 0 0 1 8 0v4'/%3E%3C/svg%3E")}
+#splash-pg .fl .fi[id$="-name"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b97ab' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8' r='4'/%3E%3Cpath d='M4 21a8 8 0 0 1 16 0'/%3E%3C/svg%3E");background-position:14px center;background-size:18px 18px}
+#splash-pg .fl .fi[id$="-name"]:focus{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a4a7a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8' r='4'/%3E%3Cpath d='M4 21a8 8 0 0 1 16 0'/%3E%3C/svg%3E")}
+#auth-modal .fl .fi[id$="-name"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b97ab' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8' r='4'/%3E%3Cpath d='M4 21a8 8 0 0 1 16 0'/%3E%3C/svg%3E");background-position:14px center;background-size:18px 18px}
+#auth-modal .fl .fi[id$="-name"]:focus{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a4a7a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8' r='4'/%3E%3Cpath d='M4 21a8 8 0 0 1 16 0'/%3E%3C/svg%3E")}
+#splash-pg .fl .fi[id$="-phone"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b97ab' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='7' y='2' width='10' height='20' rx='2'/%3E%3Cpath d='M11 18h2'/%3E%3C/svg%3E");background-position:14px center;background-size:18px 18px}
+#splash-pg .fl .fi[id$="-phone"]:focus{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a4a7a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='7' y='2' width='10' height='20' rx='2'/%3E%3Cpath d='M11 18h2'/%3E%3C/svg%3E")}
+#auth-modal .fl .fi[id$="-phone"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b97ab' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='7' y='2' width='10' height='20' rx='2'/%3E%3Cpath d='M11 18h2'/%3E%3C/svg%3E");background-position:14px center;background-size:18px 18px}
+#auth-modal .fl .fi[id$="-phone"]:focus{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a4a7a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='7' y='2' width='10' height='20' rx='2'/%3E%3Cpath d='M11 18h2'/%3E%3C/svg%3E")}
+#splash-pg .fl .fi[id$="-exam"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b97ab' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 10 12 5 2 10l10 5 10-5z'/%3E%3Cpath d='M6 12v5c3 2 9 2 12 0v-5'/%3E%3C/svg%3E"),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234A5878' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-position:14px center,right 12px center;background-size:18px 18px,12px 8px}
+#splash-pg .fl .fi[id$="-exam"]:focus{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a4a7a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 10 12 5 2 10l10 5 10-5z'/%3E%3Cpath d='M6 12v5c3 2 9 2 12 0v-5'/%3E%3C/svg%3E"),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234A5878' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")}
+#auth-modal .fl .fi[id$="-exam"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b97ab' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 10 12 5 2 10l10 5 10-5z'/%3E%3Cpath d='M6 12v5c3 2 9 2 12 0v-5'/%3E%3C/svg%3E"),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234A5878' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-position:14px center,right 12px center;background-size:18px 18px,12px 8px}
+#auth-modal .fl .fi[id$="-exam"]:focus{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a4a7a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 10 12 5 2 10l10 5 10-5z'/%3E%3Cpath d='M6 12v5c3 2 9 2 12 0v-5'/%3E%3C/svg%3E"),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234A5878' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")}
+#splash-pg .fl .fi[id$="-district"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b97ab' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z'/%3E%3Ccircle cx='12' cy='10' r='3'/%3E%3C/svg%3E");background-position:14px center;background-size:18px 18px}
+#splash-pg .fl .fi[id$="-district"]:focus{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a4a7a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z'/%3E%3Ccircle cx='12' cy='10' r='3'/%3E%3C/svg%3E")}
+#auth-modal .fl .fi[id$="-district"]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b97ab' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z'/%3E%3Ccircle cx='12' cy='10' r='3'/%3E%3C/svg%3E");background-position:14px center;background-size:18px 18px}
+#auth-modal .fl .fi[id$="-district"]:focus{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a4a7a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z'/%3E%3Ccircle cx='12' cy='10' r='3'/%3E%3C/svg%3E")}
+#splash-pg .fl .fi:is([id$="email"],[id$="-pw"],[id$="-name"],[id$="-phone"],[id$="-exam"],[id$="-district"]),
+#auth-modal .fl .fi:is([id$="email"],[id$="-pw"],[id$="-name"],[id$="-phone"],[id$="-exam"],[id$="-district"]){background-repeat:no-repeat;padding-left:44px;transition:border-color .15s,box-shadow .15s,background-color .15s}
+#splash-pg .fl .fi:hover,#auth-modal .fl .fi:hover{border-color:#b9c7d8}
+#splash-pg .fl .fi:focus,#auth-modal .fl .fi:focus{background-color:#fff}
+
+/* ── primary button ── */
+#splash-pg .apc-body .btn-primary,#auth-modal .auth-body .btn-primary{display:flex;align-items:center;justify-content:center;gap:8px;height:48px;border-radius:12px;font-size:15px;font-weight:700;letter-spacing:.01em;color:#fff;
+  background:linear-gradient(180deg,#235f9d 0%,#1a4a7a 100%);box-shadow:0 12px 22px -12px rgba(26,74,122,.75),inset 0 1px 0 rgba(255,255,255,.18);transition:transform .15s,box-shadow .15s,filter .15s}
+#splash-pg .apc-body .btn-primary:hover,#auth-modal .auth-body .btn-primary:hover{background:linear-gradient(180deg,#2a6cb0 0%,#1d5288 100%);transform:translateY(-1px);box-shadow:0 16px 26px -12px rgba(26,74,122,.85),inset 0 1px 0 rgba(255,255,255,.2)}
+#splash-pg .apc-body .btn-primary:active,#auth-modal .auth-body .btn-primary:active{transform:none;filter:brightness(.95)}
+#splash-pg .apc-body .btn-primary::after{content:"\2192";font-size:17px;line-height:1;transition:transform .15s}
+#splash-pg .apc-body .btn-primary:hover::after{transform:translateX(3px)}
+#splash-pg .apc-body .btn-primary:disabled::after{display:none}
+#auth-modal .auth-switch{color:var(--t2)}
+#auth-modal .auth-switch span{color:var(--btn);font-weight:700}
+#auth-modal .auth-warn{border-radius:12px}
+
+/* ── benefits list ── */
+#splash-pg .apc-feats{padding:6px 20px 12px;border-top:1px solid var(--line);background:linear-gradient(180deg,#f8fafd,#fff)}
+#splash-pg .apc-feat{gap:12px;padding:9px 0;border-bottom:0;font-weight:600;color:var(--t2)}
+#splash-pg .apc-feat-icon{flex:none;width:32px;height:32px;border-radius:10px;font-size:17px;color:var(--ok);background:var(--okbg)}
+#splash-pg .apc-feat:nth-child(2) .apc-feat-icon{color:#b45309;background:#fff1cf}
+#splash-pg .apc-feat:nth-child(3) .apc-feat-icon{color:var(--btn);background:var(--tile)}
+#splash-pg .apc-feat:nth-child(4) .apc-feat-icon{color:#6d3fd8;background:#efe8ff}
+@media (max-width:480px){#splash-pg .apc-title,#auth-modal .auth-title{font-size:20px}}
+@media (prefers-reduced-motion:reduce){#splash-pg .apc-body.on,#auth-modal .auth-body.on{animation:none}}
+</style>
 <div id="auth-modal">
   <div class="auth-card">
     <div class="auth-hero">
       <button class="auth-close" onclick="cancelAuth()" aria-label="Close">✕</button>
-      <div class="auth-title">JKEdusphere</div>
-      <div class="auth-sub">J&amp;K's Premier Exam Prep Hub</div>
+      <span class="apc-badge"><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-graduation-cap"/></svg></span>
+      <div class="auth-title" id="auth-ttl">Welcome back!</div>
+      <div class="auth-sub" id="auth-sb">Your exams are nearby — start practicing</div>
+      <div class="apc-exams" aria-label="Exams covered"><span>SSC</span><span>JKSSB</span><span>JKPSC</span><span>UPSC</span><span>Banking</span><span>NEET</span><span>JEE</span><span>CDS</span><span>&amp; more</span></div>
     </div>
     <div class="auth-tabs">
       <div class="auth-tab on" id="at-si" onclick="authTab('si')">Sign In</div>
@@ -6121,7 +6206,7 @@ body.route-login #auth-modal .auth-card{border-radius:20px;border-bottom:1px sol
             class="fi"
             type="password"
             id="su-pw"
-            placeholder="Create a strong password"
+            placeholder="Min 6 characters"
             autocomplete="new-password"
             style="padding-right: 40px"
           />
@@ -6367,8 +6452,10 @@ body.route-login #auth-modal .auth-card{border-radius:20px;border-bottom:1px sol
       <div class="splash-auth-col">
         <div class="auth-prompt-card">
           <div class="apc-top">
-            <div class="apc-title">Join JKEdusphere</div>
-            <div class="apc-sub">Create a free account to start practising</div>
+            <span class="apc-badge"><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-graduation-cap"/></svg></span>
+            <div class="apc-title" id="apc-title">Welcome back!</div>
+            <div class="apc-sub" id="apc-sub">Your exams are nearby — start practicing</div>
+            <div class="apc-exams" aria-label="Exams covered"><span>SSC</span><span>JKSSB</span><span>JKPSC</span><span>UPSC</span><span>Banking</span><span>NEET</span><span>JEE</span><span>CDS</span><span>&amp; more</span></div>
           </div>
           <div class="apc-tabs">
             <button type="button" class="apc-tab on" id="apc-si" onclick="apcTab('si')">Sign In</button>
@@ -8047,6 +8134,7 @@ body.route-login #auth-modal .auth-card{border-radius:20px;border-bottom:1px sol
     document.body.style.overflow = "";
   }
   function authTab(t) {
+    setAuthCopy(t, "auth-ttl", "auth-sb");
     ["si", "su"].forEach(function (x) {
       document.getElementById("at-" + x).classList.toggle("on", x === t);
       document.getElementById("ab-" + x).classList.toggle("on", x === t);
@@ -8061,7 +8149,18 @@ body.route-login #auth-modal .auth-card{border-radius:20px;border-bottom:1px sol
       setRouteTitle(t === "su" ? PATHS.signup : PATHS.login);
     }
   }
+  var AUTH_COPY = {
+    si: ["Welcome back!", "Your exams are nearby \u2014 start practicing"],
+    su: ["Join JKEdusphere", "Create a free account and start practicing"]
+  };
+  function setAuthCopy(t, tid, sid) {
+    var c = AUTH_COPY[t] || AUTH_COPY.si;
+    var a = document.getElementById(tid), b = document.getElementById(sid);
+    if (a) a.textContent = c[0];
+    if (b) b.textContent = c[1];
+  }
   function apcTab(t) {
+    setAuthCopy(t, "apc-title", "apc-sub");
     ["si", "su"].forEach(function (x) {
       document.getElementById("apc-" + x).classList.toggle("on", x === t);
       document
@@ -8981,11 +9080,8 @@ return (
       scrollToCat();
     }
     function openTest(id) {
-      var t = (ST.publicTests || []).filter(function (x) { return x.testId === id; })[0];
-      if (!t) return;
-      var ps = $("pub-search"); if (ps) ps.value = t.testName || "";
-      SEARCH.publicCat(t.testName || "");
-      scrollToCat();
+      // Public visitors must sign in / sign up before opening a test
+      openAuthModal("su");
     }
     function setQ(v, focus) {
       S.q = v; var i = $("gs-q"); if (i) { i.value = v; if (focus) i.focus(); }
