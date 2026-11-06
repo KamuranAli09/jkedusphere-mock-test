@@ -82,8 +82,7 @@
     ".jke-ft *{box-sizing:border-box}" +
     ".jke-ft a{text-decoration:none}" +
     ".jke-ft-in{max-width:1120px;margin:0 auto;padding:36px 20px 28px;display:grid;grid-template-columns:1.5fr 1fr 1fr 1.25fr;gap:28px 36px}" +
-    ".jke-ft-logo{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:800;color:#0d2b52;letter-spacing:-.2px}" +
-    ".jke-ft-mark{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#0d2b52,#1a4a7a 55%,#4db3e6);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}" +
+    ".jke-ft-logo{display:flex;align-items:center;font-size:16px;font-weight:800;color:#0d2b52;letter-spacing:-.2px}" +
     ".jke-ft-brand p{margin:12px 0 16px;max-width:340px;font-size:13px;line-height:1.65;color:#5b6478}" +
     ".jke-ft-soc{display:flex;gap:8px}" +
     ".jke-ft-soc a{width:36px;height:36px;border-radius:50%;border:1px solid #e7e9f1;display:flex;align-items:center;justify-content:center;color:#5b6478;transition:all .15s}" +
@@ -119,7 +118,7 @@
       })
       .join("");
     return (
-      '<div class="jke-ft-in"><div class="jke-ft-brand"><div class="jke-ft-logo"><span class="jke-ft-mark">JK</span><span>' +
+      '<div class="jke-ft-in"><div class="jke-ft-brand"><div class="jke-ft-logo"><span>' +
       esc(c.name) + "</span></div><p>" + esc(c.tagline) + '</p><div class="jke-ft-soc">' + soc + "</div></div>" + cols + "</div>" +
       '<div class="jke-ft-bar"><span>&copy; ' + c.year + " " + esc(c.name) + ". All rights reserved.</span><span>" + esc(c.madeIn) + "</span></div>"
     );
