@@ -339,7 +339,8 @@
         // on the mock-test page: switch pages in place (keeps its exit-test guard)
         e.preventDefault();
         closeDrawer(true);
-        window.goNav(go);
+        if (go === "home" && isIn() && typeof window.goMyPacks === "function") window.goMyPacks();
+        else window.goNav(go);
         return;
       }
       closeDrawer(true); // normal link: the browser follows it
@@ -466,7 +467,8 @@
       var go = t.getAttribute("data-go");
       if (go && typeof window.goNav === "function") {
         e.preventDefault(); // on the mock-test page: switch sections in place
-        window.goNav(go);
+        if (go === "home" && isIn() && typeof window.goMyPacks === "function") window.goMyPacks();
+        else window.goNav(go);
       }
     });
     syncTabs();

@@ -7965,7 +7965,8 @@ body.route-login #auth-modal{overflow:visible}
     if (name) { _goNavReal(name); return; }
     if (path === PATHS.home) {
       _goNavReal("home");
-      if (ST.user && /[?&]go=prem(&|$)/.test(q)) switchTab("prem");
+      var gm = q.match(/[?&]go=(prem|mine)(&|$)/);
+      if (ST.user && gm) switchTab(gm[1]);
       return;
     }
     location.href = u; // notes, MCQ pages ...
@@ -9517,6 +9518,16 @@ return (
     ["free", "prem", "mine"].forEach(function (k) {
       document.getElementById("mt-" + k).classList.toggle("on", k === t);
       document.getElementById("tp-" + k).classList.toggle("on", k === t);
+    });
+  }
+
+  // Side drawer / top tab "My Tests": open the dashboard on the "My packs" tab
+  function goMyPacks() {
+    EXITGUARD.confirm(function () {
+      if (!ST.user) { openAuthModal("si"); return; }
+      if (!document.getElementById("home-pg").classList.contains("on")) _goNavReal("home");
+      switchTab("mine");
+      window.scrollTo(0, 0);
     });
   }
 
@@ -12434,6 +12445,7 @@ if (stored && Array.isArray(stored.data) && stored.data.length && Date.now() - s
       if (_lg && !AUTH.get()) openAuthModal(_lg === "su" ? "su" : "si");
       if (gp("go") === "lb") goNav("lb");
       if (gp("go") === "prem" && AUTH.get()) switchTab("prem");
+      if (gp("go") === "mine" && AUTH.get()) switchTab("mine");
       if (gp("go") === "ak" && AUTH.get()) goNav("ak");
       if (gp("go") === "hist" && AUTH.get()) goNav("hist");
       QUIET = false; // start is finished: from now on the address follows the section on screen
