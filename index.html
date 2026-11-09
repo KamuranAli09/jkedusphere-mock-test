@@ -161,6 +161,10 @@
 .rz-btn{height:46px;border-radius:12px;border:1px solid var(--bd);background:#fff;color:var(--t1);font:600 14px var(--f);cursor:pointer;display:flex;align-items:center;justify-content:center}
 .rz-btn:hover{border-color:var(--bd2)}
 .rz-btn.pri{background:var(--p);border-color:var(--p);color:#fff}
+.rz-btn.nxt{display:none;grid-column:1/-1;height:auto;min-height:46px;padding:8px 14px;flex-direction:column;align-items:flex-start;text-align:left;gap:2px}
+.rz-btn.nxt .nx-l{font-size:11px;font-weight:600;color:var(--t3)}
+.rz-btn.nxt .nx-t{font-size:14px;font-weight:700;line-height:1.3}
+.rz-btn.nxt.show{display:flex}
 .rz-pdf{display:none;align-items:center;justify-content:space-between;gap:12px;margin-top:10px;padding:12px 14px;border:1px solid var(--bd);border-radius:12px;background:#fff}
 .rz-pdf-t{font-size:13.5px;font-weight:600;color:var(--t1)}
 .rz-pdf-s{font-size:12px;color:var(--t3);margin-top:2px}
@@ -5540,6 +5544,10 @@ body:has(#test-pg.on) .jke-footer,body:has(#test-pg.on) .jke-ft{display:none !im
 @media (prefers-reduced-motion:reduce){#jke-nav,#test-pg *{transition:none !important}}
 .att-b{display:none;margin-top:3px;font-size:12px;font-weight:600;color:var(--g2)}
 .att-b.on{display:block}
+#home-pg .att-hide{order:4;align-self:flex-start;display:none;margin:0 0 12px;padding:7px 14px;border:1px solid var(--line);border-radius:99px;background:#fff;color:var(--mute);font:600 12.5px var(--f);cursor:pointer}
+#home-pg .att-hide.show{display:inline-block}
+#home-pg .att-hide.on{background:var(--ink);border-color:var(--ink);color:#fff}
+#home-pg.hide-att .tc:has(.att-b.on){display:none}
 </style>
 <style id="jke-nav-critical">
 /* bar basics live here too, so the logo and burger are the right size even if /nav.js is slow or missing */
@@ -6612,6 +6620,7 @@ body.route-login #auth-modal{overflow:visible}
             My packs<span class="mt-cnt" id="mc-mine">0</span>
           </div>
         </div>
+        <button type="button" class="att-hide" id="att-hide" aria-pressed="false" onclick="ATT.toggleHide()">Hide attempted tests</button>
         <div class="tab-pane on" id="tp-free"></div>
         <div class="tab-pane" id="tp-prem"></div>
         <div class="tab-pane" id="tp-mine"></div>
@@ -6824,6 +6833,7 @@ body.route-login #auth-modal{overflow:visible}
       <div class="rz-note" id="r-note"></div>
 
       <div class="rz-actions">
+        <button class="rz-btn nxt" id="r-next-btn" type="button" onclick="JKE.nextTest()"></button>
         <button class="rz-btn pri" onclick="JKE.retake()">Retake</button>
         <button class="rz-btn" onclick="JKE.goHome()">All tests</button>
         <button class="rz-btn" id="r-share-btn" onclick="JKE.shareScore()">Share</button>
@@ -10338,6 +10348,10 @@ function initTestPanel() {
       "</strong><span>Total</span></div>" +
       "</div>";
     document.getElementById("modal-stats").innerHTML = statsHtml;
+    var mrk = Object.keys(ST.marked).length;
+    document.getElementById("modal-sub").textContent =
+      "Once submitted, answers cannot be changed." +
+      (mrk ? " You still have " + mrk + " question" + (mrk === 1 ? "" : "s") + " marked for review." : "");
     document.getElementById("modal-confirm-btn").onclick = function () {
       closeModal();
       submitTest(false);
@@ -10736,8 +10750,50 @@ function initTestPanel() {
     } else {
       pdfEl.style.display = "none";
     }
+    paintNextBtn();
     showPage("result-pg");
   }
+
+  // "Next test" button on the result page: next unattempted test of the same subject (same pack),
+  // in test-id order after the current one; falls back to the newest unattempted test overall
+  var NEXT_TID = null;
+  function paintNextBtn() {
+    var b = document.getElementById("r-next-btn");
+    if (!b) return;
+    NEXT_TID = null;
+    try {
+      var att = {}, cur = ST.testId || (ST.testData && ST.testData.testId) || "";
+      (HIST.data || []).forEach(function (r) { att[r.testId] = true; });
+      var norm = function (x) { return String(x || "").replace(/\s+/g, " ").trim().toLowerCase(); };
+      var ct = null;
+      (ST.tests || []).forEach(function (t) { if (t.testId === cur) ct = t; });
+      var subj = norm(ct ? ct.subject : ST.testData && ST.testData.subject);
+      var pk = ct ? (ct.packId || "") : "";
+      var nat = function (x, y) { return String(x).localeCompare(String(y), undefined, { numeric: true }); };
+      var open = (ST.tests || []).filter(function (t) { return t.testId !== cur && !att[t.testId] && SIDE.accessible(t); });
+      var same = subj ? open.filter(function (t) { return norm(t.subject) === subj && (t.packId || "") === pk; }) : [];
+      var pick = null, label = "";
+      if (same.length) {
+        same.sort(function (x, y) { return nat(x.testId, y.testId); });
+        pick = same.filter(function (t) { return nat(t.testId, cur) > 0; })[0] || same[0];
+        label = "Next in " + (ct ? String(ct.subject).trim() : "this subject");
+      } else {
+        open.forEach(function (t) {
+          var d = t.dateAdded ? new Date(t.dateAdded).getTime() : 0;
+          if (!pick || d > pick._d) { pick = t; pick._d = d; }
+        });
+        label = "Next test";
+      }
+      if (pick) {
+        NEXT_TID = pick.testId;
+        b.innerHTML = '<span class="nx-l">' + escHtml(label) + ' \u2192</span><span class="nx-t">' + escHtml(pick.testName) + '</span>';
+      }
+    } catch (e) {}
+    b.classList.toggle("show", !!NEXT_TID);
+  }
+  JKE.nextTest = function () {
+    if (NEXT_TID) handleStartTest(NEXT_TID, "v");
+  };
 
   function showPracticeResult(stats, rm, tt) {
     var pct = stats.total > 0 ? (stats.correct / stats.total) * 100 : 0;
@@ -10748,6 +10804,7 @@ function initTestPanel() {
       tt: tt, rank: null
     }, ST.testData.questions, rm);
     document.getElementById("r-pdf").style.display = "none";
+    paintNextBtn();
     showPage("result-pg");
   }
 
@@ -10926,14 +10983,39 @@ function initTestPanel() {
   // Flags tests the student has already attempted, with the attempt count
   var ATT = {};
   ATT.paint = function () {
-    var c = {};
-    (HIST.data || []).forEach(function (r) { c[r.testId] = (c[r.testId] || 0) + 1; });
+    var c = {}, best = {};
+    (HIST.data || []).forEach(function (r) {
+      c[r.testId] = (c[r.testId] || 0) + 1;
+      var p = HIST.pct(r);
+      if (best[r.testId] === undefined || p > best[r.testId]) best[r.testId] = p;
+    });
     document.querySelectorAll(".att-b").forEach(function (el) {
       var n = c[el.dataset.tid] || 0;
-      el.textContent = n ? "Attempted \u00B7 " + n + (n === 1 ? " time" : " times") : "";
+      el.textContent = n
+        ? "Attempted \u00B7 " + n + (n === 1 ? " time" : " times") + " \u00B7 Best " + best[el.dataset.tid].toFixed(0) + "%"
+        : "";
       el.classList.toggle("on", n > 0);
     });
+    ATT.applyHide();
   };
+  ATT.hideOn = function () {
+    try { return localStorage.getItem("jke_hide_att") === "1"; } catch (e) { return false; }
+  };
+  ATT.applyHide = function () {
+    var hp = document.getElementById("home-pg"), b = document.getElementById("att-hide");
+    if (!hp || !b) return;
+    var on = ATT.hideOn();
+    hp.classList.toggle("hide-att", on);
+    b.classList.toggle("on", on);
+    b.setAttribute("aria-pressed", on ? "true" : "false");
+    b.textContent = on ? "Showing new tests only" : "Hide attempted tests";
+    b.classList.toggle("show", !!(HIST.data && HIST.data.length));
+  };
+  ATT.toggleHide = function () {
+    try { localStorage.setItem("jke_hide_att", ATT.hideOn() ? "0" : "1"); } catch (e) {}
+    ATT.applyHide();
+  };
+
 
   HIST.init = function () {
     HIST.weak = null;
