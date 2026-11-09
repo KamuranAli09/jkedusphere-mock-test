@@ -5538,6 +5538,8 @@ html:has(#home-pg.on),body:has(#home-pg.on){background:#fff !important}
 }
 body:has(#test-pg.on) .jke-footer,body:has(#test-pg.on) .jke-ft{display:none !important}
 @media (prefers-reduced-motion:reduce){#jke-nav,#test-pg *{transition:none !important}}
+.att-b{display:none;margin-top:3px;font-size:12px;font-weight:600;color:var(--g2)}
+.att-b.on{display:block}
 </style>
 <style id="jke-nav-critical">
 /* bar basics live here too, so the logo and burger are the right size even if /nav.js is slow or missing */
@@ -8730,6 +8732,7 @@ return (
         '<div class="tc-subj">' +
         t.subject +
         "</div>" +
+        '<div class="att-b" data-tid="' + escHtml(t.testId) + '"></div>' +
         '<div class="tc-chips">' +
         '<span class="ch ch-gr">' +
         t.totalQuestions +
@@ -8941,6 +8944,7 @@ return (
     document.getElementById("tp-prem").innerHTML = pHtml;
     document.getElementById("tp-prem").classList.toggle("on", premActive);
         renderMyPacks(paid, pp, isSearch, mineActive);
+    ATT.paint();
   }
 
   // ═══════════════════════════════════════
@@ -9438,6 +9442,7 @@ return (
             document.getElementById("mt-mine").classList.contains("on")
           );
         }
+        ATT.paint();
       }
     }
     api({ action: "getStudentHistory", email: ST.user.email }, function (err, d) {
@@ -10917,6 +10922,18 @@ function initTestPanel() {
   }
 
   var HIST = { data: null, weak: null, range: "all" };
+
+  // Flags tests the student has already attempted, with the attempt count
+  var ATT = {};
+  ATT.paint = function () {
+    var c = {};
+    (HIST.data || []).forEach(function (r) { c[r.testId] = (c[r.testId] || 0) + 1; });
+    document.querySelectorAll(".att-b").forEach(function (el) {
+      var n = c[el.dataset.tid] || 0;
+      el.textContent = n ? "Attempted \u00B7 " + n + (n === 1 ? " time" : " times") : "";
+      el.classList.toggle("on", n > 0);
+    });
+  };
 
   HIST.init = function () {
     HIST.weak = null;
