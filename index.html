@@ -5544,10 +5544,17 @@ body:has(#test-pg.on) .jke-footer,body:has(#test-pg.on) .jke-ft{display:none !im
 @media (prefers-reduced-motion:reduce){#jke-nav,#test-pg *{transition:none !important}}
 .att-b{display:none;margin-top:3px;font-size:12px;font-weight:600;color:var(--g2)}
 .att-b.on{display:block}
-#home-pg .att-hide{order:4;align-self:flex-start;display:none;margin:0 0 12px;padding:7px 14px;border:1px solid var(--line);border-radius:99px;background:#fff;color:var(--mute);font:600 12.5px var(--f);cursor:pointer}
-#home-pg .att-hide.show{display:inline-block}
-#home-pg .att-hide.on{background:var(--ink);border-color:var(--ink);color:#fff}
-#home-pg.hide-att .tc:has(.att-b.on){display:none}
+.nw-b{display:none;margin-left:7px;padding:2px 7px;border-radius:99px;background:var(--p);color:#fff;font-size:10px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;vertical-align:2px}
+.nw-b.on{display:inline-block}
+#home-pg .att-cont{order:3;display:none;width:100%;margin:0 0 18px;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:#fff;text-align:left;font-family:var(--f);cursor:pointer}
+#home-pg .att-cont.on{display:block}
+#home-pg .att-cont:hover{border-color:var(--ink)}
+#home-pg .att-cont .ac-l{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--mute)}
+#home-pg .att-cont .ac-t{margin-top:4px;font-size:15px;font-weight:700;line-height:1.3;color:var(--ink)}
+#home-pg .att-cont .ac-s{margin-top:3px;font-size:12.5px;color:var(--mute)}
+#home-pg .att-cont .ac-go{margin-top:10px;font-size:13px;font-weight:700;color:var(--p)}
+.ab-next.is-sub{background:linear-gradient(135deg,var(--g),var(--g2));box-shadow:0 2px 8px rgba(0,201,122,.25)}
+.ab-sub.is-rev{background:linear-gradient(135deg,var(--p),var(--p2));box-shadow:0 2px 8px rgba(72,45,255,.25)}
 </style>
 <style id="jke-nav-critical">
 /* bar basics live here too, so the logo and burger are the right size even if /nav.js is slow or missing */
@@ -6609,6 +6616,7 @@ body.route-login #auth-modal{overflow:visible}
           <input type="text" id="dash-search" class="jke-search-input" placeholder="Search tests by name or subject" aria-label="Search tests" oninput="SEARCH.dashboard(this.value)" />
           <button type="button" class="jke-search-clear" id="dash-search-clear" aria-label="Clear search" onclick="SEARCH.clearDashboard()">✕</button>
         </div>
+        <div class="att-cont" id="att-cont" role="button" tabindex="0"></div>
         <div class="mtabs">
           <div class="mt on" id="mt-free" role="button" tabindex="0" onclick="switchTab('free')">
             Free<span class="mt-cnt" id="mc-free">0</span>
@@ -6620,7 +6628,6 @@ body.route-login #auth-modal{overflow:visible}
             My packs<span class="mt-cnt" id="mc-mine">0</span>
           </div>
         </div>
-        <button type="button" class="att-hide" id="att-hide" aria-pressed="false" onclick="ATT.toggleHide()">Hide attempted tests</button>
         <div class="tab-pane on" id="tp-free"></div>
         <div class="tab-pane" id="tp-prem"></div>
         <div class="tab-pane" id="tp-mine"></div>
@@ -8738,6 +8745,7 @@ return (
         '<div class="tc-body">' +
         '<div class="tc-name">' +
         t.testName +
+        '<span class="nw-b" data-tid="' + escHtml(t.testId) + '" data-d="' + escHtml(t.dateAdded || "") + '">New</span>' +
         "</div>" +
         '<div class="tc-subj">' +
         t.subject +
@@ -10165,8 +10173,16 @@ function toggleFolder(head) {
       }
     }
     document.getElementById("ab-prev").disabled = idx === 0;
-    document.getElementById("ab-next").innerHTML =
-      idx === ST.testData.questions.length - 1 ? "Review \u2713" : "Next \u203A";
+    var isLast = idx === ST.testData.questions.length - 1;
+    var nb = document.getElementById("ab-next"), sb = document.getElementById("ab-sub-btn");
+    nb.innerHTML = isLast ? (ST.isPractice ? "Finish \u2713" : "Submit \u2713") : "Next \u203A";
+    nb.classList.toggle("is-sub", isLast);
+    nb.onclick = isLast ? function () { JKE.confirmSub(); } : function () { JKE.nextQ(); };
+    if (sb) {
+      sb.innerHTML = isLast ? "\uD83D\uDCCB Review" : (ST.isPractice ? "\uD83C\uDFC1 Finish Practice" : "\uD83C\uDFAF Submit Test");
+      sb.classList.toggle("is-rev", isLast);
+      sb.onclick = isLast ? function () { JKE.reviewQs(); } : function () { JKE.confirmSub(); };
+    }
     var qa = document.getElementById("q-area");
     if (qa) qa.scrollTop = 0;
     if (window.innerWidth < 900) window.scrollTo(0, 0);
@@ -10283,6 +10299,14 @@ function initTestPanel() {
   };
   JKE.nextQ = function () {
     if (ST.current < ST.testData.questions.length - 1) renderQ(ST.current + 1);
+  };
+  // Review: jump to the first question marked for review, else the first unanswered one
+  JKE.reviewQs = function () {
+    var qs = ST.testData.questions, t = -1, i;
+    for (i = 0; i < qs.length; i++) { if (ST.marked[qs[i].id]) { t = i; break; } }
+    if (t < 0) for (i = 0; i < qs.length; i++) { if (!ST.answers[qs[i].id]) { t = i; break; } }
+    if (t < 0) { toast("All questions answered \u2014 ready to submit", "ok"); if (window.innerWidth < 900) togglePalette(false); return; }
+    JKE.goQ(t);
   };
   JKE.prevQ = function () {
     if (ST.current > 0) renderQ(ST.current - 1);
@@ -10754,39 +10778,17 @@ function initTestPanel() {
     showPage("result-pg");
   }
 
-  // "Next test" button on the result page: next unattempted test of the same subject (same pack),
-  // in test-id order after the current one; falls back to the newest unattempted test overall
+  // "Next test" button on the result page (next test of the same subject, with its title)
   var NEXT_TID = null;
   function paintNextBtn() {
     var b = document.getElementById("r-next-btn");
     if (!b) return;
     NEXT_TID = null;
     try {
-      var att = {}, cur = ST.testId || (ST.testData && ST.testData.testId) || "";
-      (HIST.data || []).forEach(function (r) { att[r.testId] = true; });
-      var norm = function (x) { return String(x || "").replace(/\s+/g, " ").trim().toLowerCase(); };
-      var ct = null;
-      (ST.tests || []).forEach(function (t) { if (t.testId === cur) ct = t; });
-      var subj = norm(ct ? ct.subject : ST.testData && ST.testData.subject);
-      var pk = ct ? (ct.packId || "") : "";
-      var nat = function (x, y) { return String(x).localeCompare(String(y), undefined, { numeric: true }); };
-      var open = (ST.tests || []).filter(function (t) { return t.testId !== cur && !att[t.testId] && SIDE.accessible(t); });
-      var same = subj ? open.filter(function (t) { return norm(t.subject) === subj && (t.packId || "") === pk; }) : [];
-      var pick = null, label = "";
-      if (same.length) {
-        same.sort(function (x, y) { return nat(x.testId, y.testId); });
-        pick = same.filter(function (t) { return nat(t.testId, cur) > 0; })[0] || same[0];
-        label = "Next in " + (ct ? String(ct.subject).trim() : "this subject");
-      } else {
-        open.forEach(function (t) {
-          var d = t.dateAdded ? new Date(t.dateAdded).getTime() : 0;
-          if (!pick || d > pick._d) { pick = t; pick._d = d; }
-        });
-        label = "Next test";
-      }
-      if (pick) {
-        NEXT_TID = pick.testId;
-        b.innerHTML = '<span class="nx-l">' + escHtml(label) + ' \u2192</span><span class="nx-t">' + escHtml(pick.testName) + '</span>';
+      var nx = ATT.nextFor(ST.testId || (ST.testData && ST.testData.testId) || "");
+      if (nx) {
+        NEXT_TID = nx.t.testId;
+        b.innerHTML = '<span class="nx-l">' + escHtml(nx.label) + ' \u2192</span><span class="nx-t">' + escHtml(nx.t.testName) + '</span>';
       }
     } catch (e) {}
     b.classList.toggle("show", !!NEXT_TID);
@@ -10983,7 +10985,7 @@ function initTestPanel() {
   // Flags tests the student has already attempted, with the attempt count
   var ATT = {};
   ATT.paint = function () {
-    var c = {}, best = {};
+    var c = {}, best = {}, ok = Array.isArray(HIST.data), now = Date.now();
     (HIST.data || []).forEach(function (r) {
       c[r.testId] = (c[r.testId] || 0) + 1;
       var p = HIST.pct(r);
@@ -10996,25 +10998,74 @@ function initTestPanel() {
         : "";
       el.classList.toggle("on", n > 0);
     });
-    ATT.applyHide();
+    // "New": added in the last 7 days and not attempted yet
+    document.querySelectorAll(".nw-b").forEach(function (el) {
+      var d = new Date(el.dataset.d).getTime();
+      var fresh = !isNaN(d) && now - d >= 0 && now - d <= 7 * 864e5;
+      el.classList.toggle("on", ok && fresh && !c[el.dataset.tid]);
+    });
+    ATT.cont();
   };
-  ATT.hideOn = function () {
-    try { return localStorage.getItem("jke_hide_att") === "1"; } catch (e) { return false; }
+
+  // Next test in the same subject (same pack) after test `cur`; falls back to newest unattempted overall
+  ATT.nextFor = function (cur) {
+    var att = {};
+    (HIST.data || []).forEach(function (r) { att[r.testId] = true; });
+    var norm = function (x) { return String(x || "").replace(/\s+/g, " ").trim().toLowerCase(); };
+    var nat = function (x, y) { return String(x).localeCompare(String(y), undefined, { numeric: true }); };
+    var ct = null;
+    (ST.tests || []).forEach(function (t) { if (t.testId === cur) ct = t; });
+    var subj = norm(ct && ct.subject), pk = ct ? (ct.packId || "") : "";
+    var open = (ST.tests || []).filter(function (t) { return t.testId !== cur && !att[t.testId] && SIDE.accessible(t); });
+    var same = subj ? open.filter(function (t) { return norm(t.subject) === subj && (t.packId || "") === pk; }) : [];
+    if (same.length) {
+      same.sort(function (x, y) { return nat(x.testId, y.testId); });
+      return {
+        t: same.filter(function (t) { return nat(t.testId, cur) > 0; })[0] || same[0],
+        label: "Next in " + String(ct.subject).trim()
+      };
+    }
+    var pick = null, pd = -1;
+    open.forEach(function (t) {
+      var d = t.dateAdded ? new Date(t.dateAdded).getTime() : 0;
+      if (!pick || d > pd) { pick = t; pd = d; }
+    });
+    return pick ? { t: pick, label: "Next test" } : null;
   };
-  ATT.applyHide = function () {
-    var hp = document.getElementById("home-pg"), b = document.getElementById("att-hide");
-    if (!hp || !b) return;
-    var on = ATT.hideOn();
-    hp.classList.toggle("hide-att", on);
-    b.classList.toggle("on", on);
-    b.setAttribute("aria-pressed", on ? "true" : "false");
-    b.textContent = on ? "Showing new tests only" : "Hide attempted tests";
-    b.classList.toggle("show", !!(HIST.data && HIST.data.length));
+
+  // "Continue where you left off": next test in the subject of the last attempted test
+  ATT.cont = function () {
+    var el = document.getElementById("att-cont");
+    if (!el) return;
+    var show = false;
+    try {
+      if (Array.isArray(HIST.data) && HIST.data.length && ST.tests) {
+        var byId = {};
+        ST.tests.forEach(function (t) { byId[t.testId] = t; });
+        var rows = HIST.data.slice().sort(function (a, b) { return HIST.ts(b) - HIST.ts(a); });
+        var last = null;
+        for (var i = 0; i < rows.length; i++) { if (byId[rows[i].testId]) { last = byId[rows[i].testId]; break; } }
+        var nx = last ? ATT.nextFor(last.testId) : null;
+        if (nx) {
+          el.setAttribute("data-tid", nx.t.testId);
+          el.innerHTML =
+            '<div class="ac-l">Continue where you left off</div>' +
+            '<div class="ac-t">' + escHtml(nx.t.testName) + '</div>' +
+            '<div class="ac-s">' + escHtml(nx.label) + ' \u00B7 after ' + escHtml(last.testName) + '</div>' +
+            '<div class="ac-go">Start test \u2192</div>';
+          show = true;
+        }
+      }
+    } catch (e) {}
+    el.classList.toggle("on", show);
   };
-  ATT.toggleHide = function () {
-    try { localStorage.setItem("jke_hide_att", ATT.hideOn() ? "0" : "1"); } catch (e) {}
-    ATT.applyHide();
-  };
+  (function () {
+    var el = document.getElementById("att-cont");
+    if (!el) return;
+    var go = function () { var id = el.getAttribute("data-tid"); if (id) handleStartTest(id, "b"); };
+    el.addEventListener("click", go);
+    el.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+  })();
 
 
   HIST.init = function () {
