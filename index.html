@@ -4362,6 +4362,103 @@
 .hst-btn.ghost{background:var(--s2bg);border-color:var(--bd2);color:var(--t2)}
 .hst-btn.ghost:hover{color:var(--t1);border-color:var(--t3)}
 
+/* ── Minimalist attempts list + paging + analysis review (hx-*) ── */
+.hx-head{display:flex;align-items:baseline;justify-content:space-between;margin:8px 2px 10px}
+.hx-head h3{font-size:13px;font-weight:700;color:var(--t1);letter-spacing:.2px}
+.hx-head span{font-size:12px;color:var(--t4)}
+.hx-card{background:var(--s1bg);border:1px solid var(--bd);border-radius:14px;padding:14px 16px;margin-bottom:10px;transition:border-color .15s}
+.hx-card:hover{border-color:var(--bd2)}
+.hx-row{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.hx-main{min-width:0;flex:1}
+.hx-name{font-size:14px;font-weight:600;color:var(--t1);line-height:1.35;overflow-wrap:anywhere}
+.hx-sub{font-size:12px;color:var(--t4);margin-top:3px}
+.hx-pct{flex:none;text-align:right}
+.hx-pct b{display:block;font:700 20px/1.1 var(--m);color:var(--g)}
+.hx-card.fail .hx-pct b{color:var(--r)}
+.hx-pct span{display:block;font-size:11.5px;color:var(--t4);margin-top:3px}
+.hx-bar{display:flex;height:4px;border-radius:99px;overflow:hidden;background:var(--s3bg);margin:12px 0 9px}
+.hx-bar i{display:block;height:100%}
+.hx-bar i.c{background:var(--g)}.hx-bar i.w{background:var(--r)}.hx-bar i.s{background:#cbd5e1}
+.hx-stats{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--t3)}
+.hx-stats b{color:var(--t1);font-weight:600}
+.hx-act{display:flex;gap:8px;margin-top:12px}
+.hx-btn{flex:1;padding:9px 10px;border-radius:9px;font:600 12.5px var(--f);cursor:pointer;border:1px solid var(--p);background:var(--p);color:#fff;transition:opacity .15s}
+.hx-btn:hover{opacity:.9}
+.hx-btn.ghost{background:transparent;color:var(--t2);border-color:var(--bd2)}
+.hx-btn.ghost:hover{color:var(--t1);border-color:var(--t3);opacity:1}
+.hx-pager{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:14px 0 4px}
+.hx-pager span{font-size:12px;color:var(--t3)}
+.hx-pg{padding:9px 16px;border-radius:99px;font:600 12.5px var(--f);cursor:pointer;border:1px solid var(--bd2);background:var(--s1bg);color:var(--t1);min-width:96px}
+.hx-pg:hover:not(:disabled){border-color:var(--p);color:var(--p)}
+.hx-pg:disabled{opacity:.4;cursor:default}
+.hx-pg.next:not(:disabled){background:var(--p);border-color:var(--p);color:#fff}
+.hx-pg.next:hover:not(:disabled){color:#fff;opacity:.9}
+
+/* analysis card */
+.hx-an{background:var(--s1bg);border:1px solid var(--bd);border-radius:14px;padding:16px;margin-bottom:14px}
+.hx-an-top{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hx-acc b{display:block;font:700 30px/1 var(--m);color:var(--t1)}
+.hx-acc span{display:block;font-size:11.5px;color:var(--t4);margin-top:5px}
+.hx-kp{display:flex;gap:20px;flex:1;justify-content:flex-end;flex-wrap:wrap}
+.hx-kp div{text-align:center;min-width:52px}
+.hx-kp b{display:block;font:700 16px var(--m);color:var(--t1)}
+.hx-kp b.c{color:var(--g)}.hx-kp b.w{color:var(--r)}.hx-kp b.s{color:var(--t3)}
+.hx-kp span{display:block;font-size:11px;color:var(--t4);margin-top:3px}
+.hx-an-t{font-size:11px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--t4);margin:18px 0 4px}
+.hx-sj{display:block;width:100%;text-align:left;background:none;border:0;border-top:1px solid var(--bd);padding:12px 8px;margin:0;cursor:pointer;font-family:var(--f);border-radius:0}
+.hx-sj:first-of-type{border-top:0}
+.hx-sj.on{background:var(--pl);border-radius:10px;border-top-color:transparent}
+.hx-sj-t{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.hx-sj-n{font-size:13.5px;font-weight:600;color:var(--t1);min-width:0;overflow-wrap:anywhere}
+.hx-sj:hover .hx-sj-n{color:var(--p)}
+.hx-sj-p{flex:none;font:700 14px var(--m);color:var(--t1)}
+.hx-tag{margin-left:8px;font-size:10px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;padding:2px 7px;border-radius:99px;vertical-align:middle}
+.hx-tag.fo{background:var(--rl);color:var(--r)}.hx-tag.be{background:var(--gl);color:var(--g)}
+.hx-fill{height:4px;border-radius:99px;background:var(--s3bg);margin:9px 0 7px;overflow:hidden}
+.hx-fill i{display:block;height:100%;border-radius:99px}
+.hx-fill i.hi{background:var(--g)}.hx-fill i.mid{background:var(--o)}.hx-fill i.lo{background:var(--r)}
+.hx-sj-m{font-size:12px;color:var(--t3)}
+
+/* filters */
+.hx-fl{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
+.hx-chip{padding:6px 13px;border-radius:99px;font:600 12px var(--f);cursor:pointer;border:1px solid var(--bd);background:var(--s1bg);color:var(--t3)}
+.hx-chip:hover{color:var(--t1);border-color:var(--bd2)}
+.hx-chip.on{background:var(--p);border-color:var(--p);color:#fff}
+.hx-chip.u{border-style:dashed}
+
+/* question cards */
+.hx-q{background:var(--s1bg);border:1px solid var(--bd);border-radius:14px;padding:16px;margin-bottom:10px}
+.hx-qh{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--t4)}
+.hx-qn{font:700 12px var(--m);color:var(--t1)}
+.hx-qu{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hx-qb{flex:none;display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600}
+.hx-qb::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.hx-q.c .hx-qb{color:var(--g)}.hx-q.w .hx-qb{color:var(--r)}.hx-q.s .hx-qb{color:var(--t4)}
+.hx-qt{margin-top:10px;font-size:14.5px;line-height:1.65;font-weight:500;color:var(--t1)}
+.hx-q .rv-img{max-width:100%;max-height:320px;object-fit:contain;margin:10px 0 0;display:block}
+.hx-os{margin-top:12px;display:flex;flex-direction:column;gap:2px}
+.hx-o{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border-radius:9px;font-size:13.5px;line-height:1.5;color:var(--t3)}
+.hx-o i{flex:none;width:22px;height:22px;border-radius:50%;border:1px solid var(--bd2);display:flex;align-items:center;justify-content:center;font:600 11px var(--m);font-style:normal;color:var(--t3);margin-top:0}
+.hx-o span{flex:1;min-width:0;padding-top:1px}
+.hx-o em{flex:none;font-size:11px;font-style:normal;font-weight:600;padding-top:3px}
+.hx-o.ok{background:var(--gl);color:var(--t1)}
+.hx-o.ok i{background:var(--g);border-color:var(--g);color:#fff}
+.hx-o.ok em{color:var(--g)}
+.hx-o.bad{background:var(--rl);color:var(--t1)}
+.hx-o.bad i{background:var(--r);border-color:var(--r);color:#fff}
+.hx-o.bad em{color:var(--r)}
+.hx-ex{margin-top:10px;border-top:1px solid var(--bd);padding-top:10px}
+.hx-ex summary{cursor:pointer;font-size:12.5px;font-weight:600;color:var(--p);list-style:none;user-select:none}
+.hx-ex summary::-webkit-details-marker{display:none}
+.hx-ex summary::after{content:" +"}
+.hx-ex[open] summary::after{content:" \2212"}
+.hx-ex div{margin-top:8px;font-size:13px;line-height:1.7;color:var(--t2)}
+.hx-empty{text-align:center;padding:28px 10px;font-size:13px;color:var(--t4)}
+@media(max-width:480px){
+  .hx-kp{justify-content:flex-start;gap:16px}
+  .hx-pg{min-width:84px;padding:9px 12px}
+}
+
 /* ═══════════════════════════════════════
    SEARCH BAR
    ═══════════════════════════════════════ */
@@ -11069,6 +11166,7 @@ function initTestPanel() {
 
 
   HIST.init = function () {
+    if (!HIST.data) HIST.page = 0;
     HIST.weak = null;
     document.getElementById("hist-spin").classList.add("on");
     document.getElementById("hist-summary").innerHTML = "";
@@ -11489,29 +11587,59 @@ function initTestPanel() {
     HIST.fillInsights();
     if (HIST.weak) HIST.renderWeak();
 
-    var listHtml = arr.map(function (r) {
+    HIST.renderList();
+  };
+
+  /* ---------- paginated attempts list (10 per page) ---------- */
+  HIST.PER = 10;
+  HIST.page = 0;
+  HIST.renderList = function () {
+    var list = document.getElementById("hist-list");
+    var arr = HIST.filtered();
+    if (!arr.length) { list.innerHTML = ""; return; }
+    var pages = Math.ceil(arr.length / HIST.PER);
+    if (HIST.page > pages - 1) HIST.page = pages - 1;
+    if (HIST.page < 0) HIST.page = 0;
+    var from = HIST.page * HIST.PER;
+    var slice = arr.slice(from, from + HIST.PER);
+
+    var cards = slice.map(function (r) {
       var pct = HIST.pct(r), pass = pct >= 33;
+      var c = +r.correct || 0, w = +r.wrong || 0, s = +r.skipped || 0, n = (c + w + s) || 1;
       var dateStr = new Date(r.timestamp).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
       return (
-        '<div class="hst-card ' + (pass ? "pass" : "fail") + '" data-subid="' + escHtml(r.submissionId) +
+        '<div class="hx-card ' + (pass ? "pass" : "fail") + '" data-subid="' + escHtml(r.submissionId) +
         '" data-testid="' + escHtml(r.testId) + '" data-testname="' + escHtml(r.testName) + '">' +
-        '<div class="hst-top"><div><div class="hst-name">' + r.testName + '</div><div class="hst-date">' + dateStr +
-        " \u00B7 Rank #" + (r.rank || "\u2014") + "</div></div>" +
-        '<div style="text-align:right"><div class="hst-score">' + r.score + "/" + r.totalMarks + "</div>" +
-        '<span class="hst-pct" style="background:' + (pass ? "var(--gl)" : "var(--rl)") + ";color:" + (pass ? "var(--g)" : "var(--r)") + '">' +
-        pct.toFixed(1) + "%</span></div></div>" +
-        '<div class="hst-meta"><span>\u2713 <strong>' + r.correct + "</strong> correct</span><span>\u2717 <strong>" + r.wrong +
-        "</strong> wrong</span><span>\u2014 <strong>" + r.skipped + "</strong> skipped</span><span>\u23F1 <strong>" + fmt(r.timeTaken) + "</strong></span></div>" +
-        '<div class="hst-actions"><button class="hst-btn" data-act="review">\uD83D\uDCDD Review Answers</button>' +
-        '<button class="hst-btn ghost" data-act="retake">\uD83D\uDD04 Retake</button></div></div>'
+        '<div class="hx-row"><div class="hx-main"><div class="hx-name">' + escHtml(r.testName) + '</div>' +
+        '<div class="hx-sub">' + dateStr + (r.rank ? " \u00B7 Rank #" + escHtml(r.rank) : "") + " \u00B7 " + fmt(r.timeTaken) + '</div></div>' +
+        '<div class="hx-pct"><b>' + pct.toFixed(0) + '%</b><span>' + escHtml(r.score) + " / " + escHtml(r.totalMarks) + '</span></div></div>' +
+        '<div class="hx-bar"><i class="c" style="width:' + (c / n * 100).toFixed(1) + '%"></i><i class="w" style="width:' + (w / n * 100).toFixed(1) +
+        '%"></i><i class="s" style="width:' + (s / n * 100).toFixed(1) + '%"></i></div>' +
+        '<div class="hx-stats"><span><b>' + c + '</b> correct</span><span><b>' + w + '</b> wrong</span><span><b>' + s + '</b> skipped</span></div>' +
+        '<div class="hx-act"><button type="button" class="hx-btn" data-act="review">Analysis</button>' +
+        '<button type="button" class="hx-btn ghost" data-act="retake">Retake</button></div></div>'
       );
     }).join("");
 
-    list.innerHTML = '<div class="cat-section-title" style="margin-bottom:10px">\uD83D\uDD50 All Attempts</div>' + listHtml;
+    var head = '<div class="hx-head"><h3>Attempts</h3><span>' + (from + 1) + "\u2013" + (from + slice.length) + " of " + arr.length + "</span></div>";
+    var pager = pages > 1
+      ? '<div class="hx-pager"><button type="button" class="hx-pg prev" data-pg="prev"' + (HIST.page === 0 ? " disabled" : "") + '>\u2190 Previous</button>' +
+        "<span>Page " + (HIST.page + 1) + " of " + pages + '</span>' +
+        '<button type="button" class="hx-pg next" data-pg="next"' + (HIST.page >= pages - 1 ? " disabled" : "") + '>Next \u2192</button></div>'
+      : "";
+
+    list.innerHTML = head + cards + pager;
     list.onclick = function (e) {
-      var btn = e.target.closest(".hst-btn");
+      var pg = e.target.closest(".hx-pg");
+      if (pg && !pg.disabled) {
+        HIST.page += pg.dataset.pg === "next" ? 1 : -1;
+        HIST.renderList();
+        list.scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+      }
+      var btn = e.target.closest(".hx-btn");
       if (!btn) return;
-      var card = btn.closest(".hst-card");
+      var card = btn.closest(".hx-card");
       if (!card) return;
       if (btn.dataset.act === "review") HIST.viewReview(card.dataset.subid, card.dataset.testname);
       else handleStartTest(card.dataset.testid, "v");
@@ -11521,7 +11649,7 @@ function initTestPanel() {
   HIST.bindSummary = function () {
     document.getElementById("hist-summary").onclick = function (e) {
       var chip = e.target.closest(".jke-pf-chip");
-      if (chip) { HIST.range = chip.dataset.range; HIST.render(); return; }
+      if (chip) { HIST.range = chip.dataset.range; HIST.page = 0; HIST.render(); return; }
       var b = e.target.closest(".jke-pf-act");
       if (b && b.dataset.testid) handleStartTest(b.dataset.testid, "v");
     };
@@ -11531,86 +11659,144 @@ function initTestPanel() {
     showPage("hist-review-pg");
     tx("hrv-title", testName || "Question Review");
     tx("hrv-cnt", "");
+    var box = document.getElementById("hrv-list");
     document.getElementById("hrv-spin").style.display = "flex";
-    document.getElementById("hrv-list").innerHTML = "";
+    box.innerHTML = "";
+    box.onclick = null;
+    HIST.rv = null;
 
     api(
       { action: "getSubmissionReview", submissionId: submissionId, email: ST.user.email },
       function (err, data) {
         document.getElementById("hrv-spin").style.display = "none";
         if (err || !data || !data.success) {
-          document.getElementById("hrv-list").innerHTML =
+          box.innerHTML =
             '<div class="empty-state"><div class="es-icon">📡</div><div class="es-title">Could not load review</div><div class="es-sub">' +
-            ((data && data.error) || "Please try again.") +
-            "</div></div>";
+            escHtml((data && data.error) || "Please try again.") + "</div></div>";
           return;
         }
-        if (!data.hasAnswerData) {
-          document.getElementById("hrv-list").innerHTML =
+        if (!data.hasAnswerData || !data.questions || !data.questions.length) {
+          box.innerHTML =
             '<div class="empty-state"><div class="es-icon">🕐</div><div class="es-title">Answer review not available</div><div class="es-sub">This attempt was made before answer-tracking was enabled. Newer attempts will show the full review here.</div></div>';
           return;
         }
-        tx("hrv-cnt", data.questions.length + " Qs");
-        document.getElementById("hrv-list").innerHTML = data.questions
-          .map(function (q, i) {
-            var gv = q.given || "",
-              ac = q.correct || "";
-            var st2 = !gv ? "s" : gv === ac ? "c" : "w";
-            var label = st2 === "c" ? "\u2713 Correct" : st2 === "w" ? "\u2717 Wrong" : "\u2014 Skipped";
-            var bc = st2 === "c" ? "rvb-c" : st2 === "w" ? "rvb-w" : "rvb-s";
-            var opts = ["A", "B", "C", "D"]
-              .map(function (k) {
-                var cl = "rvo-n",
-                  ic = "";
-                if (k === ac) {
-                  cl = "rvo-c";
-                  ic = "\u2713 ";
-                } else if (k === gv && gv !== ac) {
-                  cl = "rvo-w";
-                  ic = "\u2717 ";
-                }
-                return (
-                  '<div class="rv-opt ' +
-                  cl +
-                  '"><div class="rv-k">' +
-                  k +
-                  "</div><span>" +
-                  ic +
-                  fmtOpt(q, k) +
-                  "</span></div>"
-                );
-              })
-              .join("");
-            var expl = q.explanation ? '<div class="rv-expl">💡 ' + fmtEx(q) + "</div>" : "";
-            var img = q.image
-              ? '<img class="rv-img" src="' + escHtml(q.image) + '" alt="Question diagram" onerror="this.style.display=\'none\'" />'
-              : "";
-            return (
-              '<div class="rv r' +
-              st2 +
-              '">' +
-              '<div class="rv-meta"><span class="rv-num">Q' +
-              (i + 1) +
-              (q.unit ? " \u00B7 " + q.unit : "") +
-              '</span><span class="rv-badge ' +
-              bc +
-              '">' +
-              label +
-              "</span></div>" +
-              '<div class="rv-q">' +
-              fmtQ(q) +
-              "</div>" +
-              img +
-              '<div class="rv-opts">' +
-              opts +
-              "</div>" +
-              expl +
-              "</div>"
-            );
-          })
-          .join("");
-      },
+        var R = { items: [], subj: [], unit: "", st: "all" }, by = {}, order = [];
+        data.questions.forEach(function (q, i) {
+          var gv = String(q.given || "").trim().toUpperCase();
+          var ac = String(q.correct || "").trim().toUpperCase();
+          var st = !gv ? "s" : gv === ac ? "c" : "w";
+          var unit = String(q.unit || "").trim() || "General";
+          var s = by[unit];
+          if (!s) { s = by[unit] = { name: unit, c: 0, w: 0, s: 0 }; order.push(unit); }
+          s[st]++;
+          R.items.push({ st: st, unit: unit, html: HIST.rvCard(q, i, gv, ac, st, unit) });
+        });
+        R.subj = order.map(function (k) { return by[k]; });
+        HIST.rv = R;
+        box.innerHTML = '<div id="hx-an"></div><div id="hx-fl" class="hx-fl"></div><div id="hx-qs"></div>';
+        box.onclick = HIST.rvClick;
+        HIST.rvPaint();
+      }
     );
+  };
+
+  HIST.rvCard = function (q, i, gv, ac, st, unit) {
+    var label = st === "c" ? "Correct" : st === "w" ? "Wrong" : "Skipped";
+    var opts = ["A", "B", "C", "D"].map(function (k) {
+      var cl = "hx-o", tag = "";
+      if (k === ac) { cl += " ok"; tag = k === gv ? "Your answer" : "Correct"; }
+      else if (k === gv) { cl += " bad"; tag = "Your answer"; }
+      return '<div class="' + cl + '"><i>' + k + "</i><span>" + fmtOpt(q, k) + "</span>" + (tag ? "<em>" + tag + "</em>" : "") + "</div>";
+    }).join("");
+    var img = q.image
+      ? '<img class="rv-img" src="' + escHtml(q.image) + '" alt="Question diagram" onerror="this.style.display=\'none\'" />'
+      : "";
+    var ex = (q.explanation || q.explanationHtml)
+      ? '<details class="hx-ex"><summary>Explanation</summary><div>' + fmtEx(q) + "</div></details>"
+      : "";
+    return '<div class="hx-q ' + st + '"><div class="hx-qh"><span class="hx-qn">Q' + (i + 1) + '</span><span class="hx-qu">' +
+      escHtml(unit) + '</span><span class="hx-qb">' + label + "</span></div>" +
+      '<div class="hx-qt">' + fmtQ(q) + "</div>" + img + '<div class="hx-os">' + opts + "</div>" + ex + "</div>";
+  };
+
+  HIST.rvPaint = function () {
+    var R = HIST.rv;
+    if (!R) return;
+    var L = R.subj, tot = { c: 0, w: 0, s: 0 };
+    R.items.forEach(function (it) { tot[it.st]++; });
+    var n = tot.c + tot.w + tot.s, att = tot.c + tot.w;
+    var acc = att ? Math.round(tot.c / att * 100) : 0;
+
+    // accuracy per subject (correct / attempted); weakest + strongest tags need 3+ attempted subjects
+    var accs = L.map(function (s) { var a = s.c + s.w; return a ? s.c / a : -1; });
+    var lo = -1, hi = -1, counted = 0;
+    accs.forEach(function (v, i) {
+      if (v < 0) return;
+      counted++;
+      if (lo < 0 || v < accs[lo]) lo = i;
+      if (hi < 0 || v > accs[hi]) hi = i;
+    });
+    var tag = counted >= 3 && accs[lo] < accs[hi];
+
+    var rows = L.map(function (s, i) {
+      var a = s.c + s.w, p = a ? Math.round(s.c / a * 100) : 0;
+      var cl = p >= 65 ? "hi" : p >= 40 ? "mid" : "lo";
+      return '<button type="button" class="hx-sj' + (R.unit === s.name ? " on" : "") + '" data-i="' + i + '">' +
+        '<div class="hx-sj-t"><span class="hx-sj-n">' + escHtml(s.name) +
+        (tag && i === lo ? '<span class="hx-tag fo">Focus</span>' : tag && i === hi ? '<span class="hx-tag be">Best</span>' : "") +
+        '</span><span class="hx-sj-p">' + (a ? p + "%" : "\u2014") + "</span></div>" +
+        '<div class="hx-fill"><i class="' + cl + '" style="width:' + (a ? p : 0) + '%"></i></div>' +
+        '<div class="hx-sj-m">' + s.c + " correct \u00B7 " + s.w + " wrong \u00B7 " + s.s + " skipped</div></button>";
+    }).join("");
+
+    document.getElementById("hx-an").innerHTML =
+      '<div class="hx-an-top"><div class="hx-acc"><b>' + (att ? acc + "%" : "\u2014") + "</b><span>Accuracy</span></div>" +
+      '<div class="hx-kp"><div><b class="c">' + tot.c + "</b><span>Correct</span></div>" +
+      '<div><b class="w">' + tot.w + "</b><span>Wrong</span></div>" +
+      '<div><b class="s">' + tot.s + "</b><span>Skipped</span></div>" +
+      "<div><b>" + n + "</b><span>Total</span></div></div></div>" +
+      (L.length > 1 || (L.length === 1 && L[0].name !== "General")
+        ? '<div class="hx-an-t">Subject-wise accuracy</div>' + rows : "");
+
+    // filter chips (counts follow the selected subject)
+    var cnt = { all: 0, w: 0, s: 0, c: 0 };
+    R.items.forEach(function (it) {
+      if (R.unit && it.unit !== R.unit) return;
+      cnt.all++; cnt[it.st]++;
+    });
+    document.getElementById("hx-fl").innerHTML =
+      [["all", "All"], ["w", "Wrong"], ["s", "Skipped"], ["c", "Correct"]].map(function (x) {
+        return '<button type="button" class="hx-chip' + (R.st === x[0] ? " on" : "") + '" data-st="' + x[0] + '">' + x[1] + " " + cnt[x[0]] + "</button>";
+      }).join("") +
+      (R.unit ? '<button type="button" class="hx-chip u" data-st="unit">' + escHtml(R.unit) + " \u2715</button>" : "");
+
+    var out = [];
+    R.items.forEach(function (it) {
+      if (R.unit && it.unit !== R.unit) return;
+      if (R.st === "all" || R.st === it.st) out.push(it.html);
+    });
+    tx("hrv-cnt", out.length === R.items.length ? R.items.length + " Qs" : out.length + " of " + R.items.length + " Qs");
+    document.getElementById("hx-qs").innerHTML = out.length ? out.join("") : '<div class="hx-empty">No questions here.</div>';
+  };
+
+  HIST.rvClick = function (e) {
+    var R = HIST.rv;
+    if (!R) return;
+    var sj = e.target.closest(".hx-sj");
+    if (sj) {
+      var s = R.subj[+sj.dataset.i];
+      if (!s) return;
+      R.unit = R.unit === s.name ? "" : s.name;
+      HIST.rvPaint();
+      if (R.unit) document.getElementById("hx-fl").scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
+    var ch = e.target.closest(".hx-chip");
+    if (ch) {
+      if (ch.dataset.st === "unit") R.unit = "";
+      else R.st = ch.dataset.st;
+      HIST.rvPaint();
+    }
   };
 
   // ═══════════════════════════════════════
