@@ -4396,31 +4396,36 @@
 
 /* analysis card */
 .hx-an{background:var(--s1bg);border:1px solid var(--bd);border-radius:14px;padding:16px;margin-bottom:14px}
-.hx-an-top{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hx-qs{min-width:0}
+.hx-an-top{display:flex;align-items:center;gap:14px}
 .hx-acc b{display:block;font:700 30px/1 var(--m);color:var(--t1)}
 .hx-acc span{display:block;font-size:11.5px;color:var(--t4);margin-top:5px}
-.hx-kp{display:flex;gap:20px;flex:1;justify-content:flex-end;flex-wrap:wrap}
-.hx-kp div{text-align:center;min-width:52px}
+.hx-kp{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;flex:1;min-width:0}
+.hx-kp div{text-align:center;min-width:0}
 .hx-kp b{display:block;font:700 16px var(--m);color:var(--t1)}
 .hx-kp b.c{color:var(--g)}.hx-kp b.w{color:var(--r)}.hx-kp b.s{color:var(--t3)}
 .hx-kp span{display:block;font-size:11px;color:var(--t4);margin-top:3px}
-.hx-an-t{font-size:11px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--t4);margin:18px 0 4px}
-.hx-sj{display:block;width:100%;text-align:left;background:none;border:0;border-top:1px solid var(--bd);padding:12px 8px;margin:0;cursor:pointer;font-family:var(--f);border-radius:0}
-.hx-sj:first-of-type{border-top:0}
-.hx-sj.on{background:var(--pl);border-radius:10px;border-top-color:transparent}
-.hx-sj-t{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
-.hx-sj-n{font-size:13.5px;font-weight:600;color:var(--t1);min-width:0;overflow-wrap:anywhere}
-.hx-sj:hover .hx-sj-n{color:var(--p)}
-.hx-sj-p{flex:none;font:700 14px var(--m);color:var(--t1)}
-.hx-tag{margin-left:8px;font-size:10px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;padding:2px 7px;border-radius:99px;vertical-align:middle}
+.hx-sjh{display:flex;align-items:center;justify-content:space-between;width:100%;margin-top:14px;padding:11px 0 0;border:0;border-top:1px solid var(--bd);background:none;cursor:pointer;font:700 11px var(--f);letter-spacing:.7px;text-transform:uppercase;color:var(--t3);text-align:left}
+.hx-sjh em{font-style:normal;font-weight:600;color:var(--t4);margin-left:4px;letter-spacing:0}
+.hx-sjh:hover{color:var(--t1)}
+.hx-car{width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);margin:-3px 3px 0 0;transition:transform .15s}
+.hx-car.up{transform:rotate(-135deg);margin-top:3px}
+.hx-sjl{margin-top:6px;max-height:min(44vh,400px);overflow-y:auto;overscroll-behavior:contain;margin-right:-6px;padding-right:6px}
+.hx-sj{display:block;width:100%;text-align:left;background:none;border:0;padding:7px 8px;margin:0;cursor:pointer;font-family:var(--f);border-radius:8px}
+.hx-sj:hover{background:var(--s2bg)}
+.hx-sj.on{background:var(--pl)}
+.hx-sj-t{display:flex;align-items:center;gap:8px}
+.hx-sj-n{flex:1;min-width:0;font-size:12.5px;font-weight:600;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hx-sj-c{flex:none;font:500 11px var(--m);color:var(--t4)}
+.hx-sj-p{flex:none;min-width:34px;text-align:right;font:700 12.5px var(--m);color:var(--t1)}
+.hx-tag{flex:none;font-size:9px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;padding:1px 6px;border-radius:99px}
 .hx-tag.fo{background:var(--rl);color:var(--r)}.hx-tag.be{background:var(--gl);color:var(--g)}
-.hx-fill{height:4px;border-radius:99px;background:var(--s3bg);margin:9px 0 7px;overflow:hidden}
+.hx-fill{display:block;height:3px;border-radius:99px;background:var(--s3bg);margin-top:6px;overflow:hidden}
 .hx-fill i{display:block;height:100%;border-radius:99px}
 .hx-fill i.hi{background:var(--g)}.hx-fill i.mid{background:var(--o)}.hx-fill i.lo{background:var(--r)}
-.hx-sj-m{font-size:12px;color:var(--t3)}
 
 /* filters */
-.hx-fl{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
+.hx-fl{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 0}
 .hx-chip{padding:6px 13px;border-radius:99px;font:600 12px var(--f);cursor:pointer;border:1px solid var(--bd);background:var(--s1bg);color:var(--t3)}
 .hx-chip:hover{color:var(--t1);border-color:var(--bd2)}
 .hx-chip.on{background:var(--p);border-color:var(--p);color:#fff}
@@ -4454,6 +4459,32 @@
 .hx-ex[open] summary::after{content:" \2212"}
 .hx-ex div{margin-top:8px;font-size:13px;line-height:1.7;color:var(--t2)}
 .hx-empty{text-align:center;padding:28px 10px;font-size:13px;color:var(--t4)}
+
+/* ── Layout: dashboard grid, 2-col attempts, review sidebar ── */
+.hx-dash{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;margin-bottom:14px}
+.hx-dash>.hx-i{margin:0;min-width:0}
+.hx-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
+.hx-grid .hx-card{margin:0}
+.hx-rvg{display:block}
+.hx-side{margin-bottom:0}
+@media(min-width:900px){
+  #hist-pg .wrap-lg,#hist-review-pg .wrap{max-width:1000px;padding-left:28px;padding-right:28px}
+  .hx-dash{grid-template-columns:repeat(12,minmax(0,1fr))}
+  .hx-dash>.hx-i.jke-pf-hero{grid-column:span 5}
+  .hx-dash>.hx-kpis{grid-column:span 7;grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;gap:10px}
+  .hx-dash>.hx-kpis .jke-pf-kpi{display:flex;flex-direction:column;justify-content:center}
+  .hx-dash>.hx-ins{grid-column:span 7;grid-row:span 2;display:flex;flex-direction:column}
+  .hx-dash>.hx-ins #jke-pf-ins-box{flex:1;display:flex;flex-direction:column;gap:8px}
+  .hx-dash>.hx-ins .jke-pf-ins{flex:1;margin:0;align-items:center}
+  .hx-dash>.hx-trend,.hx-dash>.hx-donut{grid-column:span 5}
+  .hx-dash>.hx-exam,.hx-dash>.hx-heat{grid-column:span 6}
+  .hx-dash .jke-pf-hc{aspect-ratio:auto;height:20px}
+  .hx-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .hx-rvg{display:grid;grid-template-columns:310px minmax(0,1fr);gap:16px;align-items:start}
+  .hx-side{position:sticky;top:calc(var(--nav) + 16px);max-height:calc(100vh - var(--nav) - 32px);overflow-y:auto;overscroll-behavior:contain}
+  .hx-side .hx-an{margin-bottom:0}
+  .hx-sjl{max-height:max(240px,calc(100vh - var(--nav) - 270px))}
+}
 @media(max-width:480px){
   .hx-kp{justify-content:flex-start;gap:16px}
   .hx-pg{min-width:84px;padding:9px 12px}
@@ -11558,13 +11589,13 @@ function initTestPanel() {
     }
     function kpi(v, l, extra) { return '<div class="jke-pf-kpi"><strong>' + v + "</strong><span>" + l + "</span>" + (extra || "") + "</div>"; }
 
-    var hero = '<div class="jke-pf-hero"><div class="jke-pf-ring"><svg viewBox="0 0 36 36"><circle class="jke-pf-ring-bg" cx="18" cy="18" r="15.9155"/>' +
+    var hero = '<div class="jke-pf-hero hx-i"><div class="jke-pf-ring"><svg viewBox="0 0 36 36"><circle class="jke-pf-ring-bg" cx="18" cy="18" r="15.9155"/>' +
       '<circle class="jke-pf-ring-fg" cx="18" cy="18" r="15.9155" stroke-dasharray="' + rd.score + ' ' + (100 - rd.score) + '"/></svg>' +
       '<div class="jke-pf-ring-v">' + rd.score + "<small>Readiness</small></div></div>" +
       '<div><div class="jke-pf-hero-t">Your performance level</div><div class="jke-pf-hero-l">' + rd.level + "</div>" +
       '<div class="jke-pf-hero-s">Calculated from your last 5 scores (50%), answer accuracy (30%) and practice consistency (20%).</div></div></div>';
 
-    var kpis = '<div class="jke-pf-kpis">' +
+    var kpis = '<div class="jke-pf-kpis hx-i hx-kpis">' +
       kpi(o.n, "Attempts") +
       kpi(o.avg.toFixed(0) + "%", "Avg score", delta) +
       kpi(HIST.pct(best).toFixed(0) + "%", "Best score") +
@@ -11572,16 +11603,14 @@ function initTestPanel() {
       kpi(act.streak + "d", "Streak", "<em>" + act.active14 + "/14 days active</em>") +
       kpi(fmt(Math.round(o.avgTime)), "Avg time", "<em>per test</em>") + "</div>";
 
-    var insightsCard = '<div class="jke-pf-card"><div class="jke-pf-ttl">What your data says<small>personalised from your attempts</small></div><div id="jke-pf-ins-box"></div></div>';
+    var insightsCard = '<div class="jke-pf-card hx-i hx-ins"><div class="jke-pf-ttl">What your data says<small>personalised from your attempts</small></div><div id="jke-pf-ins-box"></div></div>';
 
-    var trendCard = '<div class="jke-pf-card"><div class="jke-pf-ttl">Score Trend<small>last ' + Math.min(30, arr.length) + " attempts</small></div>" + HIST.chartTrend(arr) + "</div>";
-    var donutCard = '<div class="jke-pf-card"><div class="jke-pf-ttl">Answer Breakdown<small>' + o.q + " questions</small></div>" + HIST.chartDonut(o) + "</div>";
-    var examCard = '<div class="jke-pf-card"><div class="jke-pf-ttl">Performance by Exam<small>average score</small></div>' + HIST.chartExams(arr) + "</div>";
-    var heatCard = '<div class="jke-pf-card"><div class="jke-pf-ttl">Consistency<small>last 12 weeks</small></div>' + HIST.chartHeat(act) + "</div>";
+    var trendCard = '<div class="jke-pf-card hx-i hx-trend"><div class="jke-pf-ttl">Score Trend<small>last ' + Math.min(30, arr.length) + " attempts</small></div>" + HIST.chartTrend(arr) + "</div>";
+    var donutCard = '<div class="jke-pf-card hx-i hx-donut"><div class="jke-pf-ttl">Answer Breakdown<small>' + o.q + " questions</small></div>" + HIST.chartDonut(o) + "</div>";
+    var examCard = '<div class="jke-pf-card hx-i hx-exam"><div class="jke-pf-ttl">Performance by Exam<small>average score</small></div>' + HIST.chartExams(arr) + "</div>";
+    var heatCard = '<div class="jke-pf-card hx-i hx-heat"><div class="jke-pf-ttl">Consistency<small>last 12 weeks</small></div>' + HIST.chartHeat(act) + "</div>";
 
-    summary.innerHTML = chips + hero + kpis + insightsCard +
-      '<div class="jke-pf-2">' + trendCard + donutCard + "</div>" +
-      '<div class="jke-pf-2 even">' + examCard + heatCard + "</div>";
+    summary.innerHTML = chips + '<div class="hx-dash">' + hero + kpis + insightsCard + trendCard + donutCard + examCard + heatCard + "</div>";
 
     HIST.bindSummary();
     HIST.fillInsights();
@@ -11628,7 +11657,7 @@ function initTestPanel() {
         '<button type="button" class="hx-pg next" data-pg="next"' + (HIST.page >= pages - 1 ? " disabled" : "") + '>Next \u2192</button></div>'
       : "";
 
-    list.innerHTML = head + cards + pager;
+    list.innerHTML = head + '<div class="hx-grid">' + cards + "</div>" + pager;
     list.onclick = function (e) {
       var pg = e.target.closest(".hx-pg");
       if (pg && !pg.disabled) {
@@ -11680,7 +11709,7 @@ function initTestPanel() {
             '<div class="empty-state"><div class="es-icon">🕐</div><div class="es-title">Answer review not available</div><div class="es-sub">This attempt was made before answer-tracking was enabled. Newer attempts will show the full review here.</div></div>';
           return;
         }
-        var R = { items: [], subj: [], unit: "", st: "all" }, by = {}, order = [];
+        var R = { items: [], subj: [], unit: "", st: "all", open: !!(window.matchMedia && window.matchMedia("(min-width:900px)").matches) }, by = {}, order = [];
         data.questions.forEach(function (q, i) {
           var gv = String(q.given || "").trim().toUpperCase();
           var ac = String(q.correct || "").trim().toUpperCase();
@@ -11693,7 +11722,7 @@ function initTestPanel() {
         });
         R.subj = order.map(function (k) { return by[k]; });
         HIST.rv = R;
-        box.innerHTML = '<div id="hx-an"></div><div id="hx-fl" class="hx-fl"></div><div id="hx-qs"></div>';
+        box.innerHTML = '<div class="hx-rvg"><aside class="hx-side"><div class="hx-an"><div id="hx-top"></div><div id="hx-fl" class="hx-fl"></div><div id="hx-sjw"></div></div></aside><div id="hx-qs" class="hx-qs"></div></div>';
         box.onclick = HIST.rvClick;
         HIST.rvPaint();
       }
@@ -11741,22 +11770,27 @@ function initTestPanel() {
     var rows = L.map(function (s, i) {
       var a = s.c + s.w, p = a ? Math.round(s.c / a * 100) : 0;
       var cl = p >= 65 ? "hi" : p >= 40 ? "mid" : "lo";
-      return '<button type="button" class="hx-sj' + (R.unit === s.name ? " on" : "") + '" data-i="' + i + '">' +
-        '<div class="hx-sj-t"><span class="hx-sj-n">' + escHtml(s.name) +
+      return '<button type="button" class="hx-sj' + (R.unit === s.name ? " on" : "") + '" data-i="' + i + '" title="' +
+        escHtml(s.name) + ": " + s.c + " correct, " + s.w + " wrong, " + s.s + ' skipped">' +
+        '<span class="hx-sj-t"><span class="hx-sj-n">' + escHtml(s.name) + "</span>" +
         (tag && i === lo ? '<span class="hx-tag fo">Focus</span>' : tag && i === hi ? '<span class="hx-tag be">Best</span>' : "") +
-        '</span><span class="hx-sj-p">' + (a ? p + "%" : "\u2014") + "</span></div>" +
-        '<div class="hx-fill"><i class="' + cl + '" style="width:' + (a ? p : 0) + '%"></i></div>' +
-        '<div class="hx-sj-m">' + s.c + " correct \u00B7 " + s.w + " wrong \u00B7 " + s.s + " skipped</div></button>";
+        '<span class="hx-sj-c">' + s.c + "/" + a + '</span><span class="hx-sj-p">' + (a ? p + "%" : "\u2014") + "</span></span>" +
+        '<span class="hx-fill"><i class="' + cl + '" style="width:' + (a ? p : 0) + '%"></i></span></button>';
     }).join("");
 
-    document.getElementById("hx-an").innerHTML =
+    document.getElementById("hx-top").innerHTML =
       '<div class="hx-an-top"><div class="hx-acc"><b>' + (att ? acc + "%" : "\u2014") + "</b><span>Accuracy</span></div>" +
       '<div class="hx-kp"><div><b class="c">' + tot.c + "</b><span>Correct</span></div>" +
       '<div><b class="w">' + tot.w + "</b><span>Wrong</span></div>" +
       '<div><b class="s">' + tot.s + "</b><span>Skipped</span></div>" +
-      "<div><b>" + n + "</b><span>Total</span></div></div></div>" +
-      (L.length > 1 || (L.length === 1 && L[0].name !== "General")
-        ? '<div class="hx-an-t">Subject-wise accuracy</div>' + rows : "");
+      "<div><b>" + n + "</b><span>Total</span></div></div></div>";
+
+    var showSubj = L.length > 1 || (L.length === 1 && L[0].name !== "General");
+    document.getElementById("hx-sjw").innerHTML = showSubj
+      ? '<button type="button" class="hx-sjh" data-act="sjtoggle" aria-expanded="' + (R.open ? "true" : "false") + '"><span>Subject-wise accuracy <em>' +
+        L.length + '</em></span><i class="hx-car' + (R.open ? " up" : "") + '"></i></button>' +
+        (R.open ? '<div class="hx-sjl">' + rows + "</div>" : "")
+      : "";
 
     // filter chips (counts follow the selected subject)
     var cnt = { all: 0, w: 0, s: 0, c: 0 };
@@ -11782,13 +11816,16 @@ function initTestPanel() {
   HIST.rvClick = function (e) {
     var R = HIST.rv;
     if (!R) return;
+    var th = e.target.closest(".hx-sjh");
+    if (th) { R.open = !R.open; HIST.rvPaint(); return; }
     var sj = e.target.closest(".hx-sj");
     if (sj) {
       var s = R.subj[+sj.dataset.i];
       if (!s) return;
       R.unit = R.unit === s.name ? "" : s.name;
       HIST.rvPaint();
-      if (R.unit) document.getElementById("hx-fl").scrollIntoView({ behavior: "smooth", block: "start" });
+      var wide = window.matchMedia && window.matchMedia("(min-width:900px)").matches;
+      if (R.unit && !wide) document.getElementById("hx-qs").scrollIntoView({ behavior: "smooth", block: "start" });
       return;
     }
     var ch = e.target.closest(".hx-chip");
