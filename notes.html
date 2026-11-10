@@ -66,6 +66,10 @@ h1,h2,h3,p{margin:0}
 .exam:hover{border-color:#aebdd0}
 .exam-n{font:700 15.5px/1.2 var(--f-d);letter-spacing:-.005em}
 .exam-c{font-size:12.5px;color:var(--ink-3)}
+.exam-free{border-color:#9fd8c0;background:#f0faf5}
+.exam-free .exam-n::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:7px;vertical-align:1px}
+.exam-free[aria-pressed="true"] .exam-n::before{background:var(--mark)}
+.price .free{color:var(--green)}
 .exam[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
 .exam[aria-pressed="true"] .exam-c{color:#b9c8da}
 .exam[aria-pressed="true"]::after{content:"";position:absolute;left:14px;right:14px;bottom:0;height:4px;border-radius:4px 4px 0 0;background:var(--mark)}
@@ -403,6 +407,7 @@ var CART_KEY = "jke_notes_cart";
 var JKES_MAX_ATTEMPTS = 3;
 
 var EXAMS = [
+  {k:'free', l:'Free Resources'},
   {k:'all', l:'All notes'},
   {k:'jkpsi', l:'JKPSI Telecom'},
   {k:'jkpsc', l:'JKPSC / KAS'},
@@ -427,13 +432,16 @@ function dec(s){ return String(s == null ? '' : s).replace(/&amp;/g,'&').replace
 function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
 function T(s){ return esc(dec(s)); }                       // API text → safe HTML
 function rs(n){ return '\u20B9' + Number(n || 0).toLocaleString('en-IN'); }
+function priceHtml(p){ return isFree(p) ? '<b class="free">Free</b>' : '<b>' + rs(p.price) + '</b>'; }
 function disc(p){ return p.orig > p.price ? Math.round((p.orig - p.price) / p.orig * 100) : 0; }
 function byId(id){ for (var i = 0; i < PRODUCTS.length; i++) if (PRODUCTS[i].id === id) return PRODUCTS[i]; return null; }
 function inCart(id){ for (var i = 0; i < cart.length; i++) if (cart[i].id === id) return true; return false; }
-function hasTok(p, k){ return k === 'all' || (p.cat || '').toLowerCase().split(/\s+/).indexOf(k) > -1; }
+function isFree(p){ return Number(p.price) === 0; }
+function hasTok(p, k){ if (k === 'free') return isFree(p); return k === 'all' || (p.cat || '').toLowerCase().split(/\s+/).indexOf(k) > -1; }
 function plural(n, w){ return n + ' ' + w + (n === 1 ? '' : 's'); }
 
 var I_CHECK = '<svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>';
+var I_DL = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
 var I_CART = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1.2"/><circle cx="18" cy="20" r="1.2"/><path d="M2 3h3l2.4 11.6a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 7H6"/></svg>';
 
 function coverHtml(p, cls){
@@ -495,10 +503,11 @@ function renderExams(){
   var html = '';
   EXAMS.forEach(function(e){
     var items = PRODUCTS.filter(function(p){ return hasTok(p, e.k); });
-    if (e.k !== 'all' && !items.length) return;
-    var min = items.length ? Math.min.apply(null, items.map(function(p){ return p.price; })) : 0;
-    html += '<button type="button" class="exam" data-a="filter" data-f="' + e.k + '" aria-pressed="' + (curFilter === e.k) + '">' +
-      '<span class="exam-n">' + T(e.l) + '</span><span class="exam-c">' + plural(items.length, 'note') + (items.length ? ', from ' + rs(min) : '') + '</span></button>';
+    if (e.k !== 'all' && e.k !== 'free' && !items.length) return;
+    var paid = items.filter(function(p){ return !isFree(p); });
+    var min = paid.length ? Math.min.apply(null, paid.map(function(p){ return p.price; })) : 0;
+    html += '<button type="button" class="exam' + (e.k === 'free' ? ' exam-free' : '') + '" data-a="filter" data-f="' + e.k + '" aria-pressed="' + (curFilter === e.k) + '">' +
+      '<span class="exam-n">' + T(e.l) + '</span><span class="exam-c">' + (e.k === 'free' ? (items.length ? plural(items.length, 'note') + ', no payment' : 'Coming soon') : plural(items.length, 'note') + (items.length ? ', from ' + rs(min) : '')) + '</span></button>';
   });
   $('exams').innerHTML = html;
 }
@@ -542,10 +551,11 @@ function rowHtml(p){
     (p.catLabel ? '<p class="nsub">' + T(p.catLabel) + '</p>' : '') +
     (p.desc ? '<p class="ndesc">' + T(p.desc) + '</p>' : '') +
     metaHtml(p) +
-    '<div class="nbuy"><div class="price"><b>' + rs(p.price) + '</b>' + (d ? '<s>' + rs(p.orig) + '</s><span class="off">' + d + '% off</span>' : '') + '</div>' +
-    '<div class="acts"><button type="button" class="btn btn-solid" data-a="buy" data-id="' + esc(p.id) + '">Buy now</button>' +
+    '<div class="nbuy"><div class="price">' + priceHtml(p) + (d ? '<s>' + rs(p.orig) + '</s><span class="off">' + d + '% off</span>' : '') + '</div>' +
+    (isFree(p) ? '<div class="acts"><button type="button" class="btn btn-solid" data-a="free" data-id="' + esc(p.id) + '">' + I_DL + 'Download free</button></div></div></div></article>' : '') +
+    (isFree(p) ? '' : '<div class="acts"><button type="button" class="btn btn-solid" data-a="buy" data-id="' + esc(p.id) + '">Buy now</button>' +
     '<button type="button" class="btn btn-ghost' + (added ? ' on' : '') + '" data-a="' + (added ? 'rm' : 'add') + '" data-id="' + esc(p.id) + '" aria-label="' + (added ? 'Remove from cart' : 'Add to cart') + '">' + (added ? I_CHECK + 'In cart' : I_CART + 'Add') + '</button></div></div>' +
-    '</div></article>';
+    '</div></article>');
 }
 function render(){
   renderExams();
@@ -554,13 +564,13 @@ function render(){
   var singles = items.filter(function(p){ return !p.isBundle; });
   var ex = null;
   EXAMS.forEach(function(e){ if (e.k === curFilter) ex = e; });
-  var label = curFilter === 'all' ? '' : ' for ' + dec(ex.l);
-  $('count').textContent = items.length ? plural(items.length, 'note') + label : 'No notes found';
+  var label = curFilter === 'all' ? '' : (curFilter === 'free' ? ' in Free Resources' : ' for ' + dec(ex.l));
+  $('count').textContent = items.length ? plural(items.length, 'note') + label : (curFilter === 'free' && !curSearch.trim() ? 'Free Resources' : 'No notes found');
   $('clear').hidden = !(curSearch.trim() || curFilter !== 'all');
   $('feature').innerHTML = bundles.map(featureHtml).join('');
   if (!items.length) {
     $('grid').innerHTML = '<div class="state" style="grid-column:1/-1"><h3>Nothing matches that</h3><p>' +
-      (curSearch.trim() ? 'No notes match \u201C' + esc(curSearch.trim()) + '\u201D' + (curFilter !== 'all' ? ' in ' + esc(dec(ex.l)) : '') + '.' : 'There are no notes here yet.') +
+      (curSearch.trim() ? 'No notes match \u201C' + esc(curSearch.trim()) + '\u201D' + (curFilter !== 'all' ? ' in ' + esc(dec(ex.l)) : '') + '.' : (curFilter === 'free' ? 'No free resources have been added yet. Check back soon.' : 'There are no notes here yet.')) +
       '</p><button type="button" class="btn btn-ghost" data-a="clear">Show all notes</button></div>';
   } else {
     $('grid').innerHTML = singles.map(rowHtml).join('');
@@ -661,6 +671,31 @@ function showNotice(title, msg, payId){
     '<div class="dl"><a class="btn btn-solid" href="' + wa + '" target="_blank" rel="noopener">Message us on WhatsApp</a>' +
     '<button type="button" class="btn btn-ghost" data-a="close">Close</button></div>';
   openOv('ov-note');
+}
+
+/* ── free resources (price = 0): no payment ── */
+function freeUrl(p){ return p.url || p.pdf || p.pdfUrl || p.downloadUrl || p.link || ''; }
+function startDownload(url, title){
+  var a = document.createElement('a');
+  a.href = url; a.download = title + '.pdf'; a.target = '_blank'; a.rel = 'noopener';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+}
+function getFree(id, btn){
+  var p = byId(id); if (!p) return;
+  var title = dec(p.title), direct = freeUrl(p);
+  if (direct) { startDownload(direct, title); return; }
+  if (btn) { btn.disabled = true; btn.lastChild.textContent = 'Preparing\u2026'; }
+  function reset(){ if (btn) { btn.disabled = false; btn.lastChild.textContent = 'Download free'; } }
+  fetch(JKE_URL + '?action=getFreeNote&productId=' + encodeURIComponent(id))
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      reset();
+      var list = d && (d.downloads || (d.url ? [{url: d.url, title: title}] : null));
+      if (d && !d.error && list && list.length) {
+        list.forEach(function(x, i){ setTimeout(function(){ startDownload(x.url, x.title || title); }, i * 1200); });
+      } else showNotice('Could not get this file', (d && (d.message || d.error)) || 'Please try again in a moment.', '');
+    })
+    .catch(function(){ reset(); showNotice('Could not get this file', 'Check your connection and try again.', ''); });
 }
 
 /* ── payment (unchanged logic) ── */
@@ -845,6 +880,7 @@ document.addEventListener('click', function(e){
   else if (a === 'add') addCart(id);
   else if (a === 'rm') removeCart(id);
   else if (a === 'buy') openBuy(id);
+  else if (a === 'free') getFree(id, t);
   else if (a === 'pay') pay();
   else if (a === 'open-cart') { renderCart(); openOv('ov-cart'); }
   else if (a === 'retry') loadNotes();
