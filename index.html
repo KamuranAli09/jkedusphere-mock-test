@@ -4990,8 +4990,9 @@ html:has(#home-pg.on),body:has(#home-pg.on){background:#f4f5fa !important}
 .tnc-row a{color:var(--p);font-weight:700;text-decoration:underline;cursor:pointer}
 .tnc-row.err{border-color:var(--r);background:var(--rl);animation:tncShake .35s}
 @keyframes tncShake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
-#tnc-modal{position:fixed;inset:0;z-index:10000;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(15,18,40,.55);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+#tnc-modal{position:fixed;inset:0;z-index:12000;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(15,18,40,.55);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
 #tnc-modal.on{display:flex}
+#ab-su .tnc-row{grid-column:1/-1}
 .tnc-box{width:100%;max-width:560px;max-height:min(86vh,680px);display:flex;flex-direction:column;background:#fff;border-radius:20px;box-shadow:0 30px 70px -20px rgba(15,18,40,.5);overflow:hidden}
 .tnc-hd{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid #eef0f7;font-size:17px;font-weight:800;color:var(--t1)}
 .tnc-x{width:32px;height:32px;border-radius:50%;border:none;background:#f0f1f7;color:var(--t2);font-size:20px;line-height:1;cursor:pointer}
@@ -6107,36 +6108,46 @@ body.route-login #auth-modal .auth-card{border-radius:20px;border-bottom:1px sol
       <button type="button" class="tnc-x" onclick="TNC.close()" aria-label="Close">&times;</button>
     </div>
     <div class="tnc-body">
-      <p class="tnc-lead">Please read this before purchasing a premium pack on JKEdusphere.</p>
+      <p class="tnc-lead">Please read this before creating an account or purchasing a pack on JKEdusphere.</p>
       <h4>1. Information we save</h4>
       <ul>
-        <li><b>Account details:</b> your name and email address.</li>
+        <li><b>Account details:</b> your name, email address, phone number, target exam, district and login password.</li>
         <li><b>Test activity:</b> tests attempted, your answers, scores, time taken, ranks and performance history.</li>
+        <li><b>Answer Key Matcher:</b> the answers you enter and the scores you check, if you use that tool.</li>
         <li><b>Purchase records:</b> the pack you bought, order and payment reference IDs, and date of purchase. Payments are processed by Razorpay; we never see or store your card, UPI or bank details.</li>
         <li><b>Device &amp; usage data:</b> basic browser/device information and anonymous usage analytics (Google Analytics) to keep the site fast and reliable.</li>
         <li><b>On your device:</b> a login session is stored in your browser so you stay signed in.</li>
       </ul>
-      <h4>2. How we use it</h4>
+      <h4>2. Leaderboards &amp; public display</h4>
       <ul>
-        <li>To create your account and unlock the pack you purchased.</li>
-        <li>To show your results, performance analysis, progress and leaderboards. On leaderboards your name is shown and your email is masked.</li>
-        <li>To send important updates about your purchase and to provide support.</li>
-        <li>To improve tests, content and the platform.</li>
+        <li><b>Your name is public:</b> by creating an account you agree that your name may be shown to other users on test leaderboards, pack rankings and the Top performers lists, including on the home page.</li>
+        <li>Your email address is masked on leaderboards.</li>
+        <li>Ranks are based on your test results, and your best attempt may be the one counted.</li>
+        <li>If you want your displayed name changed or removed from leaderboards, contact us and we will do it.</li>
+        <li>Anything you choose to share yourself (for example with a Share button) is your own decision and outside our control once shared.</li>
       </ul>
-      <h4>3. Your data</h4>
+      <h4>3. How we use it</h4>
+      <ul>
+        <li>To create and secure your account and unlock any pack you purchase.</li>
+        <li>To show your results, performance analysis, progress, ranks and leaderboards.</li>
+        <li>To send important updates about your account or purchase and to provide support.</li>
+        <li>To improve tests, content and the platform, and to prevent misuse.</li>
+      </ul>
+      <h4>4. Your data</h4>
       <ul>
         <li>We do not sell your personal information to anyone.</li>
         <li>We share data only with service providers needed to run the platform (such as payments, hosting and analytics).</li>
         <li>You can ask us to correct or delete your account data by contacting support.</li>
       </ul>
-      <h4>4. Your purchase</h4>
+      <h4>5. Your account &amp; purchases</h4>
       <ul>
+        <li>Please give correct details and keep your password safe. You are responsible for activity on your account.</li>
         <li>A pack is a one-time digital purchase with lifetime access to that pack, including tests added to it in future, for as long as JKEdusphere operates.</li>
         <li>Access is for you alone. Sharing your account, or copying, recording or reselling questions and content, is not allowed and may lead to access being withdrawn.</li>
         <li>Premium tests may have attempt limits (for example, one attempt per week) as shown on each test.</li>
         <li>If a payment is deducted but access is not unlocked, contact us on Telegram or WhatsApp and we will resolve it.</li>
       </ul>
-      <h4>5. Disclaimer</h4>
+      <h4>6. Disclaimer</h4>
       <ul>
         <li>Tests are practice material to help you prepare. We do not guarantee any exam result or selection.</li>
         <li>We may update these terms from time to time. Continued use means you accept the updated terms.</li>
@@ -6353,6 +6364,10 @@ body.route-login #auth-modal{overflow:visible}
           </button>
         </div>
       </div>
+      <label class="tnc-row" id="su-tnc-row">
+        <input type="checkbox" id="su-tnc" onchange="document.getElementById('su-tnc-row').classList.remove('err')" />
+        <span>I have read and agree to the <a onclick="event.preventDefault();event.stopPropagation();TNC.open('su-tnc')">Terms &amp; Conditions</a>, including that my name will appear on public leaderboards and rankings, and how my data is saved and used.</span>
+      </label>
       <div class="al" id="su-al" aria-live="polite"></div>
       <button class="btn-primary" id="su-btn" onclick="doSignUp()">
         Create Account &rarr;
@@ -6646,6 +6661,10 @@ body.route-login #auth-modal{overflow:visible}
                 <button type="button" class="fi-eye" onclick="togglePw('apc-su-pw','apc-su-eye')" id="apc-su-eye" aria-label="Show or hide password"><svg class="ji" aria-hidden="true" focusable="false"><use href="#jki-eye"/></svg></button>
               </div>
             </div>
+            <label class="tnc-row" id="apc-su-tnc-row">
+              <input type="checkbox" id="apc-su-tnc" onchange="document.getElementById('apc-su-tnc-row').classList.remove('err')" />
+              <span>I have read and agree to the <a onclick="event.preventDefault();event.stopPropagation();TNC.open('apc-su-tnc')">Terms &amp; Conditions</a>, including that my name will appear on public leaderboards and rankings, and how my data is saved and used.</span>
+            </label>
             <div class="al" id="apc-su-al" aria-live="polite"></div>
             <button class="btn-primary" id="apc-su-btn" onclick="doApcSignUp()">Create Free Account</button>
           </div>
@@ -8401,6 +8420,12 @@ body.route-login #auth-modal{overflow:visible}
       setAl("su-al", "Password must be at least 6 characters.", "err");
       return;
     }
+    var suTnc = document.getElementById("su-tnc");
+    if (suTnc && !suTnc.checked) {
+      TNC.shake("su-tnc-row");
+      setAl("su-al", "Please agree to the Terms & Conditions to create your account.", "err");
+      return;
+    }
     setBtn("su-btn", "Creating account...", true);
     apiPost(
       { action: "register", email, phone, name, exam, district, password: pw },
@@ -8555,6 +8580,12 @@ body.route-login #auth-modal{overflow:visible}
     }
     if (!pw || pw.length < 6) {
       setAl("apc-su-al", "Password must be at least 6 characters.", "err");
+      return;
+    }
+    var apcsuTnc = document.getElementById("apc-su-tnc");
+    if (apcsuTnc && !apcsuTnc.checked) {
+      TNC.shake("apc-su-tnc-row");
+      setAl("apc-su-al", "Please agree to the Terms & Conditions to create your account.", "err");
       return;
     }
     setBtn("apc-su-btn", "Creating account...", true);
@@ -9781,12 +9812,21 @@ function toggleFolder(head) {
     if (gm) gm.style.display = "none";
   }
   var TNC = {
-    open: function () { var m = document.getElementById("tnc-modal"); m.classList.add("on"); m.setAttribute("aria-hidden", "false"); var b = m.querySelector(".tnc-body"); if (b) b.scrollTop = 0; },
+    target: "b-tnc",
+    open: function (id) {
+      TNC.target = id || "b-tnc";
+      var m = document.getElementById("tnc-modal"); m.classList.add("on"); m.setAttribute("aria-hidden", "false");
+      var b = m.querySelector(".tnc-body"); if (b) b.scrollTop = 0;
+    },
     close: function () { var m = document.getElementById("tnc-modal"); m.classList.remove("on"); m.setAttribute("aria-hidden", "true"); },
     accept: function () {
-      var c = document.getElementById("b-tnc"); if (c) c.checked = true;
-      var r = document.getElementById("b-tnc-row"); if (r) r.classList.remove("err");
+      var c = document.getElementById(TNC.target); if (c) c.checked = true;
+      var r = document.getElementById(TNC.target + "-row"); if (r) r.classList.remove("err");
       TNC.close();
+    },
+    shake: function (rowId) {
+      var r = document.getElementById(rowId);
+      if (r) { r.classList.remove("err"); void r.offsetWidth; r.classList.add("err"); }
     }
   };
   document.getElementById("tnc-modal").addEventListener("click", function (e) { if (e.target === this) TNC.close(); });
