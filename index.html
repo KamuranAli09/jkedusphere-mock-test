@@ -7711,6 +7711,7 @@ body.route-login #auth-modal{overflow:visible}
       clear();
       clearInterval(ST.timerInt);
       ST.user = null;
+      try { HIST.data = null; HIST.weak = null; SIDE.t = 0; ATT.cached = null; } catch (e) {}
       ST.tests = null;
       ST.testData = null;
       ST.testId = null;
@@ -9015,6 +9016,10 @@ return (
     var dsc = document.getElementById("dash-search-clear");
     if (dsc) dsc.classList.remove("show");
 
+    // Start loading the attempt history NOW, in parallel with the test list
+    // (it used to wait until the list had finished rendering).
+    try { if (typeof ATT !== "undefined" && ATT.load) { ATT.hydrate(); if (!Array.isArray(HIST.data)) ATT.load(); } } catch (e) {}
+
     if (ST.tests) {
       renderDashboardTests(ST.tests, false);
       return;
@@ -9601,7 +9606,7 @@ return (
     if (!box || !ST.user) return;
     SIDE.render();
     SIDE.loadLB();
-    if (HIST.data && Date.now() - SIDE.t < 120000) return;
+    if (HIST.data && Date.now() - SIDE.t < 120000) { ATT.paint(); return; }
     if (SIDE.busy) return;
     SIDE.busy = true;
     var pending = 2;
@@ -9622,15 +9627,16 @@ return (
         ATT.paint();
       }
     }
-    api({ action: "getStudentHistory", email: ST.user.email }, function (err, d) {
-      if (!err && d && d.success) HIST.data = d.history || [];
-      else if (!HIST.data) HIST.data = [];
-      done();
-    });
+    ATT.paint(); // instant paint from this device's saved copy
+    // each request reports once; a 30s cap means a hung request can't keep the sidebar "busy" forever
+    function once() { var f = false; return function () { if (f) return; f = true; done(); }; }
+    var hDone = once(), wDone = once();
+    setTimeout(hDone, 30000); setTimeout(wDone, 30000);
+    ATT.load(hDone);
     api({ action: "getWeakAreas", email: ST.user.email }, function (err, d) {
       if (!err && d && d.success && d.areas) HIST.weak = d.areas;
       else if (!HIST.weak) HIST.weak = [];
-      done();
+      wDone();
     });
   };
 
@@ -11152,9 +11158,65 @@ function initTestPanel() {
 
   // Flags tests the student has already attempted, with the attempt count
   var ATT = {};
+  // History used by the badges: live data when we have it, otherwise the copy saved
+  // on this device from the last visit, so the badges show instantly instead of
+  // waiting for the (slow, sleeping) server.
+  ATT.cached = null;
+  ATT.rows = function () { return Array.isArray(HIST.data) ? HIST.data : ATT.cached; };
+  ATT.key = function () { return "jke_hist_v2_" + String((ST.user && ST.user.email) || "").toLowerCase(); };
+  ATT.hydrate = function () {
+    if (Array.isArray(HIST.data) || ATT.cached || !ST.user) return;
+    try {
+      var c = JSON.parse(localStorage.getItem(ATT.key()) || "null");
+      if (c && Array.isArray(c.h)) ATT.cached = c.h;
+    } catch (e) {}
+  };
+  ATT.store = function () {
+    if (!ST.user || !Array.isArray(HIST.data)) return;
+    var slim = HIST.data.map(function (r) { return { testId: r.testId, percentage: r.percentage, timestamp: r.timestamp }; });
+    ATT.cached = slim;
+    try { localStorage.setItem(ATT.key(), JSON.stringify({ t: Date.now(), h: slim })); } catch (e) {}
+  };
+  // Fetch the student's history on its own (does not wait for weak-areas), with a
+  // timeout + retries. A failure NEVER stores an empty list, so badges can't get stuck blank.
+  ATT.load = function (cb) {
+    if (!ST.user) { if (cb) cb(false); return; }
+    if (ATT._q) { if (cb) ATT._q.push(cb); return; }
+    ATT._q = cb ? [cb] : [];
+    var email = ST.user.email, tries = 0, ended = false;
+    function end(ok) {
+      if (ended) return;
+      ended = true;
+      var q = ATT._q || []; ATT._q = null;
+      q.forEach(function (fn) { try { fn(ok); } catch (e) {} });
+    }
+    function attempt() {
+      if (ended) return;
+      tries++;
+      // If this try is slow, start another in parallel; whichever answers first wins.
+      setTimeout(function () { if (!ended && tries < 4) attempt(); }, 8000);
+      api({ action: "getStudentHistory", email: email }, function (err, d) {
+        if (ended) return;
+        if (!ST.user || ST.user.email !== email) { end(false); return; }
+        if (!err && d && d.success) {
+          HIST.data = d.history || [];
+          ATT.store();
+          ATT.paint();
+          end(true);
+        } else if (tries < 4) {
+          setTimeout(attempt, 1500 * tries);
+        } else {
+          end(false);
+        }
+      });
+    }
+    attempt();
+  };
   ATT.paint = function () {
-    var c = {}, best = {}, ok = Array.isArray(HIST.data), now = Date.now();
-    (HIST.data || []).forEach(function (r) {
+    ATT.hydrate();
+    var rowsAll = ATT.rows();
+    var c = {}, best = {}, ok = Array.isArray(rowsAll), now = Date.now();
+    (rowsAll || []).forEach(function (r) {
       c[r.testId] = (c[r.testId] || 0) + 1;
       var p = HIST.pct(r);
       if (best[r.testId] === undefined || p > best[r.testId]) best[r.testId] = p;
@@ -11178,7 +11240,7 @@ function initTestPanel() {
   // Next test in the same subject (same pack) after test `cur`; falls back to newest unattempted overall
   ATT.nextFor = function (cur) {
     var att = {};
-    (HIST.data || []).forEach(function (r) { att[r.testId] = true; });
+    (ATT.rows() || []).forEach(function (r) { att[r.testId] = true; });
     var norm = function (x) { return String(x || "").replace(/\s+/g, " ").trim().toLowerCase(); };
     var nat = function (x, y) { return String(x).localeCompare(String(y), undefined, { numeric: true }); };
     var ct = null;
@@ -11207,10 +11269,11 @@ function initTestPanel() {
     if (!el) return;
     var show = false;
     try {
-      if (Array.isArray(HIST.data) && HIST.data.length && ST.tests) {
+      var hrows = ATT.rows();
+      if (Array.isArray(hrows) && hrows.length && ST.tests) {
         var byId = {};
         ST.tests.forEach(function (t) { byId[t.testId] = t; });
-        var rows = HIST.data.slice().sort(function (a, b) { return HIST.ts(b) - HIST.ts(a); });
+        var rows = hrows.slice().sort(function (a, b) { return HIST.ts(b) - HIST.ts(a); });
         var last = null;
         for (var i = 0; i < rows.length; i++) { if (byId[rows[i].testId]) { last = byId[rows[i].testId]; break; } }
         var nx = last ? ATT.nextFor(last.testId) : null;
