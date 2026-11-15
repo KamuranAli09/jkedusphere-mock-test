@@ -4547,9 +4547,9 @@
    ANSWER KEY MATCHER (OMR-style grid)
    ═══════════════════════════════════════ */
 .ak-omr-cell{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--s2bg);border:1px solid var(--bd);border-radius:var(--r8)}
-.ak-omr-q{font-size:11px;font-weight:700;color:var(--t3);font-family:var(--m);width:28px;flex-shrink:0}
-.ak-omr-opts{display:flex;gap:4px}
-.ak-omr-opt{width:26px;height:26px}
+.ak-omr-q{font-size:12px;font-weight:700;color:var(--t3);font-family:var(--m);width:32px;flex-shrink:0}
+.ak-omr-opts{display:flex;gap:8px;margin-left:auto}
+.ak-omr-opt{width:44px;height:44px;font-size:15px;touch-action:manipulation}
 .ak-qmap{display:grid;grid-template-columns:repeat(auto-fill,minmax(38px,1fr));gap:6px}
 .ak-qd{height:34px;border-radius:8px;border:1px solid var(--bd);font-family:var(--m);font-size:11px;font-weight:700;cursor:pointer;background:var(--s3bg);color:var(--t2);padding:0}
 .ak-qd.c{background:var(--gl);color:var(--g);border-color:var(--gm)}
@@ -6223,30 +6223,6 @@ body.route-login #auth-modal .auth-card{border-radius:20px;border-bottom:1px sol
 #splash-pg .forgot-lnk.busy,#auth-modal .forgot-lnk.busy{color:var(--t3);cursor:default;pointer-events:none;background:none}
 @media (prefers-reduced-motion:reduce){#splash-pg .al,#auth-modal .al{animation:none}.al-spin{animation-duration:1.6s}}
 </style>
-<style id="jke-ak-ux">
-.ak-card{background:#fff;border:1px solid var(--bd);border-radius:16px;padding:16px 14px 8px}
-.ak-hd{margin-bottom:12px}
-.ak-hd-t{font-size:16px;font-weight:800;line-height:1.3;color:var(--t1)}
-.ak-hd-s{margin-top:4px;font-size:12.5px;color:var(--t3);font-weight:500}
-.ak-blk{margin:18px 2px 8px;font-size:11px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--t3)}
-.ak-blk:first-child{margin-top:4px}
-.ak-row{display:flex;align-items:center;gap:10px;padding:8px 10px;margin-bottom:8px;border:1px solid var(--bd);border-left:3px solid var(--bd2);border-radius:12px;background:#fff;scroll-margin-top:calc(var(--nav) + 16px);transition:background .15s,border-color .15s}
-.ak-row.done{background:rgba(13,148,136,.06);border-left-color:var(--g)}
-.ak-row.flash{box-shadow:0 0 0 3px var(--pm)}
-.ak-q{flex:none;width:34px;font:700 13px var(--m);color:var(--t2)}
-.ak-opts{flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.ak-opt{height:46px;border-radius:10px;border:1.5px solid var(--bd2);background:#fff;color:var(--t2);font:700 15px var(--m);cursor:pointer;transition:all .12s;touch-action:manipulation}
-.ak-opt:active{transform:scale(.95)}
-.ak-opt.on{background:var(--p);border-color:var(--p);color:#fff;box-shadow:0 2px 8px rgba(26,74,122,.3)}
-.ak-bar{position:sticky;bottom:0;z-index:50;margin:12px 0 0;padding:10px 14px calc(12px + env(safe-area-inset-bottom,0px));background:rgba(255,255,255,.97);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid var(--bd);border-radius:14px 14px 0 0;box-shadow:0 -6px 20px rgba(8,16,43,.08)}
-.ak-bar-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;font-size:13px;font-weight:700;color:var(--t1)}
-.ak-bar-act{display:flex;gap:14px}
-.ak-link{background:none;border:0;padding:4px 0;font:700 13px var(--f);color:var(--p);cursor:pointer}
-.ak-link.danger{color:var(--r)}
-.ak-prog{height:5px;margin-bottom:10px;background:var(--s3bg);border-radius:99px;overflow:hidden}
-.ak-prog i{display:block;height:100%;width:0;background:var(--g);border-radius:99px;transition:width .25s}
-@media (min-width:700px){.ak-opt{height:42px}.ak-opts{max-width:360px}}
-</style>
 <style id="jke-scroll-fix">
 /* login / sign-up page: one natural page scroll, no scroll box inside the card */
 body.route-login #auth-modal .auth-card{max-height:none}
@@ -7266,23 +7242,10 @@ body.route-login #auth-modal{overflow:visible}
       <!-- OMR-style answer grid -->
       <div id="ak-grid-wrap" style="display:none">
         <button class="btn-home" style="margin-bottom:14px" onclick="AK.backToList()">&larr; Back to Exams</button>
-        <div class="ak-card">
-          <div class="ak-hd">
-            <div class="ak-hd-t" id="ak-grid-title"></div>
-            <div class="ak-hd-s" id="ak-grid-sub">Tap the option you marked in the exam</div>
-          </div>
+        <div class="lb-tbl-wrap" style="padding:16px">
+          <div id="ak-grid-title" style="font-size:14px;font-weight:700;margin-bottom:12px;color:var(--t1)"></div>
           <div id="ak-grid"></div>
-        </div>
-        <div class="ak-bar" id="ak-bar">
-          <div class="ak-bar-top">
-            <span id="ak-prog-t">0 / 0 answered</span>
-            <span class="ak-bar-act">
-              <button type="button" class="ak-link" onclick="AK.nextBlank()">Next blank</button>
-              <button type="button" class="ak-link danger" onclick="AK.clearAll()">Clear</button>
-            </span>
-          </div>
-          <div class="ak-prog"><i id="ak-prog-f"></i></div>
-          <button class="btn-primary" id="ak-submit-btn" onclick="AK.submit()">Match My Answers</button>
+          <button class="btn-primary" style="margin-top:16px" onclick="AK.submit()" id="ak-submit-btn">🎯 Match My Answers</button>
         </div>
       </div>
 
@@ -12548,90 +12511,42 @@ if (stored && Array.isArray(stored.data) && stored.data.length && Date.now() - s
     AK.loadHistory();
   };
 
-  AK.dKey = function () {
-    return "jke_akd_" + (AK.currentExam ? AK.currentExam.examID : "") + "_" + AK.currentSet;
-  };
-  AK.saveDraft = function () {
-    try { localStorage.setItem(AK.dKey(), JSON.stringify(AK.answers)); } catch (e) {}
-  };
-  AK.clearDraft = function () {
-    try { localStorage.removeItem(AK.dKey()); } catch (e) {}
-  };
-
   AK.beginGrid = function () {
     if (!AK.currentSet) {
       toast("Please select your set first", "err");
       return;
     }
     AK.answers = {};
-    try { AK.answers = JSON.parse(localStorage.getItem(AK.dKey()) || "{}") || {}; } catch (e) { AK.answers = {}; }
     document.getElementById("ak-set-picker").style.display = "none";
     document.getElementById("ak-grid-wrap").style.display = "block";
-    tx("ak-grid-title", AK.currentExam.examName + " · Set " + AK.currentSet);
-    var n = AK.currentExam.totalQuestions, html = "";
+    tx("ak-grid-title", AK.currentExam.examName + " \u00B7 Set " + AK.currentSet + " \u2014 Mark your answers");
+    var n = AK.currentExam.totalQuestions;
+    var html = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:8px">';
     for (var q = 1; q <= n; q++) {
-      if ((q - 1) % 10 === 0) html += '<div class="ak-blk">Questions ' + q + "–" + Math.min(q + 9, n) + "</div>";
-      var cur = AK.answers[q];
-      html += '<div class="ak-row' + (cur ? " done" : "") + '" id="ak-row-' + q + '"><span class="ak-q">Q' + q + '</span><div class="ak-opts">' +
-        ["A", "B", "C", "D"].map(function (k) {
-          return '<button type="button" class="ak-opt' + (cur === k ? " on" : "") + '" id="ak-opt-' + q + "-" + k +
-            '" onclick="AK.setAns(' + q + ",'" + k + "')\">" + k + "</button>";
-        }).join("") + "</div></div>";
+      html +=
+        '<div class="ak-omr-cell">' +
+        '<span class="ak-omr-q">Q' + q + "</span>" +
+        '<div class="ak-omr-opts" id="ak-q-' + q + '">' +
+        ["A", "B", "C", "D"]
+          .map(function (k) {
+            return (
+              '<div class="pn ak-omr-opt" onclick="AK.setAns(' + q + ",'" + k + "')\" id=\"ak-opt-" + q + "-" + k + '">' + k + "</div>"
+            );
+          })
+          .join("") +
+        "</div></div>";
     }
+    html += "</div>";
     document.getElementById("ak-grid").innerHTML = html;
-    AK.paint();
-    window.scrollTo(0, 0);
-    if (Object.keys(AK.answers).length) toast("Restored your saved answers", "ok", 2500);
-  };
-
-  AK.paint = function () {
-    var n = AK.currentExam.totalQuestions, a = Object.keys(AK.answers).length;
-    tx("ak-prog-t", a + " / " + n + " answered");
-    document.getElementById("ak-prog-f").style.width = (n ? a / n * 100 : 0) + "%";
   };
 
   AK.setAns = function (q, k) {
-    var was = !!AK.answers[q];
     if (AK.answers[q] === k) delete AK.answers[q];
     else AK.answers[q] = k;
     ["A", "B", "C", "D"].forEach(function (x) {
       var el = document.getElementById("ak-opt-" + q + "-" + x);
-      if (el) el.classList.toggle("on", AK.answers[q] === x);
+      if (el) el.classList.toggle("a", AK.answers[q] === x);
     });
-    var row = document.getElementById("ak-row-" + q);
-    if (row) row.classList.toggle("done", !!AK.answers[q]);
-    AK.saveDraft();
-    AK.paint();
-    if (!was && AK.answers[q]) {
-      var nx = document.getElementById("ak-row-" + (q + 1));
-      if (nx && !AK.answers[q + 1]) {
-        setTimeout(function () { nx.scrollIntoView({ behavior: "smooth", block: "center" }); }, 160);
-      }
-    }
-  };
-
-  AK.nextBlank = function () {
-    var n = AK.currentExam.totalQuestions;
-    for (var q = 1; q <= n; q++) {
-      if (!AK.answers[q]) {
-        var r = document.getElementById("ak-row-" + q);
-        if (r) {
-          r.scrollIntoView({ behavior: "smooth", block: "center" });
-          r.classList.add("flash");
-          setTimeout(function () { r.classList.remove("flash"); }, 1200);
-        }
-        return;
-      }
-    }
-    toast("All questions answered", "ok");
-  };
-
-  AK.clearAll = function () {
-    if (!Object.keys(AK.answers).length) return;
-    if (!confirm("Clear all your marked answers?")) return;
-    AK.answers = {};
-    AK.clearDraft();
-    AK.beginGrid();
   };
 
   AK.submit = function () {
@@ -12778,20 +12693,6 @@ if (stored && Array.isArray(stored.data) && stored.data.length && Date.now() - s
   };
 
   // ── detailed analytics ──
-  (function () {
-    var send = AK.submit, show = AK.showResult;
-    AK.submit = function () {
-      var n = AK.currentExam.totalQuestions, a = Object.keys(AK.answers).length;
-      if (!a) { toast("Mark at least one answer first", "warn"); return; }
-      if (a < n && !confirm((n - a) + " question(s) are still blank. Match anyway?")) { AK.nextBlank(); return; }
-      send();
-    };
-    AK.showResult = function (d) {
-      try { if (AK.currentExam && AK.currentSet) AK.clearDraft(); } catch (e) {}
-      show(d);
-    };
-  })();
-
   AK.renderAnalytics = function (d) {
     var el = document.getElementById("ak-an");
     var rev = d.review || [];
