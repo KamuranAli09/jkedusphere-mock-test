@@ -4826,18 +4826,6 @@
   /* ═══ MY PACKS TAB ═══ */
 .mt.on.mine{background:linear-gradient(135deg,var(--g2),var(--g));box-shadow:0 2px 10px rgba(13,148,136,.3)}
 
-  #q-practice-expl{
-  margin-top:18px;
-  padding:14px 16px;
-  background:#fff;
-  border:1px solid var(--bd2);
-  border-radius:6px;
-  font-size:15px;
-  line-height:1.7;
-  font-weight:400;
-  color:var(--t2);
-  }
-
 </style>
 
 
@@ -6242,6 +6230,11 @@ body.route-login #auth-modal .auth-body.on{overflow:visible;overscroll-behavior:
 body.route-login #auth-modal{overflow:visible}
 #splash-pg .splash-auth-col.nostick{position:static !important}
 </style>
+<style id="jke-expl-v2">
+#q-practice-expl{margin-top:18px;padding:14px 16px;background:#fff;border:1px solid var(--bd2);border-radius:6px;font-size:15px;line-height:1.7;font-weight:400;color:var(--t2);}
+#rz-an .rz-filter{margin:0}
+#rz-an .hx-sjh{margin-top:14px}
+</style>
 <div id="auth-modal">
   <div class="auth-card">
     <div class="auth-hero">
@@ -7013,13 +7006,14 @@ body.route-login #auth-modal{overflow:visible}
         <a id="pdf-dl" href="#" target="_blank" rel="noopener">Download &darr;</a>
       </div>
 
-      <section class="rz-card" id="r-subj-card" style="display:none">
-        <div class="rz-h"><h3>Subject-wise</h3><span id="r-subj-sub">Tap a subject to review it</span></div>
-        <div id="r-subj"></div>
-      </section>
-
       <div class="rz-h" style="margin:26px 0 10px"><h3>Review</h3><span id="rv-cnt">0 Qs</span></div>
-      <div class="rz-filter" id="rz-filter"></div>
+      <div class="hx-an" id="rz-an">
+        <div class="rz-filter" id="rz-filter"></div>
+        <div id="r-subj-card" style="display:none">
+          <button type="button" class="hx-sjh" id="r-sjh" onclick="RES.toggleSubj()" aria-expanded="false"><span>Subject-wise accuracy <em id="r-sj-n">0</em></span><i class="hx-car" id="r-car"></i></button>
+          <div class="hx-sjl" id="r-subj" style="display:none"></div>
+        </div>
+      </div>
       <div id="rv-list"></div>
     </div>
   </div>
@@ -10351,7 +10345,7 @@ function toggleFolder(head) {
     var explEl = document.getElementById("q-practice-expl");
     if (explEl) {
       if (revealed && q.explanation) {
-        explEl.innerHTML = "\ud83d\udca1 " + fmtEx(q);
+        explEl.innerHTML = fmtEx(q);
         explEl.style.display = "block";
       } else {
         explEl.innerHTML = "";
@@ -10769,7 +10763,7 @@ function initTestPanel() {
   // ═══════════════════════════════════════
   //  RESULT SCREEN v2
   // ═══════════════════════════════════════
-  var RES = { items: [], subj: [], st: "all", unit: "", allOpen: false };
+  var RES = { items: [], subj: [], st: "all", unit: "", allOpen: false, subjOpen: false };
 
   function rzNum(n) { return String(Math.round((Number(n) || 0) * 100) / 100); }
 
@@ -10794,38 +10788,21 @@ function initTestPanel() {
   }
 
   RES.card = function (q, i, r) {
-    var gv = (r.given || "").toUpperCase(), ac = (r.actual || q.correctAnswer || "").toUpperCase();
+    var gv = String(r.given || "").trim().toUpperCase();
+    var ac = String(r.actual || q.correctAnswer || "").trim().toUpperCase();
     var st = !gv ? "s" : gv === ac ? "c" : "w";
-    var label = st === "c" ? "Correct" : st === "w" ? "Wrong" : "Skipped";
     var unit = String(q.unit || "").trim() || "General";
-    var opts = ["A", "B", "C", "D"].map(function (k) {
-      var cl = "rvo-n", ic = "";
-      if (k === ac) { cl = "rvo-c"; ic = "✓ "; }
-      else if (k === gv) { cl = "rvo-w"; ic = "✗ "; }
-      return '<div class="rv-opt ' + cl + '"><div class="rv-k">' + k + "</div><span>" + ic + fmtOpt(q, k) + "</span></div>";
-    }).join("");
-    var img = q.image
-      ? '<img class="rv-img" src="' + escHtml(q.image) + '" alt="Question diagram" onerror="this.style.display=\'none\'" />'
-      : "";
-    var expl = q.explanation ? '<div class="rv-expl">💡 ' + fmtEx(q) + "</div>" : "";
-    var html =
-      '<div class="rz-q ' + st + '" onclick="RES.toggle(this)">' +
-      '<div class="rz-q-hd"><span class="rz-q-n">Q' + (i + 1) + '</span><span class="rz-q-u">' + escHtml(unit) +
-      '</span><span class="rz-q-b">' + label + "</span></div>" +
-      '<div class="rz-q-t">' + fmtQ(q) + "</div>" +
-      '<div class="rz-q-ans">' + (gv ? "Your answer <b>" + gv + "</b>" : "Not attempted") + " · Correct <b>" + (ac || "—") + "</b></div>" +
-      '<div class="rz-q-more">' + img + '<div class="rv-opts">' + opts + "</div>" + expl + "</div></div>";
-    return { st: st, unit: unit, html: html };
+    return { st: st, unit: unit, html: HIST.rvCard(q, i, gv, ac, st, unit) };
   };
 
-  RES.toggle = function (el) {
-    if (window.getSelection && String(window.getSelection())) return; // don't collapse while selecting text
-    el.classList.toggle("open");
-  };
   RES.toggleAll = function () {
     RES.allOpen = !RES.allOpen;
-    document.querySelectorAll("#rv-list .rz-q").forEach(function (e) { e.classList.toggle("open", RES.allOpen); });
+    document.querySelectorAll("#rv-list details.hx-ex").forEach(function (e) { e.open = RES.allOpen; });
     RES.paintFilter();
+  };
+  RES.toggleSubj = function () {
+    RES.subjOpen = !RES.subjOpen;
+    RES.paintSubjects();
   };
   RES.setStatus = function (k) { RES.st = k; RES.paintReview(); };
   RES.clearUnit = function () { RES.unit = ""; RES.paintSubjects(); RES.paintReview(); };
@@ -10845,21 +10822,33 @@ function initTestPanel() {
     if (!card) return;
     if (L.length < 2) { card.style.display = "none"; return; }
     card.style.display = "block";
-    var p = L.map(function (s) { return s.max ? s.got / s.max : 0; });
-    var lo = 0, hi = 0;
-    p.forEach(function (v, i) { if (v < p[lo]) lo = i; if (v > p[hi]) hi = i; });
-    var tag = L.length >= 3 && p[lo] < p[hi];
-    document.getElementById("r-subj").innerHTML = L.map(function (s, i) {
-      var n = (s.c + s.w + s.s) || 1, att = s.c + s.w;
-      return '<button type="button" class="rz-sj' + (RES.unit === s.name ? " on" : "") + '" onclick="RES.pickUnit(' + i + ')">' +
-        '<div class="rz-sj-top"><span class="rz-sj-n">' + escHtml(s.name) +
-        (tag && i === lo ? '<span class="rz-tag fo">Focus</span>' : tag && i === hi ? '<span class="rz-tag be">Best</span>' : "") +
-        '</span><span class="rz-sj-m">' + rzNum(s.got) + "<em>/ " + rzNum(s.max) + "</em></span></div>" +
-        '<div class="rz-sj-bar"><i class="c" style="width:' + (s.c / n * 100).toFixed(1) + '%"></i><i class="w" style="width:' +
-        (s.w / n * 100).toFixed(1) + '%"></i><i class="s" style="width:' + (s.s / n * 100).toFixed(1) + '%"></i></div>' +
-        '<div class="rz-sj-meta"><span>' + s.c + " correct · " + s.w + " wrong · " + s.s + " skipped</span><span>" +
-        (att ? Math.round(s.c / att * 100) + "% accuracy" : "Not attempted") + "</span></div></button>";
+    var accs = L.map(function (s) { var a = s.c + s.w; return a ? s.c / a : -1; });
+    var lo = -1, hi = -1, counted = 0;
+    accs.forEach(function (v, i) {
+      if (v < 0) return;
+      counted++;
+      if (lo < 0 || v < accs[lo]) lo = i;
+      if (hi < 0 || v > accs[hi]) hi = i;
+    });
+    var tag = counted >= 3 && accs[lo] < accs[hi];
+    var rows = L.map(function (s, i) {
+      var a = s.c + s.w, p = a ? Math.round(s.c / a * 100) : 0;
+      var cl = p >= 65 ? "hi" : p >= 40 ? "mid" : "lo";
+      return '<button type="button" class="hx-sj' + (RES.unit === s.name ? " on" : "") + '" onclick="RES.pickUnit(' + i + ')" title="' +
+        escHtml(s.name) + ": " + s.c + " correct, " + s.w + " wrong, " + s.s + ' skipped">' +
+        '<span class="hx-sj-t"><span class="hx-sj-n">' + escHtml(s.name) + "</span>" +
+        (tag && i === lo ? '<span class="hx-tag fo">Focus</span>' : tag && i === hi ? '<span class="hx-tag be">Best</span>' : "") +
+        '<span class="hx-sj-c">' + s.c + "/" + a + '</span><span class="hx-sj-p">' + (a ? p + "%" : "\u2014") + "</span></span>" +
+        '<span class="hx-fill"><i class="' + cl + '" style="width:' + (a ? p : 0) + '%"></i></span></button>';
     }).join("");
+    tx("r-sj-n", L.length);
+    var hd = document.getElementById("r-sjh");
+    if (hd) hd.setAttribute("aria-expanded", RES.subjOpen ? "true" : "false");
+    var car = document.getElementById("r-car");
+    if (car) car.className = "hx-car" + (RES.subjOpen ? " up" : "");
+    var box = document.getElementById("r-subj");
+    box.style.display = RES.subjOpen ? "block" : "none";
+    box.innerHTML = RES.subjOpen ? rows : "";
   };
 
   RES.paintFilter = function () {
@@ -10869,9 +10858,9 @@ function initTestPanel() {
       cnt.all++; cnt[it.st]++;
     });
     var f = [["all", "All"], ["w", "Wrong"], ["s", "Skipped"], ["c", "Correct"]].map(function (x) {
-      return '<button type="button" class="rz-fc' + (RES.st === x[0] ? " on" : "") + '" onclick="RES.setStatus(\'' + x[0] + '\')">' + x[1] + " " + cnt[x[0]] + "</button>";
+      return '<button type="button" class="hx-chip' + (RES.st === x[0] ? " on" : "") + '" onclick="RES.setStatus(\'' + x[0] + '\')">' + x[1] + " " + cnt[x[0]] + "</button>";
     }).join("");
-    if (RES.unit) f += '<button type="button" class="rz-fc rz-fu" onclick="RES.clearUnit()">' + escHtml(RES.unit) + " ✕</button>";
+    if (RES.unit) f += '<button type="button" class="hx-chip u" onclick="RES.clearUnit()">' + escHtml(RES.unit) + " \u2715</button>";
     f += '<button type="button" class="rz-fx" onclick="RES.toggleAll()">' + (RES.allOpen ? "Collapse all" : "Expand all") + "</button>";
     document.getElementById("rz-filter").innerHTML = f;
     return cnt;
@@ -10885,8 +10874,8 @@ function initTestPanel() {
     });
     tx("rv-cnt", out.length === cnt.all ? cnt.all + " Qs" : out.length + " of " + cnt.all + " Qs");
     var list = document.getElementById("rv-list");
-    list.innerHTML = out.length ? out.join("") : '<div class="empty-state"><div class="es-sub">Nothing here.</div></div>';
-    if (RES.allOpen) list.querySelectorAll(".rz-q").forEach(function (e) { e.classList.add("open"); });
+    list.innerHTML = out.length ? out.join("") : '<div class="hx-empty">No questions here.</div>';
+    if (RES.allOpen) list.querySelectorAll("details.hx-ex").forEach(function (e) { e.open = true; });
   };
 
   // o: { practice, score, total, pct, pass, correct, wrong, skipped, tt, rank }
@@ -10927,7 +10916,7 @@ function initTestPanel() {
     ring.setAttribute("stroke-dasharray", "0 100");
     setTimeout(function () { ring.setAttribute("stroke-dasharray", pct.toFixed(1) + " " + (100 - pct).toFixed(1)); }, 60);
 
-    RES.subj = an.list; RES.unit = ""; RES.st = "all"; RES.allOpen = false;
+    RES.subj = an.list; RES.unit = ""; RES.st = "all"; RES.allOpen = false; RES.subjOpen = false;
     RES.items = qs.map(function (q, i) { return RES.card(q, i, rm[q.id] || {}); });
     RES.paintSubjects();
     RES.paintReview();
